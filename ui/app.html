@@ -3,141 +3,136 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subcontractor Finder One-Click</title>
+  <title>MC Finder</title>
   <style>
-    :root { --bg:#edf3f8; --card:#fff; --line:#d6e0e8; --text:#1e2e3d; --muted:#5f7486; --accent:#0b6bbf; }
+    :root { --red:#be1e2d; --bg:#0a0a0a; --card:#141414; --line:#262626; --text:#f4f4f4; --muted:#b3b3b3; }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(160deg,#eaf1f7,#f9fbfd);font-family:"Segoe UI",Tahoma,sans-serif;color:var(--text)}
-    .wrap{max-width:1240px;margin:20px auto;padding:0 14px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 8px 22px rgba(18,49,76,.08)}
-    h1{margin:0 0 6px;font-size:1.35rem}
-    p{margin:0 0 12px;color:var(--muted)}
-    .brand{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-    .logoWrap{width:56px;min-width:56px;height:78px;display:flex;align-items:center;justify-content:center}
-    .logoWrap img{width:100%;height:100%;object-fit:contain;display:block}
-    .brandText p{margin:0;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1fr 1fr;gap:10px}
-    label{display:block;font-size:.83rem;color:#3f5568;margin-bottom:4px}
-    input,select,button{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
-    .check{display:flex;align-items:center;gap:8px;padding-top:26px}
-    .check input{width:auto}
-    button{background:var(--accent);color:#fff;border:0;cursor:pointer;font-weight:600}
-    .ghost{background:#e8f1f9;color:#184268}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-    .status{margin-top:10px;font-size:.9rem;color:#35516a;white-space:pre-wrap}
-    .tableWrap{margin-top:12px;border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:65vh;background:#fff}
-    table{border-collapse:collapse;width:100%;min-width:1100px;font-size:.88rem}
-    th,td{padding:8px 10px;border-bottom:1px solid #edf2f6;text-align:left;vertical-align:top}
-    th{position:sticky;top:0;background:#f5f9fc;color:#254158;z-index:1}
-    tr:hover td{background:#f8fcff}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .muted{color:#6c8293}
-    @media (max-width:1100px){.grid{grid-template-columns:1fr 1fr}.actions{grid-template-columns:1fr}}
-    @media (max-width:680px){.brand{align-items:flex-start}.logoWrap{width:42px;min-width:42px;height:58px}}
+    body{margin:0;background:radial-gradient(circle at 25% 10%, #1a1a1a, #080808 60%);color:var(--text);font-family:"Segoe UI",Tahoma,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:14px}
+    .shell{width:100%;max-width:430px}
+    .app{background:linear-gradient(180deg,#121212,#0e0e0e);border:1px solid #1f1f1f;border-radius:24px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.6);min-height:min(900px,calc(100vh - 28px))}
+    .top{padding:14px 14px 10px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+    .logo{width:42px;height:48px;object-fit:contain}
+    .h1{font-size:1.05rem;font-weight:700;margin:0}
+    .sub{margin:2px 0 0;color:var(--muted);font-size:.78rem}
+    .body{padding:12px;display:grid;gap:9px}
+    label{font-size:.75rem;color:#c8c8c8}
+    input,select,button{width:100%;border-radius:12px;border:1px solid #2b2b2b;background:#181818;color:#fff;padding:11px 10px}
+    input:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 2px rgba(190,30,45,.2)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .check{display:flex;align-items:center;gap:8px;padding:4px 2px}
+    .check input{width:auto;accent-color:var(--red)}
+    .btn{background:linear-gradient(180deg,#d4293a,#be1e2d);border:0;font-weight:700;cursor:pointer}
+    .btn2{background:#202020;border:1px solid #323232;cursor:pointer}
+    .btn3{background:#101010;border:1px dashed #3a3a3a;color:#ddd;cursor:pointer}
+    .status{font-size:.78rem;color:#d7d7d7;min-height:20px;white-space:pre-wrap}
+    .meta{font-size:.75rem;color:#a6a6a6}
+    .list{display:grid;gap:8px;max-height:48vh;overflow:auto;padding-right:2px}
+    .item{border:1px solid #272727;border-radius:14px;background:#141414;padding:10px}
+    .name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+    .line{font-size:.78rem;color:#d3d3d3;word-break:break-word}
+    .line a{color:#ff5f6d;text-decoration:none}
+    .line a:hover{text-decoration:underline}
+    .badge{display:inline-block;font-size:.68rem;padding:2px 7px;border-radius:999px;border:1px solid #3a3a3a;color:#ddd;margin-right:5px}
+    .badge.red{border-color:#5f1a21;color:#ffadb5;background:rgba(190,30,45,.18)}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="brand">
-        <div class="logoWrap" aria-hidden="true">
-          <img src="./assets/logo.png" alt="MC logo" />
-        </div>
-        <div class="brandText">
-          <h1>Subcontractor Finder</h1>
-      <p>One page. Search, view results, and download CSV here. For best coverage, run with backend mode (Open-App.command).</p>
+  <div class="shell">
+    <div class="app">
+      <div class="top">
+        <img class="logo" src="/assets/logo.png" alt="MC logo" />
+        <div>
+          <p class="h1">MC Business Finder</p>
+          <p class="sub">Google Places API (New) only</p>
         </div>
       </div>
 
-      <div class="grid">
+      <div class="body">
         <div>
-          <label for="location">Location (city/zip/state)</label>
-          <input id="location" placeholder="Augusta, GA" />
+          <label for="location">Location (ZIP, city, state)</label>
+          <input id="location" placeholder="Clinton, NC or 28328" />
         </div>
-        <div>
-          <label for="query">Trade / Query</label>
-          <input id="query" value="subcontractor" />
-        </div>
-        <div>
-          <label for="radiusMiles">Radius (miles)</label>
-          <input id="radiusMiles" type="number" min="5" max="45" value="25" />
-        </div>
-        <div>
-          <label for="mode">Mode</label>
-          <select id="mode">
-            <option value="single">Single area</option>
-            <option value="statewide">Statewide grid</option>
-          </select>
-        </div>
-        <div>
-          <label for="gridMiles">Grid step (miles)</label>
-          <input id="gridMiles" type="number" min="10" max="90" value="35" />
-        </div>
-        <label class="check">
-          <input id="includeEmails" type="checkbox" />
-          <span>Find Emails</span>
-        </label>
-      </div>
 
-      <div class="actions">
-        <button id="searchBtn">Search</button>
-        <button id="downloadBtn" class="ghost">Download CSV</button>
-      </div>
+        <div>
+          <label for="query">Business Query</label>
+          <input id="query" value="" placeholder="e.g. electrical contractor" />
+        </div>
 
-      <div id="status" class="status">Ready. Launch with <code>Open-App.command</code> for full backend mode.</div>
+        <div class="row">
+          <div>
+            <label for="radiusMiles">Radius (miles)</label>
+            <input id="radiusMiles" type="number" min="5" max="45" value="25" />
+          </div>
+          <div>
+            <label for="mode">Mode</label>
+            <select id="mode">
+              <option value="single">Single</option>
+              <option value="statewide">Statewide</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="tableWrap">
-        <table id="resultsTable">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
+        <label class="check"><input id="includeEmails" type="checkbox" /> Find website emails (slower)</label>
+
+        <div class="row">
+          <button id="searchBtn" class="btn">Search</button>
+          <button id="downloadBtn" class="btn2">Download CSV</button>
+        </div>
+        <button id="appWindowBtn" class="btn3">Open App Window (430x900)</button>
+
+        <div id="status" class="status">Ready. Use Open-App.command for one-click launch.</div>
+        <div id="meta" class="meta"></div>
+
+        <div id="list" class="list"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const headers = ["source", "name", "phone", "website", "address", "maps_url", "place_id", "emails"];
-    let rows = [];
-
     const $ = (id) => document.getElementById(id);
     const els = {
       location: $("location"),
       query: $("query"),
       radiusMiles: $("radiusMiles"),
       mode: $("mode"),
-      gridMiles: $("gridMiles"),
       includeEmails: $("includeEmails"),
       searchBtn: $("searchBtn"),
       downloadBtn: $("downloadBtn"),
+      appWindowBtn: $("appWindowBtn"),
       status: $("status"),
-      tableHead: document.querySelector("#resultsTable thead"),
-      tableBody: document.querySelector("#resultsTable tbody")
+      meta: $("meta"),
+      list: $("list")
     };
 
-    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-    const setStatus = (text) => { els.status.textContent = text; };
+    let rows = [];
 
-    function ensureLaunchMode() {
-      if (location.protocol === "file:") {
-        els.searchBtn.disabled = true;
-        setStatus("You opened app.html directly. Use Open-App.command (same folder) so backend mode starts, then search from http://127.0.0.1:8787.");
-        return false;
+    function setStatus(text) { els.status.textContent = text; }
+
+    function openAppWindow() {
+      const url = new URL(window.location.href);
+      url.searchParams.set("appwindow", "1");
+      const w = window.open(url.toString(), "mc_finder_app_window", "popup=yes,width=430,height=900");
+      if (!w) {
+        setStatus("Popup blocked. Allow popups for this site, then try again.");
       }
-      return true;
     }
 
-    function renderTable(data) {
-      els.tableHead.innerHTML = `<tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr>`;
-      els.tableBody.innerHTML = data.map((r) =>
-        `<tr>${headers.map((h) => {
-          const v = String(r[h] || "");
-          if (h === "website" || h === "maps_url") {
-            return `<td>${v ? `<a href="${v}" target="_blank" rel="noopener noreferrer">${v}</a>` : ""}</td>`;
-          }
-          return `<td>${v}</td>`;
-        }).join("")}</tr>`
-      ).join("");
+    function render(items) {
+      if (!items.length) {
+        els.list.innerHTML = "";
+        return;
+      }
+      els.list.innerHTML = items.map((r) => `
+        <div class="item">
+          <div class="name">${r.name || "(no name)"}</div>
+          <div class="line"><span class="badge">score ${r.confidence || 0}</span><span class="badge">${r.distance_miles !== undefined && r.distance_miles !== \"\" ? `${r.distance_miles} mi` : \"\"}</span></div>
+          <div class="line">${r.address || ""}</div>
+          <div class="line">${r.phone || ""}</div>
+          <div class="line">${r.website ? `<a href="${r.website}" target="_blank" rel="noopener noreferrer">${r.website}</a>` : ""}</div>
+          <div class="line">${r.emails || ""}</div>
+          <div class="line">${r.maps_url ? `<a href="${r.maps_url}" target="_blank" rel="noopener noreferrer">map</a>` : ""}</div>
+        </div>
+      `).join("");
     }
 
     function csvEscape(v) {
@@ -146,238 +141,72 @@
     }
 
     function downloadCsv(data) {
+      const headers = ["name","phone","website","address","distance_miles","maps_url","place_id","business_status","confidence","emails"];
       const lines = [headers.join(",")];
       data.forEach((r) => lines.push(headers.map((h) => csvEscape(r[h])).join(",")));
       const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "subcontractors.csv";
+      a.download = "places-results.csv";
       a.click();
       URL.revokeObjectURL(a.href);
     }
 
-    async function fetchJson(url, options = {}) {
-      const res = await fetch(url, options);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    }
-
-    function milesToDegLat(miles) { return miles / 69; }
-    function milesToDegLng(miles, lat) {
-      const cosLat = Math.max(Math.cos((lat * Math.PI) / 180), 0.15);
-      return miles / (69 * cosLat);
-    }
-
-    function buildVariants(query) {
-      const words = String(query || "subcontractor").toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
-      const set = new Set([
-        query || "subcontractor",
-        "subcontractor",
-        "general contractor",
-        "commercial contractor",
-        "construction company",
-        "electrical contractor",
-        "plumbing contractor",
-        "hvac contractor",
-        "roofing contractor",
-        "drywall contractor",
-        "concrete contractor",
-        "framing contractor"
-      ]);
-      words.forEach((w) => set.add(w));
-      return [...set].slice(0, 12);
-    }
-
-    function mapNominatim(item) {
-      const ext = item.extratags || {};
-      const type = item.osm_type === "N" ? "node" : item.osm_type === "W" ? "way" : item.osm_type === "R" ? "relation" : (item.osm_type || "node");
-      const id = item.osm_id || item.place_id;
-      return {
-        source: "browser",
-        name: item.name || String(item.display_name || "").split(",")[0] || "",
-        phone: ext.phone || ext["contact:phone"] || "",
-        website: ext.website || ext["contact:website"] || "",
-        address: item.display_name || "",
-        maps_url: `https://www.openstreetmap.org/${type}/${id}`,
-        place_id: `osm:${type}/${id}`,
-        emails: ""
-      };
-    }
-
-    async function geocode(location) {
-      const url = new URL("https://nominatim.openstreetmap.org/search");
-      url.searchParams.set("q", location);
-      url.searchParams.set("format", "jsonv2");
-      url.searchParams.set("countrycodes", "us");
-      url.searchParams.set("limit", "1");
-      const arr = await fetchJson(url);
-      if (!arr.length) throw new Error("Location not found.");
-      const hit = arr[0];
-      const south = Number(hit.boundingbox?.[0]);
-      const north = Number(hit.boundingbox?.[1]);
-      const west = Number(hit.boundingbox?.[2]);
-      const east = Number(hit.boundingbox?.[3]);
-      return {
-        lat: Number(hit.lat),
-        lng: Number(hit.lon),
-        label: hit.display_name,
-        bounds: Number.isFinite(south) ? { south, north, west, east } : null
-      };
-    }
-
-    async function nominatimInBox(query, box, limit = 50) {
-      const url = new URL("https://nominatim.openstreetmap.org/search");
-      url.searchParams.set("q", query);
-      url.searchParams.set("format", "jsonv2");
-      url.searchParams.set("countrycodes", "us");
-      url.searchParams.set("bounded", "1");
-      url.searchParams.set("viewbox", `${box.west},${box.north},${box.east},${box.south}`);
-      url.searchParams.set("addressdetails", "1");
-      url.searchParams.set("extratags", "1");
-      url.searchParams.set("limit", String(limit));
-      const arr = await fetchJson(url);
-      return Array.isArray(arr) ? arr.map(mapNominatim) : [];
-    }
-
-    async function nominatimByLocationText(query, location) {
-      const url = new URL("https://nominatim.openstreetmap.org/search");
-      url.searchParams.set("q", `${query} ${location}`);
-      url.searchParams.set("format", "jsonv2");
-      url.searchParams.set("countrycodes", "us");
-      url.searchParams.set("addressdetails", "1");
-      url.searchParams.set("extratags", "1");
-      url.searchParams.set("limit", "25");
-      const arr = await fetchJson(url);
-      return Array.isArray(arr) ? arr.map(mapNominatim) : [];
-    }
-
-    function centerBox(lat, lng, miles) {
-      const latPad = milesToDegLat(miles);
-      const lngPad = milesToDegLng(miles, lat);
-      return { south: lat - latPad, north: lat + latPad, west: lng - lngPad, east: lng + lngPad };
-    }
-
-    function gridBoxes(bounds, stepMiles, radiusMiles) {
-      const boxes = [];
-      const latStep = milesToDegLat(stepMiles);
-      for (let lat = bounds.south; lat <= bounds.north; lat += latStep) {
-        const lngStep = milesToDegLng(stepMiles, lat);
-        for (let lng = bounds.west; lng <= bounds.east; lng += lngStep) {
-          boxes.push(centerBox(lat, lng, radiusMiles));
-        }
-      }
-      return boxes;
-    }
-
-    function dedupe(data) {
-      const m = new Map();
-      for (const row of data) {
-        const key = row.place_id || `${row.name}|${row.website}`;
-        if (!m.has(key)) m.set(key, row);
-      }
-      return [...m.values()];
-    }
-
-    async function tryBackend(payload) {
-      try {
-        const ctrl = new AbortController();
-        const t = setTimeout(() => ctrl.abort(), 2500);
-        const res = await fetch("/api/search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          signal: ctrl.signal
-        });
-        clearTimeout(t);
-        if (!res.ok) return null;
-        const data = await res.json();
-        return data;
-      } catch {
-        return null;
-      }
-    }
-
-    async function browserSearch(payload) {
-      const geo = await geocode(payload.location);
-      const variants = buildVariants(payload.query);
-      const boxes = payload.mode === "statewide" && geo.bounds
-        ? gridBoxes(geo.bounds, payload.gridMiles, payload.radiusMiles)
-        : [centerBox(geo.lat, geo.lng, payload.radiusMiles)];
-
-      const out = [];
-      for (let i = 0; i < boxes.length; i += 1) {
-        for (let j = 0; j < variants.length; j += 1) {
-          setStatus(`Browser mode: ${i + 1}/${boxes.length} areas, query ${j + 1}/${variants.length}`);
-          const [a, b] = await Promise.all([
-            nominatimInBox(variants[j], boxes[i], 50).catch(() => []),
-            j < 6 ? nominatimByLocationText(variants[j], payload.location).catch(() => []) : Promise.resolve([])
-          ]);
-          out.push(...a, ...b);
-          await sleep(160);
-        }
-      }
-
-      return {
-        rows: dedupe(out),
-        logs: [`Browser mode complete for ${geo.label}`]
-      };
-    }
-
     async function runSearch() {
-      if (!ensureLaunchMode()) return;
-
       const payload = {
         location: els.location.value.trim(),
-        query: els.query.value.trim() || "subcontractor",
-        radiusMiles: Math.min(45, Math.max(5, Number(els.radiusMiles.value || 25))),
+        query: els.query.value.trim() || "general contractor",
+        radiusMiles: Number(els.radiusMiles.value || 25),
         mode: els.mode.value,
-        gridMiles: Math.max(10, Number(els.gridMiles.value || 35)),
-        includeEmails: Boolean(els.includeEmails.checked)
+        includeEmails: els.includeEmails.checked
       };
 
       if (!payload.location) {
-        setStatus("Enter a location.");
+        setStatus("Enter a location first.");
         return;
       }
 
-      rows = [];
-      renderTable(rows);
       els.searchBtn.disabled = true;
-      setStatus("Searching...");
+      setStatus("Searching live via Google Places (New)...");
+      els.meta.textContent = "";
+      rows = [];
+      render(rows);
 
       try {
-        const backend = await tryBackend(payload);
-        if (backend) {
-          rows = Array.isArray(backend.rows) ? backend.rows : [];
-          renderTable(rows);
-          setStatus(`Backend mode. Results: ${rows.length}`);
-        } else {
-          if (payload.includeEmails) {
-            setStatus("Backend not detected. Running browser mode (email enrichment not available in pure browser mode).\nSearching...");
-          }
-          const data = await browserSearch(payload);
-          rows = Array.isArray(data.rows) ? data.rows : [];
-          renderTable(rows);
-          setStatus(`Browser-only mode (limited coverage). Results: ${rows.length}. Use Open-App.command for full backend mode.`);
-        }
-      } catch (error) {
-        setStatus(`Search failed: ${error.message}`);
+        const res = await fetch("/api/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+        rows = (Array.isArray(data.rows) ? data.rows : []).filter((r) => r.source === "google_places_new");
+        render(rows);
+        const meta = data.meta || {};
+        els.meta.textContent = `Provider: ${meta.provider || "-"} | Radius: ${meta.radius_miles || "-"} mi | Variants: ${meta.variants || "-"}`;
+        const tail = Array.isArray(data.logs) ? data.logs.slice(-3).join("\n") : "";
+        setStatus(`Done: ${rows.length} results.\n${tail}`);
+      } catch (err) {
+        setStatus(`Search failed: ${err.message}`);
       } finally {
         els.searchBtn.disabled = false;
       }
     }
 
     els.searchBtn.addEventListener("click", runSearch);
+    els.appWindowBtn.addEventListener("click", openAppWindow);
     els.downloadBtn.addEventListener("click", () => {
-      if (!rows.length) {
-        setStatus("No rows to export.");
-        return;
-      }
+      if (!rows.length) return setStatus("No rows to download.");
       downloadCsv(rows);
     });
 
-    ensureLaunchMode();
-    renderTable([]);
+    // Best effort: when opened as popup, resize to app dimensions.
+    if (new URLSearchParams(window.location.search).get("appwindow") === "1") {
+      try {
+        window.resizeTo(430, 900);
+      } catch (_) {}
+    }
   </script>
 </body>
 </html>
