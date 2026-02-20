@@ -20,4 +20,4 @@ fi
 HOST=127.0.0.1 npm run app >>"$LOG_FILE" 2>&1 &
 sleep 1.5
 
-open "http://127.0.0.1:8787/?appwindow=1"
+open "http://127.0.0.1:8787/"

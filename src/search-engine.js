@@ -93,8 +93,9 @@ function buildVariantQueries(query, location) {
   const q = String(query || "general contractor").trim();
   const base = [
     `${q} in ${location}`,
-    `commercial ${q} in ${location}`,
-    `${q} company in ${location}`
+    `${q} commercial contractor in ${location}`,
+    `commercial ${q} contractor in ${location}`,
+    `${q} contractor company in ${location}`
   ];
   return [...new Set(base)];
 }
@@ -142,6 +143,16 @@ function destinationPoint(lat, lng, bearingDeg, distanceMiles) {
     lat: (lat2 * 180) / Math.PI,
     lng: ((((lon2 * 180) / Math.PI + 540) % 360) - 180)
   };
+}
+
+function parseLatLngLocation(value) {
+  const m = String(value || "").trim().match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+  if (!m) return null;
+  const lat = Number(m[1]);
+  const lng = Number(m[2]);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+  return { lat, lng };
 }
 
 function isRelevantType(types, intent) {
@@ -200,9 +211,18 @@ function scorePlace(place, query) {
   return Math.min(100, score);
 }
 
-function mapGooglePlace(place, query) {
+function inferCompanySize(userRatingCount) {
+  const n = Number(userRatingCount || 0);
+  if (n >= 100) return "large";
+  if (n >= 25) return "medium";
+  if (n > 0) return "small";
+  return "";
+}
+
+function mapGooglePlace(place, query, sectionTitle = "") {
   const placeId = place.id || "";
   const score = scorePlace(place, query);
+  const ratingCount = Number(place.userRatingCount || 0);
   return {
     source: "google_places_new",
     name: place.displayName?.text || "",
@@ -216,6 +236,11 @@ function mapGooglePlace(place, query) {
     location_lng: Number(place.location?.longitude || 0),
     types: Array.isArray(place.types) ? place.types : [],
     confidence: score,
+    reliability_score: score,
+    user_rating_count: ratingCount,
+    company_size: inferCompanySize(ratingCount),
+    company_age: "",
+    category_section: sectionTitle || "",
     emails: ""
   };
 }
@@ -310,7 +335,16 @@ function dedupeRows(rows) {
       website: prev.website || row.website,
       address: prev.address || row.address,
       maps_url: prev.maps_url || row.maps_url,
-      confidence: Math.max(Number(prev.confidence || 0), Number(row.confidence || 0))
+      confidence: Math.max(Number(prev.confidence || 0), Number(row.confidence || 0)),
+      reliability_score: Math.max(Number(prev.reliability_score || 0), Number(row.reliability_score || 0)),
+      user_rating_count: Math.max(Number(prev.user_rating_count || 0), Number(row.user_rating_count || 0)),
+      company_size: prev.company_size || row.company_size || "",
+      category_section: [
+        ...new Set([
+          ...String(prev.category_section || "").split(";").map((x) => x.trim()).filter(Boolean),
+          ...String(row.category_section || "").split(";").map((x) => x.trim()).filter(Boolean)
+        ])
+      ].join("; ")
     });
   }
   return [...map.values()];
@@ -319,6 +353,9 @@ function dedupeRows(rows) {
 export async function searchSubcontractors({
   location,
   query,
+  queries = [],
+  queryContexts = [],
+  strictTypeFilter = true,
   radiusMiles = 25,
   mode = "single",
   gridStepMiles = 35,
@@ -331,11 +368,21 @@ export async function searchSubcontractors({
   }
 
   const safeRadiusMiles = Math.min(45, Math.max(5, Number(radiusMiles) || 25));
-  const center = await resolveCenterFromPlaces(location, apiKey);
+  const center = parseLatLngLocation(location) || (await resolveCenterFromPlaces(location, apiKey));
   if (!center) {
     throw new Error(`Could not resolve center for "${location}"`);
   }
-  const intent = queryIntent(query);
+  const contextMap = new Map();
+  if (Array.isArray(queryContexts)) {
+    for (const c of queryContexts) {
+      const term = String(c?.term || "").trim();
+      const section = String(c?.section || "").trim();
+      if (term) contextMap.set(term.toLowerCase(), section);
+    }
+  }
+  const queryTerms = [...new Set([...(Array.isArray(queries) ? queries : []), query].map((q) => String(q || "").trim()).filter(Boolean))];
+  const effectiveQueryTerms = queryTerms.length ? queryTerms : ["general contractor"];
+  const intent = queryIntent(effectiveQueryTerms[0]);
 
   // Fast-first progression: local ring first, then expand.
   const rings = [8, 16, 28, safeRadiusMiles]
@@ -355,23 +402,29 @@ export async function searchSubcontractors({
     }
   }
 
-  const variants = buildVariantQueries(query, location);
+  const queryJobs = effectiveQueryTerms.flatMap((term) =>
+    buildVariantQueries(term, location).map((variant) => ({
+      term,
+      variant,
+      section: contextMap.get(term.toLowerCase()) || ""
+    }))
+  );
   const collected = [];
   const callErrors = [];
 
   let step = 0;
-  const total = searchCenters.length * rings.length * variants.length;
+  const total = searchCenters.length * rings.length * queryJobs.length;
   for (const searchCenter of searchCenters) {
     for (const ringMeters of rings) {
-      for (const v of variants) {
-      step += 1;
+      for (const job of queryJobs) {
+        step += 1;
         onProgress(
-          `Google search ${step}/${total}: ${v} (${Math.round(
+          `Google search ${step}/${total}: ${job.variant} (${Math.round(
             ringMeters / 1609.34
           )} mi, ${searchCenter.label})`
         );
         const places = await searchTextGoogle({
-          textQuery: v,
+          textQuery: job.variant,
           radiusMeters: ringMeters,
           apiKey,
           center: searchCenter
@@ -382,7 +435,7 @@ export async function searchSubcontractors({
           return [];
         });
 
-        places.forEach((p) => collected.push(mapGooglePlace(p, query)));
+        places.forEach((p) => collected.push(mapGooglePlace(p, job.term, job.section)));
         await sleep(120);
       }
     }
@@ -391,7 +444,7 @@ export async function searchSubcontractors({
   let rows = dedupeRows(collected)
     .filter((r) => r.name && r.address)
     .filter((r) => String(r.business_status || "") === "OPERATIONAL" || !r.business_status)
-    .filter((r) => isRelevantType(r.types, intent))
+    .filter((r) => (strictTypeFilter ? isRelevantType(r.types, intent) : true))
     .map((r) => {
       const hasCoords = Number.isFinite(r.location_lat) && Number.isFinite(r.location_lng) && r.location_lat !== 0 && r.location_lng !== 0;
       const d = hasCoords ? haversineMiles(center.lat, center.lng, r.location_lat, r.location_lng) : null;
@@ -425,7 +478,7 @@ export async function searchSubcontractors({
       mode,
       radius_miles: safeRadiusMiles,
       boxes: 1,
-      variants: variants.length
+      variants: queryJobs.length
     },
     rows
   };
@@ -433,6 +486,7 @@ export async function searchSubcontractors({
 
 export function toCsv(rows) {
   const headers = [
+    "category_section",
     "source",
     "name",
     "phone",
@@ -443,6 +497,9 @@ export function toCsv(rows) {
     "place_id",
     "business_status",
     "confidence",
+    "reliability_score",
+    "company_size",
+    "company_age",
     "emails"
   ];
   const escape = (v) => {

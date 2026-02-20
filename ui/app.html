@@ -3,59 +3,351 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MC Finder</title>
+  <title>Keystone Connect</title>
   <style>
-    :root { --red:#be1e2d; --bg:#0a0a0a; --card:#141414; --line:#262626; --text:#f4f4f4; --muted:#b3b3b3; }
+    :root {
+      --red:#2a4f77;
+      --red-dark:#1d3652;
+      --bg:#0a0a0a;
+      --card:#141414;
+      --line:#2a2a2a;
+      --text:#f4f4f4;
+      --muted:#b3b3b3;
+      --steel-hi:#d0d0d0;
+      --steel-mid:#898989;
+      --steel-low:#4d4d4d;
+      --ctl-h:48px;
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(circle at 25% 10%, #1a1a1a, #080808 60%);color:var(--text);font-family:"Segoe UI",Tahoma,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:14px}
-    .shell{width:100%;max-width:430px}
-    .app{background:linear-gradient(180deg,#121212,#0e0e0e);border:1px solid #1f1f1f;border-radius:24px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.6);min-height:min(900px,calc(100vh - 28px))}
-    .top{padding:14px 14px 10px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
-    .logo{width:42px;height:48px;object-fit:contain}
-    .h1{font-size:1.05rem;font-weight:700;margin:0}
-    .sub{margin:2px 0 0;color:var(--muted);font-size:.78rem}
-    .body{padding:12px;display:grid;gap:9px}
-    label{font-size:.75rem;color:#c8c8c8}
-    input,select,button{width:100%;border-radius:12px;border:1px solid #2b2b2b;background:#181818;color:#fff;padding:11px 10px}
-    input:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 2px rgba(190,30,45,.2)}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:Impact, "Arial Black", "Segoe UI", Tahoma, sans-serif;
+      letter-spacing:.01em;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:14px;
+      background:
+        radial-gradient(circle at 50% -20%, #264a72 0%, #14263e 45%, #0b1422 100%);
+    }
+    body[data-layout="bluegrid"]{
+      background:
+        repeating-linear-gradient(0deg, rgba(147,191,235,.10) 0 1px, rgba(0,0,0,0) 1px 52px),
+        repeating-linear-gradient(90deg, rgba(147,191,235,.09) 0 1px, rgba(0,0,0,0) 1px 52px),
+        linear-gradient(120deg, rgba(180,220,255,.06) 0 12%, rgba(0,0,0,0) 12% 88%, rgba(180,220,255,.05) 88%),
+        radial-gradient(circle at 50% -20%, #264a72 0%, #14263e 45%, #0b1422 100%);
+    }
+    body[data-layout="keystone"]{
+      background:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.02) 0 8px, rgba(0,0,0,0) 8px 16px),
+        radial-gradient(circle at 45% -30%, #2a2a2a 0%, #121212 55%, #090909 100%);
+    }
+    .shell{width:100%;max-width:440px}
+    body[data-size="full"] .shell{max-width:920px}
+    .app{
+      background:linear-gradient(180deg,#12243a,#0d1a2b);
+      border:1px solid #323232;
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:0 28px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
+      min-height:min(900px,calc(100vh - 28px));
+    }
+    .top{position:relative;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#1a324f,#11243a)}
+    .brand-banner{display:block;width:100%;height:auto;object-fit:contain;object-position:center;background:#10253c}
+    .fallback-wrap{padding:16px 16px 14px}
+    .top .corner{position:absolute;width:22px;height:22px;pointer-events:none}
+    .top .corner:before,.top .corner:after{content:"";position:absolute;background:linear-gradient(180deg,#8d8d8d,#575757);box-shadow:0 0 0 1px rgba(0,0,0,.3) inset}
+    .top .corner:before{width:100%;height:3px}
+    .top .corner:after{width:3px;height:100%}
+    .top .tl{top:10px;left:10px}
+    .top .tr{top:10px;right:10px;transform:scaleX(-1)}
+    .top .bl{bottom:10px;left:10px;transform:scaleY(-1)}
+    .top .br{bottom:10px;right:10px;transform:scale(-1)}
+    .brand{position:relative;min-height:66px;display:flex;align-items:center;justify-content:center}
+    .logo{position:absolute;left:0;top:50%;transform:translateY(-50%);width:46px;height:54px;object-fit:contain}
+    .brand-text{text-align:center;padding:0 44px}
+    .h1{font-size:1.25rem;letter-spacing:.06em;font-weight:900;margin:0;line-height:1.05;text-transform:uppercase;background:linear-gradient(180deg,var(--steel-hi),var(--steel-mid) 45%,#a4a4a4 60%,var(--steel-low));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{margin:6px 0 0;color:#d5d5d5;font-size:.73rem;letter-spacing:.03em}
+    .body{padding:14px;display:grid;gap:12px;max-width:760px;margin:0 auto}
+    label{font-size:.73rem;color:#cbcbcb;text-transform:uppercase;letter-spacing:.06em;display:block;margin:0 0 6px}
+    .field{display:grid;gap:0}
+    .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+    .theme-toggle{display:inline-flex;align-items:center;gap:6px}
+    .mini-icon-btn{
+      width:24px;
+      height:24px;
+      min-height:24px;
+      border:0;
+      border-radius:6px;
+      background:transparent;
+      color:#d9d9d9;
+      font-size:.85rem;
+      font-weight:900;
+      line-height:1;
+      cursor:pointer;
+      padding:0;
+    }
+    .mini-icon-btn.layout-btn{width:auto;min-width:52px;padding:0 8px;font-size:.62rem;letter-spacing:.04em}
+    .theme-state{
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      color:#6b6b6b;
+      min-width:20px;
+      text-align:right;
+    }
+    .theme-state.on{color:var(--red);text-shadow:0 0 5px rgba(42,79,119,.45)}
+    .theme-state.off{color:#5f5f5f}
+    .theme-bolt{
+      width:24px;
+      height:24px;
+      min-height:24px;
+      border:0;
+      background:transparent;
+      color:#d9d9d9;
+      font-size:.75rem;
+      font-weight:900;
+      line-height:1;
+      cursor:pointer;
+      padding:0;
+      box-shadow:none;
+    }
+    input,select,button{width:100%;border-radius:12px;border:1px solid #353535;background:linear-gradient(180deg,#1c1c1c,#131313);color:#fff;padding:0 12px;height:var(--ctl-h);min-height:var(--ctl-h);font-family:"Segoe UI",Tahoma,sans-serif;font-weight:700;line-height:1.2}
+    input:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 2px rgba(42,79,119,.25), inset 0 1px 0 rgba(255,255,255,.08)}
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button{
+      opacity:1;
+      filter:invert(1) brightness(1.2);
+    }
     .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .check{display:flex;align-items:center;gap:8px;padding:4px 2px}
-    .check input{width:auto;accent-color:var(--red)}
-    .btn{background:linear-gradient(180deg,#d4293a,#be1e2d);border:0;font-weight:700;cursor:pointer}
-    .btn2{background:#202020;border:1px solid #323232;cursor:pointer}
-    .btn3{background:#101010;border:1px dashed #3a3a3a;color:#ddd;cursor:pointer}
-    .status{font-size:.78rem;color:#d7d7d7;min-height:20px;white-space:pre-wrap}
+    .option-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .toggle-card{
+      height:var(--ctl-h);
+      min-height:var(--ctl-h);
+      border-radius:12px;
+      border:1px solid #454545;
+      background:linear-gradient(180deg,#2a2a2a,#171717);
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:6px;
+      padding:0 12px;
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.82rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      text-transform:none;
+      color:#dfdfdf;
+      cursor:pointer;
+      overflow:hidden;
+    }
+    .toggle-card.inline{font-size:.76rem}
+    .field-spacer{
+      display:block;
+      visibility:hidden;
+      font-size:.73rem;
+      margin-bottom:4px;
+      line-height:1;
+      min-height:14px;
+    }
+    .toggle-card input{width:auto;accent-color:var(--red)}
+    .toggle-card span{display:block;line-height:1.15;font-size:.72rem;white-space:normal}
+    .toggle-card small{display:block;font-size:.62rem;opacity:.92}
+    .btn{background:linear-gradient(180deg,#355f8d 0%, #2a4f77 52%, #1d3652 100%);border:1px solid #1d3652;font-weight:900;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 18px rgba(0,0,0,.45)}
+    .btn2{background:linear-gradient(180deg,#303030 0%,#1b1b1b 100%);border:1px solid #434343;cursor:pointer;font-weight:800;text-transform:uppercase;letter-spacing:.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+    .btn3{background:linear-gradient(180deg,#2a2a2a,#171717);border:1px solid #4a4a4a;color:#e8e8e8;cursor:pointer;font-family:"Segoe UI",Tahoma,sans-serif;font-weight:800;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:6px;height:var(--ctl-h);min-height:var(--ctl-h);text-align:center}
+    .btn3 .icon{color:#f2f2f2;font-size:.95rem;line-height:1;text-shadow:0 0 6px rgba(255,255,255,.35)}
+    .hint{font-family:"Segoe UI",Tahoma,sans-serif;font-size:.68rem;color:#b8b8b8;line-height:1.25}
+    .mini-check{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:8px;
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.7rem;
+      color:#b8b8b8;
+      text-transform:none;
+      letter-spacing:.01em;
+    }
+    .mini-check input{width:auto;height:auto;min-height:0;padding:0;accent-color:var(--red)}
+    .history-host{color-scheme: light}
+    .suggest-wrap{position:relative}
+    .suggest-menu{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 4px);
+      z-index:30;
+      border:1px solid #4e4e4e;
+      border-radius:12px;
+      background:linear-gradient(180deg,#787878,#666);
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      max-height:180px;
+      overflow:auto;
+      padding:4px;
+    }
+    .suggest-item{
+      width:100%;
+      border:0;
+      background:transparent;
+      color:#111;
+      text-align:left;
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.84rem;
+      font-weight:700;
+      padding:7px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      line-height:1.2;
+    }
+    .suggest-item:hover{background:rgba(255,255,255,.28)}
+    .suggest-item.action{color:#2a2a2a;font-weight:800}
+    .hidden{display:none !important}
+    .status{font-size:.82rem;color:#e0e0e0;min-height:20px;white-space:pre-wrap;font-family:"Segoe UI",Tahoma,sans-serif;font-weight:700}
     .meta{font-size:.75rem;color:#a6a6a6}
-    .list{display:grid;gap:8px;max-height:48vh;overflow:auto;padding-right:2px}
-    .item{border:1px solid #272727;border-radius:14px;background:#141414;padding:10px}
-    .name{font-weight:700;font-size:.9rem;margin-bottom:4px}
-    .line{font-size:.78rem;color:#d3d3d3;word-break:break-word}
-    .line a{color:#ff5f6d;text-decoration:none}
+    .sort-row{display:grid;grid-template-columns:1fr;gap:6px}
+    .sort-row label{font-size:.66rem}
+    .list{display:grid;gap:8px;max-height:52vh;overflow:auto;padding-right:2px;scrollbar-width:thin;scrollbar-color:#d3d3d3 transparent}
+    .list::-webkit-scrollbar{width:8px}
+    .list::-webkit-scrollbar-track{background:transparent}
+    .list::-webkit-scrollbar-thumb{background:#d3d3d3;border-radius:999px;border:2px solid transparent;background-clip:content-box}
+    .item{
+      border:1px solid #313131;
+      border-radius:14px;
+      background:linear-gradient(180deg,#191919,#121212);
+      padding:10px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .name{font-weight:900;font-size:.95rem;margin-bottom:4px;color:#f0f0f0}
+    .line{font-size:.8rem;color:#d3d3d3;word-break:break-word;font-family:"Segoe UI",Tahoma,sans-serif}
+    .line a{color:#8fb6dc;text-decoration:none}
     .line a:hover{text-decoration:underline}
-    .badge{display:inline-block;font-size:.68rem;padding:2px 7px;border-radius:999px;border:1px solid #3a3a3a;color:#ddd;margin-right:5px}
-    .badge.red{border-color:#5f1a21;color:#ffadb5;background:rgba(190,30,45,.18)}
+    .badge{display:inline-block;font-size:.68rem;padding:2px 7px;border-radius:999px;border:1px solid #575757;color:#e3e3e3;margin-right:5px;background:linear-gradient(180deg,#3b3b3b,#232323);font-family:"Segoe UI",Tahoma,sans-serif;font-weight:700}
+    .badge.red{border-color:#2c4b69;color:#b9d5f0;background:rgba(42,79,119,.2)}
+
+    .app[data-theme="light"]{background:linear-gradient(180deg,#e9e9e9,#dcdcdc);border-color:#a8a8a8}
+    .app[data-theme="light"] .top{background:linear-gradient(180deg,#d8d8d8,#c8c8c8);border-bottom-color:#a8a8a8}
+    .app[data-theme="light"] label{color:#3a3a3a}
+    .app[data-theme="light"] input,
+    .app[data-theme="light"] select,
+    .app[data-theme="light"] button{background:linear-gradient(180deg,#ececec,#dcdcdc);border-color:#aaaaaa;color:#202020}
+    .app[data-theme="light"] input[type="number"]::-webkit-outer-spin-button,
+    .app[data-theme="light"] input[type="number"]::-webkit-inner-spin-button{
+      filter:invert(0) brightness(0.45);
+    }
+    .app[data-theme="light"] .btn{
+      background:linear-gradient(180deg,#355f8d 0%, #2a4f77 52%, #1d3652 100%);
+      border:1px solid #1d3652;
+      color:#fff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 18px rgba(0,0,0,.45);
+    }
+    .app[data-theme="light"] .toggle-card{background:linear-gradient(180deg,#ececec,#dcdcdc);border-color:#aaaaaa;color:#202020}
+    .app[data-theme="light"] .btn2,
+    .app[data-theme="light"] .btn3{color:#202020}
+    .app[data-theme="light"] .status{color:#2a2a2a}
+    .app[data-theme="light"] .item{background:linear-gradient(180deg,#eeeeee,#dfdfdf);border-color:#b5b5b5}
+    .app[data-theme="light"] .name{color:#181818}
+    .app[data-theme="light"] .line{color:#333}
+    .app[data-theme="light"] .badge{background:linear-gradient(180deg,#dcdcdc,#cfcfcf);border-color:#9d9d9d;color:#2a2a2a}
+    .app[data-theme="light"] .theme-bolt{
+      background:rgba(255,255,255,.28);
+      border:1px solid rgba(80,80,80,.22);
+      border-radius:6px;
+      color:#222;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    .app[data-theme="light"] .mini-icon-btn{
+      color:#222;
+      background:rgba(255,255,255,.25);
+      border:1px solid rgba(80,80,80,.2);
+    }
+    .app[data-theme="light"] .list{scrollbar-color:#333 transparent}
+    .app[data-theme="light"] .list::-webkit-scrollbar-thumb{background:#333;background-clip:content-box}
+    .app[data-theme="light"] .mini-check{color:#555}
+    .app[data-theme="light"] .history-host{color-scheme: light}
+    .app[data-theme="light"] .suggest-menu{
+      border-color:#a6a6a6;
+      background:linear-gradient(180deg,#d7d7d7,#c7c7c7);
+    }
+    .app[data-theme="light"] .suggest-item{color:#202020}
+
+    .app[data-layout="keystone"]{background:linear-gradient(180deg,#171717,#0d0d0d)}
+    .app[data-layout="keystone"] .top{background:linear-gradient(180deg,#2d2d2d,#181818)}
+    .app[data-layout="keystone"][data-theme="light"]{
+      background:linear-gradient(180deg,#e6e6e6,#d6d6d6);
+      border-color:#a8a8a8;
+    }
+    .app[data-layout="keystone"][data-theme="light"] .top{
+      background:linear-gradient(180deg,#d7d7d7,#c5c5c5);
+      border-bottom-color:#a8a8a8;
+    }
+    .app[data-layout="keystone"] .btn{
+      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
+      border:1px solid #8f1220;
+      color:#fff;
+    }
+
+    @media (max-width: 768px){
+      body{padding:0}
+      .shell{max-width:100%}
+      .app{border-radius:0;min-height:100vh}
+      #sizeBtn{display:none}
+    }
   </style>
 </head>
 <body>
   <div class="shell">
     <div class="app">
       <div class="top">
-        <img class="logo" src="/assets/logo.png" alt="MC logo" />
-        <div>
-          <p class="h1">MC Business Finder</p>
-          <p class="sub">Google Places API (New) only</p>
+        <img id="brandBanner" class="brand-banner" src="/assets/bluegrid-header.png" alt="Bluegrid" />
+        <div id="brandFallback" class="fallback-wrap" hidden>
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <div class="brand">
+            <img class="logo" src="/assets/logo.png" alt="MC logo" />
+            <div class="brand-text">
+              <p id="brandTitle" class="h1">BLUEGRID</p>
+              <p id="brandTagline" class="sub">Structured discovery for modern business.</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="body">
         <div>
-          <label for="location">Location (ZIP, city, state)</label>
-          <input id="location" placeholder="Clinton, NC or 28328" />
+          <div class="label-row">
+            <label for="location">Location (ZIP, city, state)</label>
+            <div class="theme-toggle">
+              <button id="sizeBtn" type="button" class="mini-icon-btn" title="Full Size">⛶</button>
+              <button id="layoutBtn" type="button" class="mini-icon-btn layout-btn" title="Switch layout">BLUE</button>
+              <span id="themeState" class="theme-state off">OFF</span>
+              <button id="themeBtn" type="button" class="theme-bolt" title="Toggle day/night">⚡</button>
+            </div>
+          </div>
+          <div class="suggest-wrap">
+            <input id="location" class="history-host" autocomplete="off" placeholder="Type Requested Location or use current" />
+            <div id="locationSuggestMenu" class="suggest-menu hidden"></div>
+          </div>
+          <label class="mini-check"><input id="useCurrentLocation" type="checkbox" /> Use current location</label>
         </div>
 
         <div>
-          <label for="query">Business Query</label>
-          <input id="query" value="" placeholder="e.g. electrical contractor" />
+          <label for="queryPreset">Business Query</label>
+          <select id="queryPreset">
+            <option value="">Select category or trade...</option>
+          </select>
+          <div id="manualQueryWrap" class="hidden" style="margin-top:8px">
+            <div class="suggest-wrap">
+              <input id="manualQuery" class="history-host" autocomplete="off" value="" placeholder="Manual search override" />
+              <div id="manualSuggestMenu" class="suggest-menu hidden"></div>
+            </div>
+          </div>
+          <div id="queryLegend" class="hint"></div>
         </div>
 
         <div class="row">
@@ -64,24 +356,26 @@
             <input id="radiusMiles" type="number" min="5" max="45" value="25" />
           </div>
           <div>
-            <label for="mode">Mode</label>
-            <select id="mode">
-              <option value="single">Single</option>
-              <option value="statewide">Statewide</option>
-            </select>
+            <span class="field-spacer">Spacer</span>
+            <label class="toggle-card inline"><input id="includeEmails" type="checkbox" /> <span>Get emails if available. (Slower)</span></label>
           </div>
         </div>
-
-        <label class="check"><input id="includeEmails" type="checkbox" /> Find website emails (slower)</label>
 
         <div class="row">
           <button id="searchBtn" class="btn">Search</button>
           <button id="downloadBtn" class="btn2">Download CSV</button>
         </div>
-        <a id="appWindowBtn" class="btn3" href="/?appwindow=1" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none;padding:11px 10px;border-radius:12px">Open App Window (430x900)</a>
-
-        <div id="status" class="status">Ready. Use Open-App.command for one-click launch.</div>
+        <div id="status" class="status">Ready.</div>
         <div id="meta" class="meta"></div>
+        <div class="sort-row">
+          <label for="sortBy">Arrange Results By</label>
+          <select id="sortBy">
+            <option value="distance">Distance</option>
+            <option value="reliability">Reliability Score</option>
+            <option value="size">Company Size</option>
+            <option value="age">Company Age</option>
+          </select>
+        </div>
 
         <div id="list" class="list"></div>
       </div>
@@ -91,45 +385,446 @@
   <script>
     const $ = (id) => document.getElementById(id);
     const els = {
+      app: document.querySelector(".app"),
       location: $("location"),
-      query: $("query"),
+      locationSuggestMenu: $("locationSuggestMenu"),
+      useCurrentLocation: $("useCurrentLocation"),
+      manualQueryWrap: $("manualQueryWrap"),
+      manualQuery: $("manualQuery"),
+      manualSuggestMenu: $("manualSuggestMenu"),
+      queryPreset: $("queryPreset"),
+      queryLegend: $("queryLegend"),
+      sortBy: $("sortBy"),
       radiusMiles: $("radiusMiles"),
-      mode: $("mode"),
       includeEmails: $("includeEmails"),
       searchBtn: $("searchBtn"),
       downloadBtn: $("downloadBtn"),
-      appWindowBtn: $("appWindowBtn"),
+      sizeBtn: $("sizeBtn"),
+      layoutBtn: $("layoutBtn"),
+      themeBtn: $("themeBtn"),
+      themeState: $("themeState"),
       status: $("status"),
       meta: $("meta"),
       list: $("list")
     };
 
     let rows = [];
+    let queryCatalog = [];
+    const locationSuggestCache = new Map();
+    let locationSuggestTimer = null;
+    let locationSuggestRequestId = 0;
+    let manualLocationBackup = "";
+    const pageUrl = new URL(window.location.href);
+    const isDesktopView = window.matchMedia("(min-width: 769px)");
+    const LOCATION_HISTORY_KEY = "kc_location_history";
+    const MANUAL_HISTORY_KEY = "kc_manual_history";
+    const MAX_HISTORY = 30;
+    let lastLocationLiveSuggestions = [];
+    const LAYOUTS = {
+      bluegrid: {
+        key: "bluegrid",
+        button: "BLUE",
+        title: "BLUEGRID",
+        tagline: "Structured discovery for modern business.",
+        banner: "/assets/bluegrid-header.png",
+        alt: "Bluegrid",
+        accent: "#2a4f77",
+        accentDark: "#1d3652"
+      },
+      keystone: {
+        key: "keystone",
+        button: "KEY",
+        title: "Keystone Connect",
+        tagline: "The foundation of local business discovery.",
+        banner: "/assets/keystone-header.png",
+        alt: "Keystone Connect",
+        accent: "#be1e2d",
+        accentDark: "#8f1220"
+      }
+    };
 
     function setStatus(text) { els.status.textContent = text; }
 
-    function openAppWindow(event) {
-      if (event) event.preventDefault();
-      const url = new URL(window.location.href);
-      url.searchParams.set("appwindow", "1");
-      const w = window.open(url.toString(), "mc_finder_app_window", "popup=yes,width=430,height=900,menubar=no,toolbar=no,location=yes");
-      if (!w) {
-        window.location.href = url.toString();
+    function getFormState() {
+      return {
+        location: els.location.value || "",
+        queryPreset: els.queryPreset.value || "",
+        manualQuery: els.manualQuery.value || "",
+        useCurrentLocation: !!els.useCurrentLocation.checked,
+        radiusMiles: els.radiusMiles.value || "25",
+        includeEmails: !!els.includeEmails.checked,
+        sortBy: els.sortBy.value || "distance"
+      };
+    }
+
+    function persistFormState() {}
+
+    function applySavedState(saved) {
+      if (!saved || typeof saved !== "object") return;
+      if (saved.location) els.location.value = saved.location;
+      if (saved.queryPreset) els.queryPreset.value = saved.queryPreset;
+      if (saved.manualQuery) els.manualQuery.value = saved.manualQuery;
+      if (typeof saved.useCurrentLocation === "boolean") els.useCurrentLocation.checked = saved.useCurrentLocation;
+      if (typeof saved.radiusMiles !== "undefined") els.radiusMiles.value = saved.radiusMiles;
+      if (typeof saved.includeEmails === "boolean") els.includeEmails.checked = saved.includeEmails;
+      if (saved.sortBy) els.sortBy.value = saved.sortBy;
+    }
+
+    function encodeStateParam(obj) {
+      try {
+        return btoa(JSON.stringify(obj));
+      } catch (_) {
+        return "";
       }
     }
 
-    function render(items) {
+    function decodeStateParam(raw) {
+      if (!raw) return null;
+      try {
+        return JSON.parse(atob(raw));
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function loadHistory(key) {
+      try {
+        const arr = JSON.parse(sessionStorage.getItem(key) || "[]");
+        return Array.isArray(arr) ? arr : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveHistory(key, values) {
+      try {
+        sessionStorage.setItem(key, JSON.stringify(values.slice(0, MAX_HISTORY)));
+      } catch (_) {}
+    }
+
+    function clearHistory(key) {
+      try { sessionStorage.removeItem(key); } catch (_) {}
+    }
+
+    function upsertHistory(key, value) {
+      const v = String(value || "").trim();
+      if (!v) return;
+      const curr = loadHistory(key).filter((x) => String(x).trim() && String(x).trim().toLowerCase() !== v.toLowerCase());
+      curr.unshift(v);
+      saveHistory(key, curr);
+    }
+
+    function uniqueValues(values, max = 30) {
+      const seen = new Set();
+      const out = [];
+      for (const item of values) {
+        const v = String(item || "").trim();
+        const k = v.toLowerCase();
+        if (!v || seen.has(k)) continue;
+        seen.add(k);
+        out.push(v);
+        if (out.length >= max) break;
+      }
+      return out;
+    }
+
+    function setSuggestMenu(menuEl, items = []) {
+      if (!menuEl) return;
       if (!items.length) {
+        menuEl.innerHTML = "";
+        menuEl.classList.add("hidden");
+        return;
+      }
+      menuEl.innerHTML = items
+        .map((item) => `<button type="button" class="suggest-item${item.type === "action" ? " action" : ""}" data-action="${item.action || ""}" data-value="${(item.value || "").replace(/"/g, "&quot;")}">${(item.label || "").replace(/</g, "&lt;")}</button>`)
+        .join("");
+      menuEl.classList.remove("hidden");
+    }
+
+    function closeSuggestMenus() {
+      setSuggestMenu(els.locationSuggestMenu, []);
+      setSuggestMenu(els.manualSuggestMenu, []);
+    }
+
+    function renderLocationSuggestMenu() {
+      const history = loadHistory(LOCATION_HISTORY_KEY);
+      const merged = uniqueValues([...history, ...lastLocationLiveSuggestions], 30);
+      const items = merged.map((v) => ({ label: v, value: v, action: "pick" }));
+      if (history.length || lastLocationLiveSuggestions.length) {
+        items.push({ label: "Clear all history", value: "", action: "clear", type: "action" });
+      }
+      setSuggestMenu(els.locationSuggestMenu, items);
+    }
+
+    function renderManualSuggestMenu() {
+      const history = loadHistory(MANUAL_HISTORY_KEY);
+      const items = history.map((v) => ({ label: v, value: v, action: "pick" }));
+      if (history.length) {
+        items.push({ label: "Clear all history", value: "", action: "clear", type: "action" });
+      }
+      setSuggestMenu(els.manualSuggestMenu, items);
+    }
+
+    function renderHistoryLists() {
+      renderLocationSuggestMenu();
+      renderManualSuggestMenu();
+    }
+
+    function clearAllHistory() {
+      clearHistory(LOCATION_HISTORY_KEY);
+      clearHistory(MANUAL_HISTORY_KEY);
+      lastLocationLiveSuggestions = [];
+      renderHistoryLists();
+      setStatus("All history cleared.");
+    }
+
+    function setCurrentLocationChecked(flag) {
+      const on = Boolean(flag);
+      els.useCurrentLocation.checked = on;
+      els.location.readOnly = on;
+      if (!on && manualLocationBackup) {
+        els.location.value = manualLocationBackup;
+        manualLocationBackup = "";
+      }
+      persistFormState();
+    }
+
+    function updateCurrentLocation() {
+      if (!els.useCurrentLocation.checked) {
+        setCurrentLocationChecked(false);
+        return;
+      }
+      if (!navigator.geolocation) {
+        setCurrentLocationChecked(false);
+        setStatus("Current location not supported in this browser.");
+        return;
+      }
+      manualLocationBackup = els.location.value || "";
+      setStatus("Getting current location...");
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = Number(pos.coords.latitude || 0).toFixed(6);
+          const lng = Number(pos.coords.longitude || 0).toFixed(6);
+          els.location.value = `${lat}, ${lng}`;
+          els.location.readOnly = true;
+          persistFormState();
+          setStatus("Using current location.");
+        },
+        () => {
+          setCurrentLocationChecked(false);
+          setStatus("Unable to get current location.");
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 120000 }
+      );
+    }
+
+    async function requestLocationSuggestions(raw) {
+      const q = String(raw || "").trim();
+      if (q.length < 2) {
+        lastLocationLiveSuggestions = [];
+        renderLocationSuggestMenu();
+        return;
+      }
+      const cacheKey = q.toLowerCase();
+      if (locationSuggestCache.has(cacheKey)) {
+        lastLocationLiveSuggestions = locationSuggestCache.get(cacheKey);
+        renderLocationSuggestMenu();
+        return;
+      }
+      const reqId = ++locationSuggestRequestId;
+      try {
+        const res = await fetch(`/api/location-suggest?q=${encodeURIComponent(q)}`);
+        const data = await res.json().catch(() => ({}));
+        if (reqId !== locationSuggestRequestId) return;
+        const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+        locationSuggestCache.set(cacheKey, suggestions);
+        lastLocationLiveSuggestions = suggestions;
+        renderLocationSuggestMenu();
+      } catch (_) {
+        if (reqId !== locationSuggestRequestId) return;
+        lastLocationLiveSuggestions = [];
+        renderLocationSuggestMenu();
+      }
+    }
+
+    function parsePresetValue(raw) {
+      const v = String(raw || "");
+      if (!v) return { type: "none" };
+      if (v === "manual") return { type: "manual" };
+      if (v.startsWith("parent:")) {
+        const idx = Number(v.split(":")[1]);
+        if (!Number.isFinite(idx) || !queryCatalog[idx]) return { type: "none" };
+        return { type: "parent", section: queryCatalog[idx] };
+      }
+      if (v.startsWith("child:")) {
+        const parts = v.split(":");
+        const pIdx = Number(parts[1]);
+        const cIdx = Number(parts[2]);
+        const sec = queryCatalog[pIdx];
+        if (!Number.isFinite(pIdx) || !Number.isFinite(cIdx) || !sec || !sec.children?.[cIdx]) return { type: "none" };
+        return { type: "child", section: sec, child: sec.children[cIdx] };
+      }
+      return { type: "none" };
+    }
+
+    async function loadQueryCategories() {
+      try {
+        const res = await fetch("/api/query-categories");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        queryCatalog = Array.isArray(data.sections) ? data.sections : [];
+        if (els.queryLegend) {
+          els.queryLegend.textContent = data.legend || "Selecting a parent runs all children in that section.";
+        }
+        const opts = [
+          `<option value="">Select category or trade...</option>`,
+          `<option value="manual">Manual Search Override</option>`
+        ];
+        queryCatalog.forEach((sec, secIdx) => {
+          const secLabel = sec.label || sec.section || `Section ${secIdx + 1}`;
+          opts.push(`<option value="parent:${secIdx}">All in ${secLabel}</option>`);
+          (Array.isArray(sec.children) ? sec.children : []).forEach((child, childIdx) => {
+            opts.push(`<option value="child:${secIdx}:${childIdx}">${secLabel} -> ${child}</option>`);
+          });
+        });
+        els.queryPreset.innerHTML = opts.join("");
+      } catch (err) {
+        if (els.queryLegend) {
+          els.queryLegend.textContent = "Category menu unavailable. Use manual query.";
+        }
+      }
+    }
+
+    function updateManualQueryVisibility() {
+      const isManual = els.queryPreset.value === "manual";
+      els.manualQueryWrap.classList.toggle("hidden", !isManual);
+    }
+
+    function sizeRank(v) {
+      const s = String(v || "").toLowerCase();
+      if (s === "large") return 3;
+      if (s === "medium") return 2;
+      if (s === "small") return 1;
+      return 0;
+    }
+
+    function applySort(items) {
+      const by = els.sortBy.value || "distance";
+      const out = [...items];
+      if (by === "distance") {
+        out.sort((a, b) => Number(a.distance_miles || 9e9) - Number(b.distance_miles || 9e9));
+      } else if (by === "reliability") {
+        out.sort((a, b) => Number(b.reliability_score || b.confidence || 0) - Number(a.reliability_score || a.confidence || 0));
+      } else if (by === "size") {
+        out.sort((a, b) => sizeRank(b.company_size) - sizeRank(a.company_size));
+      } else if (by === "age") {
+        out.sort((a, b) => Number(b.company_age || 0) - Number(a.company_age || 0));
+      }
+      return out;
+    }
+
+    function applyTheme(theme) {
+      const safe = theme === "light" ? "light" : "dark";
+      els.app.setAttribute("data-theme", safe);
+      if (els.themeState) {
+        const isOn = safe === "light";
+        els.themeState.textContent = isOn ? "ON" : "OFF";
+        els.themeState.className = `theme-state ${isOn ? "on" : "off"}`;
+      }
+      try { localStorage.setItem("kc_theme", safe); } catch (_) {}
+    }
+
+    function toggleTheme() {
+      const current = els.app.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    }
+
+    try {
+      const themeFromUrl = pageUrl.searchParams.get("theme");
+      applyTheme(themeFromUrl || "dark");
+    } catch (_) {
+      applyTheme("dark");
+    }
+
+    const stateFromUrl = decodeStateParam(pageUrl.searchParams.get("state"));
+    if (stateFromUrl && typeof stateFromUrl === "object") {
+      applySavedState(stateFromUrl);
+      const clean = new URL(window.location.href);
+      clean.searchParams.delete("state");
+      window.history.replaceState({}, "", clean.toString());
+    }
+
+    const banner = $("brandBanner");
+    const fallback = $("brandFallback");
+    const fallbackTitle = $("brandTitle");
+    const fallbackTagline = $("brandTagline");
+    if (banner && fallback) {
+      banner.addEventListener("load", () => {
+        fallback.hidden = true;
+        banner.style.display = "block";
+      });
+      banner.addEventListener("error", () => {
+        fallback.hidden = false;
+        banner.style.display = "none";
+      });
+      if (!banner.complete || !banner.naturalWidth) {
+        fallback.hidden = false;
+      }
+    }
+
+    function applyLayout(layout) {
+      const next = layout === "keystone" ? LAYOUTS.keystone : LAYOUTS.bluegrid;
+      document.body.setAttribute("data-layout", next.key);
+      els.app.setAttribute("data-layout", next.key);
+      document.documentElement.style.setProperty("--red", next.accent);
+      document.documentElement.style.setProperty("--red-dark", next.accentDark);
+      if (banner) {
+        banner.src = next.banner;
+        banner.alt = next.alt;
+      }
+      if (fallbackTitle) fallbackTitle.textContent = next.title;
+      if (fallbackTagline) fallbackTagline.textContent = next.tagline;
+      if (els.layoutBtn) els.layoutBtn.textContent = next.button;
+      try { localStorage.setItem("kc_layout", next.key); } catch (_) {}
+    }
+
+    function applySizeMode(mode) {
+      const nextMode = mode === "full" && isDesktopView.matches ? "full" : "compact";
+      document.body.setAttribute("data-size", nextMode);
+      if (els.sizeBtn) {
+        const isFull = nextMode === "full";
+        els.sizeBtn.title = isFull ? "Compact Size" : "Full Size";
+        els.sizeBtn.textContent = isFull ? "▣" : "⛶";
+      }
+      try { localStorage.setItem("kc_size_mode", nextMode); } catch (_) {}
+    }
+
+    function toggleSizeMode(event) {
+      if (event) event.preventDefault();
+      if (!isDesktopView.matches) return;
+      const current = document.body.getAttribute("data-size") || "compact";
+      applySizeMode(current === "full" ? "compact" : "full");
+    }
+
+    function toggleLayout(event) {
+      if (event) event.preventDefault();
+      const current = document.body.getAttribute("data-layout") || "bluegrid";
+      applyLayout(current === "bluegrid" ? "keystone" : "bluegrid");
+    }
+
+    function render(items) {
+      const sortedItems = applySort(items);
+      if (!sortedItems.length) {
         els.list.innerHTML = "";
         return;
       }
-      els.list.innerHTML = items.map((r) => `
+      els.list.innerHTML = sortedItems.map((r) => `
         <div class="item">
           <div class="name">${r.name || "(no name)"}</div>
-          <div class="line"><span class="badge">score ${r.confidence || 0}</span><span class="badge">${r.distance_miles !== undefined && r.distance_miles !== "" ? `${r.distance_miles} mi` : ""}</span></div>
+          <div class="line">${r.distance_miles !== undefined && r.distance_miles !== "" ? `<span class="badge">${r.distance_miles} mi</span>` : ""}</div>
           <div class="line">${r.address || ""}</div>
           <div class="line">${r.phone || ""}</div>
-          <div class="line">${r.website ? `<a href="${r.website}" target="_blank" rel="noopener noreferrer">${r.website}</a>` : ""}</div>
+          <div class="line">${r.website ? `<a href="${r.website}" target="_blank" rel="noopener noreferrer">website</a>` : ""}</div>
           <div class="line">${r.emails || ""}</div>
           <div class="line">${r.maps_url ? `<a href="${r.maps_url}" target="_blank" rel="noopener noreferrer">map</a>` : ""}</div>
         </div>
@@ -142,7 +837,7 @@
     }
 
     function downloadCsv(data) {
-      const headers = ["name","phone","website","address","distance_miles","maps_url","place_id","business_status","confidence","emails"];
+      const headers = ["category_section","name","phone","website","address","distance_miles","maps_url","place_id","business_status","confidence","reliability_score","company_size","company_age","emails"];
       const lines = [headers.join(",")];
       data.forEach((r) => lines.push(headers.map((h) => csvEscape(r[h])).join(",")));
       const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
@@ -154,11 +849,31 @@
     }
 
     async function runSearch() {
+      const manualQuery = els.manualQuery.value.trim();
+      const preset = parsePresetValue(els.queryPreset.value);
+      let queryList = [];
+      let queryContexts = [];
+      let strictTypeFilter = true;
+      if (manualQuery) {
+        queryList = [manualQuery];
+        queryContexts = [{ term: manualQuery, section: "Manual Search" }];
+        strictTypeFilter = false;
+      } else if (preset.type === "child") {
+        queryList = [preset.child];
+        queryContexts = [{ term: preset.child, section: preset.section.label || preset.section.section || "" }];
+      } else if (preset.type === "parent") {
+        queryList = (Array.isArray(preset.section.children) ? preset.section.children : []).slice();
+        const sectionLabel = preset.section.label || preset.section.section || "";
+        queryContexts = queryList.map((term) => ({ term, section: sectionLabel }));
+      }
+
       const payload = {
         location: els.location.value.trim(),
-        query: els.query.value.trim() || "general contractor",
+        query: queryList[0] || "general contractor",
+        queries: queryList,
+        queryContexts,
+        strictTypeFilter,
         radiusMiles: Number(els.radiusMiles.value || 25),
-        mode: els.mode.value,
         includeEmails: els.includeEmails.checked
       };
 
@@ -168,7 +883,7 @@
       }
 
       els.searchBtn.disabled = true;
-      setStatus("Searching live via Google Places (New)...");
+      setStatus("Searching...");
       els.meta.textContent = "";
       rows = [];
       render(rows);
@@ -184,30 +899,109 @@
 
         rows = (Array.isArray(data.rows) ? data.rows : []).filter((r) => r.source === "google_places_new");
         render(rows);
-        const meta = data.meta || {};
-        els.meta.textContent = `Provider: ${meta.provider || "-"} | Radius: ${meta.radius_miles || "-"} mi | Variants: ${meta.variants || "-"}`;
-        const tail = Array.isArray(data.logs) ? data.logs.slice(-3).join("\n") : "";
-        setStatus(`Done: ${rows.length} results.\n${tail}`);
+        els.meta.textContent = "";
+        setStatus(`${rows.length} results found.`);
+        upsertHistory(LOCATION_HISTORY_KEY, els.location.value);
+        if (manualQuery) upsertHistory(MANUAL_HISTORY_KEY, manualQuery);
+        renderHistoryLists();
       } catch (err) {
         setStatus(`Search failed: ${err.message}`);
+        els.meta.textContent = "";
       } finally {
         els.searchBtn.disabled = false;
       }
+      persistFormState();
     }
 
+    let initialLayout = "bluegrid";
+    try {
+      const layoutFromUrl = pageUrl.searchParams.get("layout");
+      const layoutFromStorage = localStorage.getItem("kc_layout");
+      initialLayout = layoutFromUrl || layoutFromStorage || "bluegrid";
+    } catch (_) {}
+    applyLayout(initialLayout);
+    applySizeMode("compact");
+
+    loadQueryCategories().then(() => {
+      updateManualQueryVisibility();
+      renderHistoryLists();
+      if (els.useCurrentLocation.checked) updateCurrentLocation();
+      render(rows);
+    });
+
     els.searchBtn.addEventListener("click", runSearch);
-    els.appWindowBtn.addEventListener("click", openAppWindow);
+    els.sizeBtn.addEventListener("click", toggleSizeMode);
+    els.layoutBtn.addEventListener("click", toggleLayout);
+    els.themeBtn.addEventListener("click", toggleTheme);
+    els.queryPreset.addEventListener("change", () => {
+      const preset = parsePresetValue(els.queryPreset.value);
+      updateManualQueryVisibility();
+      persistFormState();
+    });
+    els.sortBy.addEventListener("change", () => {
+      render(rows);
+      persistFormState();
+    });
+    [els.location, els.manualQuery, els.radiusMiles, els.includeEmails].forEach((el) => {
+      el.addEventListener("input", persistFormState);
+      el.addEventListener("change", persistFormState);
+    });
+    els.useCurrentLocation.addEventListener("change", updateCurrentLocation);
+    els.location.addEventListener("input", () => {
+      if (locationSuggestTimer) clearTimeout(locationSuggestTimer);
+      locationSuggestTimer = setTimeout(() => {
+        requestLocationSuggestions(els.location.value);
+      }, 220);
+    });
+    els.location.addEventListener("focus", () => {
+      requestLocationSuggestions(els.location.value);
+      renderLocationSuggestMenu();
+    });
+    els.location.addEventListener("blur", () => {
+      setTimeout(() => setSuggestMenu(els.locationSuggestMenu, []), 120);
+    });
+    els.manualQuery.addEventListener("focus", () => {
+      renderManualSuggestMenu();
+    });
+    els.manualQuery.addEventListener("blur", () => {
+      setTimeout(() => setSuggestMenu(els.manualSuggestMenu, []), 120);
+    });
+    els.locationSuggestMenu.addEventListener("click", (e) => {
+      const btn = e.target.closest(".suggest-item");
+      if (!btn) return;
+      const action = btn.getAttribute("data-action");
+      const value = btn.getAttribute("data-value") || "";
+      if (action === "clear") {
+        clearAllHistory();
+      } else if (action === "pick") {
+        els.location.value = value;
+      }
+      persistFormState();
+      setSuggestMenu(els.locationSuggestMenu, []);
+    });
+    els.manualSuggestMenu.addEventListener("click", (e) => {
+      const btn = e.target.closest(".suggest-item");
+      if (!btn) return;
+      const action = btn.getAttribute("data-action");
+      const value = btn.getAttribute("data-value") || "";
+      if (action === "clear") {
+        clearAllHistory();
+      } else if (action === "pick") {
+        els.manualQuery.value = value;
+      }
+      persistFormState();
+      setSuggestMenu(els.manualSuggestMenu, []);
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".suggest-wrap")) closeSuggestMenus();
+    });
     els.downloadBtn.addEventListener("click", () => {
       if (!rows.length) return setStatus("No rows to download.");
       downloadCsv(rows);
     });
-
-    // Best effort: when opened as popup, resize to app dimensions.
-    if (new URLSearchParams(window.location.search).get("appwindow") === "1") {
-      try {
-        window.resizeTo(430, 900);
-      } catch (_) {}
-    }
+    isDesktopView.addEventListener("change", () => {
+      if (!isDesktopView.matches) applySizeMode("compact");
+    });
   </script>
 </body>
 </html>

@@ -10,6 +10,62 @@ const HOST = process.env.HOST || "0.0.0.0";
 const ROOT = path.resolve(process.cwd());
 const APP_HTML = path.join(ROOT, "ui", "app.html");
 const UI_DIR = path.join(ROOT, "ui");
+const QUERY_CATEGORIES_JSON = path.join(ROOT, "data", "query-categories.json");
+const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
+const REQUEST_TIMEOUT_MS = 12000;
+
+function getGoogleApiKey() {
+  if (process.env.GOOGLE_MAPS_API_KEY) return process.env.GOOGLE_MAPS_API_KEY.trim();
+  const envPath = path.join(ROOT, ".env");
+  if (!fs.existsSync(envPath)) return "";
+  const line = fs
+    .readFileSync(envPath, "utf8")
+    .split(/\r?\n/)
+    .find((r) => r.trim().startsWith("GOOGLE_MAPS_API_KEY="));
+  if (!line) return "";
+  return line.split("=").slice(1).join("=").trim().replace(/^['"]|['"]$/g, "");
+}
+
+function extractSuggestionText(item) {
+  return (
+    item?.placePrediction?.text?.text ||
+    item?.placePrediction?.structuredFormat?.mainText?.text ||
+    item?.queryPrediction?.text?.text ||
+    ""
+  );
+}
+
+async function fetchLocationSuggestions(input) {
+  const apiKey = getGoogleApiKey();
+  if (!apiKey) return [];
+  const q = String(input || "").trim();
+  if (q.length < 2) return [];
+
+  const res = await fetch(GOOGLE_AUTOCOMPLETE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": apiKey
+    },
+    body: JSON.stringify({
+      input: q,
+      languageCode: "en",
+      includedRegionCodes: ["US"]
+    }),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) return [];
+
+  const arr = Array.isArray(json.suggestions) ? json.suggestions : [];
+  const out = [];
+  for (const item of arr) {
+    const text = extractSuggestionText(item).trim();
+    if (text && !out.includes(text)) out.push(text);
+    if (out.length >= 8) break;
+  }
+  return out;
+}
 
 function contentTypeFor(filePath) {
   if (filePath.endsWith(".html")) return "text/html; charset=utf-8";
@@ -79,6 +135,9 @@ const server = http.createServer(async (req, res) => {
       const result = await searchSubcontractors({
         location: input.location,
         query: input.query || "general contractor",
+        queries: Array.isArray(input.queries) ? input.queries : [],
+        queryContexts: Array.isArray(input.queryContexts) ? input.queryContexts : [],
+        strictTypeFilter: input.strictTypeFilter !== false,
         radiusMiles: input.radiusMiles,
         mode: input.mode === "statewide" ? "statewide" : "single",
         gridStepMiles: input.gridMiles,
@@ -87,6 +146,28 @@ const server = http.createServer(async (req, res) => {
       });
 
       sendJson(res, 200, { ...result, logs });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/query-categories") {
+      if (!fs.existsSync(QUERY_CATEGORIES_JSON)) {
+        sendJson(res, 404, { error: "Query categories file not found" });
+        return;
+      }
+      const raw = fs.readFileSync(QUERY_CATEGORIES_JSON, "utf8");
+      res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+      res.end(raw);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/location-suggest") {
+      const q = String(url.searchParams.get("q") || "").trim();
+      if (!q || q.length < 2) {
+        sendJson(res, 200, { suggestions: [] });
+        return;
+      }
+      const suggestions = await fetchLocationSuggestions(q);
+      sendJson(res, 200, { suggestions });
       return;
     }
 
