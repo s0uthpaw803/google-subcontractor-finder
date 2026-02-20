@@ -78,7 +78,7 @@
           <button id="searchBtn" class="btn">Search</button>
           <button id="downloadBtn" class="btn2">Download CSV</button>
         </div>
-        <button id="appWindowBtn" class="btn3">Open App Window (430x900)</button>
+        <a id="appWindowBtn" class="btn3" href="/?appwindow=1" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;text-decoration:none;padding:11px 10px;border-radius:12px">Open App Window (430x900)</a>
 
         <div id="status" class="status">Ready. Use Open-App.command for one-click launch.</div>
         <div id="meta" class="meta"></div>
@@ -108,12 +108,13 @@
 
     function setStatus(text) { els.status.textContent = text; }
 
-    function openAppWindow() {
+    function openAppWindow(event) {
+      if (event) event.preventDefault();
       const url = new URL(window.location.href);
       url.searchParams.set("appwindow", "1");
-      const w = window.open(url.toString(), "mc_finder_app_window", "popup=yes,width=430,height=900");
+      const w = window.open(url.toString(), "mc_finder_app_window", "popup=yes,width=430,height=900,menubar=no,toolbar=no,location=yes");
       if (!w) {
-        setStatus("Popup blocked. Allow popups for this site, then try again.");
+        window.location.href = url.toString();
       }
     }
 
@@ -125,7 +126,7 @@
       els.list.innerHTML = items.map((r) => `
         <div class="item">
           <div class="name">${r.name || "(no name)"}</div>
-          <div class="line"><span class="badge">score ${r.confidence || 0}</span><span class="badge">${r.distance_miles !== undefined && r.distance_miles !== \"\" ? `${r.distance_miles} mi` : \"\"}</span></div>
+          <div class="line"><span class="badge">score ${r.confidence || 0}</span><span class="badge">${r.distance_miles !== undefined && r.distance_miles !== "" ? `${r.distance_miles} mi` : ""}</span></div>
           <div class="line">${r.address || ""}</div>
           <div class="line">${r.phone || ""}</div>
           <div class="line">${r.website ? `<a href="${r.website}" target="_blank" rel="noopener noreferrer">${r.website}</a>` : ""}</div>
