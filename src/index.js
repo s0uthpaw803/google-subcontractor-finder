@@ -10,7 +10,7 @@ const PLACE_DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/js
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
 
 const DEFAULT_RADIUS_METERS = 50000;
-const DEFAULT_QUERY = "subcontractor";
+const DEFAULT_QUERY = "general contractor";
 const DEFAULT_GRID_STEP_MILES = 35;
 const HTTP_HEADERS = { "User-Agent": "google-subcontractor-finder/1.0" };
 const REQUEST_TIMEOUT_MS = 30000;
@@ -70,7 +70,7 @@ Required:
 
 Optional:
   --radius, -r           Search radius in meters (default 50000, max 50000)
-  --query, -q            Search term (default "subcontractor")
+  --query, -q            Search term (default "general contractor")
   --output, -o           Output CSV path (default "subcontractors.csv")
   --statewide            Multi-city grid sweep for broad state coverage
   --grid-step-miles      Grid spacing when --statewide is set (default 35, min 5)

@@ -78,7 +78,7 @@ const server = http.createServer(async (req, res) => {
       const logs = [];
       const result = await searchSubcontractors({
         location: input.location,
-        query: input.query || "subcontractor",
+        query: input.query || "general contractor",
         radiusMiles: input.radiusMiles,
         mode: input.mode === "statewide" ? "statewide" : "single",
         gridStepMiles: input.gridMiles,
