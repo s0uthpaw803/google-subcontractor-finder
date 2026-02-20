@@ -4,6 +4,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 const PLACES_TEXT_URL = "https://places.googleapis.com/v1/places:searchText";
 const REQUEST_TIMEOUT_MS = 20000;
+const MAX_GOOGLE_RADIUS_METERS = 50000;
 
 function getGoogleApiKey() {
   if (process.env.GOOGLE_MAPS_API_KEY) return process.env.GOOGLE_MAPS_API_KEY.trim();
@@ -118,6 +119,29 @@ function haversineMiles(aLat, aLng, bLat, bLng) {
   const s1 = Math.sin(dLat / 2) ** 2;
   const s2 = Math.cos(toRad(aLat)) * Math.cos(toRad(bLat)) * Math.sin(dLng / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(s1 + s2));
+}
+
+function destinationPoint(lat, lng, bearingDeg, distanceMiles) {
+  const R = 3958.8;
+  const d = distanceMiles / R;
+  const brng = (bearingDeg * Math.PI) / 180;
+  const lat1 = (lat * Math.PI) / 180;
+  const lon1 = (lng * Math.PI) / 180;
+
+  const lat2 = Math.asin(
+    Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng)
+  );
+  const lon2 =
+    lon1 +
+    Math.atan2(
+      Math.sin(brng) * Math.sin(d) * Math.cos(lat1),
+      Math.cos(d) - Math.sin(lat1) * Math.sin(lat2)
+    );
+
+  return {
+    lat: (lat2 * 180) / Math.PI,
+    lng: ((((lon2 * 180) / Math.PI + 540) % 360) - 180)
+  };
 }
 
 function isRelevantType(types, intent) {
@@ -316,32 +340,51 @@ export async function searchSubcontractors({
   // Fast-first progression: local ring first, then expand.
   const rings = [8, 16, 28, safeRadiusMiles]
     .filter((m, idx, arr) => m <= safeRadiusMiles && arr.indexOf(m) === idx)
-    .map((m) => Math.round(m * 1609.34));
+    .map((m) => Math.min(MAX_GOOGLE_RADIUS_METERS, Math.round(m * 1609.34)));
+
+  const searchCenters = [{ ...center, label: "center" }];
+  // Google Places searchText circle radius max is 50km (~31 mi). For larger user radii,
+  // add surrounding circles and later trim results back to the exact requested radius.
+  if (safeRadiusMiles > 31) {
+    const offsetMiles = Math.max(2, safeRadiusMiles - 31);
+    for (const bearing of [0, 60, 120, 180, 240, 300]) {
+      searchCenters.push({
+        ...destinationPoint(center.lat, center.lng, bearing, offsetMiles),
+        label: `outer-${bearing}`
+      });
+    }
+  }
 
   const variants = buildVariantQueries(query, location);
   const collected = [];
   const callErrors = [];
 
   let step = 0;
-  const total = rings.length * variants.length;
-  for (const ringMeters of rings) {
-    for (const v of variants) {
+  const total = searchCenters.length * rings.length * variants.length;
+  for (const searchCenter of searchCenters) {
+    for (const ringMeters of rings) {
+      for (const v of variants) {
       step += 1;
-      onProgress(`Google search ${step}/${total}: ${v} (${Math.round(ringMeters / 1609.34)} mi)`);
-      const places = await searchTextGoogle({
-        textQuery: v,
-        radiusMeters: ringMeters,
-        apiKey,
-        center
-      }).catch((error) => {
-        const msg = error?.message || "Google Places request failed";
-        callErrors.push(msg);
-        onProgress(`Google error: ${msg}`);
-        return [];
-      });
+        onProgress(
+          `Google search ${step}/${total}: ${v} (${Math.round(
+            ringMeters / 1609.34
+          )} mi, ${searchCenter.label})`
+        );
+        const places = await searchTextGoogle({
+          textQuery: v,
+          radiusMeters: ringMeters,
+          apiKey,
+          center: searchCenter
+        }).catch((error) => {
+          const msg = error?.message || "Google Places request failed";
+          callErrors.push(msg);
+          onProgress(`Google error: ${msg}`);
+          return [];
+        });
 
-      places.forEach((p) => collected.push(mapGooglePlace(p, query)));
-      await sleep(120);
+        places.forEach((p) => collected.push(mapGooglePlace(p, query)));
+        await sleep(120);
+      }
     }
   }
 
