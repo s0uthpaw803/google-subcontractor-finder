@@ -1,0 +1,13 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+
+# Runtime output
+logs/
+data/exports/*.csv
+
+# macOS
+.DS_Store

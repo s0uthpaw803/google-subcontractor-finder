@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: subcontractor-finder
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run app
+    healthCheckPath: /api/ping
+    envVars:
+      - key: NODE_VERSION
+        value: 24.13.1
+      - key: HOST
+        value: 0.0.0.0
