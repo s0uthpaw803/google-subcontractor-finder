@@ -571,6 +571,16 @@
       document.body.setAttribute("data-theme", t);
       els.themeBtn.textContent = t === "light" ? "🌚" : "☀";
       els.themeBtn.title = t === "light" ? "Switch to night mode" : "Switch to day mode";
+      const appBody = els.app.querySelector(".body");
+      if (t === "light") {
+        els.app.style.background = "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)";
+        els.app.style.borderColor = "#aeb8c4";
+        if (appBody) appBody.style.background = "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)";
+      } else {
+        els.app.style.background = "linear-gradient(180deg,#141414,#090909)";
+        els.app.style.borderColor = "#333";
+        if (appBody) appBody.style.background = "";
+      }
       localStorage.setItem("kc_theme", t);
       saveUiState();
     }
