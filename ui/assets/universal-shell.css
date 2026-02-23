@@ -1,0 +1,131 @@
+/* Universal shell: authoritative layout for both Google + SCLLR pages */
+
+body {
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  padding: 14px !important;
+}
+
+.shell {
+  width: 100% !important;
+  max-width: 440px !important;
+}
+
+body[data-size="full"] .shell {
+  max-width: 920px !important;
+}
+
+.app {
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--line, #2a2a2a) !important;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.app .top {
+  position: relative !important;
+  overflow: hidden !important;
+  line-height: 0 !important;
+  border-bottom: 1px solid var(--line, #2a2a2a) !important;
+}
+
+.app .brand-banner {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+  background: transparent !important;
+}
+
+.app .body {
+  padding: 4px 14px 14px !important;
+  display: grid !important;
+  gap: 12px !important;
+  max-width: 760px !important;
+  margin: 0 auto !important;
+}
+
+.app .body > * {
+  margin: 0 !important;
+  padding-top: 0 !important;
+}
+
+.app .field-block {
+  display: grid !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.app .label-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin: 0 0 4px !important;
+}
+
+.app .view-controls {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.app .hint {
+  font-family: "Segoe UI", Tahoma, sans-serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  margin-top: 6px !important;
+  color: #7a7a7a !important;
+}
+
+.app[data-layout="bluegrid"] .hint {
+  color: #a6aeb8 !important;
+}
+
+.app[data-layout="keystone"] .hint {
+  color: #6e6e6e !important;
+}
+
+.app[data-layout="keystone"][data-theme="light"] .hint {
+  color: #5d5d5d !important;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0 !important;
+  }
+
+  .shell {
+    max-width: 100% !important;
+  }
+
+  .app {
+    border-radius: 0 !important;
+    min-height: 100vh !important;
+  }
+
+  .app .label-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+  }
+
+  .app .view-controls {
+    width: 100% !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+  }
+
+  .app .view-controls::-webkit-scrollbar {
+    display: none !important;
+  }
+}

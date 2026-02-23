@@ -3,424 +3,360 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SCLLR Version | Keystone Connect</title>
+  <title>Keystone Connect</title>
   <style>
     :root{
+      --bg:#0e1d31;
+      --bg2:#0a1322;
+      --panel:#0f233a;
+      --line:#2a3f59;
+      --text:#e9eef5;
+      --muted:#a8b5c5;
+      --field:#131313;
+      --field2:#1d1d1d;
       --accent:#2a4f77;
-      --accent-dark:#1d3652;
-      --bg:#0d1622;
-      --card:#131c28;
-      --line:#2a2a2a;
-      --text:#eef3f8;
-      --muted:#9fb0c3;
-      --ctl-h:48px;
+      --accent2:#1d3652;
+      --danger:#be1e2d;
+      --danger2:#8f1220;
+      --ctl:46px;
+    }
+    html{
+      min-height:100%;
+      background:#0b0d10;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Impact,"Arial Black","Segoe UI",Tahoma,sans-serif;background:radial-gradient(circle at 50% -20%, #294d75 0%, #132235 48%, #0b1422 100%);color:var(--text);padding:14px;display:flex;justify-content:center}
-    body[data-layout="bluegrid"]{
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Impact,"Arial Black","Segoe UI",Tahoma,sans-serif;
+      color:var(--text);
       background:
-        repeating-linear-gradient(0deg, rgba(147,191,235,.10) 0 1px, rgba(0,0,0,0) 1px 52px),
-        repeating-linear-gradient(90deg, rgba(147,191,235,.09) 0 1px, rgba(0,0,0,0) 1px 52px),
-        radial-gradient(circle at 50% -20%, #294d75 0%, #132235 48%, #0b1422 100%);
+        radial-gradient(circle at 50% 22%, rgba(126,148,176,.16), transparent 46%),
+        repeating-linear-gradient(0deg, rgba(115,130,145,.16) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(90deg, rgba(115,130,145,.13) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, #141414 0%, #0f0f10 45%, #0b0b0c 100%);
+      display:flex;
+      justify-content:center;
+      padding:14px;
+      position:relative;
+      overflow-x:hidden;
     }
-    body[data-layout="keystone"]{
+    body[data-theme="light"]{
       background:
-        repeating-linear-gradient(135deg, rgba(255,255,255,.02) 0 8px, rgba(0,0,0,0) 8px 16px),
-        radial-gradient(circle at 45% -30%, #2a2a2a 0%, #121212 55%, #090909 100%);
+        radial-gradient(circle at 50% 22%, rgba(126,148,176,.16), transparent 46%),
+        repeating-linear-gradient(0deg, rgba(115,130,145,.16) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(90deg, rgba(115,130,145,.13) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, #141414 0%, #0f0f10 45%, #0b0b0c 100%);
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(ellipse at 50% 130px, rgba(130,150,180,.16), rgba(130,150,180,0) 42%),
+        radial-gradient(ellipse at 50% 130px, rgba(0,0,0,0), rgba(0,0,0,.26) 75%);
+      z-index:0;
     }
     .shell{width:100%;max-width:440px}
     body[data-size="full"] .shell{max-width:920px}
+    .shell{position:relative;z-index:1}
     .app{
       border:1px solid var(--line);
-      background:linear-gradient(180deg,#12243a,#0d1a2b);
       border-radius:24px;
       overflow:hidden;
+      background:linear-gradient(180deg,var(--panel),#081a2d);
       box-shadow:0 28px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
     }
-    .top img{display:block;width:100%;height:auto}
-    .body{padding:8px 14px 14px;display:grid;gap:12px;max-width:760px;margin:0 auto}
+    .app{background:linear-gradient(180deg,#141414,#090909);border-color:#333}
+    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden}
+    .top img{display:block;width:100%;height:auto;background:#10253c}
+    .body{padding:6px 14px 14px;display:grid;gap:12px}
     .field-block{display:grid;gap:0}
-    .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
-    .view-controls{display:inline-flex;align-items:center;gap:6px}
-    .mini-icon-btn{
-      width:24px;height:24px;min-height:24px;border:0;border-radius:6px;background:transparent;color:#d9d9d9;
-      font-size:.85rem;font-weight:900;line-height:1;cursor:pointer;padding:0;
+    .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
+    label{display:block;margin:0 0 6px;font-size:.73rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
+    .view-controls{
+      display:inline-grid;
+      grid-auto-flow:column;
+      grid-auto-columns:24px;
+      column-gap:8px;
+      align-items:center;
+      justify-content:end;
     }
-    .layout-btn{
-      width:auto;
-      min-width:52px;
-      padding:0 8px;
-      font:800 .62rem "Segoe UI",Tahoma,sans-serif;
-      letter-spacing:.04em;
-      color:#d9d9d9;
-      background:transparent;
-      border:0;
-      border-radius:6px;
+    .mini-icon,.layout-btn,.mode-pill,.theme-bolt{
+      height:24px;min-height:24px;border-radius:6px;font:800 .62rem "Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.05em;display:inline-flex;align-items:center;justify-content:center
     }
+    .mini-icon,.layout-btn,.theme-bolt,.mode-pill{
+      border:0 !important;
+      background:transparent !important;
+      color:#d8e2ef;
+      padding:0 2px;
+      box-shadow:none !important;
+    }
+    .mini-icon{width:24px;padding:0}
+    .layout-btn{min-width:46px}
     .mode-pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      flex:0 0 auto;
-      width:auto;
-      min-width:58px;
-      height:24px;
-      min-height:24px;
-      padding:0 8px;
-      border-radius:6px;
-      border:1px solid #4a4a4a;
-      color:#e6e6e6;
-      font:800 .6rem "Segoe UI",Tahoma,sans-serif;
-      letter-spacing:.05em;
-      line-height:1;
-      background:linear-gradient(180deg,#2f2f2f,#1b1b1b);
-      box-shadow:none;
+      min-width:54px;
       cursor:pointer;
-      text-transform:none;
     }
-    .app[data-layout="bluegrid"] .mode-pill{
-      border-color:#5b6f86;
-      color:#d9e7f5;
-      background:linear-gradient(180deg,#29435f,#1c2d42);
-    }
-    .theme-state{font:800 .62rem "Segoe UI",Tahoma,sans-serif;letter-spacing:.06em;color:#5f6d7e;min-width:20px;text-align:right}
-    .theme-state.on{color:var(--accent);text-shadow:0 0 5px rgba(42,79,119,.45)}
-    .theme-state.off{color:#7b838c}
-    .theme-bolt{
-      width:24px;height:24px;min-height:24px;border:0;background:transparent;color:#ffd35e;
-      font-size:.8rem;font-weight:900;line-height:1;cursor:pointer;padding:0;
-    }
-    .mini{
-      border:1px solid #434343;
-      background:linear-gradient(180deg,#303030 0%,#1b1b1b 100%);
-      color:#fff;
-      border-radius:12px;
-      padding:0 12px;
-      text-decoration:none;
-      font:800 .86rem "Segoe UI",Tahoma,sans-serif;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      line-height:1;
-      min-height:var(--ctl-h);
-      height:var(--ctl-h);
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
-    }
-    label{
-      display:block;
-      margin:0 0 6px;
-      font-size:.73rem;
-      color:#cbcbcb;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
+    .theme-bolt{font-size:15px;color:#ffd166 !important}
     input,select,button{
-      width:100%;
-      min-height:var(--ctl-h);
-      height:var(--ctl-h);
-      border-radius:12px;
-      border:1px solid #353535;
-      background:linear-gradient(180deg,#1c1c1c,#131313);
-      color:#fff;
-      padding:0 12px;
-      font:700 .86rem "Segoe UI",Tahoma,sans-serif;
-      line-height:1.2;
+      width:100%;height:var(--ctl);min-height:var(--ctl);border-radius:12px;border:1px solid #353535;
+      background:linear-gradient(180deg,var(--field2),var(--field));color:#fff;padding:0 12px;
+      font:700 .86rem "Segoe UI",Tahoma,sans-serif
     }
-    input:focus,select:focus{
-      outline:none;
-      border-color:var(--accent);
-      box-shadow:0 0 0 2px rgba(42,79,119,.25), inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    select{font-size:.82rem;letter-spacing:.01em}
-    #queryPreset,
-    #queryPreset option{
+    .inline-check{
+      text-transform:none;
       font-family:"Segoe UI",Tahoma,sans-serif;
-      font-size:.82rem;
-      font-weight:700;
-      letter-spacing:.005em;
-      line-height:1.1;
-    }
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
-    .row.single{grid-template-columns:1fr}
-    .btn{
-      background:linear-gradient(180deg,#355f8d 0%, #2a4f77 52%, #1d3652 100%);
-      border:1px solid #1d3652;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-      cursor:pointer;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 18px rgba(0,0,0,.45);
-    }
-    .btn2{
-      background:linear-gradient(180deg,#303030 0%,#1b1b1b 100%);
-      border:1px solid #434343;
-      cursor:pointer;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
-    }
-    .status{font:700 .82rem "Segoe UI",Tahoma,sans-serif;color:#e0e0e0;white-space:pre-wrap;min-height:20px}
-    .meta{font:600 .75rem "Segoe UI",Tahoma,sans-serif;color:#a6a6a6}
-    .list{
-      display:grid;
+      font-size:14px;
+      letter-spacing:0;
+      display:inline-flex;
+      align-items:center;
       gap:8px;
-      max-height:52vh;
-      overflow:auto;
-      padding-right:2px;
-      scrollbar-width:thin;
-      scrollbar-color:#d3d3d3 transparent;
+      margin:0;
+      color:#d7dee7;
     }
-    .list::-webkit-scrollbar{width:8px}
-    .list::-webkit-scrollbar-track{background:transparent}
-    .list::-webkit-scrollbar-thumb{background:#d3d3d3;border-radius:999px;border:2px solid transparent;background-clip:content-box}
-    .item{border:1px solid #313131;border-radius:14px;background:linear-gradient(180deg,#191919,#121212);padding:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-    .name{font-size:.95rem;font-weight:900;color:#f0f0f0}
-    .line{font:700 .8rem "Segoe UI",Tahoma,sans-serif;color:#d3d3d3;word-break:break-word}
-    .line a{color:#9ec3e8;text-decoration:none}
-    .line a:hover{text-decoration:underline}
-    .hint{
-      font:600 .7rem "Segoe UI",Tahoma,sans-serif;
-      color:#9eb0c4;
-      margin-top:6px;
+    .inline-check input[type="checkbox"]{
+      width:16px;
+      min-width:16px;
+      height:16px;
+      min-height:16px;
+      margin:0;
+      padding:0;
+      border-radius:4px;
+      border:1px solid #6a6a6a;
+      background:#111;
+      appearance:auto;
+    }
+    input,select{
+      border-color:#393939;
+      background:linear-gradient(180deg,#1e1e1e,#131313);
+    }
+    input:focus,select:focus{outline:none;border-color:#6d8db1}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .hint{font:400 .68rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:6px}
+    .hint{color:#9a9a9a}
+    .btn{
+      border:1px solid var(--accent2);
+      background:linear-gradient(180deg,#355f8d 0%, var(--accent) 52%, var(--accent2) 100%);
+      color:#fff;text-transform:uppercase;letter-spacing:.04em;font-weight:900
+    }
+    .btn.secondary{border-color:#434343;background:linear-gradient(180deg,#303030,#1b1b1b)}
+    .btn.secondary{
+      border-color:#4a4a4a;
+      background:linear-gradient(180deg,#2f2f2f,#1b1b1b);
+    }
+    .btn{border-color:var(--danger2);background:linear-gradient(180deg,#d4293a 0%, var(--danger) 52%, var(--danger2) 100%)}
+    .status{font:700 .82rem "Segoe UI",Tahoma,sans-serif;color:#e8eef7}
+    .status button{
+      width:auto;
+      min-width:unset;
+      height:auto;
+      min-height:unset;
+      margin-left:8px;
       padding:0;
       border:0;
-      background:transparent;
-    }
-    .history-host{color-scheme: light}
-    .suggest-wrap{position:relative}
-    .suggest-menu{
-      position:absolute;
-      left:0;
-      right:0;
-      top:calc(100% + 4px);
-      z-index:30;
-      border:1px solid #4e4e4e;
-      border-radius:12px;
-      background:linear-gradient(180deg,#787878,#666);
-      box-shadow:0 10px 24px rgba(0,0,0,.35);
-      max-height:180px;
-      overflow:auto;
-      padding:4px;
-    }
-    .suggest-item{
-      width:100%;
-      border:0;
-      background:transparent;
-      color:#111;
-      text-align:left;
-      font-family:"Segoe UI",Tahoma,sans-serif;
-      font-size:.82rem;
-      font-weight:700;
-      padding:6px 8px;
-      border-radius:8px;
+      background:none;
+      color:#93c5fd;
+      font:700 .82rem "Segoe UI",Tahoma,sans-serif;
+      text-decoration:underline;
       cursor:pointer;
-      line-height:1.2;
     }
-    .suggest-item:hover{background:rgba(255,255,255,.28)}
-    .suggest-item.action{color:#2a2a2a;font-weight:800}
-    .native-select-hidden{display:none !important}
-    .custom-select{position:relative}
-    .custom-select-btn{
-      width:100%;
-      text-align:left;
+    .meta{font:600 .75rem "Segoe UI",Tahoma,sans-serif;color:#c4cfdd}
+    .results-tools-bar{display:flex;justify-content:flex-end}
+    .results-tools-bar .btn{width:auto;min-width:140px;height:34px;min-height:34px;padding:0 12px;font-size:.74rem}
+    .list{display:grid;gap:8px;max-height:52vh;overflow:auto}
+    .card{border:1px solid #313131;border-radius:14px;background:linear-gradient(180deg,#191919,#121212);padding:10px;transition:opacity .22s ease,transform .22s ease,filter .22s ease}
+    .card{
+      border-color:#343434;
+      background:linear-gradient(180deg,#1b1b1b,#121212);
+    }
+    .card.is-removing{opacity:0;transform:translateY(-8px) scale(.985);filter:blur(1px)}
+    .name{font-weight:900;font-size:.95rem}
+    .line{font:700 .8rem "Segoe UI",Tahoma,sans-serif;color:#e0e6ef;word-break:break-word}
+    .line a{color:#b9d6f1;text-decoration:none}
+    .line.links{display:flex;align-items:center;gap:10px}
+    .result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .result-tools{display:inline-flex;align-items:center;gap:8px}
+    .irrelevant-check{display:inline-flex;align-items:center;gap:4px;font:700 .72rem "Segoe UI",Tahoma,sans-serif;color:#cfd8e3}
+    .irrelevant-check input[type="checkbox"]{
+      width:14px;min-width:14px;height:14px;min-height:14px;margin:0;padding:0;border-radius:3px;border:1px solid #6a6a6a;background:#111;
+    }
+    .confirm-toast{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-    }
-    .custom-select-btn::after{
-      content:"▾";
-      font-size:.75rem;
-      opacity:.9;
-      flex:0 0 auto;
-    }
-    .custom-select-menu{
-      position:absolute;
-      left:0;
-      right:0;
-      top:calc(100% + 4px);
-      z-index:35;
-      border:1px solid #4e4e4e;
+      gap:8px;
+      border:1px solid #434343;
       border-radius:12px;
-      background:linear-gradient(180deg,#787878,#666);
-      box-shadow:0 10px 24px rgba(0,0,0,.35);
-      max-height:260px;
-      overflow:auto;
-      padding:4px;
+      background:linear-gradient(180deg,#1f1f1f,#141414);
+      padding:8px 10px;
+      font:700 .78rem "Segoe UI",Tahoma,sans-serif;
+      color:#d9e3ef;
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translate(-50%,12px);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease,transform .2s ease;
+      z-index:9999;
+      min-width:min(92vw,420px);
+      box-shadow:0 10px 28px rgba(0,0,0,.35);
     }
-    .custom-select-item{
-      width:100%;
-      height:auto;
-      min-height:0;
-      border:0;
-      background:transparent;
-      color:#111;
-      text-align:left;
-      font-family:"Segoe UI",Tahoma,sans-serif;
-      font-size:.82rem;
-      font-weight:700;
-      padding:6px 8px;
+    .confirm-toast.is-open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translate(-50%,0);
+    }
+    .confirm-actions{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .confirm-actions button{
+      width:auto;
+      min-width:44px;
+      height:26px;
+      min-height:26px;
       border-radius:8px;
+      border:1px solid #586170;
+      background:linear-gradient(180deg,#334155,#1e293b);
+      color:#fff;
+      padding:0 10px;
+      font:700 .72rem "Segoe UI",Tahoma,sans-serif;
       cursor:pointer;
-      line-height:1.15;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
     }
-    .custom-select-item:hover{background:rgba(255,255,255,.28)}
-    .custom-select-item.active{background:rgba(255,255,255,.24)}
+    #confirmDeleteNo{
+      border-color:#6b7280;
+      background:linear-gradient(180deg,#2f2f2f,#1d1d1d);
+    }
     .hidden{display:none !important}
-    .app[data-layout="keystone"]{background:linear-gradient(180deg,#171717,#0d0d0d)}
-    .app[data-layout="keystone"] .btn{
-      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
-      border:1px solid #8f1220;
-    }
-    .app[data-theme="light"]{background:linear-gradient(180deg,#e9e9e9,#dcdcdc);border-color:#a8a8a8}
-    .app[data-theme="light"] label{color:#3a3a3a}
+
+    .app[data-theme="light"]{background:linear-gradient(180deg,#141414,#090909);border-color:#333}
+    .app[data-theme="light"] label{color:#3a4654}
+    .app[data-theme="light"] .top{border-bottom-color:#b8c1cb}
     .app[data-theme="light"] input,
     .app[data-theme="light"] select,
-    .app[data-theme="light"] button{background:linear-gradient(180deg,#ececec,#dcdcdc);border-color:#aaaaaa;color:#202020}
+    .app[data-theme="light"] button{background:linear-gradient(180deg,#f4f5f7,#e7eaee);border-color:#b7bfc9;color:#1f2a36}
+    .app[data-theme="light"] .mode-pill,.app[data-theme="light"] .layout-btn,.app[data-theme="light"] .mini-icon,.app[data-theme="light"] .theme-bolt{
+      color:#3a4654 !important;
+      border:0 !important;
+      background:transparent !important;
+    }
+    .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important}
+    .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#2f3a47}
+    .app[data-theme="light"] .status button{color:#1d4ed8}
+    .app[data-theme="light"] .hint{color:#667384}
+    .app[data-theme="light"] .hint{color:#666}
+    .app[data-theme="light"] .card{background:linear-gradient(180deg,#f7f8fa,#e9edf1);border-color:#bdc6d0}
+    .app[data-theme="light"] .name{color:#1f2b38}
+    .app[data-theme="light"] .line{color:#3a4654}
+    .app[data-theme="light"] .line a{color:#2f5e8a}
+    .app[data-theme="light"] .irrelevant-check{color:#2f3a47}
+    .app[data-theme="light"] .confirm-toast{
+      border-color:#b6c0cb;
+      background:linear-gradient(180deg,#eef2f7,#e2e8f0);
+      color:#223041;
+    }
+    .app[data-theme="light"] .confirm-actions button{
+      border-color:#94a3b8;
+      background:linear-gradient(180deg,#dbe3ee,#cfd8e3);
+      color:#0f172a;
+    }
+    .app[data-theme="light"] .inline-check{color:#2f3a47}
+    .app[data-theme="light"] .inline-check input[type="checkbox"]{
+      border-color:#9ea9b6;
+      background:#eef1f4;
+    }
+    .app[data-theme="light"] .btn.secondary{
+      border-color:#b7bfc9;
+      background:linear-gradient(180deg,#f4f5f7,#e7eaee);
+      color:#1f2a36;
+    }
     .app[data-theme="light"] .btn{
-      background:linear-gradient(180deg,#355f8d 0%, #2a4f77 52%, #1d3652 100%);
-      border:1px solid #1d3652;
+      border-color:var(--danger2);
+      background:linear-gradient(180deg,#d4293a 0%, var(--danger) 52%, var(--danger2) 100%);
       color:#fff;
     }
-    .app[data-layout="keystone"][data-theme="light"]{
-      background:linear-gradient(180deg,#e6e6e6,#d6d6d6);border-color:#a8a8a8;
-    }
-    .app[data-theme="light"] .status{color:#2a2a2a}
-    .app[data-theme="light"] .meta{color:#2a2a2a}
-    .app[data-theme="light"] .line{color:#333}
-    .app[data-theme="light"] .item{background:linear-gradient(180deg,#eeeeee,#dfdfdf);border-color:#b5b5b5}
-    .app[data-theme="light"] .mode-pill{
-      color:#222;background:linear-gradient(180deg,#ececec,#dcdcdc);border-color:#aaa;
-    }
-    .app[data-theme="light"] .layout-btn{
-      color:#222;
-      background:transparent;
-      border:0;
-    }
-    .app[data-theme="light"] .custom-select-menu{
-      border-color:#a6a6a6;
-      background:linear-gradient(180deg,#d7d7d7,#c7c7c7);
-    }
-    .app[data-theme="light"] .custom-select-item{color:#202020}
-    .app[data-theme="light"] .mini{
-      color:#202020;
-      border-color:#aaaaaa;
-      background:linear-gradient(180deg,#ececec,#dcdcdc);
-      box-shadow:none;
-    }
+
     @media (max-width:768px){
       body{padding:0}
+      .shell{max-width:100%}
       .app{border-radius:0;min-height:100vh}
-      .row{grid-template-columns:1fr}
-      .label-row{
-        flex-direction:column;
-        align-items:stretch;
-        gap:6px;
-      }
-      .view-controls{
-        width:100%;
-        justify-content:flex-end;
-        flex-wrap:nowrap;
-        gap:4px;
-        overflow-x:auto;
-        scrollbar-width:none;
-      }
+      .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
+      .view-controls{width:auto;justify-content:flex-end;column-gap:8px;overflow-x:auto;scrollbar-width:none}
       .view-controls::-webkit-scrollbar{display:none}
-      .mode-pill{min-width:52px;padding:0 6px;font-size:.56rem}
-      .layout-btn{min-width:46px;padding:0 6px;font-size:.56rem}
-      .mode-pill,.layout-btn,.theme-state,.theme-bolt{flex:0 0 auto}
-      .theme-state{font-size:.58rem;min-width:18px}
-      #queryPreset,
-      #queryPreset option{
-        font-size:.66rem;
-        font-weight:700;
-        letter-spacing:0;
-        line-height:1.0;
-      }
-      #queryPreset{
-        font-size:.72rem;
-      }
-      .custom-select-item{
-        font-size:.74rem;
-        line-height:1.08;
-        padding:4px 7px;
-        margin:0 0 2px;
-      }
-      .custom-select-item:last-child{margin-bottom:0}
-      .hint{font-size:.62rem}
-      .suggest-item{font-size:.75rem;padding:5px 7px}
-      #sizeBtn{display:none}
+      .row{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <div class="app">
-      <div class="top"><img id="brandBanner" src="/assets/bluegrid-header.png" alt="Bluegrid" /></div>
+    <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
+      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png" alt="Header" /></div>
       <div class="body">
         <div class="field-block">
           <div class="label-row">
             <label for="location">Location (ZIP, city, state)</label>
             <div class="view-controls">
-              <button id="sizeBtn" type="button" class="mini-icon-btn" title="Full Size">⛶</button>
-              <button id="layoutBtn" type="button" class="layout-btn" title="Switch layout">BLUE</button>
-              <button id="sourceSwitchBtn" type="button" class="mode-pill" title="Switch to Google version">GOOGLE</button>
-              <span id="themeState" class="theme-state off">OFF</span>
-              <button id="themeBtn" type="button" class="theme-bolt" title="Toggle day/night">⚡</button>
+              <button id="sizeBtn" class="mini-icon" type="button" title="Pop out">↗</button>
+              <button id="themeBtn" class="theme-bolt" type="button" title="Toggle theme">☀</button>
             </div>
           </div>
-          <div class="suggest-wrap">
-            <input id="location" class="history-host" autocomplete="off" placeholder="Type Requested Location or use current" />
-            <div id="locationSuggestMenu" class="suggest-menu hidden"></div>
+          <input id="location" placeholder="Type Requested Location or use current" />
+          <div style="margin-top:8px">
+            <label class="inline-check">
+              <input id="useMyLocation" type="checkbox" />
+              Use my location
+            </label>
           </div>
         </div>
+
         <div class="field-block">
-          <label for="queryPresetBtn">Business Query</label>
-          <select id="queryPreset" class="native-select-hidden" aria-hidden="true" tabindex="-1"><option value="">Select category or trade...</option></select>
-          <div class="custom-select" id="queryPresetCustom">
-            <button id="queryPresetBtn" type="button" class="custom-select-btn">Select category or trade...</button>
-            <div id="queryPresetMenu" class="custom-select-menu hidden"></div>
+          <label for="queryPreset">Business Query</label>
+          <select id="queryPreset">
+            <option value="">Select category or trade...</option>
+            <option value="manual">Manual Override (Optional)</option>
+          </select>
+          <div id="manualWrap" class="hidden" style="margin-top:8px">
+            <input id="manualQuery" placeholder="Manual search override" />
           </div>
-          <div class="hint" id="queryLegend">Selecting a parent runs all child categories in this section.</div>
+          <div id="queryLegend" class="hint">Selecting a parent runs all child categories in that section.</div>
         </div>
-        <div id="manualQueryWrap" class="field-block hidden">
-          <label for="manualQuery">Manual Override (Optional)</label>
-          <div class="suggest-wrap">
-            <input id="manualQuery" class="history-host" autocomplete="off" placeholder="e.g. electrical contractor" />
-            <div id="manualSuggestMenu" class="suggest-menu hidden"></div>
-          </div>
-        </div>
+
         <div class="row">
           <div>
             <label for="radiusMiles">Radius (miles)</label>
-            <input id="radiusMiles" type="number" min="5" max="100" value="25" />
+            <input id="radiusMiles" type="number" min="5" max="45" value="25" />
           </div>
           <div>
             <label for="sortBy">Arrange Results By</label>
             <select id="sortBy">
               <option value="distance">Distance</option>
               <option value="name">Company Name</option>
-              <option value="status">License Status</option>
+              <option value="reliability">Reliability</option>
             </select>
           </div>
         </div>
 
         <div class="row">
           <button id="searchBtn" class="btn">Search</button>
-          <button id="downloadBtn" class="btn2">Download CSV</button>
+          <button id="downloadBtn" class="btn secondary">Download CSV</button>
         </div>
-        <div class="row single">
-          <button id="refreshBtn" class="mini" type="button">Refresh SCLLR Cache</button>
-          <input id="importCsvInput" type="file" accept=".csv,text/csv" style="display:none" />
-        </div>
+
         <div id="status" class="status">Ready.</div>
+        <div id="confirmBar" class="confirm-toast">
+          <span id="confirmText">Delete this result?</span>
+          <div class="confirm-actions">
+            <button id="confirmDeleteYes" type="button">Yes</button>
+            <button id="confirmDeleteNo" type="button">No</button>
+          </div>
+        </div>
+        <div id="resultsTools" class="results-tools-bar hidden">
+          <button id="clearResultsBtn" class="btn secondary" type="button">Clear Results</button>
+        </div>
         <div id="meta" class="meta"></div>
         <div id="list" class="list"></div>
       </div>
@@ -430,546 +366,579 @@
   <script>
     const $ = (id) => document.getElementById(id);
     const els = {
-      app: document.querySelector(".app"),
+      app: $("appRoot"),
       brandBanner: $("brandBanner"),
+      sizeBtn: $("sizeBtn"),
+      themeBtn: $("themeBtn"),
       location: $("location"),
-      locationSuggestMenu: $("locationSuggestMenu"),
+      useMyLocation: $("useMyLocation"),
       queryPreset: $("queryPreset"),
-      queryPresetBtn: $("queryPresetBtn"),
-      queryPresetMenu: $("queryPresetMenu"),
-      queryLegend: $("queryLegend"),
-      manualQueryWrap: $("manualQueryWrap"),
+      manualWrap: $("manualWrap"),
       manualQuery: $("manualQuery"),
-      manualSuggestMenu: $("manualSuggestMenu"),
+      queryLegend: $("queryLegend"),
       radiusMiles: $("radiusMiles"),
       sortBy: $("sortBy"),
       searchBtn: $("searchBtn"),
-      sizeBtn: $("sizeBtn"),
-      layoutBtn: $("layoutBtn"),
-      sourceSwitchBtn: $("sourceSwitchBtn"),
-      themeBtn: $("themeBtn"),
-      themeState: $("themeState"),
-      refreshBtn: $("refreshBtn"),
-      importCsvInput: $("importCsvInput"),
       downloadBtn: $("downloadBtn"),
       status: $("status"),
+      confirmBar: $("confirmBar"),
+      confirmText: $("confirmText"),
+      confirmDeleteYes: $("confirmDeleteYes"),
+      confirmDeleteNo: $("confirmDeleteNo"),
+      resultsTools: $("resultsTools"),
+      clearResultsBtn: $("clearResultsBtn"),
       meta: $("meta"),
       list: $("list")
     };
 
-    let queryCatalog = [];
     let rows = [];
-    let queryPresetOptions = [{ value: "", label: "Select category or trade..." }];
-    const LOCATION_HISTORY_KEY = "kc_scllr_location_history";
-    const MANUAL_HISTORY_KEY = "kc_scllr_manual_history";
-    const MAX_HISTORY = 30;
-    const locationSuggestCache = new Map();
-    let locationSuggestTimer = null;
-    let locationSuggestRequestId = 0;
-    let lastLocationLiveSuggestions = [];
-    const isDesktopView = window.matchMedia("(min-width: 769px)");
-    const pageUrl = new URL(window.location.href);
-    const LAYOUTS = {
-      bluegrid: {
-        key: "bluegrid",
-        button: "BLUE",
-        banner: "/assets/bluegrid-header.png",
-        alt: "Bluegrid",
-        accent: "#2a4f77"
-      },
-      keystone: {
-        key: "keystone",
-        button: "KEY",
-        banner: "/assets/keystone-header.png",
-        alt: "Keystone",
-        accent: "#be1e2d"
-      }
-    };
+    let sections = [];
+    let currentSearchSignature = "";
+    let pendingRemoval = null;
+    let statusTimer = null;
+    const LOCAL_IRRELEVANT_KEY = "kc_irrelevant_filters_v1";
+    const UI_STATE_KEY = "kc_ui_state_v2";
+    const isDesktop = window.matchMedia("(min-width: 769px)");
+    const POPUP_WIDTH = 440;
+    const POPUP_HEIGHT = 890;
 
-    function setStatus(msg) { els.status.textContent = msg; }
-    function csvEscape(v){const s=String(v??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}
-    function toCsv(data){
-      const h=["category_section","source","name","license_number","license_status","trade","phone","website","address","distance_miles","source_url","verified_at","data_use_notice"];
-      const lines=[h.join(",")];
-      data.forEach((r)=>lines.push(h.map((k)=>csvEscape(r[k])).join(",")));
-      return lines.join("\n")+"\n";
+    function escapeHtml(v){
+      return String(v || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
     }
 
-    function parsePreset(raw){
-      const v=String(raw||"");
-      if(!v) return { type:"none" };
-      if(v==="manual") return { type:"manual" };
-      if(v.startsWith("parent:")){
-        const p=Number(v.split(":")[1]);
-        const sec=queryCatalog[p];
-        return sec?{type:"parent",section:sec}:{type:"none"};
-      }
-      if(v.startsWith("child:")){
-        const a=v.split(":"); const p=Number(a[1]); const c=Number(a[2]);
-        const sec=queryCatalog[p];
-        const child=sec?.children?.[c];
-        return child?{type:"child",section:sec,child}:{type:"none"};
-      }
-      return {type:"none"};
+    function csvEscape(v){
+      const s = String(v ?? "");
+      return /[",\n]/.test(s) ? `"${s.replace(/\"/g,'\"\"')}"` : s;
     }
 
-    function escapeHtml(value){
-      return String(value||"")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;");
+    function normalizeValue(v){
+      return String(v || "").trim().toLowerCase();
     }
 
-    function syncQueryPresetButton(){
-      const current=String(els.queryPreset.value||"");
-      const found=queryPresetOptions.find((o)=>o.value===current);
-      els.queryPresetBtn.textContent=found?found.label:"Select category or trade...";
-      els.queryPresetMenu.querySelectorAll(".custom-select-item").forEach((el)=>{
-        const v=el.getAttribute("data-value")||"";
-        el.classList.toggle("active", v===current);
-      });
+    function makeSearchSignature({ location, query, queries, radiusMiles }){
+      const qs = Array.isArray(queries) ? [...new Set(queries.map(normalizeValue).filter(Boolean))].sort() : [];
+      return [
+        normalizeValue(location),
+        normalizeValue(query),
+        qs.join("|"),
+        String(Number(radiusMiles || 25))
+      ].join("::");
     }
 
-    function setQueryPresetOptions(options){
-      queryPresetOptions = Array.isArray(options) && options.length ? options : [{ value: "", label: "Select category or trade..." }];
-      els.queryPreset.innerHTML=queryPresetOptions
-        .map((o)=>`<option value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</option>`)
-        .join("");
-      els.queryPresetMenu.innerHTML=queryPresetOptions
-        .map((o)=>`<button type="button" class="custom-select-item" data-value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</button>`)
-        .join("");
-      if(!queryPresetOptions.some((o)=>o.value===els.queryPreset.value)){
-        els.queryPreset.value="";
-      }
-      syncQueryPresetButton();
+    function makeRowKey(row){
+      if (row?.place_id) return `place:${String(row.place_id).trim()}`;
+      if (row?.maps_url || row?.map_url) return `map:${String(row.maps_url || row.map_url).trim()}`;
+      if (row?.website) return `web:${String(row.website).trim()}`;
+      return `name:${String(row?.name || "").trim()}|addr:${String(row?.address || "").trim()}`;
     }
 
-    function closeQueryPresetMenu(){
-      els.queryPresetMenu.classList.add("hidden");
-    }
-
-    function toggleQueryPresetMenu(){
-      els.queryPresetMenu.classList.toggle("hidden");
-    }
-
-    function compactMenuText(value, maxLen = 28){
-      const normalized=String(value||"").replace(/\s*->\s*/g," - ").replace(/\s+/g," ").trim();
-      if(normalized.length<=maxLen) return normalized;
-      return `${normalized.slice(0, Math.max(8,maxLen-1)).trim()}...`;
-    }
-
-    function updateManualQueryVisibility(){
-      const isManual=els.queryPreset.value==="manual";
-      els.manualQueryWrap.classList.toggle("hidden", !isManual);
-    }
-
-    function loadHistory(key){
+    function saveUiState(){
       try{
-        const arr=JSON.parse(sessionStorage.getItem(key)||"[]");
-        return Array.isArray(arr)?arr:[];
+        const state = {
+          location: String(els.location.value || ""),
+          useMyLocation: Boolean(els.useMyLocation.checked),
+          queryPreset: String(els.queryPreset.value || ""),
+          manualQuery: String(els.manualQuery.value || ""),
+          radiusMiles: String(els.radiusMiles.value || "25"),
+          sortBy: String(els.sortBy.value || "distance"),
+          theme: String(els.app.getAttribute("data-theme") || "dark"),
+          rows,
+          currentSearchSignature
+        };
+        sessionStorage.setItem(UI_STATE_KEY, JSON.stringify(state));
+      } catch {}
+    }
+
+    function loadUiState(){
+      try{
+        const raw = sessionStorage.getItem(UI_STATE_KEY);
+        if (!raw) return null;
+        const state = JSON.parse(raw);
+        if (!state || typeof state !== "object") return null;
+        return state;
+      } catch {
+        return null;
+      }
+    }
+
+    function loadLocalIrrelevantRules(){
+      try{
+        const raw = localStorage.getItem(LOCAL_IRRELEVANT_KEY);
+        const data = raw ? JSON.parse(raw) : [];
+        return Array.isArray(data) ? data : [];
       }catch{
         return [];
       }
     }
 
-    function saveHistory(key, values){
+    function saveLocalIrrelevantRules(rules){
       try{
-        sessionStorage.setItem(key, JSON.stringify(values.slice(0, MAX_HISTORY)));
+        localStorage.setItem(LOCAL_IRRELEVANT_KEY, JSON.stringify(rules));
       }catch{}
     }
 
-    function upsertHistory(key, value){
-      const v=String(value||"").trim();
-      if(!v) return;
-      const curr=loadHistory(key).filter((x)=>String(x).trim() && String(x).trim().toLowerCase()!==v.toLowerCase());
-      curr.unshift(v);
-      saveHistory(key, curr);
+    function addLocalIrrelevant(signature, key){
+      if (!signature || !key) return;
+      const rules = loadLocalIrrelevantRules().filter((r)=>!(r?.signature===signature && r?.key===key));
+      rules.push({ signature, key, created_at: new Date().toISOString() });
+      saveLocalIrrelevantRules(rules);
     }
 
-    function uniqueValues(values, max = 30){
-      const seen=new Set();
-      const out=[];
-      for(const item of values){
-        const v=String(item||"").trim();
-        const k=v.toLowerCase();
-        if(!v || seen.has(k)) continue;
-        seen.add(k);
-        out.push(v);
-        if(out.length>=max) break;
-      }
+    function removeLocalIrrelevant(signature, key){
+      if (!signature || !key) return;
+      const rules = loadLocalIrrelevantRules().filter((r)=>!(r?.signature===signature && r?.key===key));
+      saveLocalIrrelevantRules(rules);
+    }
+
+    function getLocalBlockedSet(signature){
+      const out = new Set();
+      loadLocalIrrelevantRules().forEach((r)=>{
+        if (String(r?.signature||"") !== String(signature||"")) return;
+        const k = String(r?.key||"").trim();
+        if (k) out.add(k);
+      });
       return out;
     }
 
-    function setSuggestMenu(menuEl, items = []){
-      if(!menuEl) return;
-      if(!items.length){
-        menuEl.innerHTML="";
-        menuEl.classList.add("hidden");
-        return;
-      }
-      menuEl.innerHTML=items
-        .map((item)=>`<button type="button" class="suggest-item${item.type==="action" ? " action" : ""}" data-action="${item.action||""}" data-value="${(item.value||"").replace(/"/g,"&quot;")}">${(item.label||"").replace(/</g,"&lt;")}</button>`)
-        .join("");
-      menuEl.classList.remove("hidden");
+    function clearStatusTimer(){
+      if (!statusTimer) return;
+      clearTimeout(statusTimer);
+      statusTimer = null;
     }
 
-    function closeSuggestMenus(){
-      setSuggestMenu(els.locationSuggestMenu, []);
-      setSuggestMenu(els.manualSuggestMenu, []);
-    }
-
-    function renderLocationSuggestMenu(){
-      const history=loadHistory(LOCATION_HISTORY_KEY);
-      const merged=uniqueValues([...history, ...lastLocationLiveSuggestions], 30);
-      const items=merged.map((v)=>({label:v, value:v, action:"pick"}));
-      if(history.length || lastLocationLiveSuggestions.length){
-        items.push({label:"Clear all history", value:"", action:"clear", type:"action"});
+    function setStatus(msg, options = {}){
+      const { hideAfterMs = 0, undoLabel = "", onUndo = null } = options;
+      clearStatusTimer();
+      els.status.classList.remove("hidden");
+      els.status.textContent = msg;
+      if (undoLabel && typeof onUndo === "function") {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = undoLabel;
+        btn.addEventListener("click", () => {
+          clearStatusTimer();
+          onUndo();
+        }, { once: true });
+        els.status.appendChild(btn);
       }
-      setSuggestMenu(els.locationSuggestMenu, items);
-    }
-
-    function renderManualSuggestMenu(){
-      const history=loadHistory(MANUAL_HISTORY_KEY);
-      const items=history.map((v)=>({label:v, value:v, action:"pick"}));
-      if(history.length){
-        items.push({label:"Clear all history", value:"", action:"clear", type:"action"});
-      }
-      setSuggestMenu(els.manualSuggestMenu, items);
-    }
-
-    function clearAllHistory(){
-      try{ sessionStorage.removeItem(LOCATION_HISTORY_KEY); }catch{}
-      try{ sessionStorage.removeItem(MANUAL_HISTORY_KEY); }catch{}
-      lastLocationLiveSuggestions=[];
-      renderLocationSuggestMenu();
-      renderManualSuggestMenu();
-      setStatus("All history cleared.");
-    }
-
-    async function requestLocationSuggestions(raw){
-      const q=String(raw||"").trim();
-      if(q.length<2){
-        lastLocationLiveSuggestions=[];
-        renderLocationSuggestMenu();
-        return;
-      }
-      const cacheKey=q.toLowerCase();
-      if(locationSuggestCache.has(cacheKey)){
-        lastLocationLiveSuggestions=locationSuggestCache.get(cacheKey);
-        renderLocationSuggestMenu();
-        return;
-      }
-      const reqId=++locationSuggestRequestId;
-      try{
-        const res=await fetch(`/api/location-suggest?q=${encodeURIComponent(q)}`);
-        const data=await res.json().catch(()=>({}));
-        if(reqId!==locationSuggestRequestId) return;
-        const suggestions=Array.isArray(data.suggestions)?data.suggestions:[];
-        locationSuggestCache.set(cacheKey, suggestions);
-        lastLocationLiveSuggestions=suggestions;
-        renderLocationSuggestMenu();
-      }catch{
-        if(reqId!==locationSuggestRequestId) return;
-        lastLocationLiveSuggestions=[];
-        renderLocationSuggestMenu();
+      if (hideAfterMs > 0) {
+        statusTimer = setTimeout(() => {
+          els.status.textContent = "";
+          els.status.classList.add("hidden");
+          statusTimer = null;
+        }, hideAfterMs);
       }
     }
 
     function applyTheme(theme){
-      const safe = theme === "light" ? "light" : "dark";
-      els.app.setAttribute("data-theme", safe);
-      const isOn = safe === "light";
-      els.themeState.textContent = isOn ? "ON" : "OFF";
-      els.themeState.className = `theme-state ${isOn ? "on" : "off"}`;
-      try { localStorage.setItem("kc_scllr_theme", safe); } catch (_) {}
+      const t = theme === "light" ? "light" : "dark";
+      els.app.setAttribute("data-theme", t);
+      document.body.setAttribute("data-theme", t);
+      els.themeBtn.textContent = t === "light" ? "🌚" : "☀";
+      els.themeBtn.title = t === "light" ? "Switch to night mode" : "Switch to day mode";
+      localStorage.setItem("kc_theme", t);
+      saveUiState();
     }
 
-    function toggleTheme(){
-      const current = els.app.getAttribute("data-theme") || "dark";
-      applyTheme(current === "dark" ? "light" : "dark");
+    function applyLayout(){
+      document.body.setAttribute("data-layout", "keystone");
+      els.app.setAttribute("data-layout", "keystone");
+      els.brandBanner.src = "/assets/keystone-header.png";
+      localStorage.setItem("kc_layout", "keystone");
     }
 
-    function applyLayout(layout){
-      const next = layout === "keystone" ? LAYOUTS.keystone : LAYOUTS.bluegrid;
-      document.body.setAttribute("data-layout", next.key);
-      els.app.setAttribute("data-layout", next.key);
-      document.documentElement.style.setProperty("--accent", next.accent);
-      els.layoutBtn.textContent = next.button;
-      if (els.brandBanner) {
-        els.brandBanner.src = next.banner;
-        els.brandBanner.alt = next.alt;
+    function isPopupView(){
+      const u = new URL(window.location.href);
+      return u.searchParams.get("view") === "popup";
+    }
+
+    function initSizeControl(){
+      const popup = isPopupView();
+      document.body.setAttribute("data-size", popup ? "compact" : "full");
+      els.sizeBtn.textContent = popup ? "↙" : "↗";
+      els.sizeBtn.title = popup ? "Full size" : "Pop out";
+    }
+
+    function toggleSizeControl(){
+      saveUiState();
+      const u = new URL(window.location.href);
+      const popup = isPopupView();
+
+      if (!popup) {
+        u.searchParams.set("view", "popup");
+        const left = Math.max(0, Number(window.screenX || window.screenLeft || 0));
+        const top = Math.max(0, Number(window.screenY || window.screenTop || 0));
+        const features = [
+          "popup=yes",
+          `width=${POPUP_WIDTH}`,
+          `height=${POPUP_HEIGHT}`,
+          `left=${left}`,
+          `top=${top}`,
+          "resizable=yes",
+          "scrollbars=yes"
+        ].join(",");
+        const child = window.open(u.toString(), "kc_popout", features);
+        if (!child) {
+          setStatus("Popup blocked. Allow pop-ups for this site.");
+          return;
+        }
+        try { child.focus(); } catch {}
+        setTimeout(() => {
+          try { window.close(); } catch {}
+        }, 120);
+        return;
       }
-      try { localStorage.setItem("kc_scllr_layout", next.key); } catch (_) {}
+
+      u.searchParams.delete("view");
+      try { window.name = ""; } catch {}
+      try {
+        const fullWidth = Math.min(window.screen.availWidth || 1280, 1280);
+        const fullHeight = Math.min(window.screen.availHeight || 900, 900);
+        window.resizeTo(fullWidth, fullHeight);
+      } catch {}
+      window.location.href = u.toString();
     }
 
-    function toggleLayout(){
-      const current = document.body.getAttribute("data-layout") || "bluegrid";
-      applyLayout(current === "bluegrid" ? "keystone" : "bluegrid");
+    function parsePreset(){
+      const v = String(els.queryPreset.value || "");
+      if (!v) return { type: "none" };
+      if (v === "manual") return { type: "manual" };
+      if (v.startsWith("parent:")) {
+        const i = Number(v.split(":")[1]);
+        return sections[i] ? { type: "parent", section: sections[i] } : { type: "none" };
+      }
+      if (v.startsWith("child:")) {
+        const parts = v.split(":");
+        const sIdx = Number(parts[1]);
+        const cIdx = Number(parts[2]);
+        const section = sections[sIdx];
+        const child = Array.isArray(section?.children) ? section.children[cIdx] : "";
+        if (section && child) return { type: "child", section, child: String(child) };
+        return { type: "none" };
+      }
+      return { type: "none" };
     }
 
-    function switchToGoogle(){
-      const next = new URL(window.location.origin + "/");
-      const layout = document.body.getAttribute("data-layout") || "bluegrid";
-      const theme = els.app.getAttribute("data-theme") || "dark";
-      next.searchParams.set("layout", layout);
-      next.searchParams.set("theme", theme);
-      window.location.href = next.toString();
+    function sortRows(data){
+      const by = els.sortBy.value;
+      const out = [...data];
+      if (by === "distance") out.sort((a,b)=>Number(a.distance_miles||9999)-Number(b.distance_miles||9999));
+      else if (by === "name") out.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+      else out.sort((a,b)=>Number(b.reliability_score||b.confidence||0)-Number(a.reliability_score||a.confidence||0));
+      return out;
     }
 
-    function applySizeMode(mode){
-      const nextMode = mode === "full" && isDesktopView.matches ? "full" : "compact";
-      document.body.setAttribute("data-size", nextMode);
-      const isFull = nextMode === "full";
-      els.sizeBtn.title = isFull ? "Compact Size" : "Full Size";
-      els.sizeBtn.textContent = isFull ? "▣" : "⛶";
-      try { localStorage.setItem("kc_scllr_size_mode", nextMode); } catch (_) {}
+    function render(){
+      const data = sortRows(rows);
+      els.list.innerHTML = data.map((r)=>`
+        <div class="card" data-row-key="${escapeHtml(r.result_key || "")}">
+          <div class="result-head">
+            <div class="name">${escapeHtml(r.name || "(no name)")}</div>
+            <div class="result-tools">
+              <label class="irrelevant-check">
+                <input type="checkbox" class="irrelevant-toggle" />
+              </label>
+            </div>
+          </div>
+          <div class="line">${r.distance_miles === "" || r.distance_miles == null ? "" : `${escapeHtml(r.distance_miles)} mi from your location`}</div>
+          <div class="line">${escapeHtml(r.address || "")}</div>
+          <div class="line">${escapeHtml(r.phone || "")}</div>
+          <div class="line links">
+            ${r.website ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.website)}">website</a>` : ""}
+            ${(r.website && (r.maps_url || r.map_url)) ? "<span>|</span>" : ""}
+            ${(r.maps_url || r.map_url) ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.maps_url || r.map_url)}">map</a>` : ""}
+          </div>
+        </div>
+      `).join("");
+      els.resultsTools.classList.toggle("hidden", data.length === 0);
     }
 
-    function toggleSizeMode(){
-      if (!isDesktopView.matches) return;
-      const current = document.body.getAttribute("data-size") || "compact";
-      applySizeMode(current === "full" ? "compact" : "full");
+    function clearResultsAndQuery(){
+      rows = [];
+      currentSearchSignature = "";
+      pendingRemoval = null;
+      els.queryPreset.value = "";
+      els.manualQuery.value = "";
+      els.manualWrap.classList.add("hidden");
+      render();
+      hideConfirm();
+      setStatus("Results cleared.", { hideAfterMs: 2000 });
+      saveUiState();
     }
 
     async function loadCategories(){
       try{
-        const res=await fetch("/api/query-categories");
-        const data=await res.json();
-        queryCatalog=Array.isArray(data.sections)?data.sections:[];
-        els.queryLegend.textContent=data.legend||els.queryLegend.textContent;
-        const opts=[
-          { value: "", label: "Select category or trade..." },
-          { value: "manual", label: "Manual Override (Optional)" }
+        const res = await fetch("/api/query-categories");
+        if(!res.ok) throw new Error();
+        const data = await res.json();
+        sections = Array.isArray(data.sections) ? data.sections : [];
+        if (data.legend) els.queryLegend.textContent = data.legend;
+        const opts = [
+          '<option value="">Select category or trade...</option>',
+          '<option value="manual">Manual Override (Optional)</option>'
         ];
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        const parentMax = isMobile ? 20 : 32;
-        const sortedSections = [...queryCatalog]
-          .map((sec, i) => ({ sec, i }))
-          .sort((a, b) => {
-            const aLabel = String(a.sec?.label || a.sec?.section || "").toLowerCase();
-            const bLabel = String(b.sec?.label || b.sec?.section || "").toLowerCase();
-            return aLabel.localeCompare(bLabel);
+        const sorted = sections.map((s,i)=>({s,i})).sort((a,b)=>String(a.s.label||a.s.section||"").localeCompare(String(b.s.label||b.s.section||"")));
+        sorted.forEach(({s,i})=>{
+          const label = s.label || s.section || `Section ${i+1}`;
+          opts.push(`<option value="parent:${i}">${escapeHtml(label)}</option>`);
+          const kids = Array.isArray(s.children) ? s.children : [];
+          kids.forEach((child, cIdx) => {
+            opts.push(`<option value="child:${i}:${cIdx}">&nbsp;&nbsp;- ${escapeHtml(String(child || ""))}</option>`);
           });
-        sortedSections.forEach(({ sec, i })=>{
-          const label=sec.label||sec.section||`Section ${i+1}`;
-          const compactSection=compactMenuText(label, parentMax);
-          opts.push({ value: `parent:${i}`, label: compactSection });
         });
-        setQueryPresetOptions(opts);
-      }catch{ /* keep defaults */ }
-    }
-
-    function render(data){
-      const sorted=[...data];
-      const by=els.sortBy.value;
-      if(by==="distance") sorted.sort((a,b)=>Number(a.distance_miles||9999)-Number(b.distance_miles||9999));
-      if(by==="name") sorted.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
-      if(by==="status") sorted.sort((a,b)=>String(a.license_status||"").localeCompare(String(b.license_status||"")));
-      els.list.innerHTML=sorted.map((r)=>`
-        <div class="item">
-          <div class="name">${r.name||"(no name)"}</div>
-          <div class="line">${r.license_number?`License: ${r.license_number}`:""}</div>
-          <div class="line">${r.license_status?`Status: ${r.license_status}`:""}</div>
-          <div class="line">${r.trade||""}</div>
-          <div class="line">${r.address||""}</div>
-          <div class="line">${r.phone||""}</div>
-          <div class="line">${r.website?`<a href="${r.website}" target="_blank" rel="noopener noreferrer">website</a>`:""}</div>
-          <div class="line">${r.source_url?`<a href="${r.source_url}" target="_blank" rel="noopener noreferrer">source</a>`:""}</div>
-        </div>
-      `).join("");
+        els.queryPreset.innerHTML = opts.join("");
+      }catch{}
     }
 
     async function runSearch(){
-      const manual=els.manualQuery.value.trim();
-      const preset=parsePreset(els.queryPreset.value);
-      let q="";
-      if(preset.type==="manual") q=manual;
-      if(!q && preset.type==="child") q=preset.child;
-      if(!q && preset.type==="parent") q=(preset.section.children||[]).join(" ");
-      if(!q && manual) q=manual;
-      if(!q) q="contractor";
-      const payload={location:els.location.value.trim(),query:q,radiusMiles:Number(els.radiusMiles.value||25)};
-      if(!payload.location){ setStatus("Enter a location first."); return; }
-      closeSuggestMenus();
-      els.searchBtn.disabled=true;
-      setStatus("Searching SCLLR-only dataset...");
-      rows=[]; render(rows); els.meta.textContent="";
-      try{
-        const res=await fetch("/api/scllr/search",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-        const data=await res.json();
-        if(!res.ok) throw new Error(data.error||`HTTP ${res.status}`);
-        rows=Array.isArray(data.rows)?data.rows:[];
-        render(rows);
-        setStatus(`${rows.length} results found.`);
-        const total=Number(data?.meta?.records_total||0);
-        const refreshed=data?.meta?.refreshed_at?` | Cache: ${data.meta.refreshed_at}`:"";
-        els.meta.textContent=`Provider: scllr_cache | Cached records: ${total}${refreshed}`;
-        upsertHistory(LOCATION_HISTORY_KEY, els.location.value);
-        if(manual) upsertHistory(MANUAL_HISTORY_KEY, manual);
-        closeSuggestMenus();
-      }catch(err){
-        setStatus(`Search failed: ${err.message}`);
-      }finally{
-        els.searchBtn.disabled=false;
-      }
-    }
+      const loc = String(els.location.value || "").trim();
+      if (!loc) { setStatus("Enter a location first."); return; }
+      const p = parsePreset();
+      const manual = String(els.manualQuery.value || "").trim();
+      let query = "contractor";
+      let queries = [];
+      let queryContexts = [];
 
-    async function pickCsvAndImport(merge = true){
-      return new Promise((resolve) => {
-        const input = els.importCsvInput;
-        if (!input) return resolve(false);
-        const onChange = async () => {
-          input.removeEventListener("change", onChange);
-          const file = input.files && input.files[0];
-          if (!file) return resolve(false);
-          await importCsvFile(file, merge);
-          resolve(true);
-        };
-        input.addEventListener("change", onChange, { once: true });
-        input.value = "";
-        input.click();
-      });
-    }
-
-    async function refreshCache(){
-      els.refreshBtn.disabled=true;
-      setStatus("Refreshing SCLLR cache...");
-      try{
-        const res=await fetch("/api/scllr/refresh",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({})});
-        const data=await res.json();
-        if(!res.ok) throw new Error(data.error||`HTTP ${res.status}`);
-        const kept = data.kept_previous_cache ? " (kept previous cache)" : "";
-        setStatus(`Cache refresh complete. ${data.rows_cached||data.rows_added||0} records available${kept}.`);
-        await runSearch();
-      }catch(err){
-        const msg = String(err?.message || "Refresh failed");
-        const shouldFallback = /fetch failed|zero records|cache is empty/i.test(msg);
-        if (shouldFallback) {
-          setStatus(`Live refresh blocked. Select SCLLR CSV to import...`);
-          const imported = await pickCsvAndImport(true);
-          if (!imported) setStatus(`Refresh failed: ${msg}`);
-        } else {
-          setStatus(`Refresh failed: ${msg}`);
+      if (p.type === "manual" && manual) {
+        query = manual;
+      } else if (p.type === "child") {
+        query = p.child;
+        queries = [p.child];
+        queryContexts = [{ term: p.child, section: p.section.label || p.section.section || "Category" }];
+      } else if (p.type === "parent") {
+        const kids = Array.isArray(p.section.children) ? p.section.children.filter(Boolean) : [];
+        if (kids.length) {
+          query = kids[0];
+          queries = kids;
+          queryContexts = kids.map((k)=>({ term:k, section: p.section.label || p.section.section || "Category" }));
         }
-      }finally{
-        els.refreshBtn.disabled=false;
+      } else if (manual) {
+        query = manual;
       }
-    }
 
-    async function importCsvFile(file, merge = true){
-      if(!file) return;
-      const text = await file.text();
-      if(!text.trim()){
-        setStatus("Selected CSV is empty.");
-        return;
-      }
-      setStatus(merge ? "Importing SCLLR CSV..." : "Replacing SCLLR cache from CSV...");
+      els.searchBtn.disabled = true;
+      setStatus("Searching Google...");
+      rows = [];
+      render();
+      els.meta.textContent = "";
+      currentSearchSignature = "";
+
       try{
-        const res = await fetch("/api/scllr/import", {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({ csvText: text, merge })
-        });
+        const url = "/api/search";
+        const radiusMiles = Number(els.radiusMiles.value || 25);
+        const payload = {
+          location: loc,
+          query,
+          queries,
+          queryContexts,
+          radiusMiles,
+          strictTypeFilter: p.type === "manual" ? false : true
+        };
+        const res = await fetch(url, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload) });
         const data = await res.json();
         if(!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-        setStatus(`${data.rows_imported || 0} rows imported. Cache now has ${data.rows_cached || 0} rows.`);
-        const refreshed=data?.refreshed_at?` | Cache: ${data.refreshed_at}`:"";
-        els.meta.textContent=`Provider: scllr_cache | Cached records: ${data.rows_cached || 0}${refreshed}`;
+        rows = (Array.isArray(data.rows) ? data.rows : []).map((row) => ({
+          ...row,
+          result_key: String(row.result_key || makeRowKey(row))
+        }));
+        currentSearchSignature = String(data.search_signature || makeSearchSignature({ location: loc, query, queries, radiusMiles }));
+        const localBlocked = getLocalBlockedSet(currentSearchSignature);
+        rows = rows.filter((r)=>!localBlocked.has(String(r.result_key || "")));
+        setStatus(`${rows.length} results found.`);
+        els.meta.textContent = "";
+        render();
+        saveUiState();
       }catch(err){
-        setStatus(`CSV import failed: ${err.message}`);
+        setStatus(`Search failed: ${err.message}`);
+      } finally {
+        els.searchBtn.disabled = false;
       }
     }
 
-    els.searchBtn.addEventListener("click", runSearch);
-    els.sizeBtn.addEventListener("click", toggleSizeMode);
-    els.layoutBtn.addEventListener("click", toggleLayout);
-    els.sourceSwitchBtn.addEventListener("click", switchToGoogle);
-    els.themeBtn.addEventListener("click", toggleTheme);
-    els.refreshBtn.addEventListener("click", refreshCache);
-    els.queryPresetBtn.addEventListener("click", (e)=>{
-      e.preventDefault();
-      toggleQueryPresetMenu();
-    });
-    els.queryPresetMenu.addEventListener("click", (e)=>{
-      const btn=e.target.closest(".custom-select-item");
-      if(!btn) return;
-      const value=btn.getAttribute("data-value")||"";
-      els.queryPreset.value=value;
-      closeQueryPresetMenu();
-      els.queryPreset.dispatchEvent(new Event("change"));
-    });
-    els.queryPreset.addEventListener("change", updateManualQueryVisibility);
-    els.queryPreset.addEventListener("change", syncQueryPresetButton);
-    els.sortBy.addEventListener("change", ()=>render(rows));
-    els.location.addEventListener("input", ()=>{
-      if(locationSuggestTimer) clearTimeout(locationSuggestTimer);
-      locationSuggestTimer=setTimeout(()=>requestLocationSuggestions(els.location.value),220);
-    });
-    els.location.addEventListener("focus", ()=>{
-      requestLocationSuggestions(els.location.value);
-      renderLocationSuggestMenu();
-    });
-    els.location.addEventListener("blur", ()=>{
-      setTimeout(()=>setSuggestMenu(els.locationSuggestMenu, []),120);
-    });
-    els.manualQuery.addEventListener("focus", ()=>renderManualSuggestMenu());
-    els.manualQuery.addEventListener("blur", ()=>{
-      setTimeout(()=>setSuggestMenu(els.manualSuggestMenu, []),120);
-    });
-    els.locationSuggestMenu.addEventListener("click",(e)=>{
-      const btn=e.target.closest(".suggest-item");
-      if(!btn) return;
-      const action=btn.getAttribute("data-action");
-      const value=btn.getAttribute("data-value")||"";
-      if(action==="clear"){
-        clearAllHistory();
-      }else if(action==="pick"){
-        els.location.value=value;
-      }
-      setSuggestMenu(els.locationSuggestMenu, []);
-    });
-    els.manualSuggestMenu.addEventListener("click",(e)=>{
-      const btn=e.target.closest(".suggest-item");
-      if(!btn) return;
-      const action=btn.getAttribute("data-action");
-      const value=btn.getAttribute("data-value")||"";
-      if(action==="clear"){
-        clearAllHistory();
-      }else if(action==="pick"){
-        els.manualQuery.value=value;
-      }
-      setSuggestMenu(els.manualSuggestMenu, []);
-    });
-    document.addEventListener("click",(e)=>{
-      if(!e.target.closest(".suggest-wrap")) closeSuggestMenus();
-      if(!e.target.closest("#queryPresetCustom")) closeQueryPresetMenu();
-    });
-    els.downloadBtn.addEventListener("click", ()=>{
+    function downloadCsv(){
       if(!rows.length){ setStatus("No rows to download."); return; }
-      const blob=new Blob([toCsv(rows)],{type:"text/csv;charset=utf-8"});
-      const a=document.createElement("a");
-      a.href=URL.createObjectURL(blob);
-      a.download="scllr-contractors.csv";
+      const h = ["name","address","phone","website","distance_miles","category_section","reliability_score","confidence"];
+      const lines = [h.join(",")];
+      rows.forEach((r)=>lines.push(h.map((k)=>csvEscape(r[k])).join(",")));
+      const blob = new Blob([lines.join("\n")+"\n"], { type:"text/csv;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "google-results.csv";
       a.click();
       URL.revokeObjectURL(a.href);
+    }
+
+    async function setIrrelevant(rowKey, action){
+      if (!currentSearchSignature || !rowKey) throw new Error("Missing search signature or row key.");
+      const res = await fetch("/api/irrelevant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          signature: currentSearchSignature,
+          key: rowKey,
+          action
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 404) {
+          if (action === "remove") removeLocalIrrelevant(currentSearchSignature, rowKey);
+          else addLocalIrrelevant(currentSearchSignature, rowKey);
+          return { ok:true, local:true };
+        }
+        throw new Error(data.error || `HTTP ${res.status}`);
+      }
+      return data;
+    }
+
+    function showConfirm(row){
+      pendingRemoval = row;
+      els.confirmText.textContent = `Delete "${row.name || "this result"}"?`;
+      els.confirmBar.classList.add("is-open");
+    }
+
+    function hideConfirm(){
+      pendingRemoval = null;
+      els.confirmBar.classList.remove("is-open");
+    }
+
+    function handleUseMyLocationToggle(){
+      if (!els.useMyLocation.checked) return;
+      if (!navigator.geolocation) {
+        setStatus("Geolocation is not supported on this device/browser.");
+        els.useMyLocation.checked = false;
+        return;
+      }
+      setStatus("Getting your location...");
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = Number(pos.coords.latitude);
+          const lng = Number(pos.coords.longitude);
+          if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+            setStatus("Could not read your current location.");
+            els.useMyLocation.checked = false;
+            return;
+          }
+          els.location.value = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+          setStatus("Using your current location.");
+        },
+        () => {
+          setStatus("Location permission denied or unavailable.");
+          els.useMyLocation.checked = false;
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    }
+
+    const url = new URL(window.location.href);
+    const persistedState = loadUiState();
+    applyLayout();
+    const themeFromUrl = url.searchParams.get("theme");
+    const themeFromState = persistedState?.theme;
+    applyTheme((themeFromState === "light" || themeFromState === "dark") ? themeFromState : (themeFromUrl === "light" ? "light" : "dark"));
+    initSizeControl();
+    loadCategories().then(() => {
+      if (!persistedState) return;
+      els.location.value = String(persistedState.location || "");
+      els.useMyLocation.checked = Boolean(persistedState.useMyLocation);
+      const preset = String(persistedState.queryPreset || "");
+      if (preset && [...els.queryPreset.options].some((o) => o.value === preset)) {
+        els.queryPreset.value = preset;
+      }
+      els.manualQuery.value = String(persistedState.manualQuery || "");
+      els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual");
+      els.radiusMiles.value = String(persistedState.radiusMiles || "25");
+      if (String(persistedState.sortBy || "")) {
+        const sort = String(persistedState.sortBy);
+        if ([...els.sortBy.options].some((o) => o.value === sort)) els.sortBy.value = sort;
+      }
+      rows = Array.isArray(persistedState.rows) ? persistedState.rows : [];
+      currentSearchSignature = String(persistedState.currentSearchSignature || "");
+      render();
     });
-    isDesktopView.addEventListener("change", () => {
-      if (!isDesktopView.matches) applySizeMode("compact");
+
+      els.themeBtn.addEventListener("click", ()=>applyTheme((els.app.getAttribute("data-theme")||"dark") === "dark" ? "light" : "dark"));
+    els.sizeBtn.addEventListener("click", toggleSizeControl);
+    els.useMyLocation.addEventListener("change", handleUseMyLocationToggle);
+    els.queryPreset.addEventListener("change", ()=>els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual"));
+    els.sortBy.addEventListener("change", render);
+    els.searchBtn.addEventListener("click", runSearch);
+    els.downloadBtn.addEventListener("click", downloadCsv);
+    els.clearResultsBtn.addEventListener("click", clearResultsAndQuery);
+    ["input","change"].forEach((evt)=>{
+      els.location.addEventListener(evt, saveUiState);
+      els.useMyLocation.addEventListener(evt, saveUiState);
+      els.queryPreset.addEventListener(evt, saveUiState);
+      els.manualQuery.addEventListener(evt, saveUiState);
+      els.radiusMiles.addEventListener(evt, saveUiState);
+      els.sortBy.addEventListener(evt, saveUiState);
     });
-    let initialLayout = "bluegrid";
-    let initialTheme = "dark";
-    try {
-      initialLayout = pageUrl.searchParams.get("layout") || localStorage.getItem("kc_scllr_layout") || "bluegrid";
-      initialTheme = pageUrl.searchParams.get("theme") || localStorage.getItem("kc_scllr_theme") || "dark";
-    } catch (_) {}
-    applyLayout(initialLayout);
-    applyTheme(initialTheme);
-    applySizeMode("compact");
-    loadCategories().then(()=>{
-      updateManualQueryVisibility();
-      renderLocationSuggestMenu();
-      renderManualSuggestMenu();
+    els.list.addEventListener("change", async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const card = target.closest(".card");
+      if (!card) return;
+      const rowKey = card.getAttribute("data-row-key") || "";
+      const toggle = card.querySelector(".irrelevant-toggle");
+      if (!toggle) return;
+
+      if (target.classList.contains("irrelevant-toggle")) {
+        if (!toggle.checked) return;
+        if (pendingRemoval) {
+          toggle.checked = false;
+          setStatus("Confirm current delete first.");
+          return;
+        }
+        const idx = rows.findIndex((r) => String(r.result_key || "") === rowKey);
+        if (idx < 0) return;
+        const removed = rows[idx];
+        card.classList.add("is-removing");
+        setTimeout(() => {
+          rows.splice(idx, 1);
+          render();
+          saveUiState();
+          showConfirm(removed);
+          setStatus("Confirm delete.");
+        }, 220);
+        return;
+      }
+    });
+    els.confirmDeleteYes.addEventListener("click", async () => {
+      if (!pendingRemoval) return;
+      const removedRow = pendingRemoval;
+      try {
+        await setIrrelevant(String(removedRow.result_key || ""), "add");
+        hideConfirm();
+        setStatus("Removed as irrelevant for this search.", {
+          undoLabel: "Undo",
+          hideAfterMs: 10000,
+          onUndo: async () => {
+            try {
+              await setIrrelevant(String(removedRow.result_key || ""), "remove");
+              rows.push(removedRow);
+              render();
+              saveUiState();
+              setStatus("Result restored.", { hideAfterMs: 2500 });
+            } catch (err) {
+              setStatus(`Undo failed: ${err.message}`, { hideAfterMs: 4000 });
+            }
+          }
+        });
+      } catch (err) {
+        setStatus(`Could not mark irrelevant: ${err.message}`);
+        rows.push(pendingRemoval);
+        render();
+        saveUiState();
+        hideConfirm();
+      }
+    });
+    els.confirmDeleteNo.addEventListener("click", () => {
+      if (!pendingRemoval) return;
+      rows.push(pendingRemoval);
+      render();
+      saveUiState();
+      hideConfirm();
+      setStatus("Result restored.");
     });
   </script>
 </body>

@@ -91,6 +91,15 @@ async function scrapeDomainEmails(websiteUrl) {
 
 function buildVariantQueries(query, location) {
   const q = String(query || "general contractor").trim();
+  const hasLatLngLocation = Boolean(parseLatLngLocation(location));
+  if (hasLatLngLocation) {
+    return [...new Set([
+      q,
+      `${q} business`,
+      `${q} company`,
+      `${q} contractor`
+    ])];
+  }
   const base = [
     `${q} in ${location}`,
     `${q} commercial contractor in ${location}`,

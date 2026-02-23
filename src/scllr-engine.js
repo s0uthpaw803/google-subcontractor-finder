@@ -3,8 +3,10 @@ import path from "node:path";
 
 const ROOT = path.resolve(process.cwd());
 const CACHE_FILE = path.join(ROOT, "data", "scllr-contractors.json");
+const MONTHLY_DROP_DIR = path.join(ROOT, "data", "scllr-monthly-drop");
 const USER_AGENT = "keystone-connect/1.0 (SCLLR verification ingestion)";
 const REQUEST_TIMEOUT_MS = 20000;
+const MONTHLY_MAX_AGE_DAYS = Number(process.env.SCLLR_MONTHLY_MAX_AGE_DAYS || 31);
 
 const DEFAULT_SOURCES = [
   "https://verify.llronline.com/LicLookup/LookupMain.aspx",
@@ -54,6 +56,34 @@ function writeCache(rows) {
   };
   fs.writeFileSync(CACHE_FILE, JSON.stringify(payload, null, 2));
   return payload;
+}
+
+function cacheAgeDays(isoDate) {
+  const ts = Date.parse(String(isoDate || ""));
+  if (!Number.isFinite(ts)) return Number.POSITIVE_INFINITY;
+  return (Date.now() - ts) / (1000 * 60 * 60 * 24);
+}
+
+function listMonthlyCsvFiles(dirPath = MONTHLY_DROP_DIR) {
+  if (!fs.existsSync(dirPath)) return [];
+  try {
+    return fs
+      .readdirSync(dirPath)
+      .filter((f) => /\.csv$/i.test(f))
+      .map((f) => path.join(dirPath, f))
+      .sort((a, b) => a.localeCompare(b));
+  } catch {
+    return [];
+  }
+}
+
+function readMonthlyCsvUrls() {
+  const raw = String(process.env.SCLLR_MONTHLY_CSV_URLS || "").trim();
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
 }
 
 function parseCsvRows(text) {
@@ -220,6 +250,16 @@ function extractRowsFromHtml(html, onProgress = () => {}) {
 }
 
 async function fetchHtml(url) {
+  const res = await fetch(url, {
+    headers: { "User-Agent": USER_AGENT },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`HTTP ${res.status} at ${url}`);
+  return text;
+}
+
+async function fetchText(url) {
   const res = await fetch(url, {
     headers: { "User-Agent": USER_AGENT },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
@@ -406,6 +446,132 @@ export function scllrStats() {
     source: "scllr",
     refreshed_at: cache.refreshed_at,
     rows: cache.rows.length
+  };
+}
+
+async function importLocalMonthlyDrop({ onProgress = () => {} } = {}) {
+  const files = listMonthlyCsvFiles();
+  if (!files.length) {
+    onProgress(`No monthly CSV files found in ${MONTHLY_DROP_DIR}.`);
+    return { importedRows: 0, files: 0 };
+  }
+  let merge = true;
+  let importedRows = 0;
+  onProgress(`Found ${files.length} monthly CSV file(s) in ${MONTHLY_DROP_DIR}.`);
+  for (const filePath of files) {
+    const csvText = fs.readFileSync(filePath, "utf8");
+    const result = await importScllrCsv({
+      csvText,
+      merge,
+      onProgress
+    });
+    importedRows += Number(result.rows_imported || 0);
+    merge = true;
+    onProgress(`Imported ${result.rows_imported} rows from ${path.basename(filePath)}.`);
+  }
+  return { importedRows, files: files.length };
+}
+
+async function importMonthlyUrls({ onProgress = () => {} } = {}) {
+  const urls = readMonthlyCsvUrls();
+  if (!urls.length) {
+    onProgress("No SCLLR_MONTHLY_CSV_URLS configured.");
+    return { importedRows: 0, urls: 0 };
+  }
+  let merge = true;
+  let importedRows = 0;
+  onProgress(`Attempting monthly URL import from ${urls.length} source(s).`);
+  for (const url of urls) {
+    try {
+      const csvText = await fetchText(url);
+      const result = await importScllrCsv({ csvText, merge, onProgress });
+      importedRows += Number(result.rows_imported || 0);
+      merge = true;
+      onProgress(`Imported ${result.rows_imported} rows from URL: ${url}`);
+    } catch (error) {
+      onProgress(`Monthly URL import failed: ${url}`);
+      onProgress(String(error?.message || error));
+    }
+  }
+  return { importedRows, urls: urls.length };
+}
+
+export async function ensureScllrCacheReady({
+  query = "",
+  onProgress = () => {}
+} = {}) {
+  const before = readCache();
+  const age = cacheAgeDays(before.refreshed_at);
+  if (before.rows.length > 0 && age <= MONTHLY_MAX_AGE_DAYS) {
+    onProgress(
+      `SCLLR cache ready (${before.rows.length} rows, age ${age.toFixed(1)} days).`
+    );
+    return {
+      ok: true,
+      strategy: "cache_fresh",
+      rows: before.rows.length,
+      refreshed_at: before.refreshed_at
+    };
+  }
+
+  const attempts = [];
+  try {
+    const refresh = await refreshScllrCache({ query, city: "", onProgress });
+    attempts.push("live_refresh");
+    const afterLive = readCache();
+    if (afterLive.rows.length) {
+      return {
+        ok: true,
+        strategy: "live_refresh",
+        rows: afterLive.rows.length,
+        refreshed_at: afterLive.refreshed_at,
+        refresh
+      };
+    }
+  } catch (error) {
+    attempts.push("live_refresh_failed");
+    onProgress(`Live SCLLR refresh failed: ${error?.message || String(error)}`);
+  }
+
+  const localImport = await importLocalMonthlyDrop({ onProgress });
+  if (localImport.importedRows > 0) {
+    attempts.push("local_monthly_drop");
+    const afterLocal = readCache();
+    return {
+      ok: true,
+      strategy: "local_monthly_drop",
+      rows: afterLocal.rows.length,
+      refreshed_at: afterLocal.refreshed_at,
+      localImport
+    };
+  }
+
+  const urlImport = await importMonthlyUrls({ onProgress });
+  if (urlImport.importedRows > 0) {
+    attempts.push("monthly_urls");
+    const afterUrl = readCache();
+    return {
+      ok: true,
+      strategy: "monthly_urls",
+      rows: afterUrl.rows.length,
+      refreshed_at: afterUrl.refreshed_at,
+      urlImport
+    };
+  }
+
+  const after = readCache();
+  if (!after.rows.length) {
+    throw new Error(
+      "SCLLR cache unavailable. Live refresh failed and no monthly SCLLR CSV source was available."
+    );
+  }
+
+  return {
+    ok: true,
+    strategy: "cache_existing",
+    rows: after.rows.length,
+    refreshed_at: after.refreshed_at,
+    attempts
   };
 }
 

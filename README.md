@@ -69,6 +69,58 @@ SCLLR-only endpoints:
 - `POST /api/scllr/refresh`
 - `GET /api/scllr/stats`
 
+## Monthly SCLLR cache ingest (recommended)
+
+Use this to populate SCLLR search from a monthly downloaded CSV dataset.
+
+1. Put one or more SCLLR CSV files in:
+
+- `data/scllr-monthly-drop/`
+
+2. Run monthly import:
+
+```bash
+cd /Users/mcdowell/Desktop/temp\ files/google-subcontractor-finder
+npm run scllr:monthly
+```
+
+Optional: import specific file(s):
+
+```bash
+npm run scllr:monthly -- --input "/absolute/path/to/file.csv"
+```
+
+Optional: replace cache with first file before merging remaining files:
+
+```bash
+npm run scllr:monthly -- --replace
+```
+
+This writes the searchable SCLLR cache to:
+
+- `data/scllr-contractors.json`
+
+### App-integrated automatic monthly behavior
+
+SCLLR search now auto-runs cache readiness before searching:
+
+1. Uses existing cache if fresh.
+2. Attempts live SCLLR refresh.
+3. Attempts CSV import from `data/scllr-monthly-drop/`.
+4. Optionally attempts URL imports from env var `SCLLR_MONTHLY_CSV_URLS`.
+
+If you have a monthly SCLLR export URL (or multiple), set:
+
+```bash
+SCLLR_MONTHLY_CSV_URLS=https://example.com/scllr-monthly.csv,https://example.com/scllr-extra.csv
+```
+
+Optional freshness window (default 31 days):
+
+```bash
+SCLLR_MONTHLY_MAX_AGE_DAYS=31
+```
+
 ## Notes
 
 - Netlify static hosting is not a fit for this app’s backend scraping flow.

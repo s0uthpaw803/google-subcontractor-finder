@@ -4,7 +4,13 @@ import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { searchSubcontractors, toCsv } from "./search-engine.js";
-import { refreshScllrCache, searchScllrOnly, scllrStats, importScllrCsv } from "./scllr-engine.js";
+import {
+  refreshScllrCache,
+  searchScllrOnly,
+  scllrStats,
+  importScllrCsv,
+  ensureScllrCacheReady
+} from "./scllr-engine.js";
 
 const PORT = Number(process.env.PORT || 8787);
 const HOST = process.env.HOST || "0.0.0.0";
@@ -13,8 +19,57 @@ const APP_HTML = path.join(ROOT, "ui", "app.html");
 const SCLLR_HTML = path.join(ROOT, "ui", "scllr.html");
 const UI_DIR = path.join(ROOT, "ui");
 const QUERY_CATEGORIES_JSON = path.join(ROOT, "data", "query-categories.json");
+const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const REQUEST_TIMEOUT_MS = 12000;
+
+function normalizeValue(v) {
+  return String(v || "").trim().toLowerCase();
+}
+
+function buildSearchSignature({ location = "", query = "", queries = [], radiusMiles = 25 }) {
+  const q = Array.isArray(queries) ? queries.map(normalizeValue).filter(Boolean).sort() : [];
+  return [
+    normalizeValue(location),
+    normalizeValue(query),
+    q.join("|"),
+    String(Number(radiusMiles || 25))
+  ].join("::");
+}
+
+function buildRowKey(row) {
+  if (row?.place_id) return `place:${String(row.place_id).trim()}`;
+  if (row?.maps_url) return `map:${String(row.maps_url).trim()}`;
+  if (row?.website) return `web:${String(row.website).trim()}`;
+  return `name:${String(row?.name || "").trim()}|addr:${String(row?.address || "").trim()}`;
+}
+
+function loadIrrelevantRules() {
+  if (!fs.existsSync(IRRELEVANT_JSON)) return [];
+  try {
+    const raw = fs.readFileSync(IRRELEVANT_JSON, "utf8");
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveIrrelevantRules(rules) {
+  fs.mkdirSync(path.dirname(IRRELEVANT_JSON), { recursive: true });
+  fs.writeFileSync(IRRELEVANT_JSON, `${JSON.stringify(rules, null, 2)}\n`, "utf8");
+}
+
+function getBlockedKeySet(signature) {
+  const sig = normalizeValue(signature);
+  const out = new Set();
+  loadIrrelevantRules().forEach((rule) => {
+    if (normalizeValue(rule?.signature) !== sig) return;
+    const key = String(rule?.key || "").trim();
+    if (key) out.add(key);
+  });
+  return out;
+}
 
 function getGoogleApiKey() {
   if (process.env.GOOGLE_MAPS_API_KEY) return process.env.GOOGLE_MAPS_API_KEY.trim();
@@ -136,7 +191,12 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const buf = fs.readFileSync(filePath);
-      res.writeHead(200, { "Content-Type": contentTypeFor(filePath) });
+      res.writeHead(200, {
+        "Content-Type": contentTypeFor(filePath),
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
       res.end(buf);
       return;
     }
@@ -151,6 +211,12 @@ const server = http.createServer(async (req, res) => {
       }
 
       const logs = [];
+      const searchSignature = buildSearchSignature({
+        location: input.location,
+        query: input.query || "general contractor",
+        queries: Array.isArray(input.queries) ? input.queries : [],
+        radiusMiles: input.radiusMiles
+      });
       const result = await searchSubcontractors({
         location: input.location,
         query: input.query || "general contractor",
@@ -164,7 +230,42 @@ const server = http.createServer(async (req, res) => {
         onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
       });
 
-      sendJson(res, 200, { ...result, logs });
+      const blocked = getBlockedKeySet(searchSignature);
+      const rows = (Array.isArray(result.rows) ? result.rows : [])
+        .map((row) => ({ ...row, result_key: buildRowKey(row) }))
+        .filter((row) => !blocked.has(row.result_key));
+
+      sendJson(res, 200, {
+        ...result,
+        rows,
+        logs,
+        search_signature: searchSignature
+      });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/irrelevant") {
+      const raw = await readBody(req);
+      const input = raw ? JSON.parse(raw) : {};
+      const signature = String(input.signature || "").trim();
+      const key = String(input.key || "").trim();
+      const action = String(input.action || "add").trim().toLowerCase();
+      if (!signature || !key) {
+        sendJson(res, 400, { error: "Missing signature or key" });
+        return;
+      }
+
+      let rules = loadIrrelevantRules();
+      rules = rules.filter((r) => !(String(r.signature || "").trim() === signature && String(r.key || "").trim() === key));
+      if (action !== "remove") {
+        rules.push({
+          signature,
+          key,
+          created_at: new Date().toISOString()
+        });
+      }
+      saveIrrelevantRules(rules);
+      sendJson(res, 200, { ok: true, action, signature, key });
       return;
     }
 
@@ -208,13 +309,18 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const logs = [];
+      const onProgress = (msg) => logs.push(`${new Date().toISOString()} ${msg}`);
+      const ready = await ensureScllrCacheReady({
+        query: String(input.query || "contractor"),
+        onProgress
+      });
       const result = await searchScllrOnly({
         location: String(input.location || ""),
         query: String(input.query || ""),
         radiusMiles: Number(input.radiusMiles || 25),
-        onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
+        onProgress
       });
-      sendJson(res, 200, { ...result, logs });
+      sendJson(res, 200, { ...result, cache_ready: ready, logs });
       return;
     }
 

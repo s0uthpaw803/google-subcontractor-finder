@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f444a"/>
+      <stop offset="0.5" stop-color="#2a2f34"/>
+      <stop offset="1" stop-color="#1c2024"/>
+    </linearGradient>
+    <pattern id="brush" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="transparent"/>
+      <rect y="1" width="6" height="1" fill="rgba(255,255,255,.09)"/>
+      <rect y="4" width="6" height="1" fill="rgba(0,0,0,.16)"/>
+    </pattern>
+    <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.12"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <rect width="1600" height="900" fill="url(#brush)" opacity="0.8"/>
+  <rect width="1600" height="900" filter="url(#noise)"/>
+  <circle cx="60" cy="60" r="20" fill="#666d75" stroke="#9199a3" stroke-width="4"/>
+  <circle cx="1540" cy="60" r="20" fill="#666d75" stroke="#9199a3" stroke-width="4"/>
+  <circle cx="60" cy="840" r="20" fill="#666d75" stroke="#9199a3" stroke-width="4"/>
+  <circle cx="1540" cy="840" r="20" fill="#666d75" stroke="#9199a3" stroke-width="4"/>
+</svg>
