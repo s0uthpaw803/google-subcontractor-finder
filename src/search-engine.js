@@ -465,7 +465,8 @@ export async function searchSubcontractors({
     .map((r) => {
       const hasCoords = Number.isFinite(r.location_lat) && Number.isFinite(r.location_lng) && r.location_lat !== 0 && r.location_lng !== 0;
       const d = hasCoords ? haversineMiles(center.lat, center.lng, r.location_lat, r.location_lng) : null;
-      return { ...r, distance_miles: d == null ? "" : Number(d.toFixed(1)) };
+      const normalizedDistance = d == null ? null : Math.max(0, d < 0.005 ? 0 : d);
+      return { ...r, distance_miles: normalizedDistance == null ? "" : Number(normalizedDistance.toFixed(2)) };
     })
     .filter((r) => r.distance_miles !== "" && Number(r.distance_miles) <= safeRadiusMiles)
     .sort((a, b) => Number(b.confidence || 0) - Number(a.confidence || 0));

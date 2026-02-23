@@ -667,12 +667,22 @@
     }
 
     function sortRows(data){
+      const distanceValue = (v) => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+      };
       const by = els.sortBy.value;
       const out = [...data];
-      if (by === "distance") out.sort((a,b)=>Number(a.distance_miles||9999)-Number(b.distance_miles||9999));
+      if (by === "distance") out.sort((a,b)=>distanceValue(a.distance_miles)-distanceValue(b.distance_miles));
       else if (by === "name") out.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
       else out.sort((a,b)=>Number(b.reliability_score||b.confidence||0)-Number(a.reliability_score||a.confidence||0));
       return out;
+    }
+
+    function formatDistanceMiles(v){
+      const n = Number(v);
+      if (!Number.isFinite(n)) return "";
+      return Math.max(0, n).toFixed(2);
     }
 
     function render(){
@@ -687,7 +697,7 @@
               </label>
             </div>
           </div>
-          <div class="line">${r.distance_miles === "" || r.distance_miles == null ? "" : `${escapeHtml(r.distance_miles)} mi from your location`}</div>
+          <div class="line">${formatDistanceMiles(r.distance_miles) ? `${escapeHtml(formatDistanceMiles(r.distance_miles))} mi from your location` : ""}</div>
           <div class="line">${escapeHtml(r.address || "")}</div>
           <div class="line">${escapeHtml(r.phone || "")}</div>
           <div class="line links">
