@@ -65,13 +65,18 @@
       border:1px solid var(--line);
       border-radius:24px;
       overflow:hidden;
-      background:linear-gradient(180deg,var(--panel),#081a2d);
+      background:var(--app-panel-bg, linear-gradient(180deg,#141414,#090909)) !important;
       box-shadow:0 28px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
     }
-    .app{background:linear-gradient(180deg,#141414,#090909);border-color:#333}
+    .app{border-color:#333}
     .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden}
     .top img{display:block;width:100%;height:auto;background:#10253c}
-    .body{padding:6px 14px 14px;display:grid;gap:12px}
+    .body{
+      padding:6px 14px 14px;
+      display:grid;
+      gap:12px;
+      background:var(--app-panel-bg, linear-gradient(180deg,#141414,#090909)) !important;
+    }
     .field-block{display:grid;gap:0}
     .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
     label{display:block;margin:0 0 6px;font-size:.73rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
@@ -571,15 +576,12 @@
       document.body.setAttribute("data-theme", t);
       els.themeBtn.textContent = t === "light" ? "🌚" : "☀";
       els.themeBtn.title = t === "light" ? "Switch to night mode" : "Switch to day mode";
-      const appBody = els.app.querySelector(".body");
       if (t === "light") {
-        els.app.style.background = "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)";
+        els.app.style.setProperty("--app-panel-bg", "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)");
         els.app.style.borderColor = "#aeb8c4";
-        if (appBody) appBody.style.background = "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)";
       } else {
-        els.app.style.background = "linear-gradient(180deg,#141414,#090909)";
+        els.app.style.setProperty("--app-panel-bg", "linear-gradient(180deg,#141414,#090909)");
         els.app.style.borderColor = "#333";
-        if (appBody) appBody.style.background = "";
       }
       localStorage.setItem("kc_theme", t);
       saveUiState();
