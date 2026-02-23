@@ -52,7 +52,6 @@
       border-radius:24px;
       overflow:hidden;
       box-shadow:0 28px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
-      min-height:min(900px,calc(100vh - 28px));
     }
     .top{position:relative;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#1a324f,#11243a)}
     .brand-banner{display:block;width:100%;height:auto;object-fit:contain;object-position:center;background:#10253c}
@@ -70,7 +69,7 @@
     .brand-text{text-align:center;padding:0 44px}
     .h1{font-size:1.25rem;letter-spacing:.06em;font-weight:900;margin:0;line-height:1.05;text-transform:uppercase;background:linear-gradient(180deg,var(--steel-hi),var(--steel-mid) 45%,#a4a4a4 60%,var(--steel-low));-webkit-background-clip:text;background-clip:text;color:transparent}
     .sub{margin:6px 0 0;color:#d5d5d5;font-size:.73rem;letter-spacing:.03em}
-    .body{padding:14px;display:grid;gap:12px;max-width:760px;margin:0 auto}
+    .body{padding:10px 14px 14px;display:grid;gap:12px;max-width:760px;margin:0 auto}
     label{font-size:.73rem;color:#cbcbcb;text-transform:uppercase;letter-spacing:.06em;display:block;margin:0 0 6px}
     .field{display:grid;gap:0}
     .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
@@ -90,6 +89,22 @@
       padding:0;
     }
     .mini-icon-btn.layout-btn{width:auto;min-width:52px;padding:0 8px;font-size:.62rem;letter-spacing:.04em}
+    .mini-nav-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      min-width:58px;
+      height:24px;
+      border-radius:6px;
+      border:1px solid #5b6f86;
+      color:#d9e7f5;
+      text-decoration:none;
+      padding:0 8px;
+      font:800 .6rem "Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.05em;
+      background:linear-gradient(180deg,#29435f,#1c2d42);
+    }
     .theme-state{
       font-family:"Segoe UI",Tahoma,sans-serif;
       font-size:.62rem;
@@ -160,7 +175,24 @@
     .btn2{background:linear-gradient(180deg,#303030 0%,#1b1b1b 100%);border:1px solid #434343;cursor:pointer;font-weight:800;text-transform:uppercase;letter-spacing:.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
     .btn3{background:linear-gradient(180deg,#2a2a2a,#171717);border:1px solid #4a4a4a;color:#e8e8e8;cursor:pointer;font-family:"Segoe UI",Tahoma,sans-serif;font-weight:800;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:6px;height:var(--ctl-h);min-height:var(--ctl-h);text-align:center}
     .btn3 .icon{color:#f2f2f2;font-size:.95rem;line-height:1;text-shadow:0 0 6px rgba(255,255,255,.35)}
-    .hint{font-family:"Segoe UI",Tahoma,sans-serif;font-size:.68rem;color:#b8b8b8;line-height:1.25}
+    .hint{
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.68rem;
+      color:#b8b8b8;
+      line-height:1.25;
+      margin-top:6px;
+      padding:0;
+      border:0;
+      background:transparent;
+    }
+    #queryPreset,
+    #queryPreset option{
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.005em;
+      line-height:1.1;
+    }
     .mini-check{
       display:inline-flex;
       align-items:center;
@@ -205,6 +237,57 @@
     }
     .suggest-item:hover{background:rgba(255,255,255,.28)}
     .suggest-item.action{color:#2a2a2a;font-weight:800}
+    .native-select-hidden{display:none !important}
+    .custom-select{position:relative}
+    .custom-select-btn{
+      width:100%;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .custom-select-btn::after{
+      content:"▾";
+      font-size:.75rem;
+      opacity:.9;
+      flex:0 0 auto;
+    }
+    .custom-select-menu{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 4px);
+      z-index:35;
+      border:1px solid #4e4e4e;
+      border-radius:12px;
+      background:linear-gradient(180deg,#787878,#666);
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      max-height:260px;
+      overflow:auto;
+      padding:4px;
+    }
+    .custom-select-item{
+      width:100%;
+      height:auto;
+      min-height:0;
+      border:0;
+      background:transparent;
+      color:#111;
+      text-align:left;
+      font-family:"Segoe UI",Tahoma,sans-serif;
+      font-size:.82rem;
+      font-weight:700;
+      padding:6px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      line-height:1.15;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .custom-select-item:hover{background:rgba(255,255,255,.28)}
+    .custom-select-item.active{background:rgba(255,255,255,.24)}
     .hidden{display:none !important}
     .status{font-size:.82rem;color:#e0e0e0;min-height:20px;white-space:pre-wrap;font-family:"Segoe UI",Tahoma,sans-serif;font-weight:700}
     .meta{font-size:.75rem;color:#a6a6a6}
@@ -273,6 +356,11 @@
       background:linear-gradient(180deg,#d7d7d7,#c7c7c7);
     }
     .app[data-theme="light"] .suggest-item{color:#202020}
+    .app[data-theme="light"] .custom-select-menu{
+      border-color:#a6a6a6;
+      background:linear-gradient(180deg,#d7d7d7,#c7c7c7);
+    }
+    .app[data-theme="light"] .custom-select-item{color:#202020}
 
     .app[data-layout="keystone"]{background:linear-gradient(180deg,#171717,#0d0d0d)}
     .app[data-layout="keystone"] .top{background:linear-gradient(180deg,#2d2d2d,#181818)}
@@ -289,12 +377,53 @@
       border:1px solid #8f1220;
       color:#fff;
     }
+    .app[data-layout="keystone"] .mini-nav-btn{
+      border-color:#4a4a4a;
+      color:#e6e6e6;
+      background:linear-gradient(180deg,#2f2f2f,#1b1b1b);
+    }
 
     @media (max-width: 768px){
       body{padding:0}
       .shell{max-width:100%}
       .app{border-radius:0;min-height:100vh}
       #sizeBtn{display:none}
+      #queryPreset,
+      #queryPreset option{
+        font-size:.66rem;
+        font-weight:700;
+        letter-spacing:0;
+        line-height:1.0;
+      }
+      #queryPreset{
+        font-size:.72rem;
+      }
+      .label-row{
+        flex-direction:column;
+        align-items:stretch;
+        gap:6px;
+      }
+      .theme-toggle{
+        width:100%;
+        justify-content:flex-end;
+        flex-wrap:nowrap;
+        gap:4px;
+        overflow-x:auto;
+        scrollbar-width:none;
+      }
+      .theme-toggle::-webkit-scrollbar{display:none}
+      .mini-nav-btn{min-width:52px;padding:0 6px;font-size:.56rem}
+      .mini-icon-btn.layout-btn{min-width:46px;padding:0 6px;font-size:.56rem}
+      .mini-nav-btn,.mini-icon-btn.layout-btn,.theme-state,.theme-bolt{flex:0 0 auto}
+      .theme-state{font-size:.58rem;min-width:18px}
+      .custom-select-item{
+        font-size:.74rem;
+        line-height:1.08;
+        padding:4px 7px;
+        margin:0 0 2px;
+      }
+      .custom-select-item:last-child{margin-bottom:0}
+      .hint{font-size:.62rem}
     }
   </style>
 </head>
@@ -325,6 +454,7 @@
             <div class="theme-toggle">
               <button id="sizeBtn" type="button" class="mini-icon-btn" title="Full Size">⛶</button>
               <button id="layoutBtn" type="button" class="mini-icon-btn layout-btn" title="Switch layout">BLUE</button>
+              <a href="/scllr" class="mini-nav-btn" title="Open SCLLR-only app">SCLLR</a>
               <span id="themeState" class="theme-state off">OFF</span>
               <button id="themeBtn" type="button" class="theme-bolt" title="Toggle day/night">⚡</button>
             </div>
@@ -333,14 +463,18 @@
             <input id="location" class="history-host" autocomplete="off" placeholder="Type Requested Location or use current" />
             <div id="locationSuggestMenu" class="suggest-menu hidden"></div>
           </div>
-          <label class="mini-check"><input id="useCurrentLocation" type="checkbox" /> Use current location</label>
+          <label class="mini-check hidden"><input id="useCurrentLocation" type="checkbox" /> Use current location</label>
         </div>
 
         <div>
-          <label for="queryPreset">Business Query</label>
-          <select id="queryPreset">
+          <label for="queryPresetBtn">Business Query</label>
+          <select id="queryPreset" class="native-select-hidden" aria-hidden="true" tabindex="-1">
             <option value="">Select category or trade...</option>
           </select>
+          <div class="custom-select" id="queryPresetCustom">
+            <button id="queryPresetBtn" type="button" class="custom-select-btn">Select category or trade...</button>
+            <div id="queryPresetMenu" class="custom-select-menu hidden"></div>
+          </div>
           <div id="manualQueryWrap" class="hidden" style="margin-top:8px">
             <div class="suggest-wrap">
               <input id="manualQuery" class="history-host" autocomplete="off" value="" placeholder="Manual search override" />
@@ -356,10 +490,16 @@
             <input id="radiusMiles" type="number" min="5" max="45" value="25" />
           </div>
           <div>
-            <span class="field-spacer">Spacer</span>
-            <label class="toggle-card inline"><input id="includeEmails" type="checkbox" /> <span>Get emails if available. (Slower)</span></label>
+            <label for="sortBy">Arrange Results By</label>
+            <select id="sortBy">
+              <option value="distance">Distance</option>
+              <option value="reliability">Reliability Score</option>
+              <option value="size">Company Size</option>
+              <option value="age">Company Age</option>
+            </select>
           </div>
         </div>
+        <input id="includeEmails" type="checkbox" class="hidden" />
 
         <div class="row">
           <button id="searchBtn" class="btn">Search</button>
@@ -367,15 +507,6 @@
         </div>
         <div id="status" class="status">Ready.</div>
         <div id="meta" class="meta"></div>
-        <div class="sort-row">
-          <label for="sortBy">Arrange Results By</label>
-          <select id="sortBy">
-            <option value="distance">Distance</option>
-            <option value="reliability">Reliability Score</option>
-            <option value="size">Company Size</option>
-            <option value="age">Company Age</option>
-          </select>
-        </div>
 
         <div id="list" class="list"></div>
       </div>
@@ -393,6 +524,8 @@
       manualQuery: $("manualQuery"),
       manualSuggestMenu: $("manualSuggestMenu"),
       queryPreset: $("queryPreset"),
+      queryPresetBtn: $("queryPresetBtn"),
+      queryPresetMenu: $("queryPresetMenu"),
       queryLegend: $("queryLegend"),
       sortBy: $("sortBy"),
       radiusMiles: $("radiusMiles"),
@@ -410,6 +543,7 @@
 
     let rows = [];
     let queryCatalog = [];
+    let queryPresetOptions = [{ value: "", label: "Select category or trade..." }];
     const locationSuggestCache = new Map();
     let locationSuggestTimer = null;
     let locationSuggestRequestId = 0;
@@ -667,6 +801,46 @@
       return { type: "none" };
     }
 
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function syncQueryPresetButton() {
+      const current = String(els.queryPreset.value || "");
+      const found = queryPresetOptions.find((o) => o.value === current);
+      els.queryPresetBtn.textContent = found ? found.label : "Select category or trade...";
+      els.queryPresetMenu.querySelectorAll(".custom-select-item").forEach((el) => {
+        const v = el.getAttribute("data-value") || "";
+        el.classList.toggle("active", v === current);
+      });
+    }
+
+    function setQueryPresetOptions(options) {
+      queryPresetOptions = Array.isArray(options) && options.length ? options : [{ value: "", label: "Select category or trade..." }];
+      els.queryPreset.innerHTML = queryPresetOptions
+        .map((o) => `<option value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</option>`)
+        .join("");
+      els.queryPresetMenu.innerHTML = queryPresetOptions
+        .map((o) => `<button type="button" class="custom-select-item" data-value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</button>`)
+        .join("");
+      if (!queryPresetOptions.some((o) => o.value === els.queryPreset.value)) {
+        els.queryPreset.value = "";
+      }
+      syncQueryPresetButton();
+    }
+
+    function closeQueryPresetMenu() {
+      els.queryPresetMenu.classList.add("hidden");
+    }
+
+    function toggleQueryPresetMenu() {
+      els.queryPresetMenu.classList.toggle("hidden");
+    }
+
     async function loadQueryCategories() {
       try {
         const res = await fetch("/api/query-categories");
@@ -677,17 +851,24 @@
           els.queryLegend.textContent = data.legend || "Selecting a parent runs all children in that section.";
         }
         const opts = [
-          `<option value="">Select category or trade...</option>`,
-          `<option value="manual">Manual Search Override</option>`
+          { value: "", label: "Select category or trade..." },
+          { value: "manual", label: "Manual Override (Optional)" }
         ];
-        queryCatalog.forEach((sec, secIdx) => {
-          const secLabel = sec.label || sec.section || `Section ${secIdx + 1}`;
-          opts.push(`<option value="parent:${secIdx}">All in ${secLabel}</option>`);
-          (Array.isArray(sec.children) ? sec.children : []).forEach((child, childIdx) => {
-            opts.push(`<option value="child:${secIdx}:${childIdx}">${secLabel} -> ${child}</option>`);
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const parentMax = isMobile ? 20 : 32;
+        const sortedSections = [...queryCatalog]
+          .map((sec, secIdx) => ({ sec, secIdx }))
+          .sort((a, b) => {
+            const aLabel = String(a.sec?.label || a.sec?.section || "").toLowerCase();
+            const bLabel = String(b.sec?.label || b.sec?.section || "").toLowerCase();
+            return aLabel.localeCompare(bLabel);
           });
+        sortedSections.forEach(({ sec, secIdx }) => {
+          const secLabel = sec.label || sec.section || `Section ${secIdx + 1}`;
+          const compactSecLabel = compactMenuText(secLabel, parentMax);
+          opts.push({ value: `parent:${secIdx}`, label: compactSecLabel });
         });
-        els.queryPreset.innerHTML = opts.join("");
+        setQueryPresetOptions(opts);
       } catch (err) {
         if (els.queryLegend) {
           els.queryLegend.textContent = "Category menu unavailable. Use manual query.";
@@ -698,6 +879,15 @@
     function updateManualQueryVisibility() {
       const isManual = els.queryPreset.value === "manual";
       els.manualQueryWrap.classList.toggle("hidden", !isManual);
+    }
+
+    function compactMenuText(value, maxLen = 28) {
+      const normalized = String(value || "")
+        .replace(/\s*->\s*/g, " - ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (normalized.length <= maxLen) return normalized;
+      return `${normalized.slice(0, Math.max(8, maxLen - 1)).trim()}...`;
     }
 
     function sizeRank(v) {
@@ -934,9 +1124,21 @@
     els.layoutBtn.addEventListener("click", toggleLayout);
     els.themeBtn.addEventListener("click", toggleTheme);
     els.queryPreset.addEventListener("change", () => {
-      const preset = parsePresetValue(els.queryPreset.value);
       updateManualQueryVisibility();
+      syncQueryPresetButton();
       persistFormState();
+    });
+    els.queryPresetBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleQueryPresetMenu();
+    });
+    els.queryPresetMenu.addEventListener("click", (e) => {
+      const btn = e.target.closest(".custom-select-item");
+      if (!btn) return;
+      const value = btn.getAttribute("data-value") || "";
+      els.queryPreset.value = value;
+      closeQueryPresetMenu();
+      els.queryPreset.dispatchEvent(new Event("change"));
     });
     els.sortBy.addEventListener("change", () => {
       render(rows);
@@ -994,6 +1196,7 @@
     });
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".suggest-wrap")) closeSuggestMenus();
+      if (!e.target.closest("#queryPresetCustom")) closeQueryPresetMenu();
     });
     els.downloadBtn.addEventListener("click", () => {
       if (!rows.length) return setStatus("No rows to download.");

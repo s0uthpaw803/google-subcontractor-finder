@@ -4,11 +4,13 @@ import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { searchSubcontractors, toCsv } from "./search-engine.js";
+import { refreshScllrCache, searchScllrOnly, scllrStats, importScllrCsv } from "./scllr-engine.js";
 
 const PORT = Number(process.env.PORT || 8787);
 const HOST = process.env.HOST || "0.0.0.0";
 const ROOT = path.resolve(process.cwd());
 const APP_HTML = path.join(ROOT, "ui", "app.html");
+const SCLLR_HTML = path.join(ROOT, "ui", "scllr.html");
 const UI_DIR = path.join(ROOT, "ui");
 const QUERY_CATEGORIES_JSON = path.join(ROOT, "data", "query-categories.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
@@ -109,6 +111,13 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && url.pathname === "/scllr") {
+      const html = fs.readFileSync(SCLLR_HTML, "utf8");
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.end(html);
+      return;
+    }
+
     if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
       const relPath = url.pathname.replace(/^\/+/, "");
       const filePath = path.join(UI_DIR, relPath);
@@ -173,6 +182,55 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname === "/api/ping") {
       sendJson(res, 200, { ok: true, service: "subcontractor-finder" });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/scllr/stats") {
+      sendJson(res, 200, scllrStats());
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/scllr/search") {
+      const raw = await readBody(req);
+      const input = raw ? JSON.parse(raw) : {};
+      if (!input.location) {
+        sendJson(res, 400, { error: "Missing location" });
+        return;
+      }
+      const logs = [];
+      const result = await searchScllrOnly({
+        location: String(input.location || ""),
+        query: String(input.query || ""),
+        radiusMiles: Number(input.radiusMiles || 25),
+        onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
+      });
+      sendJson(res, 200, { ...result, logs });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/scllr/refresh") {
+      const raw = await readBody(req);
+      const input = raw ? JSON.parse(raw) : {};
+      const logs = [];
+      const result = await refreshScllrCache({
+        query: String(input.query || "contractor"),
+        city: String(input.city || ""),
+        onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
+      });
+      sendJson(res, 200, { ...result, logs });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/scllr/import") {
+      const raw = await readBody(req);
+      const input = raw ? JSON.parse(raw) : {};
+      const logs = [];
+      const result = await importScllrCsv({
+        csvText: String(input.csvText || ""),
+        merge: input.merge !== false,
+        onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
+      });
+      sendJson(res, 200, { ...result, logs });
       return;
     }
 

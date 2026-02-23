@@ -7,6 +7,7 @@ Local + deployable subcontractor search app.
 - `src/` backend search engine + web server
 - `ui/` single-page app + logo assets
 - `scripts/` helper scripts
+- `data/scllr-contractors.json` SCLLR-only cache dataset for verification-mode app
 - `data/exports/` CSV output folder (ignored in git)
 
 ## Local run (recommended)
@@ -18,6 +19,10 @@ Local + deployable subcontractor search app.
 2. It starts backend and opens:
 
 [http://127.0.0.1:8787](http://127.0.0.1:8787)
+
+SCLLR-only version:
+
+[http://127.0.0.1:8787/scllr](http://127.0.0.1:8787/scllr)
 
 ## CLI run
 
@@ -58,7 +63,14 @@ Health check endpoint:
 
 - `/api/ping`
 
+SCLLR-only endpoints:
+
+- `POST /api/scllr/search`
+- `POST /api/scllr/refresh`
+- `GET /api/scllr/stats`
+
 ## Notes
 
 - Netlify static hosting is not a fit for this app’s backend scraping flow.
 - `logs/` and CSV exports are git-ignored.
+- SCLLR data mode uses cache file `data/scllr-contractors.json` and can be refreshed from public SCLLR verification pages.
