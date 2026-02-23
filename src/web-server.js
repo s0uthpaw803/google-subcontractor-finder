@@ -20,6 +20,7 @@ const SCLLR_HTML = path.join(ROOT, "ui", "scllr.html");
 const UI_DIR = path.join(ROOT, "ui");
 const QUERY_CATEGORIES_JSON = path.join(ROOT, "data", "query-categories.json");
 const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
+const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const REQUEST_TIMEOUT_MS = 12000;
@@ -70,6 +71,45 @@ function getBlockedKeySet(signature) {
     if (key) out.add(key);
   });
   return out;
+}
+
+function loadPreferredRows() {
+  if (!fs.existsSync(PREFERRED_JSON)) return [];
+  try {
+    const raw = fs.readFileSync(PREFERRED_JSON, "utf8");
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function savePreferredRows(rows) {
+  fs.mkdirSync(path.dirname(PREFERRED_JSON), { recursive: true });
+  fs.writeFileSync(PREFERRED_JSON, `${JSON.stringify(rows, null, 2)}\n`, "utf8");
+}
+
+function sanitizePreferredRow(input) {
+  const row = input && typeof input === "object" ? input : {};
+  return {
+    result_key: buildRowKey(row),
+    source: String(row.source || ""),
+    name: String(row.name || ""),
+    phone: String(row.phone || ""),
+    website: String(row.website || ""),
+    address: String(row.address || ""),
+    distance_miles: Number.isFinite(Number(row.distance_miles)) ? Number(row.distance_miles) : "",
+    maps_url: String(row.maps_url || row.map_url || ""),
+    place_id: String(row.place_id || ""),
+    business_status: String(row.business_status || ""),
+    confidence: Number.isFinite(Number(row.confidence)) ? Number(row.confidence) : "",
+    reliability_score: Number.isFinite(Number(row.reliability_score)) ? Number(row.reliability_score) : "",
+    company_size: String(row.company_size || ""),
+    company_age: String(row.company_age || ""),
+    emails: String(row.emails || ""),
+    category_section: String(row.category_section || ""),
+    preferred_at: new Date().toISOString()
+  };
 }
 
 function getGoogleApiKey() {
@@ -298,6 +338,41 @@ const server = http.createServer(async (req, res) => {
       }
       saveIrrelevantRules(rules);
       sendJson(res, 200, { ok: true, action, signature, key });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/preferred") {
+      sendJson(res, 200, { rows: loadPreferredRows() });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/preferred") {
+      const raw = await readBody(req);
+      const input = raw ? JSON.parse(raw) : {};
+      const action = String(input.action || "add").trim().toLowerCase();
+      const key = String(input.key || "").trim();
+      let rows = loadPreferredRows();
+
+      if (action === "remove") {
+        if (!key) {
+          sendJson(res, 400, { error: "Missing key" });
+          return;
+        }
+        rows = rows.filter((r) => String(r.result_key || "").trim() !== key);
+        savePreferredRows(rows);
+        sendJson(res, 200, { ok: true, action: "remove", key, rows });
+        return;
+      }
+
+      const row = sanitizePreferredRow(input.row || {});
+      if (!row.result_key) {
+        sendJson(res, 400, { error: "Missing row key" });
+        return;
+      }
+      rows = rows.filter((r) => String(r.result_key || "").trim() !== row.result_key);
+      rows.push(row);
+      savePreferredRows(rows);
+      sendJson(res, 200, { ok: true, action: "add", row, rows });
       return;
     }
 

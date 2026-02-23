@@ -460,11 +460,11 @@
     let pendingRemoval = null;
     let statusTimer = null;
     const LOCAL_IRRELEVANT_KEY = "kc_irrelevant_filters_v1";
-    const PREFERRED_KEY = "kc_preferred_results_v1";
     const UI_STATE_KEY = "kc_ui_state_v2";
     const isDesktop = window.matchMedia("(min-width: 769px)");
     const POPUP_WIDTH = 440;
     const POPUP_HEIGHT = 890;
+    let preferredRowsCache = [];
 
     function escapeHtml(v){
       return String(v || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
@@ -497,41 +497,46 @@
     }
 
     function loadPreferredRows(){
-      try{
-        const raw = localStorage.getItem(PREFERRED_KEY);
-        const data = raw ? JSON.parse(raw) : [];
-        return Array.isArray(data) ? data : [];
-      }catch{
-        return [];
-      }
+      return Array.isArray(preferredRowsCache) ? preferredRowsCache : [];
     }
 
-    function savePreferredRows(items){
+    async function refreshPreferredRows(){
       try{
-        localStorage.setItem(PREFERRED_KEY, JSON.stringify(items));
-      }catch{}
+        const res = await fetch("/api/preferred");
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        preferredRowsCache = Array.isArray(data.rows) ? data.rows : [];
+      }catch{
+        preferredRowsCache = Array.isArray(preferredRowsCache) ? preferredRowsCache : [];
+      }
+      return preferredRowsCache;
     }
 
     function isPreferred(rowKey){
       return loadPreferredRows().some((r)=>String(r?.result_key||"") === String(rowKey||""));
     }
 
-    function addPreferredRow(row){
-      const key = String(row?.result_key || makeRowKey(row));
-      if (!key) return;
-      const items = loadPreferredRows().filter((r)=>String(r?.result_key||"") !== key);
-      items.push({
-        ...row,
-        result_key: key,
-        preferred_at: new Date().toISOString()
+    async function addPreferredRow(row){
+      const res = await fetch("/api/preferred", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "add", row })
       });
-      savePreferredRows(items);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      preferredRowsCache = Array.isArray(data.rows) ? data.rows : preferredRowsCache;
     }
 
-    function removePreferredRow(rowKey){
+    async function removePreferredRow(rowKey){
       const key = String(rowKey || "");
-      const items = loadPreferredRows().filter((r)=>String(r?.result_key||"") !== key);
-      savePreferredRows(items);
+      const res = await fetch("/api/preferred", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "remove", key })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      preferredRowsCache = Array.isArray(data.rows) ? data.rows : preferredRowsCache.filter((r)=>String(r?.result_key||"") !== key);
     }
 
     function preferredRowsForParent(parentLabel = ""){
@@ -824,13 +829,27 @@
       saveUiState();
     }
 
+    async function applyPreferredSelectionIfChosen(){
+      const p = parsePreset();
+      if (p.type !== "preferred_all" && p.type !== "preferred_parent") return;
+      await refreshPreferredRows();
+      const preferred = p.type === "preferred_parent"
+        ? preferredRowsForParent(p.section?.label || p.section?.section || "")
+        : preferredRowsForParent("");
+      rows = preferred.map((r) => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
+      currentSearchSignature = "";
+      render();
+      setStatus(`${rows.length} preferred results found.`);
+      saveUiState();
+    }
+
     async function loadCategories(){
       try{
         const res = await fetch("/api/query-categories");
         if(!res.ok) throw new Error();
         const data = await res.json();
         sections = Array.isArray(data.sections) ? data.sections : [];
-        const preferred = loadPreferredRows();
+        const preferred = await refreshPreferredRows();
         if (data.legend) els.queryLegend.textContent = data.legend;
         const opts = [
           '<option value="">Select category or trade...</option>',
@@ -867,6 +886,7 @@
       let queryContexts = [];
 
       if (p.type === "preferred_all" || p.type === "preferred_parent") {
+        await refreshPreferredRows();
         const preferred = p.type === "preferred_parent"
           ? preferredRowsForParent(p.section?.label || p.section?.section || "")
           : preferredRowsForParent("");
@@ -1083,7 +1103,10 @@
       els.themeBtn.addEventListener("click", ()=>applyTheme((els.app.getAttribute("data-theme")||"dark") === "dark" ? "light" : "dark"));
     els.sizeBtn.addEventListener("click", toggleSizeControl);
     els.useMyLocation.addEventListener("change", handleUseMyLocationToggle);
-    els.queryPreset.addEventListener("change", ()=>els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual"));
+    els.queryPreset.addEventListener("change", ()=>{
+      els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual");
+      void applyPreferredSelectionIfChosen();
+    });
     els.sortBy.addEventListener("change", render);
     els.searchBtn.addEventListener("click", runSearch);
     els.downloadBtn.addEventListener("click", downloadCsv);
@@ -1127,7 +1150,7 @@
         return;
       }
     });
-    els.list.addEventListener("click", (event) => {
+    els.list.addEventListener("click", async (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
       if (!target.classList.contains("pref-star")) return;
@@ -1137,19 +1160,29 @@
       const row = rows.find((r) => String(r.result_key || "") === rowKey);
       if (!row) return;
       if (isPreferred(rowKey)) {
-        removePreferredRow(rowKey);
-        target.classList.remove("active");
-        target.textContent = "☆";
-        if (parsePreset().type === "preferred_all" || parsePreset().type === "preferred_parent") {
-          rows = rows.filter((r) => String(r.result_key || "") !== rowKey);
-          render();
+        try {
+          await removePreferredRow(rowKey);
+          target.classList.remove("active");
+          target.textContent = "☆";
+          if (parsePreset().type === "preferred_all" || parsePreset().type === "preferred_parent") {
+            rows = rows.filter((r) => String(r.result_key || "") !== rowKey);
+            render();
+          }
+          setStatus("Removed from preferred.", { hideAfterMs: 1800 });
+          await loadCategories();
+        } catch (err) {
+          setStatus(`Could not update preferred: ${err.message}`, { hideAfterMs: 2800 });
         }
-        setStatus("Removed from preferred.", { hideAfterMs: 1800 });
       } else {
-        addPreferredRow(row);
-        target.classList.add("active");
-        target.textContent = "★";
-        setStatus("Added to preferred.", { hideAfterMs: 1800 });
+        try {
+          await addPreferredRow(row);
+          target.classList.add("active");
+          target.textContent = "★";
+          setStatus("Added to preferred.", { hideAfterMs: 1800 });
+          await loadCategories();
+        } catch (err) {
+          setStatus(`Could not update preferred: ${err.message}`, { hideAfterMs: 2800 });
+        }
       }
       saveUiState();
     });
