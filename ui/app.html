@@ -223,9 +223,9 @@
       font:700 .78rem "Segoe UI",Tahoma,sans-serif;
       color:#d9e3ef;
       position:fixed;
-      left:50%;
-      bottom:18px;
-      transform:translate(-50%,12px);
+      left:16px;
+      top:16px;
+      transform:translateY(12px);
       opacity:0;
       pointer-events:none;
       transition:opacity .2s ease,transform .2s ease;
@@ -236,7 +236,7 @@
     .confirm-toast.is-open{
       opacity:1;
       pointer-events:auto;
-      transform:translate(-50%,0);
+      transform:translateY(0);
     }
     .confirm-actions{
       display:inline-flex;
@@ -257,8 +257,9 @@
       cursor:pointer;
     }
     #confirmDeleteNo{
-      border-color:#6b7280;
-      background:linear-gradient(180deg,#2f2f2f,#1d1d1d);
+      border-color:#8f1220;
+      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
+      color:#fff;
     }
     .hidden{display:none !important}
 
@@ -304,6 +305,11 @@
       border-color:#94a3b8;
       background:linear-gradient(180deg,#dbe3ee,#cfd8e3);
       color:#0f172a;
+    }
+    .app[data-theme="light"] #confirmDeleteNo{
+      border-color:#8f1220;
+      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
+      color:#fff;
     }
     .app[data-theme="light"] .inline-check{color:#2f3a47}
     .app[data-theme="light"] .inline-check input[type="checkbox"]{
@@ -848,10 +854,30 @@
       return data;
     }
 
-    function showConfirm(row){
+    function positionConfirmToast(anchorRect = null){
+      const toast = els.confirmBar;
+      const margin = 10;
+      if (!anchorRect) {
+        const width = toast.offsetWidth || 320;
+        const left = Math.max(margin, Math.round((window.innerWidth - width) / 2));
+        const top = Math.max(margin, window.innerHeight - (toast.offsetHeight || 56) - 18);
+        toast.style.left = `${left}px`;
+        toast.style.top = `${top}px`;
+        return;
+      }
+      const width = toast.offsetWidth || 320;
+      const height = toast.offsetHeight || 56;
+      const left = Math.max(margin, Math.min(anchorRect.left, window.innerWidth - width - margin));
+      const top = Math.max(margin, Math.min(anchorRect.top + Math.min(anchorRect.height, 22), window.innerHeight - height - margin));
+      toast.style.left = `${Math.round(left)}px`;
+      toast.style.top = `${Math.round(top)}px`;
+    }
+
+    function showConfirm(row, anchorRect = null){
       pendingRemoval = row;
       els.confirmText.textContent = `Delete "${row.name || "this result"}"?`;
       els.confirmBar.classList.add("is-open");
+      requestAnimationFrame(() => positionConfirmToast(anchorRect));
     }
 
     function hideConfirm(){
@@ -860,7 +886,12 @@
     }
 
     function handleUseMyLocationToggle(){
-      if (!els.useMyLocation.checked) return;
+      if (!els.useMyLocation.checked) {
+        els.location.value = "";
+        setStatus("Location cleared.");
+        saveUiState();
+        return;
+      }
       if (!navigator.geolocation) {
         setStatus("Geolocation is not supported on this device/browser.");
         els.useMyLocation.checked = false;
@@ -868,7 +899,7 @@
       }
       setStatus("Getting your location...");
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
+        async (pos) => {
           const lat = Number(pos.coords.latitude);
           const lng = Number(pos.coords.longitude);
           if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
@@ -876,8 +907,26 @@
             els.useMyLocation.checked = false;
             return;
           }
-          els.location.value = `${lat.toFixed(6)},${lng.toFixed(6)}`;
-          setStatus("Using your current location.");
+          try {
+            const res = await fetch(`/api/reverse-zip?lat=${encodeURIComponent(String(lat))}&lng=${encodeURIComponent(String(lng))}`);
+            const data = await res.json().catch(() => ({}));
+            const zip = String(data?.zip || "").trim();
+            const label = String(data?.label || "").trim();
+            if (zip) {
+              els.location.value = zip;
+              setStatus(`Using your current ZIP: ${zip}`);
+            } else if (label) {
+              els.location.value = label;
+              setStatus(`Using your location: ${label}`);
+            } else {
+              els.location.value = "";
+              setStatus("Could not resolve ZIP from your location.");
+            }
+          } catch {
+            els.location.value = "";
+            setStatus("Could not resolve ZIP from your location.");
+          }
+          saveUiState();
         },
         () => {
           setStatus("Location permission denied or unavailable.");
@@ -949,12 +998,13 @@
         const idx = rows.findIndex((r) => String(r.result_key || "") === rowKey);
         if (idx < 0) return;
         const removed = rows[idx];
+        const anchorRect = card.getBoundingClientRect();
         card.classList.add("is-removing");
         setTimeout(() => {
           rows.splice(idx, 1);
           render();
           saveUiState();
-          showConfirm(removed);
+          showConfirm(removed, anchorRect);
           setStatus("Confirm delete.");
         }, 220);
         return;

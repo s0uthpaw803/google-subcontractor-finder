@@ -21,6 +21,7 @@ const UI_DIR = path.join(ROOT, "ui");
 const QUERY_CATEGORIES_JSON = path.join(ROOT, "data", "query-categories.json");
 const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
+const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const REQUEST_TIMEOUT_MS = 12000;
 
 function normalizeValue(v) {
@@ -122,6 +123,37 @@ async function fetchLocationSuggestions(input) {
     if (out.length >= 8) break;
   }
   return out;
+}
+
+async function reverseZipLookup(lat, lng) {
+  const url = new URL(NOMINATIM_REVERSE_URL);
+  url.searchParams.set("lat", String(lat));
+  url.searchParams.set("lon", String(lng));
+  url.searchParams.set("format", "jsonv2");
+  url.searchParams.set("addressdetails", "1");
+  url.searchParams.set("zoom", "18");
+
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "google-subcontractor-finder/1.0"
+    },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) return { zip: "", label: "" };
+
+  const zip = String(json?.address?.postcode || "").trim();
+  const city =
+    String(
+      json?.address?.city ||
+      json?.address?.town ||
+      json?.address?.village ||
+      json?.address?.hamlet ||
+      ""
+    ).trim();
+  const state = String(json?.address?.state || "").trim();
+  const label = [city, state].filter(Boolean).join(", ");
+  return { zip, label };
 }
 
 function contentTypeFor(filePath) {
@@ -288,6 +320,18 @@ const server = http.createServer(async (req, res) => {
       }
       const suggestions = await fetchLocationSuggestions(q);
       sendJson(res, 200, { suggestions });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/reverse-zip") {
+      const lat = Number(url.searchParams.get("lat"));
+      const lng = Number(url.searchParams.get("lng"));
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+        sendJson(res, 400, { error: "Missing or invalid lat/lng" });
+        return;
+      }
+      const result = await reverseZipLookup(lat, lng);
+      sendJson(res, 200, result);
       return;
     }
 
