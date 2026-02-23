@@ -206,7 +206,21 @@
     .line a{color:#b9d6f1;text-decoration:none}
     .line.links{display:flex;align-items:center;gap:10px}
     .result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .result-left{display:inline-flex;align-items:center;gap:8px;min-width:0}
     .result-tools{display:inline-flex;align-items:center;gap:8px}
+    .pref-star{
+      width:20px;
+      min-width:20px;
+      height:20px;
+      min-height:20px;
+      border:0;
+      padding:0;
+      background:transparent !important;
+      color:#aab4c2;
+      font:700 18px/1 "Segoe UI Symbol","Apple Symbols","Segoe UI",sans-serif;
+      cursor:pointer;
+    }
+    .pref-star.active{color:#be1e2d}
     .irrelevant-check{display:inline-flex;align-items:center;gap:4px;font:700 .72rem "Segoe UI",Tahoma,sans-serif;color:#cfd8e3}
     .irrelevant-check input[type="checkbox"]{
       width:14px;min-width:14px;height:14px;min-height:14px;margin:0;padding:0;border-radius:3px;border:1px solid #6a6a6a;background:#111;
@@ -295,6 +309,8 @@
     .app[data-theme="light"] .name{color:#1f2b38}
     .app[data-theme="light"] .line{color:#3a4654}
     .app[data-theme="light"] .line a{color:#2f5e8a}
+    .app[data-theme="light"] .pref-star{color:#728096}
+    .app[data-theme="light"] .pref-star.active{color:#be1e2d}
     .app[data-theme="light"] .irrelevant-check{color:#2f3a47}
     .app[data-theme="light"] .confirm-toast{
       border-color:#b6c0cb;
@@ -440,9 +456,11 @@
     let rows = [];
     let sections = [];
     let currentSearchSignature = "";
+    let currentGeoLocation = "";
     let pendingRemoval = null;
     let statusTimer = null;
     const LOCAL_IRRELEVANT_KEY = "kc_irrelevant_filters_v1";
+    const PREFERRED_KEY = "kc_preferred_results_v1";
     const UI_STATE_KEY = "kc_ui_state_v2";
     const isDesktop = window.matchMedia("(min-width: 769px)");
     const POPUP_WIDTH = 440;
@@ -478,10 +496,62 @@
       return `name:${String(row?.name || "").trim()}|addr:${String(row?.address || "").trim()}`;
     }
 
+    function loadPreferredRows(){
+      try{
+        const raw = localStorage.getItem(PREFERRED_KEY);
+        const data = raw ? JSON.parse(raw) : [];
+        return Array.isArray(data) ? data : [];
+      }catch{
+        return [];
+      }
+    }
+
+    function savePreferredRows(items){
+      try{
+        localStorage.setItem(PREFERRED_KEY, JSON.stringify(items));
+      }catch{}
+    }
+
+    function isPreferred(rowKey){
+      return loadPreferredRows().some((r)=>String(r?.result_key||"") === String(rowKey||""));
+    }
+
+    function addPreferredRow(row){
+      const key = String(row?.result_key || makeRowKey(row));
+      if (!key) return;
+      const items = loadPreferredRows().filter((r)=>String(r?.result_key||"") !== key);
+      items.push({
+        ...row,
+        result_key: key,
+        preferred_at: new Date().toISOString()
+      });
+      savePreferredRows(items);
+    }
+
+    function removePreferredRow(rowKey){
+      const key = String(rowKey || "");
+      const items = loadPreferredRows().filter((r)=>String(r?.result_key||"") !== key);
+      savePreferredRows(items);
+    }
+
+    function preferredRowsForParent(parentLabel = ""){
+      const p = String(parentLabel || "").trim().toLowerCase();
+      return loadPreferredRows().filter((r) => {
+        if (!p) return true;
+        const section = String(r?.category_section || "").toLowerCase();
+        return section.includes(p);
+      });
+    }
+
+    function formatCoordDisplay(lat, lng){
+      return `${Number(lat).toFixed(4)},${Number(lng).toFixed(4)}`;
+    }
+
     function saveUiState(){
       try{
         const state = {
           location: String(els.location.value || ""),
+          currentGeoLocation: String(currentGeoLocation || ""),
           useMyLocation: Boolean(els.useMyLocation.checked),
           queryPreset: String(els.queryPreset.value || ""),
           manualQuery: String(els.manualQuery.value || ""),
@@ -656,6 +726,12 @@
       const v = String(els.queryPreset.value || "");
       if (!v) return { type: "none" };
       if (v === "manual") return { type: "manual" };
+      if (v === "preferred:all") return { type: "preferred_all" };
+      if (v.startsWith("preferred:parent:")) {
+        const i = Number(v.split(":")[2]);
+        const section = sections[i];
+        return section ? { type: "preferred_parent", section } : { type: "none" };
+      }
       if (v.startsWith("parent:")) {
         const i = Number(v.split(":")[1]);
         return sections[i] ? { type: "parent", section: sections[i] } : { type: "none" };
@@ -672,16 +748,32 @@
       return { type: "none" };
     }
 
-    function sortRows(data){
+    function sortRows(data, preset){
+      const p = preset && typeof preset === "object" ? preset : { type: "none" };
+      const preferredKeys = new Set(loadPreferredRows().map((r) => String(r?.result_key || "")));
+      const selectedParentLabel = p.type === "parent"
+        ? String(p.section?.label || p.section?.section || "").toLowerCase()
+        : "";
+      const preferredBoost = (row) => {
+        const rowKey = String(row?.result_key || "");
+        if (!preferredKeys.has(rowKey)) return 0;
+        if (!selectedParentLabel) return 0;
+        const section = String(row?.category_section || "").toLowerCase();
+        return section.includes(selectedParentLabel) ? 1 : 0;
+      };
       const distanceValue = (v) => {
         const n = Number(v);
         return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
       };
       const by = els.sortBy.value;
       const out = [...data];
-      if (by === "distance") out.sort((a,b)=>distanceValue(a.distance_miles)-distanceValue(b.distance_miles));
-      else if (by === "name") out.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
-      else out.sort((a,b)=>Number(b.reliability_score||b.confidence||0)-Number(a.reliability_score||a.confidence||0));
+      out.sort((a,b) => {
+        const boostDiff = preferredBoost(b) - preferredBoost(a);
+        if (boostDiff !== 0) return boostDiff;
+        if (by === "distance") return distanceValue(a.distance_miles)-distanceValue(b.distance_miles);
+        if (by === "name") return String(a.name||"").localeCompare(String(b.name||""));
+        return Number(b.reliability_score||b.confidence||0)-Number(a.reliability_score||a.confidence||0);
+      });
       return out;
     }
 
@@ -692,11 +784,14 @@
     }
 
     function render(){
-      const data = sortRows(rows);
+      const data = sortRows(rows, parsePreset());
       els.list.innerHTML = data.map((r)=>`
         <div class="card" data-row-key="${escapeHtml(r.result_key || "")}">
           <div class="result-head">
-            <div class="name">${escapeHtml(r.name || "(no name)")}</div>
+            <div class="result-left">
+              <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
+              <div class="name">${escapeHtml(r.name || "(no name)")}</div>
+            </div>
             <div class="result-tools">
               <label class="irrelevant-check">
                 <input type="checkbox" class="irrelevant-toggle" />
@@ -735,14 +830,22 @@
         if(!res.ok) throw new Error();
         const data = await res.json();
         sections = Array.isArray(data.sections) ? data.sections : [];
+        const preferred = loadPreferredRows();
         if (data.legend) els.queryLegend.textContent = data.legend;
         const opts = [
           '<option value="">Select category or trade...</option>',
-          '<option value="manual">Manual Override (Optional)</option>'
+          '<option value="manual">Manual Override (Optional)</option>',
+          '<option value="preferred:all">Preferred Results - All</option>'
         ];
         const sorted = sections.map((s,i)=>({s,i})).sort((a,b)=>String(a.s.label||a.s.section||"").localeCompare(String(b.s.label||b.s.section||"")));
         sorted.forEach(({s,i})=>{
           const label = s.label || s.section || `Section ${i+1}`;
+          const hasPreferredInParent = preferred.some((r) =>
+            String(r?.category_section || "").toLowerCase().includes(String(label).toLowerCase())
+          );
+          if (hasPreferredInParent) {
+            opts.push(`<option value="preferred:parent:${i}">&nbsp;&nbsp;- Preferred in ${escapeHtml(label)}</option>`);
+          }
           opts.push(`<option value="parent:${i}">${escapeHtml(label)}</option>`);
           const kids = Array.isArray(s.children) ? s.children : [];
           kids.forEach((child, cIdx) => {
@@ -754,13 +857,28 @@
     }
 
     async function runSearch(){
-      const loc = String(els.location.value || "").trim();
-      if (!loc) { setStatus("Enter a location first."); return; }
       const p = parsePreset();
+      const loc = els.useMyLocation.checked && String(currentGeoLocation || "").trim()
+        ? String(currentGeoLocation || "").trim()
+        : String(els.location.value || "").trim();
       const manual = String(els.manualQuery.value || "").trim();
       let query = "contractor";
       let queries = [];
       let queryContexts = [];
+
+      if (p.type === "preferred_all" || p.type === "preferred_parent") {
+        const preferred = p.type === "preferred_parent"
+          ? preferredRowsForParent(p.section?.label || p.section?.section || "")
+          : preferredRowsForParent("");
+        rows = preferred.map((r) => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
+        setStatus(`${rows.length} preferred results found.`);
+        els.meta.textContent = "";
+        render();
+        saveUiState();
+        return;
+      }
+
+      if (!loc) { setStatus("Enter a location first."); return; }
 
       if (p.type === "manual" && manual) {
         query = manual;
@@ -887,6 +1005,7 @@
 
     function handleUseMyLocationToggle(){
       if (!els.useMyLocation.checked) {
+        currentGeoLocation = "";
         els.location.value = "";
         setStatus("Location cleared.");
         saveUiState();
@@ -899,38 +1018,24 @@
       }
       setStatus("Getting your location...");
       navigator.geolocation.getCurrentPosition(
-        async (pos) => {
+        (pos) => {
           const lat = Number(pos.coords.latitude);
           const lng = Number(pos.coords.longitude);
           if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
             setStatus("Could not read your current location.");
             els.useMyLocation.checked = false;
+            currentGeoLocation = "";
             return;
           }
-          try {
-            const res = await fetch(`/api/reverse-zip?lat=${encodeURIComponent(String(lat))}&lng=${encodeURIComponent(String(lng))}`);
-            const data = await res.json().catch(() => ({}));
-            const zip = String(data?.zip || "").trim();
-            const label = String(data?.label || "").trim();
-            if (zip) {
-              els.location.value = zip;
-              setStatus(`Using your current ZIP: ${zip}`);
-            } else if (label) {
-              els.location.value = label;
-              setStatus(`Using your location: ${label}`);
-            } else {
-              els.location.value = "";
-              setStatus("Could not resolve ZIP from your location.");
-            }
-          } catch {
-            els.location.value = "";
-            setStatus("Could not resolve ZIP from your location.");
-          }
+          currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+          els.location.value = formatCoordDisplay(lat, lng);
+          setStatus("Using current location (Lat/Lng).");
           saveUiState();
         },
         () => {
           setStatus("Location permission denied or unavailable.");
           els.useMyLocation.checked = false;
+          currentGeoLocation = "";
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
       );
@@ -945,8 +1050,20 @@
     initSizeControl();
     loadCategories().then(() => {
       if (!persistedState) return;
-      els.location.value = String(persistedState.location || "");
+      currentGeoLocation = String(persistedState.currentGeoLocation || "");
       els.useMyLocation.checked = Boolean(persistedState.useMyLocation);
+      if (els.useMyLocation.checked && currentGeoLocation) {
+        const parts = currentGeoLocation.split(",");
+        const lat = Number(parts[0]);
+        const lng = Number(parts[1]);
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          els.location.value = formatCoordDisplay(lat, lng);
+        } else {
+          els.location.value = String(persistedState.location || "");
+        }
+      } else {
+        els.location.value = String(persistedState.location || "");
+      }
       const preset = String(persistedState.queryPreset || "");
       if (preset && [...els.queryPreset.options].some((o) => o.value === preset)) {
         els.queryPreset.value = preset;
@@ -1009,6 +1126,32 @@
         }, 220);
         return;
       }
+    });
+    els.list.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!target.classList.contains("pref-star")) return;
+      const card = target.closest(".card");
+      if (!card) return;
+      const rowKey = card.getAttribute("data-row-key") || "";
+      const row = rows.find((r) => String(r.result_key || "") === rowKey);
+      if (!row) return;
+      if (isPreferred(rowKey)) {
+        removePreferredRow(rowKey);
+        target.classList.remove("active");
+        target.textContent = "☆";
+        if (parsePreset().type === "preferred_all" || parsePreset().type === "preferred_parent") {
+          rows = rows.filter((r) => String(r.result_key || "") !== rowKey);
+          render();
+        }
+        setStatus("Removed from preferred.", { hideAfterMs: 1800 });
+      } else {
+        addPreferredRow(row);
+        target.classList.add("active");
+        target.textContent = "★";
+        setStatus("Added to preferred.", { hideAfterMs: 1800 });
+      }
+      saveUiState();
     });
     els.confirmDeleteYes.addEventListener("click", async () => {
       if (!pendingRemoval) return;
