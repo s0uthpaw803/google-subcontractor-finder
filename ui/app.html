@@ -106,6 +106,29 @@
       background:linear-gradient(180deg,var(--field2),var(--field));color:#fff;padding:0 12px;
       font:700 .86rem "Segoe UI",Tahoma,sans-serif
     }
+    select{
+      -webkit-appearance:none;
+      appearance:none;
+      padding-right:34px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23dbe5f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 11px center;
+      background-size:12px 12px;
+    }
+    input[type="number"]{
+      -webkit-appearance:none;
+      appearance:none;
+      padding-right:34px;
+      background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23dbe5f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");
+      background-repeat:no-repeat;
+      background-position:right 11px center;
+      background-size:12px 12px;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button{
+      -webkit-appearance:none;
+      margin:0;
+    }
     .inline-check{
       text-transform:none;
       font-family:"Segoe UI",Tahoma,sans-serif;
@@ -234,22 +257,34 @@
     }
     .hidden{display:none !important}
 
-    .app[data-theme="light"]{background:linear-gradient(180deg,#141414,#090909);border-color:#333}
-    .app[data-theme="light"] label{color:#3a4654}
+    .app[data-theme="light"]{
+      background:linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%) !important;
+      border-color:#aeb8c4 !important;
+    }
+    .app[data-theme="light"] .body{
+      background:linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%) !important;
+    }
+    .app[data-theme="light"] label{color:#5a6778}
     .app[data-theme="light"] .top{border-bottom-color:#b8c1cb}
     .app[data-theme="light"] input,
     .app[data-theme="light"] select,
     .app[data-theme="light"] button{background:linear-gradient(180deg,#f4f5f7,#e7eaee);border-color:#b7bfc9;color:#1f2a36}
+    .app[data-theme="light"] select,
+    .app[data-theme="light"] input[type="number"]{
+      background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%2337465a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");
+      background-repeat:no-repeat;
+      background-position:right 11px center;
+      background-size:12px 12px;
+    }
     .app[data-theme="light"] .mode-pill,.app[data-theme="light"] .layout-btn,.app[data-theme="light"] .mini-icon,.app[data-theme="light"] .theme-bolt{
       color:#3a4654 !important;
       border:0 !important;
       background:transparent !important;
     }
     .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important}
-    .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#2f3a47}
+    .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#5a6778}
     .app[data-theme="light"] .status button{color:#1d4ed8}
-    .app[data-theme="light"] .hint{color:#667384}
-    .app[data-theme="light"] .hint{color:#666}
+    .app[data-theme="light"] .hint{color:#7a8796}
     .app[data-theme="light"] .card{background:linear-gradient(180deg,#f7f8fa,#e9edf1);border-color:#bdc6d0}
     .app[data-theme="light"] .name{color:#1f2b38}
     .app[data-theme="light"] .line{color:#3a4654}
