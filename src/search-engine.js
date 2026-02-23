@@ -384,7 +384,7 @@ export async function searchSubcontractors({
     throw new Error("Missing GOOGLE_MAPS_API_KEY. Set it in .env or env vars.");
   }
 
-  const safeRadiusMiles = Math.min(45, Math.max(5, Number(radiusMiles) || 25));
+  const safeRadiusMiles = Math.min(45, Math.max(1, Number(radiusMiles) || 25));
   const center = parseLatLngLocation(location) || (await resolveCenterFromPlaces(location, apiKey));
   if (!center) {
     throw new Error(`Could not resolve center for "${location}"`);

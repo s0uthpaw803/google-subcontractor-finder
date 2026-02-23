@@ -120,6 +120,12 @@
       background-position:right 11px center;
       background-size:12px 12px;
     }
+    /* Windows/native dropdown popup readability */
+    select option,
+    select optgroup{
+      color:#111;
+      background:#fff;
+    }
     input[type="number"]{
       -webkit-appearance:none;
       appearance:none;
@@ -391,7 +397,7 @@
         <div class="row">
           <div>
             <label for="radiusMiles">Radius (miles)</label>
-            <input id="radiusMiles" type="number" min="5" max="45" value="25" />
+            <input id="radiusMiles" type="number" min="1" max="45" value="25" />
           </div>
           <div>
             <label for="sortBy">Arrange Results By</label>
