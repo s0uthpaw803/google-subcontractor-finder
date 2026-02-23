@@ -106,14 +106,24 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname === "/") {
       const html = fs.readFileSync(APP_HTML, "utf8");
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
       res.end(html);
       return;
     }
 
     if (req.method === "GET" && url.pathname === "/scllr") {
       const html = fs.readFileSync(SCLLR_HTML, "utf8");
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
       res.end(html);
       return;
     }
