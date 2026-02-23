@@ -329,6 +329,12 @@ async function searchTextGoogle({ textQuery, radiusMeters, apiKey, center = null
 }
 
 function dedupeRows(rows) {
+  const hasCoords = (r) =>
+    Number.isFinite(Number(r?.location_lat)) &&
+    Number.isFinite(Number(r?.location_lng)) &&
+    Number(r?.location_lat) !== 0 &&
+    Number(r?.location_lng) !== 0;
+
   const map = new Map();
   for (const row of rows) {
     const key = row.place_id || `${row.name.toLowerCase()}|${row.phone}|${row.website}`;
@@ -344,6 +350,8 @@ function dedupeRows(rows) {
       website: prev.website || row.website,
       address: prev.address || row.address,
       maps_url: prev.maps_url || row.maps_url,
+      location_lat: hasCoords(prev) ? prev.location_lat : row.location_lat,
+      location_lng: hasCoords(prev) ? prev.location_lng : row.location_lng,
       confidence: Math.max(Number(prev.confidence || 0), Number(row.confidence || 0)),
       reliability_score: Math.max(Number(prev.reliability_score || 0), Number(row.reliability_score || 0)),
       user_rating_count: Math.max(Number(prev.user_rating_count || 0), Number(row.user_rating_count || 0)),
@@ -459,7 +467,7 @@ export async function searchSubcontractors({
       const d = hasCoords ? haversineMiles(center.lat, center.lng, r.location_lat, r.location_lng) : null;
       return { ...r, distance_miles: d == null ? "" : Number(d.toFixed(1)) };
     })
-    .filter((r) => r.distance_miles === "" || Number(r.distance_miles) <= safeRadiusMiles + 1)
+    .filter((r) => r.distance_miles !== "" && Number(r.distance_miles) <= safeRadiusMiles)
     .sort((a, b) => Number(b.confidence || 0) - Number(a.confidence || 0));
 
   if (!rows.length && callErrors.length) {
