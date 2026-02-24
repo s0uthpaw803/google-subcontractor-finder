@@ -31,22 +31,22 @@
       font-family:Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 50% 22%, rgba(126,148,176,.16), transparent 46%),
-        repeating-linear-gradient(0deg, rgba(115,130,145,.16) 0 1px, transparent 1px 44px),
-        repeating-linear-gradient(90deg, rgba(115,130,145,.13) 0 1px, transparent 1px 44px),
-        linear-gradient(180deg, #141414 0%, #0f0f10 45%, #0b0b0c 100%);
+        radial-gradient(circle at 50% 24%, rgba(255,255,255,.04), transparent 48%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, #0c0c0d 0%, #09090a 50%, #070708 100%);
       display:flex;
       justify-content:center;
       padding:14px;
       position:relative;
-      overflow-x:hidden;
+      overflow:hidden;
     }
     body[data-theme="light"]{
       background:
-        radial-gradient(circle at 50% 22%, rgba(126,148,176,.16), transparent 46%),
-        repeating-linear-gradient(0deg, rgba(115,130,145,.16) 0 1px, transparent 1px 44px),
-        repeating-linear-gradient(90deg, rgba(115,130,145,.13) 0 1px, transparent 1px 44px),
-        linear-gradient(180deg, #141414 0%, #0f0f10 45%, #0b0b0c 100%);
+        radial-gradient(circle at 50% 24%, rgba(255,255,255,.04), transparent 48%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, #0c0c0d 0%, #09090a 50%, #070708 100%);
     }
     body::before{
       content:"";
@@ -54,30 +54,57 @@
       inset:0;
       pointer-events:none;
       background:
-        radial-gradient(ellipse at 50% 130px, rgba(130,150,180,.16), rgba(130,150,180,0) 42%),
-        radial-gradient(ellipse at 50% 130px, rgba(0,0,0,0), rgba(0,0,0,.26) 75%);
+        radial-gradient(ellipse at 50% 130px, rgba(255,255,255,.06), rgba(255,255,255,0) 42%),
+        radial-gradient(ellipse at 50% 130px, rgba(0,0,0,0), rgba(0,0,0,.34) 75%);
       z-index:0;
     }
-    .shell{width:100%;max-width:440px}
-    body[data-size="full"] .shell{max-width:920px}
+    .shell{width:100%;max-width:440px;height:calc(100vh - 28px)}
+    body[data-size="full"] .shell{max-width:720px}
     .shell{position:relative;z-index:1}
     .app{
       border:1px solid var(--line);
       border-radius:24px;
       overflow:hidden;
-      background:var(--app-panel-bg, linear-gradient(180deg,#141414,#090909)) !important;
-      box-shadow:0 28px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
+      background:rgba(0, 0, 0, .62) !important;
+      box-shadow:0 20px 46px rgba(0,0,0,.45);
+      backdrop-filter:blur(16px) saturate(128%);
+      -webkit-backdrop-filter:blur(16px) saturate(128%);
+      height:100%;
+      display:flex;
+      flex-direction:column;
     }
     .app{border-color:#333}
     .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden}
     .top img{display:block;width:100%;height:auto;background:#10253c}
     .body{
       padding:6px 14px 14px;
-      display:grid;
+      display:flex;
+      flex-direction:column;
       gap:12px;
-      background:var(--app-panel-bg, linear-gradient(180deg,#141414,#090909)) !important;
+      background:linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.34)) !important;
+      overflow:hidden;
+      min-height:0;
+      flex:1 1 auto;
+      position:relative;
     }
-    .field-block{display:grid;gap:0}
+    .body::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:38px;
+      width:min(44vw, 260px);
+      aspect-ratio:1/1;
+      transform:translateX(-50%);
+      background:url("/assets/logo-white.png") no-repeat center / contain;
+      opacity:.02;
+      pointer-events:none;
+      z-index:0;
+    }
+    .body > *{
+      position:relative;
+    }
+    .field-block{display:grid;gap:0;position:relative;z-index:1}
+    .field-block.location-block{z-index:50}
     .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
     label{display:block;margin:0 0 6px;font-size:.73rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
     .view-controls{
@@ -108,7 +135,7 @@
     .theme-bolt{font-size:15px;color:#ffd166 !important}
     input,select,button{
       width:100%;height:var(--ctl);min-height:var(--ctl);border-radius:12px;border:1px solid #353535;
-      background:linear-gradient(180deg,var(--field2),var(--field));color:#fff;padding:0 12px;
+      background:rgba(22, 26, 33, .54);color:#fff;padding:0 12px;
       font:600 .86rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif
     }
     select{
@@ -164,24 +191,133 @@
       appearance:auto;
     }
     input,select{
-      border-color:#393939;
-      background:linear-gradient(180deg,#1e1e1e,#131313);
+      border-color:rgba(174, 191, 216, .35);
+      background:rgba(20, 24, 31, .48);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
     }
-    input:focus,select:focus{outline:none;border-color:#6d8db1}
+    input:focus,select:focus{outline:none;border-color:#7b9dc3;box-shadow:0 0 0 2px rgba(123,157,195,.22)}
+    input.is-locked{
+      opacity:.92;
+      cursor:not-allowed;
+    }
+    .location-wrap{position:relative}
+    .location-suggest{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 6px);
+      border:1px solid rgba(174,191,216,.35);
+      border-radius:12px;
+      background:rgba(20,24,31,.78);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
+      overflow:hidden;
+      z-index:1200;
+      max-height:220px;
+      overflow-y:auto;
+    }
+    .location-suggest button{
+      width:100%;
+      min-width:100%;
+      height:auto;
+      min-height:unset;
+      border:0;
+      border-bottom:1px solid rgba(120,120,120,.22);
+      border-radius:0;
+      background:transparent;
+      color:#e0e6ef;
+      padding:10px 12px;
+      text-align:left;
+      font:600 .82rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      text-transform:none;
+      letter-spacing:0;
+      cursor:pointer;
+    }
+    .location-suggest button:last-child{border-bottom:0}
+    .location-suggest button:hover{background:rgba(255,255,255,.06)}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .query-select{position:relative}
+    #queryPreset{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+      width:1px;
+      height:1px;
+    }
+    .query-btn{
+      width:100%;
+      text-align:left;
+      padding-right:34px;
+      position:relative;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .query-btn::after{
+      content:"";
+      position:absolute;
+      right:11px;
+      top:50%;
+      width:12px;
+      height:12px;
+      transform:translateY(-50%);
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23dbe5f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+      pointer-events:none;
+    }
+    .query-menu{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 6px);
+      border:1px solid rgba(174,191,216,.35);
+      border-radius:12px;
+      background:rgba(20,24,31,.80);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
+      max-height:240px;
+      overflow:auto;
+      z-index:1300;
+    }
+    .query-item{
+      width:100%;
+      min-width:100%;
+      height:auto;
+      min-height:unset;
+      border:0;
+      border-bottom:1px solid rgba(120,120,120,.22);
+      border-radius:0;
+      background:transparent;
+      color:#e0e6ef;
+      padding:6px 10px;
+      text-align:left;
+      font:600 .76rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      text-transform:none;
+      letter-spacing:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      cursor:pointer;
+    }
+    .query-item:last-child{border-bottom:0}
+    .query-item:hover,.query-item.active{background:rgba(255,255,255,.06)}
     .hint{font:400 .68rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:6px}
     .hint{color:#9a9a9a}
     .btn{
-      border:1px solid var(--accent2);
-      background:linear-gradient(180deg,#355f8d 0%, var(--accent) 52%, var(--accent2) 100%);
-      color:#fff;text-transform:uppercase;letter-spacing:.04em;font-weight:700
+      border:1px solid #991424;
+      background:#be1e2d;
+      color:#fff;text-transform:uppercase;letter-spacing:.04em;font-weight:700;
+      box-shadow:0 8px 20px rgba(0,0,0,.28), 0 2px 0 rgba(255,255,255,.06) inset;
     }
-    .btn.secondary{border-color:#434343;background:linear-gradient(180deg,#303030,#1b1b1b)}
     .btn.secondary{
-      border-color:#4a4a4a;
-      background:linear-gradient(180deg,#2f2f2f,#1b1b1b);
+      border-color:rgba(174,191,216,.35);
+      background:rgba(24,30,38,.56);
+      box-shadow:none;
     }
-    .btn{border-color:var(--danger2);background:linear-gradient(180deg,#d4293a 0%, var(--danger) 52%, var(--danger2) 100%)}
+    .btn:hover{filter:brightness(1.05)}
+    .btn:active{transform:translateY(1px)}
+    .status-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .status{font:600 .82rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e8eef7}
     .status button{
       width:auto;
@@ -198,22 +334,54 @@
       cursor:pointer;
     }
     .meta{font:500 .75rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#c4cfdd}
-    .results-tools-bar{display:flex;justify-content:flex-end}
-    .results-tools-bar .btn{width:auto;min-width:140px;height:34px;min-height:34px;padding:0 12px;font-size:.74rem}
-    .list{display:grid;gap:8px;max-height:52vh;overflow:auto}
-    .card{border:1px solid #313131;border-radius:14px;background:linear-gradient(180deg,#191919,#121212);padding:10px;transition:opacity .22s ease,transform .22s ease,filter .22s ease}
+    .results-tools-bar{display:flex;align-items:center}
+    .clear-link-btn{
+      width:auto;
+      min-width:unset;
+      height:auto;
+      min-height:unset;
+      padding:0;
+      border:0;
+      background:none;
+      color:#b8c8dc;
+      font:700 .8rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      text-transform:none;
+      letter-spacing:0;
+      text-decoration:underline;
+      cursor:pointer;
+    }
+    .clear-link-btn:hover{color:#ffffff}
+    .list{display:grid;gap:8px;flex:1 1 auto;min-height:0;max-height:none;overflow:auto;scrollbar-width:thin;scrollbar-color:#6d8db1 #1a1a1a}
+    .list::-webkit-scrollbar{width:10px}
+    .list::-webkit-scrollbar-track{
+      background:#1a1a1a;
+      border-left:1px solid #2a2a2a;
+    }
+    .list::-webkit-scrollbar-thumb{
+      background:#6d8db1;
+      border:2px solid #1a1a1a;
+      border-radius:999px;
+    }
+    .list::-webkit-scrollbar-thumb:hover{background:#86a6c8}
+    .card{border:1px solid #313131;border-radius:14px;background:#141414;padding:10px;transition:opacity .22s ease,transform .22s ease,filter .22s ease}
     .card{
-      border-color:#343434;
-      background:linear-gradient(180deg,#1b1b1b,#121212);
+      border-color:rgba(174,191,216,.28);
+      background:rgba(20,24,31,.46);
+      position:relative;
+      backdrop-filter:blur(8px) saturate(112%);
+      -webkit-backdrop-filter:blur(8px) saturate(112%);
     }
     .card.is-removing{opacity:0;transform:translateY(-8px) scale(.985);filter:blur(1px)}
-    .name{font-weight:700;font-size:.95rem}
-    .line{font:600 .8rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e0e6ef;word-break:break-word}
+    .card.is-pending-remove{
+      filter:brightness(.62) saturate(.85);
+    }
+    .name{font-weight:700;font-size:.95rem;line-height:1.15}
+    .line{font:600 .8rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e0e6ef;word-break:break-word;margin-top:2px}
     .line a{color:#b9d6f1;text-decoration:none}
-    .line.links{display:flex;align-items:center;gap:10px}
+    .line.links{display:flex;align-items:center;gap:10px;margin-top:3px}
     .result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
     .result-left{display:inline-flex;align-items:center;gap:8px;min-width:0}
-    .result-tools{display:inline-flex;align-items:center;gap:8px}
+    .result-tools{display:inline-flex;align-items:center;gap:6px;position:relative}
     .pref-star{
       width:20px;
       min-width:20px;
@@ -227,18 +395,127 @@
       cursor:pointer;
     }
     .pref-star.active{color:#be1e2d}
-    .irrelevant-check{display:inline-flex;align-items:center;gap:4px;font:700 .72rem "Segoe UI",Tahoma,sans-serif;color:#cfd8e3}
-    .irrelevant-check input[type="checkbox"]{
-      width:14px;min-width:14px;height:14px;min-height:14px;margin:0;padding:0;border-radius:3px;border:1px solid #6a6a6a;background:#111;
+    .pref-city{
+      margin:4px 2px 2px;
+      font:800 .78rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      color:#c7d3e3;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .pref-cat{
+      margin:1px 2px 4px 12px;
+      font:600 .74rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      color:#9fb0c6;
+    }
+    .remove-toggle{
+      width:22px;
+      min-width:22px;
+      height:22px;
+      min-height:22px;
+      border:1px solid rgba(174,191,216,.35);
+      border-radius:6px;
+      padding:0;
+      background:rgba(26,33,42,.58);
+      color:#d5deea;
+      font:700 .72rem/1 "Segoe UI",Tahoma,sans-serif;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .remove-action-wrap{
+      position:absolute;
+      right:30px;
+      top:50%;
+      transform:translateY(-50%) translateX(4px);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .16s ease,transform .16s ease;
+    }
+    .remove-action{
+      width:auto;
+      min-width:94px;
+      height:28px;
+      min-height:28px;
+      border:1px solid rgba(174,191,216,.35);
+      border-radius:10px;
+      padding:0 10px;
+      background:rgba(26,33,42,.62);
+      color:#e6effb;
+      font:700 .72rem "Segoe UI",Tahoma,sans-serif;
+      cursor:pointer;
+    }
+    .remove-action:hover{
+      border-color:#8f1220;
+      background:#be1e2d;
+      color:#fff;
+    }
+    .card:hover .remove-action-wrap,
+    .card.show-remove .remove-action-wrap,
+    .card:focus-within .remove-action-wrap{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(-50%) translateX(0);
+    }
+    .card-confirm-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      z-index:4;
+    }
+    .card-confirm-box{
+      pointer-events:auto;
+      min-width:min(92%, 360px);
+      max-width:92%;
+      border:1px solid rgba(174,191,216,.35);
+      border-radius:12px;
+      background:rgba(20,24,31,.84);
+      box-shadow:0 12px 30px rgba(0,0,0,.45);
+      backdrop-filter:blur(12px) saturate(120%);
+      -webkit-backdrop-filter:blur(12px) saturate(120%);
+      padding:10px 12px;
+      display:grid;
+      gap:9px;
+    }
+    .card-confirm-text{
+      font:700 .83rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      color:#f0f4fa;
+      line-height:1.3;
+    }
+    .card-confirm-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+    }
+    .card-confirm-actions button{
+      width:auto;
+      min-width:56px;
+      height:30px;
+      min-height:30px;
+      border-radius:9px;
+      border:1px solid #4c5663;
+      background:#272727;
+      color:#e9eff8;
+      padding:0 12px;
+      font:700 .75rem "Segoe UI",Tahoma,sans-serif;
+      cursor:pointer;
+    }
+    .card-confirm-actions .confirm-no{
+      border-color:#991424;
+      background:#be1e2d;
+      color:#fff;
     }
     .confirm-toast{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:8px;
-      border:1px solid #434343;
+      border:1px solid rgba(174,191,216,.35);
       border-radius:12px;
-      background:linear-gradient(180deg,#1f1f1f,#141414);
+      background:rgba(20,24,31,.84);
       padding:8px 10px;
       font:700 .78rem "Segoe UI",Tahoma,sans-serif;
       color:#d9e3ef;
@@ -252,6 +529,8 @@
       z-index:9999;
       min-width:min(92vw,420px);
       box-shadow:0 10px 28px rgba(0,0,0,.35);
+      backdrop-filter:blur(12px) saturate(120%);
+      -webkit-backdrop-filter:blur(12px) saturate(120%);
     }
     .confirm-toast.is-open{
       opacity:1;
@@ -269,8 +548,8 @@
       height:26px;
       min-height:26px;
       border-radius:8px;
-      border:1px solid #586170;
-      background:linear-gradient(180deg,#334155,#1e293b);
+      border:1px solid rgba(174,191,216,.35);
+      background:rgba(26,33,42,.62);
       color:#fff;
       padding:0 10px;
       font:700 .72rem "Segoe UI",Tahoma,sans-serif;
@@ -278,23 +557,27 @@
     }
     #confirmDeleteNo{
       border-color:#8f1220;
-      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
+      background:#be1e2d;
       color:#fff;
     }
     .hidden{display:none !important}
 
     .app[data-theme="light"]{
-      background:linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%) !important;
-      border-color:#aeb8c4 !important;
+      background:rgba(231, 235, 241, .72) !important;
+      border-color:#b7c2cf !important;
+      backdrop-filter:blur(16px) saturate(128%);
+      -webkit-backdrop-filter:blur(16px) saturate(128%);
     }
     .app[data-theme="light"] .body{
-      background:linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%) !important;
+      background:linear-gradient(180deg, rgba(238,242,247,.72), rgba(228,233,240,.62)) !important;
     }
     .app[data-theme="light"] label{color:#5a6778}
     .app[data-theme="light"] .top{border-bottom-color:#b8c1cb}
     .app[data-theme="light"] input,
     .app[data-theme="light"] select,
-    .app[data-theme="light"] button{background:linear-gradient(180deg,#f4f5f7,#e7eaee);border-color:#b7bfc9;color:#1f2a36}
+    .app[data-theme="light"] button{background:rgba(242,246,251,.68);border-color:#b7bfc9;color:#1f2a36}
+    .app[data-theme="light"] input,
+    .app[data-theme="light"] select{box-shadow:inset 0 0 0 1px rgba(255,255,255,.55)}
     .app[data-theme="light"] select,
     .app[data-theme="light"] input[type="number"]{
       background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%2337465a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");
@@ -307,30 +590,106 @@
       border:0 !important;
       background:transparent !important;
     }
-    .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important}
+    .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important;opacity:.8}
     .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#5a6778}
     .app[data-theme="light"] .status button{color:#1d4ed8}
     .app[data-theme="light"] .hint{color:#7a8796}
-    .app[data-theme="light"] .card{background:linear-gradient(180deg,#f7f8fa,#e9edf1);border-color:#bdc6d0}
+    .app[data-theme="light"] .card{background:rgba(244,248,252,.60);border-color:#bdc6d0}
     .app[data-theme="light"] .name{color:#1f2b38}
     .app[data-theme="light"] .line{color:#3a4654}
     .app[data-theme="light"] .line a{color:#2f5e8a}
     .app[data-theme="light"] .pref-star{color:#728096}
     .app[data-theme="light"] .pref-star.active{color:#be1e2d}
-    .app[data-theme="light"] .irrelevant-check{color:#2f3a47}
+    .app[data-theme="light"] .pref-city{color:#4a5a70}
+    .app[data-theme="light"] .pref-cat{color:#60738e}
+    .app[data-theme="light"] .remove-toggle{
+      border-color:#a8b3c0;
+      background:#dfe6ee;
+      color:#233246;
+    }
+    .app[data-theme="light"] .remove-action{
+      border-color:#aab6c5;
+      background:#e2e9f1;
+      color:#1f2b39;
+    }
+    .app[data-theme="light"] .remove-action:hover{
+      border-color:#8f1220;
+      background:#be1e2d;
+      color:#fff;
+    }
+    .app[data-theme="light"] .location-suggest{
+      border-color:#b7bfc9;
+      background:rgba(241,245,250,.86);
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
+    }
+    .app[data-theme="light"] .location-suggest button{
+      color:#1f2a36;
+      border-bottom-color:#c7ced8;
+    }
+    .app[data-theme="light"] .location-suggest button:hover{
+      background:rgba(0,0,0,.05);
+    }
+    .app[data-theme="light"] .query-menu{
+      border-color:#b7bfc9;
+      background:rgba(241,245,250,.86);
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
+    }
+    .app[data-theme="light"] .query-item{
+      color:#1f2a36;
+      border-bottom-color:#c7ced8;
+    }
+    .app[data-theme="light"] .query-item:hover,
+    .app[data-theme="light"] .query-item.active{
+      background:rgba(0,0,0,.05);
+    }
+    .app[data-theme="light"] .query-btn::after{
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%2337465a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+    }
+    .app[data-theme="light"] .list{
+      scrollbar-color:#9eb3ca #dde4ed;
+    }
+    .app[data-theme="light"] .list::-webkit-scrollbar-track{
+      background:#dde4ed;
+      border-left:1px solid #c6d0dc;
+    }
+    .app[data-theme="light"] .list::-webkit-scrollbar-thumb{
+      background:#9eb3ca;
+      border:2px solid #dde4ed;
+    }
+    .app[data-theme="light"] .list::-webkit-scrollbar-thumb:hover{background:#8ea8c3}
     .app[data-theme="light"] .confirm-toast{
       border-color:#b6c0cb;
-      background:linear-gradient(180deg,#eef2f7,#e2e8f0);
+      background:rgba(233,239,246,.86);
       color:#223041;
+      backdrop-filter:blur(12px) saturate(120%);
+      -webkit-backdrop-filter:blur(12px) saturate(120%);
+    }
+    .app[data-theme="light"] .card.is-pending-remove{
+      filter:brightness(.92) saturate(.9);
+    }
+    .app[data-theme="light"] .card-confirm-box{
+      border-color:#b2bcc8;
+      background:#eef2f6;
+      box-shadow:0 10px 24px rgba(20,32,46,.2);
+    }
+    .app[data-theme="light"] .card-confirm-text{
+      color:#1f2a36;
+    }
+    .app[data-theme="light"] .card-confirm-actions button{
+      border-color:#a8b4c2;
+      background:#dde5ef;
+      color:#223043;
     }
     .app[data-theme="light"] .confirm-actions button{
       border-color:#94a3b8;
-      background:linear-gradient(180deg,#dbe3ee,#cfd8e3);
+      background:#dbe3ee;
       color:#0f172a;
     }
     .app[data-theme="light"] #confirmDeleteNo{
       border-color:#8f1220;
-      background:linear-gradient(180deg,#d4293a 0%, #be1e2d 52%, #8f1220 100%);
+      background:#be1e2d;
       color:#fff;
     }
     .app[data-theme="light"] .inline-check{color:#2f3a47}
@@ -340,18 +699,29 @@
     }
     .app[data-theme="light"] .btn.secondary{
       border-color:#b7bfc9;
-      background:linear-gradient(180deg,#f4f5f7,#e7eaee);
+      background:rgba(240,245,250,.70);
       color:#1f2a36;
     }
+    .app[data-theme="light"] .clear-link-btn{
+      color:#35506e;
+    }
+    .app[data-theme="light"] .clear-link-btn:hover{
+      color:#1e3a57;
+    }
+    .app[data-theme="light"] input.is-locked{
+      opacity:.88;
+      color:#586779;
+    }
     .app[data-theme="light"] .btn{
-      border-color:var(--danger2);
-      background:linear-gradient(180deg,#d4293a 0%, var(--danger) 52%, var(--danger2) 100%);
+      border-color:#991424;
+      background:#be1e2d;
       color:#fff;
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
     }
 
     @media (max-width:768px){
       body{padding:0}
-      .shell{max-width:100%}
+      .shell{max-width:100%;height:100vh}
       .app{border-radius:0;min-height:100vh}
       .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
       .view-controls{width:auto;justify-content:flex-end;column-gap:8px;overflow-x:auto;scrollbar-width:none}
@@ -365,7 +735,7 @@
     <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
       <div class="top"><img id="brandBanner" src="/assets/keystone-header.png" alt="Header" /></div>
       <div class="body">
-        <div class="field-block">
+        <div class="field-block location-block">
           <div class="label-row">
             <label for="location">Location (ZIP, city, state)</label>
             <div class="view-controls">
@@ -373,7 +743,10 @@
               <button id="themeBtn" class="theme-bolt" type="button" title="Toggle theme">☀</button>
             </div>
           </div>
-          <input id="location" placeholder="Type Requested Location or use current" />
+          <div class="location-wrap">
+            <input id="location" placeholder="Type Requested Location or use current" autocomplete="off" />
+            <div id="locationSuggest" class="location-suggest hidden"></div>
+          </div>
           <div style="margin-top:8px">
             <label class="inline-check">
               <input id="useMyLocation" type="checkbox" />
@@ -384,10 +757,14 @@
 
         <div class="field-block">
           <label for="queryPreset">Business Query</label>
-          <select id="queryPreset">
-            <option value="">Select category or trade...</option>
-            <option value="manual">Manual Override (Optional)</option>
-          </select>
+          <div class="query-select">
+            <select id="queryPreset">
+              <option value="">Select category or trade...</option>
+              <option value="manual">Manual Override (Optional)</option>
+            </select>
+            <button id="queryPresetBtn" type="button" class="query-btn">Select category or trade...</button>
+            <div id="queryPresetMenu" class="query-menu hidden"></div>
+          </div>
           <div id="manualWrap" class="hidden" style="margin-top:8px">
             <input id="manualQuery" placeholder="Manual search override" />
           </div>
@@ -400,30 +777,24 @@
             <input id="radiusMiles" type="number" min="1" max="45" value="25" />
           </div>
           <div>
-            <label for="sortBy">Arrange Results By</label>
-            <select id="sortBy">
-              <option value="distance">Distance</option>
-              <option value="name">Company Name</option>
-              <option value="reliability">Reliability</option>
-            </select>
+            <label>&nbsp;</label>
+            <button id="downloadBtn" class="btn secondary">Download CSV</button>
           </div>
         </div>
+        <button id="searchBtn" class="btn">Search</button>
 
-        <div class="row">
-          <button id="searchBtn" class="btn">Search</button>
-          <button id="downloadBtn" class="btn secondary">Download CSV</button>
+        <div class="status-row">
+          <div id="status" class="status">Ready.</div>
+          <div id="resultsTools" class="results-tools-bar hidden">
+            <button id="clearResultsBtn" class="clear-link-btn" type="button">Clear results</button>
+          </div>
         </div>
-
-        <div id="status" class="status">Ready.</div>
         <div id="confirmBar" class="confirm-toast">
           <span id="confirmText">Delete this result?</span>
           <div class="confirm-actions">
             <button id="confirmDeleteYes" type="button">Yes</button>
             <button id="confirmDeleteNo" type="button">No</button>
           </div>
-        </div>
-        <div id="resultsTools" class="results-tools-bar hidden">
-          <button id="clearResultsBtn" class="btn secondary" type="button">Clear Results</button>
         </div>
         <div id="meta" class="meta"></div>
         <div id="list" class="list"></div>
@@ -439,13 +810,15 @@
       sizeBtn: $("sizeBtn"),
       themeBtn: $("themeBtn"),
       location: $("location"),
+      locationSuggest: $("locationSuggest"),
       useMyLocation: $("useMyLocation"),
       queryPreset: $("queryPreset"),
+      queryPresetBtn: $("queryPresetBtn"),
+      queryPresetMenu: $("queryPresetMenu"),
       manualWrap: $("manualWrap"),
       manualQuery: $("manualQuery"),
       queryLegend: $("queryLegend"),
       radiusMiles: $("radiusMiles"),
-      sortBy: $("sortBy"),
       searchBtn: $("searchBtn"),
       downloadBtn: $("downloadBtn"),
       status: $("status"),
@@ -463,8 +836,12 @@
     let sections = [];
     let currentSearchSignature = "";
     let currentGeoLocation = "";
+    let currentSearchCity = "";
+    let currentSearchCategoryLabel = "";
     let pendingRemoval = null;
     let statusTimer = null;
+    let suggestTimer = null;
+    let suggestRequestId = 0;
     const LOCAL_IRRELEVANT_KEY = "kc_irrelevant_filters_v1";
     const UI_STATE_KEY = "kc_ui_state_v2";
     const isDesktop = window.matchMedia("(min-width: 769px)");
@@ -558,6 +935,41 @@
       return `${Number(lat).toFixed(4)},${Number(lng).toFixed(4)}`;
     }
 
+    function selectedCategoryLabel(){
+      const opt = els.queryPreset.options[els.queryPreset.selectedIndex];
+      if (!opt) return "";
+      return String(opt.textContent || "").replace(/\u00a0/g, " ").trim();
+    }
+
+    function deriveCityFromAddress(address){
+      const s = String(address || "");
+      const m = s.match(/,\s*([^,]+),\s*[A-Z]{2}\s+\d{5}(?:-\d{4})?$/);
+      return m ? String(m[1]).trim() : "";
+    }
+
+    async function resolveSearchCity(loc){
+      const raw = String(loc || "").trim();
+      if (!raw) return "";
+      if (/^-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?$/.test(raw)) {
+        const [lat, lng] = raw.split(",").map((n) => Number(n.trim()));
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          try {
+            const r = await fetch(`/api/reverse-zip?lat=${encodeURIComponent(String(lat))}&lng=${encodeURIComponent(String(lng))}`);
+            const j = await r.json().catch(() => ({}));
+            const city = String((j?.label || "").split(",")[0] || "").trim();
+            return city;
+          } catch {}
+        }
+      }
+      try {
+        const r = await fetch(`/api/location-city?q=${encodeURIComponent(raw)}`);
+        const j = await r.json().catch(() => ({}));
+        return String(j?.city || "").trim();
+      } catch {
+        return "";
+      }
+    }
+
     function saveUiState(){
       try{
         const state = {
@@ -567,7 +979,6 @@
           queryPreset: String(els.queryPreset.value || ""),
           manualQuery: String(els.manualQuery.value || ""),
           radiusMiles: String(els.radiusMiles.value || "25"),
-          sortBy: String(els.sortBy.value || "distance"),
           theme: String(els.app.getAttribute("data-theme") || "dark"),
           rows,
           currentSearchSignature
@@ -633,6 +1044,69 @@
       statusTimer = null;
     }
 
+    function hideLocationSuggest(){
+      els.locationSuggest.classList.add("hidden");
+      els.locationSuggest.innerHTML = "";
+    }
+
+    function renderLocationSuggest(items){
+      if (!Array.isArray(items) || !items.length) {
+        hideLocationSuggest();
+        return;
+      }
+      els.locationSuggest.innerHTML = items.map((item) =>
+        `<button type="button" class="location-suggest-item">${escapeHtml(String(item || ""))}</button>`
+      ).join("");
+      els.locationSuggest.classList.remove("hidden");
+    }
+
+    async function fetchLocationSuggest(query){
+      const q = String(query || "").trim();
+      if (q.length < 2 || els.useMyLocation.checked) {
+        hideLocationSuggest();
+        return;
+      }
+      const reqId = ++suggestRequestId;
+      try {
+        const res = await fetch(`/api/location-suggest?q=${encodeURIComponent(q)}`);
+        const data = await res.json().catch(() => ({}));
+        if (reqId !== suggestRequestId) return;
+        const suggestions = Array.isArray(data?.suggestions) ? data.suggestions : [];
+        renderLocationSuggest(suggestions);
+      } catch {
+        if (reqId !== suggestRequestId) return;
+        hideLocationSuggest();
+      }
+    }
+
+    function updateQueryButtonText(){
+      const opt = els.queryPreset.options[els.queryPreset.selectedIndex];
+      const txt = String(opt?.textContent || "Select category or trade...").replace(/\u00a0/g, " ").trim();
+      els.queryPresetBtn.textContent = txt || "Select category or trade...";
+    }
+
+    function closeQueryMenu(){
+      els.queryPresetMenu.classList.add("hidden");
+    }
+
+    function openQueryMenu(){
+      const options = [...els.queryPreset.options];
+      if (!options.length) return;
+      const current = String(els.queryPreset.value || "");
+      els.queryPresetMenu.innerHTML = options.map((o) => {
+        const value = String(o.value || "");
+        const label = String(o.textContent || "").replace(/\u00a0/g, " ").trim();
+        const active = value === current ? "active" : "";
+        return `<button type="button" class="query-item ${active}" data-value="${escapeHtml(value)}" title="${escapeHtml(label)}">${escapeHtml(label)}</button>`;
+      }).join("");
+      els.queryPresetMenu.classList.remove("hidden");
+    }
+
+    function toggleQueryMenu(){
+      if (els.queryPresetMenu.classList.contains("hidden")) openQueryMenu();
+      else closeQueryMenu();
+    }
+
     function setStatus(msg, options = {}){
       const { hideAfterMs = 0, undoLabel = "", onUndo = null } = options;
       clearStatusTimer();
@@ -661,7 +1135,7 @@
       const t = theme === "light" ? "light" : "dark";
       els.app.setAttribute("data-theme", t);
       document.body.setAttribute("data-theme", t);
-      els.themeBtn.textContent = t === "light" ? "🌚" : "☀";
+      els.themeBtn.textContent = t === "light" ? "🌜" : "☀";
       els.themeBtn.title = t === "light" ? "Switch to night mode" : "Switch to day mode";
       if (t === "light") {
         els.app.style.setProperty("--app-panel-bg", "linear-gradient(180deg,#eceff3 0%, #e2e6eb 55%, #d8dee5 100%)");
@@ -776,14 +1250,11 @@
         const n = Number(v);
         return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
       };
-      const by = els.sortBy.value;
       const out = [...data];
       out.sort((a,b) => {
         const boostDiff = preferredBoost(b) - preferredBoost(a);
         if (boostDiff !== 0) return boostDiff;
-        if (by === "distance") return distanceValue(a.distance_miles)-distanceValue(b.distance_miles);
-        if (by === "name") return String(a.name||"").localeCompare(String(b.name||""));
-        return Number(b.reliability_score||b.confidence||0)-Number(a.reliability_score||a.confidence||0);
+        return distanceValue(a.distance_miles)-distanceValue(b.distance_miles);
       });
       return out;
     }
@@ -796,17 +1267,91 @@
 
     function render(){
       const data = sortRows(rows, parsePreset());
-      els.list.innerHTML = data.map((r)=>`
-        <div class="card" data-row-key="${escapeHtml(r.result_key || "")}">
+      const preset = parsePreset();
+      const pendingKey = String(pendingRemoval?.result_key || "");
+      const isPreferredMode = preset.type === "preferred_all" || preset.type === "preferred_parent";
+      if (isPreferredMode) {
+        const grouped = [];
+        const cityVal = (r) => String(r.preferred_city || deriveCityFromAddress(r.address) || "Unspecified City");
+        const catVal = (r) => String(r.preferred_category || r.category_section || "Unspecified Category");
+        const sorted = [...data].sort((a,b)=>{
+          const c = cityVal(a).localeCompare(cityVal(b));
+          if (c !== 0) return c;
+          const k = catVal(a).localeCompare(catVal(b));
+          if (k !== 0) return k;
+          return String(a.name || "").localeCompare(String(b.name || ""));
+        });
+        let lastCity = "";
+        let lastCat = "";
+        sorted.forEach((r) => {
+          const city = cityVal(r);
+          const cat = catVal(r);
+          if (city !== lastCity) {
+            grouped.push(`<div class="pref-city">${escapeHtml(city)}</div>`);
+            lastCity = city;
+            lastCat = "";
+          }
+          if (cat !== lastCat) {
+            grouped.push(`<div class="pref-cat">- ${escapeHtml(cat)}</div>`);
+            lastCat = cat;
+          }
+          const rowKey = String(r.result_key || makeRowKey(r));
+          const isPending = pendingKey && pendingKey === rowKey;
+          grouped.push(`
+            <div class="card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
+              <div class="result-head">
+                <div class="result-left">
+                  <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
+                  <div class="name">${escapeHtml(r.name || "(no name)")}</div>
+                </div>
+                <div class="result-tools">
+                  <button class="remove-toggle" type="button" title="Remove options" aria-label="Remove options">🗑</button>
+                  <div class="remove-action-wrap">
+                    <button class="remove-action" type="button">Remove</button>
+                  </div>
+                </div>
+              </div>
+              <div class="line">${formatDistanceMiles(r.distance_miles) ? `${escapeHtml(formatDistanceMiles(r.distance_miles))} mi from your location` : ""}</div>
+              <div class="line">${escapeHtml(r.address || "")}</div>
+              <div class="line">${escapeHtml(r.phone || "")}</div>
+              <div class="line links">
+                ${r.website ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.website)}">website</a>` : ""}
+                ${(r.website && (r.maps_url || r.map_url)) ? "<span>|</span>" : ""}
+                ${(r.maps_url || r.map_url) ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.maps_url || r.map_url)}">map</a>` : ""}
+              </div>
+              ${isPending ? `
+                <div class="card-confirm-overlay">
+                  <div class="card-confirm-box">
+                    <div class="card-confirm-text">Delete "${escapeHtml(r.name || "this result")}"?</div>
+                    <div class="card-confirm-actions">
+                      <button type="button" class="confirm-yes">Yes</button>
+                      <button type="button" class="confirm-no">No</button>
+                    </div>
+                  </div>
+                </div>
+              ` : ""}
+            </div>
+          `);
+        });
+        els.list.innerHTML = grouped.join("");
+        els.resultsTools.classList.toggle("hidden", sorted.length === 0);
+        return;
+      }
+      els.list.innerHTML = data.map((r)=>{
+        const rowKey = String(r.result_key || makeRowKey(r));
+        const isPending = pendingKey && pendingKey === rowKey;
+        return `
+        <div class="card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
           <div class="result-head">
             <div class="result-left">
               <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
               <div class="name">${escapeHtml(r.name || "(no name)")}</div>
             </div>
             <div class="result-tools">
-              <label class="irrelevant-check">
-                <input type="checkbox" class="irrelevant-toggle" />
-              </label>
+              <button class="remove-toggle" type="button" title="Remove options" aria-label="Remove options">🗑</button>
+              <div class="remove-action-wrap">
+                <button class="remove-action" type="button">Remove</button>
+              </div>
             </div>
           </div>
           <div class="line">${formatDistanceMiles(r.distance_miles) ? `${escapeHtml(formatDistanceMiles(r.distance_miles))} mi from your location` : ""}</div>
@@ -817,8 +1362,19 @@
             ${(r.website && (r.maps_url || r.map_url)) ? "<span>|</span>" : ""}
             ${(r.maps_url || r.map_url) ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.maps_url || r.map_url)}">map</a>` : ""}
           </div>
+          ${isPending ? `
+            <div class="card-confirm-overlay">
+              <div class="card-confirm-box">
+                <div class="card-confirm-text">Delete "${escapeHtml(r.name || "this result")}"?</div>
+                <div class="card-confirm-actions">
+                  <button type="button" class="confirm-yes">Yes</button>
+                  <button type="button" class="confirm-no">No</button>
+                </div>
+              </div>
+            </div>
+          ` : ""}
         </div>
-      `).join("");
+      `;}).join("");
       els.resultsTools.classList.toggle("hidden", data.length === 0);
     }
 
@@ -878,15 +1434,19 @@
           });
         });
         els.queryPreset.innerHTML = opts.join("");
+        updateQueryButtonText();
+        closeQueryMenu();
       }catch{}
     }
 
     async function runSearch(){
+      hideLocationSuggest();
       const p = parsePreset();
       const loc = els.useMyLocation.checked && String(currentGeoLocation || "").trim()
         ? String(currentGeoLocation || "").trim()
         : String(els.location.value || "").trim();
       const manual = String(els.manualQuery.value || "").trim();
+      currentSearchCategoryLabel = selectedCategoryLabel();
       let query = "contractor";
       let queries = [];
       let queryContexts = [];
@@ -905,6 +1465,7 @@
       }
 
       if (!loc) { setStatus("Enter a location first."); return; }
+      currentSearchCity = await resolveSearchCity(loc);
 
       if (p.type === "manual" && manual) {
         query = manual;
@@ -1019,17 +1580,17 @@
 
     function showConfirm(row, anchorRect = null){
       pendingRemoval = row;
-      els.confirmText.textContent = `Delete "${row.name || "this result"}"?`;
-      els.confirmBar.classList.add("is-open");
-      requestAnimationFrame(() => positionConfirmToast(anchorRect));
+      render();
     }
 
     function hideConfirm(){
       pendingRemoval = null;
-      els.confirmBar.classList.remove("is-open");
+      render();
     }
 
     function handleUseMyLocationToggle(){
+      syncLocationFieldLock();
+      hideLocationSuggest();
       if (!els.useMyLocation.checked) {
         currentGeoLocation = "";
         els.location.value = "";
@@ -1040,6 +1601,7 @@
       if (!navigator.geolocation) {
         setStatus("Geolocation is not supported on this device/browser.");
         els.useMyLocation.checked = false;
+        syncLocationFieldLock();
         return;
       }
       setStatus("Getting your location...");
@@ -1051,6 +1613,7 @@
             setStatus("Could not read your current location.");
             els.useMyLocation.checked = false;
             currentGeoLocation = "";
+            syncLocationFieldLock();
             return;
           }
           currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
@@ -1062,9 +1625,33 @@
           setStatus("Location permission denied or unavailable.");
           els.useMyLocation.checked = false;
           currentGeoLocation = "";
+          syncLocationFieldLock();
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
       );
+    }
+
+    function syncLocationFieldLock(){
+      const locked = Boolean(els.useMyLocation.checked);
+      els.location.readOnly = locked;
+      els.location.classList.toggle("is-locked", locked);
+      els.location.setAttribute("aria-readonly", locked ? "true" : "false");
+      if (locked) hideLocationSuggest();
+    }
+
+    function startRemoveFlow(card, rowKey){
+      if (!card || !rowKey) return;
+      if (pendingRemoval) {
+        setStatus("Confirm current delete first.");
+        return;
+      }
+      const idx = rows.findIndex((r) => String(r.result_key || "") === String(rowKey));
+      if (idx < 0) return;
+      card.classList.remove("show-remove");
+      pendingRemoval = rows[idx];
+      render();
+      saveUiState();
+      setStatus("Confirm delete.");
     }
 
     const url = new URL(window.location.href);
@@ -1075,7 +1662,11 @@
     applyTheme((themeFromState === "light" || themeFromState === "dark") ? themeFromState : (themeFromUrl === "light" ? "light" : "dark"));
     initSizeControl();
     loadCategories().then(() => {
-      if (!persistedState) return;
+      if (!persistedState) {
+        syncLocationFieldLock();
+        updateQueryButtonText();
+        return;
+      }
       currentGeoLocation = String(persistedState.currentGeoLocation || "");
       els.useMyLocation.checked = Boolean(persistedState.useMyLocation);
       if (els.useMyLocation.checked && currentGeoLocation) {
@@ -1094,26 +1685,60 @@
       if (preset && [...els.queryPreset.options].some((o) => o.value === preset)) {
         els.queryPreset.value = preset;
       }
+      updateQueryButtonText();
       els.manualQuery.value = String(persistedState.manualQuery || "");
       els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual");
       els.radiusMiles.value = String(persistedState.radiusMiles || "25");
-      if (String(persistedState.sortBy || "")) {
-        const sort = String(persistedState.sortBy);
-        if ([...els.sortBy.options].some((o) => o.value === sort)) els.sortBy.value = sort;
-      }
       rows = Array.isArray(persistedState.rows) ? persistedState.rows : [];
       currentSearchSignature = String(persistedState.currentSearchSignature || "");
+      syncLocationFieldLock();
+      updateQueryButtonText();
       render();
     });
 
-      els.themeBtn.addEventListener("click", ()=>applyTheme((els.app.getAttribute("data-theme")||"dark") === "dark" ? "light" : "dark"));
+    els.themeBtn.addEventListener("click", ()=>applyTheme((els.app.getAttribute("data-theme")||"dark") === "dark" ? "light" : "dark"));
     els.sizeBtn.addEventListener("click", toggleSizeControl);
     els.useMyLocation.addEventListener("change", handleUseMyLocationToggle);
+    els.location.addEventListener("focus", () => {
+      if (!els.useMyLocation.checked) void fetchLocationSuggest(els.location.value);
+    });
+    els.location.addEventListener("input", () => {
+      if (suggestTimer) clearTimeout(suggestTimer);
+      suggestTimer = setTimeout(() => {
+        void fetchLocationSuggest(els.location.value);
+      }, 180);
+    });
+    els.locationSuggest.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const item = target.closest(".location-suggest-item");
+      if (!item) return;
+      els.location.value = String(item.textContent || "").trim();
+      hideLocationSuggest();
+      saveUiState();
+    });
+    els.queryPresetBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      toggleQueryMenu();
+    });
+    els.queryPresetMenu.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const item = target.closest(".query-item");
+      if (!item) return;
+      const value = String(item.getAttribute("data-value") || "");
+      if ([...els.queryPreset.options].some((o) => String(o.value || "") === value)) {
+        els.queryPreset.value = value;
+      }
+      closeQueryMenu();
+      updateQueryButtonText();
+      els.queryPreset.dispatchEvent(new Event("change", { bubbles: true }));
+    });
     els.queryPreset.addEventListener("change", ()=>{
       els.manualWrap.classList.toggle("hidden", els.queryPreset.value !== "manual");
+      updateQueryButtonText();
       void applyPreferredSelectionIfChosen();
     });
-    els.sortBy.addEventListener("change", render);
     els.searchBtn.addEventListener("click", runSearch);
     els.downloadBtn.addEventListener("click", downloadCsv);
     els.clearResultsBtn.addEventListener("click", clearResultsAndQuery);
@@ -1123,46 +1748,78 @@
       els.queryPreset.addEventListener(evt, saveUiState);
       els.manualQuery.addEventListener(evt, saveUiState);
       els.radiusMiles.addEventListener(evt, saveUiState);
-      els.sortBy.addEventListener(evt, saveUiState);
-    });
-    els.list.addEventListener("change", async (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      const card = target.closest(".card");
-      if (!card) return;
-      const rowKey = card.getAttribute("data-row-key") || "";
-      const toggle = card.querySelector(".irrelevant-toggle");
-      if (!toggle) return;
-
-      if (target.classList.contains("irrelevant-toggle")) {
-        if (!toggle.checked) return;
-        if (pendingRemoval) {
-          toggle.checked = false;
-          setStatus("Confirm current delete first.");
-          return;
-        }
-        const idx = rows.findIndex((r) => String(r.result_key || "") === rowKey);
-        if (idx < 0) return;
-        const removed = rows[idx];
-        const anchorRect = card.getBoundingClientRect();
-        card.classList.add("is-removing");
-        setTimeout(() => {
-          rows.splice(idx, 1);
-          render();
-          saveUiState();
-          showConfirm(removed, anchorRect);
-          setStatus("Confirm delete.");
-        }, 220);
-        return;
-      }
     });
     els.list.addEventListener("click", async (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      if (!target.classList.contains("pref-star")) return;
       const card = target.closest(".card");
+      const rowKey = card?.getAttribute("data-row-key") || "";
+
+      if (target.classList.contains("confirm-no")) {
+        event.preventDefault();
+        hideConfirm();
+        saveUiState();
+        setStatus("Delete cancelled.", { hideAfterMs: 1600 });
+        return;
+      }
+      if (target.classList.contains("confirm-yes")) {
+        event.preventDefault();
+        if (!card || !pendingRemoval) return;
+        const removedRow = pendingRemoval;
+        const idx = rows.findIndex((r) => String(r.result_key || "") === String(rowKey));
+        if (idx < 0) {
+          hideConfirm();
+          return;
+        }
+        card.classList.add("is-removing");
+        setTimeout(async () => {
+          rows.splice(idx, 1);
+          pendingRemoval = null;
+          render();
+          saveUiState();
+          try {
+            await setIrrelevant(String(removedRow.result_key || ""), "add");
+            setStatus("Removed as irrelevant for this search.", {
+              undoLabel: "Undo",
+              hideAfterMs: 10000,
+              onUndo: async () => {
+                try {
+                  await setIrrelevant(String(removedRow.result_key || ""), "remove");
+                  rows.push(removedRow);
+                  render();
+                  saveUiState();
+                  setStatus("Result restored.", { hideAfterMs: 2500 });
+                } catch (err) {
+                  setStatus(`Undo failed: ${err.message}`, { hideAfterMs: 4000 });
+                }
+              }
+            });
+          } catch (err) {
+            rows.push(removedRow);
+            render();
+            saveUiState();
+            setStatus(`Could not mark irrelevant: ${err.message}`);
+          }
+        }, 200);
+        return;
+      }
+
+      if (target.classList.contains("remove-toggle")) {
+        event.preventDefault();
+        if (!card) return;
+        const show = !card.classList.contains("show-remove");
+        els.list.querySelectorAll(".card.show-remove").forEach((c) => c.classList.remove("show-remove"));
+        if (show) card.classList.add("show-remove");
+        return;
+      }
+      if (target.classList.contains("remove-action")) {
+        event.preventDefault();
+        if (!card) return;
+        startRemoveFlow(card, rowKey);
+        return;
+      }
+      if (!target.classList.contains("pref-star")) return;
       if (!card) return;
-      const rowKey = card.getAttribute("data-row-key") || "";
       const row = rows.find((r) => String(r.result_key || "") === rowKey);
       if (!row) return;
       if (isPreferred(rowKey)) {
@@ -1181,7 +1838,11 @@
         }
       } else {
         try {
-          await addPreferredRow(row);
+          await addPreferredRow({
+            ...row,
+            preferred_city: String(currentSearchCity || deriveCityFromAddress(row.address) || ""),
+            preferred_category: String(currentSearchCategoryLabel || row.category_section || "")
+          });
           target.classList.add("active");
           target.textContent = "★";
           setStatus("Added to preferred.", { hideAfterMs: 1800 });
@@ -1192,43 +1853,19 @@
       }
       saveUiState();
     });
-    els.confirmDeleteYes.addEventListener("click", async () => {
-      if (!pendingRemoval) return;
-      const removedRow = pendingRemoval;
-      try {
-        await setIrrelevant(String(removedRow.result_key || ""), "add");
-        hideConfirm();
-        setStatus("Removed as irrelevant for this search.", {
-          undoLabel: "Undo",
-          hideAfterMs: 10000,
-          onUndo: async () => {
-            try {
-              await setIrrelevant(String(removedRow.result_key || ""), "remove");
-              rows.push(removedRow);
-              render();
-              saveUiState();
-              setStatus("Result restored.", { hideAfterMs: 2500 });
-            } catch (err) {
-              setStatus(`Undo failed: ${err.message}`, { hideAfterMs: 4000 });
-            }
-          }
-        });
-      } catch (err) {
-        setStatus(`Could not mark irrelevant: ${err.message}`);
-        rows.push(pendingRemoval);
-        render();
-        saveUiState();
-        hideConfirm();
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!target.closest(".location-wrap")) hideLocationSuggest();
+      if (!target.closest(".query-select")) closeQueryMenu();
+      if (!target.closest(".card-confirm-overlay")) {
+        // Keep pending state unless user explicitly answers Yes/No.
       }
+      if (target.closest(".remove-toggle") || target.closest(".remove-action-wrap")) return;
+      els.list.querySelectorAll(".card.show-remove").forEach((c) => c.classList.remove("show-remove"));
     });
-    els.confirmDeleteNo.addEventListener("click", () => {
-      if (!pendingRemoval) return;
-      rows.push(pendingRemoval);
-      render();
-      saveUiState();
-      hideConfirm();
-      setStatus("Result restored.");
-    });
+    els.confirmDeleteYes.addEventListener("click", () => {});
+    els.confirmDeleteNo.addEventListener("click", () => {});
   </script>
 </body>
 </html>

@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "enrich:emails": "node src/enrich-emails.js",
     "app": "node src/web-server.js",
-    "scllr:monthly": "node scripts/scllr-monthly-import.js"
+    "scllr:monthly": "node scripts/scllr-monthly-import.js",
+    "validate:categories": "node src/validate-categories.js"
   },
   "license": "MIT"
 }

@@ -23,6 +23,7 @@ const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
 const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
+const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
 const REQUEST_TIMEOUT_MS = 12000;
 
 function normalizeValue(v) {
@@ -108,6 +109,8 @@ function sanitizePreferredRow(input) {
     company_age: String(row.company_age || ""),
     emails: String(row.emails || ""),
     category_section: String(row.category_section || ""),
+    preferred_city: String(row.preferred_city || ""),
+    preferred_category: String(row.preferred_category || ""),
     preferred_at: new Date().toISOString()
   };
 }
@@ -194,6 +197,30 @@ async function reverseZipLookup(lat, lng) {
   const state = String(json?.address?.state || "").trim();
   const label = [city, state].filter(Boolean).join(", ");
   return { zip, label };
+}
+
+async function resolveCityFromLocation(location) {
+  const q = String(location || "").trim();
+  if (!q) return { city: "" };
+  const url = new URL(NOMINATIM_SEARCH_URL);
+  url.searchParams.set("q", q);
+  url.searchParams.set("format", "jsonv2");
+  url.searchParams.set("addressdetails", "1");
+  url.searchParams.set("limit", "1");
+  url.searchParams.set("countrycodes", "us");
+
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "google-subcontractor-finder/1.0"
+    },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+  });
+  const json = await res.json().catch(() => []);
+  if (!res.ok) return { city: "" };
+  const first = Array.isArray(json) ? json[0] : null;
+  const address = first?.address || {};
+  const city = String(address.city || address.town || address.village || address.hamlet || "").trim();
+  return { city };
 }
 
 function contentTypeFor(filePath) {
@@ -406,6 +433,17 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const result = await reverseZipLookup(lat, lng);
+      sendJson(res, 200, result);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/location-city") {
+      const q = String(url.searchParams.get("q") || "").trim();
+      if (!q) {
+        sendJson(res, 200, { city: "" });
+        return;
+      }
+      const result = await resolveCityFromLocation(q);
       sendJson(res, 200, result);
       return;
     }

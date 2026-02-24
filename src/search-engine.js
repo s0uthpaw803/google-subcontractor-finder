@@ -91,7 +91,28 @@ async function scrapeDomainEmails(websiteUrl) {
 
 function buildVariantQueries(query, location) {
   const q = String(query || "general contractor").trim();
+  const intent = queryIntent(q);
+  const hvacCore = [
+    "hvac contractor",
+    "heating and air conditioning contractor",
+    "air conditioning contractor",
+    "mechanical contractor"
+  ];
   const hasLatLngLocation = Boolean(parseLatLngLocation(location));
+  if (intent === "hvac") {
+    if (hasLatLngLocation) {
+      return [...new Set([
+        ...hvacCore,
+        ...hvacCore.map((x) => `${x} business`),
+        ...hvacCore.map((x) => `${x} company`)
+      ])];
+    }
+    return [...new Set([
+      ...hvacCore.map((x) => `${x} in ${location}`),
+      ...hvacCore.map((x) => `${x} near ${location}`),
+      ...hvacCore.map((x) => `commercial ${x} in ${location}`)
+    ])];
+  }
   if (hasLatLngLocation) {
     return [...new Set([
       q,
@@ -164,10 +185,20 @@ function parseLatLngLocation(value) {
   return { lat, lng };
 }
 
-function isRelevantType(types, intent) {
+function hasAnyKeyword(haystack, keywords) {
+  const s = String(haystack || "").toLowerCase();
+  if (!s) return false;
+  return keywords.some((k) => s.includes(String(k).toLowerCase()));
+}
+
+function isRelevantType(row, intent, queryTerms = []) {
+  const types = Array.isArray(row?.types) ? row.types : [];
   const all = Array.isArray(types) ? types.map((t) => String(t).toLowerCase()) : [];
-  if (!all.length) return false;
   const joined = all.join(" ");
+  const name = String(row?.name || "").toLowerCase();
+  const website = String(row?.website || "").toLowerCase();
+  const address = String(row?.address || "").toLowerCase();
+  const textBlob = [joined, name, website, address].join(" ");
 
   const blocked = [
     "car_dealer",
@@ -185,16 +216,33 @@ function isRelevantType(types, intent) {
     "doctor",
     "supermarket"
   ];
-  if (blocked.some((b) => joined.includes(b))) return false;
+  if (blocked.some((b) => textBlob.includes(b))) return false;
 
-  if (intent === "electrical") return joined.includes("electrician");
-  if (intent === "plumbing") return joined.includes("plumber");
-  if (intent === "roofing") return joined.includes("roof") || joined.includes("contractor");
-  if (intent === "hvac") return joined.includes("hvac") || joined.includes("heating") || joined.includes("air");
-  if (intent === "drywall") return joined.includes("contractor") || joined.includes("home_improvement");
-  if (intent === "concrete") return joined.includes("contractor") || joined.includes("home_improvement");
-  if (intent === "painting") return joined.includes("painter") || joined.includes("contractor");
-  return joined.includes("contractor") || joined.includes("electrician") || joined.includes("plumber");
+  const generalContractorSignal = hasAnyKeyword(textBlob, ["contractor", "construction", "service"]);
+  const querySignal = hasAnyKeyword(textBlob, queryTerms);
+
+  if (intent === "electrical") {
+    return hasAnyKeyword(textBlob, ["electric", "electrician"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "plumbing") {
+    return hasAnyKeyword(textBlob, ["plumb", "plumber"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "roofing") {
+    return hasAnyKeyword(textBlob, ["roof", "roofing"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "hvac") {
+    return hasAnyKeyword(textBlob, ["hvac", "heating", "air conditioning", "a/c", "mechanical"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "drywall") {
+    return hasAnyKeyword(textBlob, ["drywall", "gypsum"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "concrete") {
+    return hasAnyKeyword(textBlob, ["concrete", "masonry"]) || (generalContractorSignal && querySignal);
+  }
+  if (intent === "painting") {
+    return hasAnyKeyword(textBlob, ["paint", "painter"]) || (generalContractorSignal && querySignal);
+  }
+  return querySignal || generalContractorSignal || hasAnyKeyword(textBlob, ["electrician", "plumber"]);
 }
 
 function scorePlace(place, query) {
@@ -461,7 +509,7 @@ export async function searchSubcontractors({
   let rows = dedupeRows(collected)
     .filter((r) => r.name && r.address)
     .filter((r) => String(r.business_status || "") === "OPERATIONAL" || !r.business_status)
-    .filter((r) => (strictTypeFilter ? isRelevantType(r.types, intent) : true))
+    .filter((r) => (strictTypeFilter ? isRelevantType(r, intent, effectiveQueryTerms) : true))
     .map((r) => {
       const hasCoords = Number.isFinite(r.location_lat) && Number.isFinite(r.location_lng) && r.location_lat !== 0 && r.location_lng !== 0;
       const d = hasCoords ? haversineMiles(center.lat, center.lng, r.location_lat, r.location_lng) : null;

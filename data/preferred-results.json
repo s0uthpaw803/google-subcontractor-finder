@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "result_key": "place:ChIJ40TTTGdqAIkRtO8G5qJbSdk",
+    "source": "google_places_new",
+    "name": "Peachtree Electrical Service",
+    "phone": "(843) 293-8209",
+    "website": "http://www.peachtree-electrical.com/",
+    "address": "196 Stonebridge Dr Unit A, Myrtle Beach, SC 29588",
+    "distance_miles": 3.63,
+    "maps_url": "https://maps.google.com/?cid=15657146334732283828&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "place_id": "ChIJ40TTTGdqAIkRtO8G5qJbSdk",
+    "business_status": "OPERATIONAL",
+    "confidence": 100,
+    "reliability_score": 100,
+    "company_size": "medium",
+    "company_age": "",
+    "emails": "",
+    "category_section": "Electrical",
+    "preferred_city": "Myrtle Beach",
+    "preferred_category": "- Electric",
+    "preferred_at": "2026-02-24T14:29:21.923Z"
+  }
+]
