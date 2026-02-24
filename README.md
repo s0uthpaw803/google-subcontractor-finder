@@ -1,128 +1,51 @@
-# Subcontractor Finder
+# Keystone Connect
 
-Local + deployable subcontractor search app.
+Lean Google Places (New) construction-business finder.
 
-## Project layout
+## Run local
 
-- `src/` backend search engine + web server
-- `ui/` single-page app + logo assets
-- `scripts/` helper scripts
-- `data/scllr-contractors.json` SCLLR-only cache dataset for verification-mode app
-- `data/exports/` CSV output folder (ignored in git)
-
-## Local run (recommended)
-
-1. Open clickable launcher:
-
-`/Users/mcdowell/Desktop/temp files/google-subcontractor-finder/ui/Open-App.command`
-
-2. It starts backend and opens:
-
-[http://127.0.0.1:8787](http://127.0.0.1:8787)
-
-SCLLR-only version:
-
-[http://127.0.0.1:8787/scllr](http://127.0.0.1:8787/scllr)
-
-## CLI run
+- Double-click: `ui/Open-App.command`
+- Or run:
 
 ```bash
-cd /Users/mcdowell/Desktop/temp\ files/google-subcontractor-finder
-npm start -- --location "Augusta, GA" --query "subcontractor" --radius 50000 --output data/exports/augusta.csv
+cd "/Users/mcdowell/Desktop/temp files/google-subcontractor-finder"
+npm start
 ```
 
-## Email enrichment
+App URL:
 
-```bash
-npm run enrich:emails -- --input data/exports/augusta.csv --output data/exports/augusta-with-emails.csv
+- [http://127.0.0.1:8787](http://127.0.0.1:8787)
+
+## Required env
+
+Create `.env` in project root:
+
+```env
+GOOGLE_MAPS_API_KEY=YOUR_KEY
 ```
 
-## Push to GitHub
+## Main files
 
-```bash
-cd /Users/mcdowell/Desktop/temp\ files/google-subcontractor-finder
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <YOUR_GITHUB_REPO_URL>
-git push -u origin main
-```
+- `src/web-server.js` HTTP API + static app serving
+- `src/search-engine.js` taxonomy-driven Places search, merge, rank, CSV output
+- `data/taxonomy.json` parent/child trade taxonomy + query profiles
+- `ui/app.html` main UI
+- `ui/assets/*` branding assets
 
-## Deploy to Render (backend supported)
+## API endpoints
 
-This repo includes `render.yaml` and is ready for Render.
+- `POST /api/search`
+- `POST /api/csv`
+- `GET /api/query-categories`
+- `GET /api/location-suggest`
+- `GET /api/reverse-zip`
+- `GET /api/location-city`
+- `GET /api/preferred`
+- `POST /api/preferred`
+- `POST /api/irrelevant`
+- `GET /api/ping`
 
-1. Push to GitHub.
-2. In Render: New + -> Blueprint.
-3. Select this GitHub repo.
-4. Render reads `render.yaml` and deploys.
-5. Open deployed URL.
+## Deploy
 
-Health check endpoint:
-
-- `/api/ping`
-
-SCLLR-only endpoints:
-
-- `POST /api/scllr/search`
-- `POST /api/scllr/refresh`
-- `GET /api/scllr/stats`
-
-## Monthly SCLLR cache ingest (recommended)
-
-Use this to populate SCLLR search from a monthly downloaded CSV dataset.
-
-1. Put one or more SCLLR CSV files in:
-
-- `data/scllr-monthly-drop/`
-
-2. Run monthly import:
-
-```bash
-cd /Users/mcdowell/Desktop/temp\ files/google-subcontractor-finder
-npm run scllr:monthly
-```
-
-Optional: import specific file(s):
-
-```bash
-npm run scllr:monthly -- --input "/absolute/path/to/file.csv"
-```
-
-Optional: replace cache with first file before merging remaining files:
-
-```bash
-npm run scllr:monthly -- --replace
-```
-
-This writes the searchable SCLLR cache to:
-
-- `data/scllr-contractors.json`
-
-### App-integrated automatic monthly behavior
-
-SCLLR search now auto-runs cache readiness before searching:
-
-1. Uses existing cache if fresh.
-2. Attempts live SCLLR refresh.
-3. Attempts CSV import from `data/scllr-monthly-drop/`.
-4. Optionally attempts URL imports from env var `SCLLR_MONTHLY_CSV_URLS`.
-
-If you have a monthly SCLLR export URL (or multiple), set:
-
-```bash
-SCLLR_MONTHLY_CSV_URLS=https://example.com/scllr-monthly.csv,https://example.com/scllr-extra.csv
-```
-
-Optional freshness window (default 31 days):
-
-```bash
-SCLLR_MONTHLY_MAX_AGE_DAYS=31
-```
-
-## Notes
-
-- Netlify static hosting is not a fit for this app’s backend scraping flow.
-- `logs/` and CSV exports are git-ignored.
-- SCLLR data mode uses cache file `data/scllr-contractors.json` and can be refreshed from public SCLLR verification pages.
+- Uses `render.yaml`.
+- Start command: `npm start`

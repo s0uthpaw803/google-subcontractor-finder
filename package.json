@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "description": "Find subcontractors by city, ZIP code, or state using Google Places API.",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/web-server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "enrich:emails": "node src/enrich-emails.js",
-    "app": "node src/web-server.js",
-    "scllr:monthly": "node scripts/scllr-monthly-import.js",
-    "validate:categories": "node src/validate-categories.js"
+    "start": "node src/web-server.js",
+    "app": "node src/web-server.js"
   },
   "license": "MIT"
 }

@@ -1,0 +1,985 @@
+{
+  "version": "1.0.0",
+  "defaults": {
+    "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+    "hard_exclude_terms": ["handyman", "home repair", "residential", "maid", "house painting"],
+    "global_exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"]
+  },
+  "parents": [
+    {
+      "parent_id": "2",
+      "parent_label": "2 – Site Construction",
+      "children": [
+        {
+          "child_id": "2_site_prep",
+          "child_label": "Site Preparation",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["sitework contractor", "site preparation contractor"],
+            "secondary_terms": ["clearing and grubbing", "construction site clearing"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "landscaping", "tree service", "stump grinding"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["sitework", "site work", "civil", "grading"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "2_excavation_grading",
+          "child_label": "Excavation & Grading",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["excavation contractor", "grading contractor", "earthwork contractor"],
+            "secondary_terms": ["mass excavation", "rough grading", "fine grading"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "pool excavation"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["excavation", "grading", "earthwork"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "2_demolition",
+          "child_label": "Demolition",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial demolition contractor", "selective demolition contractor"],
+            "secondary_terms": ["interior demolition", "saw cutting", "concrete cutting"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["demolition", "demo", "selective demolition"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "2_erosion_control",
+          "child_label": "Erosion & Sediment Control",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["erosion control contractor", "silt fence contractor"],
+            "secondary_terms": ["stormwater compliance", "BMP installation", "SWPPP contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["erosion control", "stormwater", "SWPPP", "BMP"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "2_shoring_underpinning",
+          "child_label": "Shoring & Underpinning",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["shoring contractor", "underpinning contractor", "sheet piling contractor"],
+            "secondary_terms": ["excavation support", "soldier pile and lagging"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["shoring", "underpinning", "piling", "sheet pile"],
+            "priority_weight": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "3",
+      "parent_label": "3 – Concrete",
+      "children": [
+        {
+          "child_id": "3_structural_concrete",
+          "child_label": "Structural Concrete",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial concrete contractor", "structural concrete contractor"],
+            "secondary_terms": ["cast-in-place concrete", "forming contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "stamped concrete"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["structural concrete", "cast-in-place", "forming"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "3_foundations",
+          "child_label": "Foundations",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["foundation contractor", "concrete foundations contractor"],
+            "secondary_terms": ["spread footings", "grade beams"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "basement waterproofing"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["foundations", "footings", "grade beam"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "3_slabs",
+          "child_label": "Slabs",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["concrete slab contractor", "slab on grade contractor"],
+            "secondary_terms": ["warehouse slab", "industrial slab"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "sidewalk"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["slab", "slab-on-grade", "SOG"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "3_rebar_reinforcing",
+          "child_label": "Rebar & Reinforcing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["rebar contractor", "concrete reinforcing contractor"],
+            "secondary_terms": ["rebar installation", "post-tension contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["rebar", "reinforcing", "post tension", "PT"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "3_concrete_repair",
+          "child_label": "Concrete Repair",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["structural concrete repair contractor", "concrete restoration contractor"],
+            "secondary_terms": ["epoxy injection", "spall repair"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["restoration", "repair", "structural repair"],
+            "priority_weight": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "4",
+      "parent_label": "4 – Masonry",
+      "children": [
+        {
+          "child_id": "4_cmu_block",
+          "child_label": "CMU / Block",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["CMU contractor", "block wall contractor", "commercial masonry contractor"],
+            "secondary_terms": ["structural block walls", "reinforced CMU"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "chimney", "fireplace"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["CMU", "block", "masonry"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "4_brick",
+          "child_label": "Brick",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["brick masonry contractor", "commercial brick contractor"],
+            "secondary_terms": ["brick veneer contractor", "brick facade contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["brick", "masonry", "veneer"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "4_stone",
+          "child_label": "Stone",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["stone masonry contractor", "stone veneer contractor"],
+            "secondary_terms": ["architectural stone installation"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["stone", "veneer", "masonry"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "4_masonry_restoration",
+          "child_label": "Masonry Restoration",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["masonry restoration contractor", "tuckpointing contractor"],
+            "secondary_terms": ["repointing", "brick restoration"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["restoration", "tuckpointing", "repointing"],
+            "priority_weight": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "5",
+      "parent_label": "5 – Metals",
+      "children": [
+        {
+          "child_id": "5_structural_steel",
+          "child_label": "Structural Steel Erection",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["structural steel contractor", "steel erector"],
+            "secondary_terms": ["steel erection company", "ironworker contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "fence", "gate"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["steel erection", "structural steel", "ironworks"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "5_steel_fabrication",
+          "child_label": "Steel Fabrication / Misc Metals",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["steel fabrication", "miscellaneous metals fabrication"],
+            "secondary_terms": ["plate fabrication", "shop fabrication"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "hobby", "ornamental"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["fabrication", "misc metals", "shop"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "5_metal_deck",
+          "child_label": "Metal Decking",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["metal deck installer", "steel decking contractor"],
+            "secondary_terms": ["composite deck installation"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["metal deck", "decking", "composite deck"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "5_stairs_railings",
+          "child_label": "Stairs & Railings",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial metal stairs contractor", "commercial railing contractor"],
+            "secondary_terms": ["handrail fabrication", "guardrail contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "wrought iron"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["stairs", "railings", "handrails", "guardrails"],
+            "priority_weight": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "6",
+      "parent_label": "6 – Wood & Plastics",
+      "children": [
+        {
+          "child_id": "6_rough_carpentry",
+          "child_label": "Rough Carpentry / Framing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial framing contractor", "rough carpentry contractor"],
+            "secondary_terms": ["wood blocking contractor", "sheathing contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["framing", "carpentry", "rough carpentry"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "6_finish_carpentry",
+          "child_label": "Finish Carpentry",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial finish carpentry", "commercial trim contractor"],
+            "secondary_terms": ["millwork installation", "casework installation"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["finish carpentry", "millwork", "trim"],
+            "priority_weight": 0.8
+          }
+        },
+        {
+          "child_id": "6_millwork",
+          "child_label": "Architectural Woodwork / Millwork",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["architectural millwork contractor", "commercial millwork"],
+            "secondary_terms": ["custom millwork shop", "woodwork fabrication"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["millwork", "woodwork", "casework"],
+            "priority_weight": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "7",
+      "parent_label": "7 – Thermal & Moisture Protection",
+      "children": [
+        {
+          "child_id": "7_commercial_roofing",
+          "child_label": "Commercial Roofing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial roofing contractor", "flat roof contractor"],
+            "secondary_terms": ["roof replacement commercial", "roof installation commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "shingle", "gutter cleaning"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["commercial roofing", "flat roof", "membrane"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "7_tpo_epdm",
+          "child_label": "TPO / EPDM",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["TPO roofing contractor", "EPDM roofing contractor"],
+            "secondary_terms": ["single ply roofing contractor", "membrane roofing contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "shingle"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["TPO", "EPDM", "single-ply", "membrane"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "7_waterproofing",
+          "child_label": "Waterproofing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial waterproofing contractor", "below grade waterproofing"],
+            "secondary_terms": ["traffic coating waterproofing", "podium deck waterproofing"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["waterproofing", "below grade", "membrane"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "7_insulation",
+          "child_label": "Insulation",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial insulation contractor", "spray foam insulation contractor"],
+            "secondary_terms": ["rigid insulation installer", "mineral wool insulation contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "attic"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["insulation", "spray foam", "rigid board", "mineral wool"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "7_air_barrier",
+          "child_label": "Air Barrier / Envelope",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["air barrier contractor", "building envelope contractor"],
+            "secondary_terms": ["weather barrier installation", "WRB contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["air barrier", "envelope", "WRB"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "7_eifs",
+          "child_label": "EIFS",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["EIFS contractor", "EIFS installation contractor"],
+            "secondary_terms": ["exterior insulation finish system", "commercial stucco EIFS"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["EIFS", "stucco", "facade"],
+            "priority_weight": 0.8
+          }
+        },
+        {
+          "child_id": "7_firestopping",
+          "child_label": "Firestopping",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["firestopping contractor", "penetration firestop contractor"],
+            "secondary_terms": ["fire caulking contractor", "smoke seal contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["firestopping", "firestop", "penetrations"],
+            "priority_weight": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "8",
+      "parent_label": "8 – Doors & Windows",
+      "children": [
+        {
+          "child_id": "8_hollow_metal",
+          "child_label": "Hollow Metal Doors & Frames",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["hollow metal doors and frames", "commercial door frames supplier"],
+            "secondary_terms": ["hollow metal installation contractor", "metal door frames contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "garage door"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["hollow metal", "doors and frames", "HM doors"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "8_storefront",
+          "child_label": "Storefront Systems",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["storefront contractor", "commercial storefront installation"],
+            "secondary_terms": ["aluminum storefront contractor", "storefront glazing contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["storefront", "glazing", "aluminum"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "8_curtain_wall",
+          "child_label": "Curtain Wall / Facade",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["curtain wall contractor", "glass facade contractor"],
+            "secondary_terms": ["unitized curtain wall", "stick curtain wall"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["curtain wall", "facade", "glazing"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "8_commercial_windows",
+          "child_label": "Commercial Windows",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial window installer", "window wall contractor"],
+            "secondary_terms": ["commercial fenestration contractor", "aluminum windows commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "screen repair"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["windows", "fenestration", "window wall"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "8_door_hardware",
+          "child_label": "Door Hardware",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial door hardware supplier", "door hardware distributor"],
+            "secondary_terms": ["panic hardware supplier", "access control door hardware"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["door hardware", "panic hardware", "access control"],
+            "priority_weight": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "9",
+      "parent_label": "9 – Finishes",
+      "children": [
+        {
+          "child_id": "9_drywall_framing",
+          "child_label": "Drywall & Metal Stud Framing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial drywall contractor", "metal stud framing contractor"],
+            "secondary_terms": ["GWB contractor commercial", "tenant improvement drywall"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "interior designer"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["drywall", "metal stud", "GWB", "framing"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "9_act_ceilings",
+          "child_label": "Acoustical Ceilings (ACT)",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["acoustical ceiling contractor", "commercial ceiling contractor"],
+            "secondary_terms": ["ACT installation", "suspended ceiling contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["acoustical", "ACT", "suspended ceiling"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "9_tile",
+          "child_label": "Tile",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial tile contractor", "tile installer commercial"],
+            "secondary_terms": ["porcelain tile commercial", "large format tile contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["tile", "porcelain", "ceramic"],
+            "priority_weight": 0.9
+          }
+        },
+        {
+          "child_id": "9_flooring",
+          "child_label": "Commercial Flooring",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial flooring contractor", "LVT installer commercial"],
+            "secondary_terms": ["VCT flooring contractor", "carpet tile installer"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["LVT", "VCT", "carpet tile", "flooring"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "9_epoxy_coatings",
+          "child_label": "Epoxy / Floor Coatings",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["epoxy flooring contractor", "industrial floor coatings"],
+            "secondary_terms": ["urethane cement flooring", "polyaspartic floor coatings"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["epoxy", "coatings", "industrial flooring"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "9_painting",
+          "child_label": "Painting & Coatings",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial painting contractor", "industrial painting contractor"],
+            "secondary_terms": ["intumescent coating contractor", "protective coatings contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "house painter"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["commercial painting", "industrial coatings", "protective coatings"],
+            "priority_weight": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "10",
+      "parent_label": "10 – Specialties",
+      "children": [
+        {
+          "child_id": "10_signage",
+          "child_label": "Signage",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial signage contractor", "wayfinding signage company"],
+            "secondary_terms": ["ADA signage supplier", "building signage contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["signage", "ADA signs", "wayfinding"],
+            "priority_weight": 0.7
+          }
+        },
+        {
+          "child_id": "10_toilet_partitions",
+          "child_label": "Toilet Partitions & Accessories",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial toilet partitions", "restroom partitions contractor"],
+            "secondary_terms": ["commercial restroom accessories", "bath accessories supplier commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["toilet partitions", "restroom accessories"],
+            "priority_weight": 0.6
+          }
+        },
+        {
+          "child_id": "10_wall_protection",
+          "child_label": "Wall Protection",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial wall protection", "corner guards supplier"],
+            "secondary_terms": ["handrail wall protection", "FRP wall panels supplier"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["FRP", "wall protection", "corner guards"],
+            "priority_weight": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "11",
+      "parent_label": "11 – Equipment",
+      "children": [
+        {
+          "child_id": "11_food_service",
+          "child_label": "Food Service Equipment",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial kitchen equipment supplier", "food service equipment dealer"],
+            "secondary_terms": ["restaurant equipment supply", "commercial kitchen equipment"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["foodservice", "commercial kitchen"],
+            "priority_weight": 0.6
+          }
+        },
+        {
+          "child_id": "11_loading_dock",
+          "child_label": "Loading Dock Equipment",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["loading dock equipment", "dock leveler installer"],
+            "secondary_terms": ["dock seals", "dock doors commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["dock leveler", "loading dock"],
+            "priority_weight": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "12",
+      "parent_label": "12 – Furnishings",
+      "children": [
+        {
+          "child_id": "12_casework",
+          "child_label": "Casework",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial casework contractor", "laboratory casework supplier"],
+            "secondary_terms": ["architectural casework", "millwork casework"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["casework", "lab casework", "millwork"],
+            "priority_weight": 0.6
+          }
+        },
+        {
+          "child_id": "12_window_treatments",
+          "child_label": "Window Treatments",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial window treatments", "commercial blinds supplier"],
+            "secondary_terms": ["roller shades commercial", "motorized shades commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["blinds", "shades", "window treatments"],
+            "priority_weight": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "13",
+      "parent_label": "13 – Special Construction",
+      "children": [
+        {
+          "child_id": "13_pemb",
+          "child_label": "Pre-Engineered Metal Buildings",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["pre engineered metal building contractor", "PEMB contractor"],
+            "secondary_terms": ["metal building erector", "butler building contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["PEMB", "pre-engineered", "metal building"],
+            "priority_weight": 0.8
+          }
+        },
+        {
+          "child_id": "13_cleanrooms",
+          "child_label": "Cleanrooms / Specialty Rooms",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["cleanroom contractor", "cleanroom design build"],
+            "secondary_terms": ["controlled environment contractor", "ISO cleanroom contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["cleanroom", "controlled environment", "ISO"],
+            "priority_weight": 0.7
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "14",
+      "parent_label": "14 – Conveying Systems",
+      "children": [
+        {
+          "child_id": "14_elevators",
+          "child_label": "Elevators",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial elevator contractor", "elevator installation company"],
+            "secondary_terms": ["elevator modernization contractor", "elevator service commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["elevator", "modernization", "lift"],
+            "priority_weight": 0.7
+          }
+        },
+        {
+          "child_id": "14_accessibility_lifts",
+          "child_label": "Accessibility Lifts",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["wheelchair lift contractor", "accessibility lift installer"],
+            "secondary_terms": ["platform lift contractor", "vertical platform lift installer"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["platform lift", "accessibility lift", "VPL"],
+            "priority_weight": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "15",
+      "parent_label": "15 – Mechanical",
+      "children": [
+        {
+          "child_id": "15_hvac",
+          "child_label": "Commercial HVAC",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial HVAC contractor", "mechanical contractor HVAC"],
+            "secondary_terms": ["RTU installation contractor", "VRF contractor commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "residential AC repair"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["commercial HVAC", "mechanical", "RTU", "VRF"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "15_plumbing",
+          "child_label": "Commercial Plumbing",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial plumbing contractor", "plumbing contractor new construction"],
+            "secondary_terms": ["commercial plumbing rough-in", "tenant improvement plumbing"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "drain cleaning", "water heater repair"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["commercial plumbing", "new construction", "rough-in"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "15_fire_sprinkler",
+          "child_label": "Fire Sprinkler",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["fire sprinkler contractor", "sprinkler system contractor"],
+            "secondary_terms": ["NFPA sprinkler contractor", "sprinkler installation commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["fire sprinkler", "NFPA", "sprinkler"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "15_refrigeration",
+          "child_label": "Commercial Refrigeration",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial refrigeration contractor", "walk in cooler contractor"],
+            "secondary_terms": ["walk-in freezer contractor", "refrigeration install commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["walk-in", "cooler", "refrigeration"],
+            "priority_weight": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "parent_id": "16",
+      "parent_label": "16 – Electrical",
+      "children": [
+        {
+          "child_id": "16_commercial_electrical",
+          "child_label": "Commercial Electrical",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial electrical contractor", "electrical contractor new construction"],
+            "secondary_terms": ["tenant improvement electrical", "service upgrade commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio", "ceiling fan", "smart home"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["commercial electrical", "new construction", "tenant improvement"],
+            "priority_weight": 1.2
+          }
+        },
+        {
+          "child_id": "16_lighting",
+          "child_label": "Lighting",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["commercial lighting contractor", "lighting retrofit contractor"],
+            "secondary_terms": ["LED retrofit commercial", "warehouse lighting contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["lighting retrofit", "LED", "commercial lighting"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "16_low_voltage",
+          "child_label": "Low Voltage / Cabling",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["low voltage contractor", "structured cabling contractor"],
+            "secondary_terms": ["data cabling contractor", "fiber optic contractor commercial"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["structured cabling", "low voltage", "fiber", "data cabling"],
+            "priority_weight": 1.0
+          }
+        },
+        {
+          "child_id": "16_fire_alarm",
+          "child_label": "Fire Alarm",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["fire alarm contractor", "fire alarm installation"],
+            "secondary_terms": ["fire alarm inspection commercial", "life safety systems contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["fire alarm", "life safety", "inspection"],
+            "priority_weight": 1.1
+          }
+        },
+        {
+          "child_id": "16_security_access",
+          "child_label": "Access Control / Security",
+          "query_profile": {
+            "mode": "TEXT_SEARCH",
+            "primary_terms": ["access control contractor", "commercial security systems installer"],
+            "secondary_terms": ["CCTV installer commercial", "door access systems contractor"],
+            "include_modifiers": ["commercial", "industrial", "new construction", "tenant build-out"],
+            "exclude_terms": ["DIY", "how to", "homeowner", "residential", "house", "handyman", "cheap", "driveway", "patio"],
+            "included_types": [],
+            "excluded_types": [],
+            "category_hints": ["access control", "CCTV", "security systems"],
+            "priority_weight": 0.9
+          }
+        }
+      ]
+    }
+  ]
+}
