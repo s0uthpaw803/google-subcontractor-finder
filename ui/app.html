@@ -1605,9 +1605,15 @@
 
     function downloadCsv(){
       if(!rows.length){ setStatus("No rows to download."); return; }
-      const h = ["name","address","phone","website","distance_miles","category_section","reliability_score","confidence"];
+      const h = ["name","address","phone","website","distance_miles","category_section","reliability_score","confidence","emails"];
+      const cleanCategorySection = (value) =>
+        String(value ?? "")
+          .replace(/[\u2012\u2013\u2014\u2015]/g, "-")
+          .replace(/[^\x20-\x7E]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
       const lines = [h.join(",")];
-      rows.forEach((r)=>lines.push(h.map((k)=>csvEscape(r[k])).join(",")));
+      rows.forEach((r)=>lines.push(h.map((k)=>csvEscape(k === "category_section" ? cleanCategorySection(r[k]) : r[k])).join(",")));
       const blob = new Blob([lines.join("\n")+"\n"], { type:"text/csv;charset=utf-8" });
       const locRaw = String(els.location.value || "").trim();
       const locBase = locRaw && !/^[-+]?\\d+(?:\\.\\d+)?\\s*,\\s*[-+]?\\d+(?:\\.\\d+)?$/.test(locRaw)
