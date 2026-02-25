@@ -91,25 +91,31 @@
       content:"";
       position:absolute;
       left:50%;
-      bottom:18px;
-      width:min(30vw, 180px);
+      top:66%;
+      width:min(52vw, 300px);
       aspect-ratio:1/1;
-      transform:translateX(-50%);
+      transform:translate(-50%, -50%);
       background:url("/assets/logo-white.png") no-repeat center / contain;
-      opacity:.02;
+      opacity:.015;
       pointer-events:none;
       z-index:0;
     }
     .app[data-theme="light"] .body::after{
       background:url("/assets/logo.png") no-repeat center / contain;
-      opacity:.04;
+      opacity:.025;
     }
     .body > *{
       position:relative;
     }
     .field-block{display:grid;gap:0;position:relative;z-index:1}
     .field-block.location-block{z-index:50}
-    .label-row{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:0 0 4px}
+    .label-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:7px;
+      margin:0 0 4px;
+    }
     .label-left{
       display:inline-flex;
       align-items:center;
@@ -127,14 +133,46 @@
       margin:0;
       align-self:center;
     }
-    label{display:block;margin:0 0 5px;font-size:.7rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
+    label{
+      display:block;
+      margin:0;
+      font-size:.7rem;
+      color:#d7dee7;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      line-height:1;
+    }
+    .field-block > label,
+    .row > div > label{
+      margin-bottom:8px;
+    }
     .view-controls{
-      display:inline-grid;
-      grid-auto-flow:column;
-      grid-auto-columns:24px;
-      column-gap:8px;
+      display:inline-flex;
+      gap:8px;
       align-items:center;
       justify-content:end;
+      justify-self:end;
+    }
+    .engine-mode-btn{
+      width:auto;
+      min-width:44px;
+      height:20px;
+      min-height:20px;
+      border-radius:999px;
+      border:1px solid rgba(170,170,170,.32);
+      background:rgba(26,33,42,.58);
+      color:#e6edf6;
+      padding:0 8px;
+      font:700 .64rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      cursor:pointer;
+      justify-self:center;
+    }
+    .app[data-theme="light"] .engine-mode-btn{
+      border-color:#b7bfc9;
+      background:rgba(240,245,250,.70);
+      color:#2b2b2b;
     }
     .mini-icon,.layout-btn,.mode-pill,.theme-bolt{
       height:24px;min-height:24px;border-radius:6px;font:800 .62rem "Segoe UI",Tahoma,sans-serif;
@@ -360,7 +398,7 @@
     }
     .query-item.child-cat{padding-left:34px}
     .query-item:hover,.query-item.active{background:rgba(255,255,255,.06)}
-    .hint{font:400 .66rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:5px}
+    .hint{font:400 .66rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:4px}
     .hint{color:#9a9a9a}
     .btn{
       border:1px solid #991424;
@@ -392,6 +430,14 @@
       cursor:pointer;
     }
     .meta{font:500 .73rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#c4cfdd}
+    .app-footer{
+      margin-top:2px;
+      text-align:right;
+      font:500 .58rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      color:#7f7f7f;
+      letter-spacing:.01em;
+      white-space:nowrap;
+    }
     .results-tools-bar{display:flex;align-items:center}
     .clear-link-btn{
       width:auto;
@@ -510,6 +556,10 @@
       text-align:right;
     }
     .result-links a{color:#d0d0d0;text-decoration:none}
+    .result-links .missing-link{
+      text-decoration:line-through;
+      opacity:.68;
+    }
     .result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
     .result-left{display:inline-flex;align-items:center;gap:8px;min-width:0}
     .result-tools{display:inline-flex;align-items:center;gap:6px;position:relative;justify-self:end;flex:0 0 auto}
@@ -689,6 +739,7 @@
     }
     .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important;opacity:1}
     .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#555555}
+    .app[data-theme="light"] .app-footer{color:#6a6a6a}
     .app[data-theme="light"] .status button{color:#3a3a3a}
     .app[data-theme="light"] .hint{color:#666666}
     .app[data-theme="light"] .card{background:rgba(244,248,252,.60);border-color:#bdc6d0}
@@ -698,6 +749,7 @@
     .app[data-theme="light"] .result-address{color:#111111}
     .app[data-theme="light"] .result-links{color:#111111}
     .app[data-theme="light"] .result-links a{color:#111111}
+    .app[data-theme="light"] .result-links .missing-link{opacity:.72}
     .app[data-theme="light"] .pref-star{color:#7a7a7a}
     .app[data-theme="light"] .pref-star.active{color:#be1e2d}
     .app[data-theme="light"] .pref-city{color:#3d3d3d}
@@ -823,7 +875,7 @@
       .app{border-radius:0;min-height:100dvh}
       input,select,button{font-size:16px}
       .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
-      .view-controls{width:auto;justify-content:flex-end;column-gap:8px;overflow-x:auto;scrollbar-width:none}
+      .view-controls{width:auto;justify-content:flex-end;gap:8px;overflow-x:auto;scrollbar-width:none}
       .view-controls::-webkit-scrollbar{display:none}
       .row{grid-template-columns:1fr}
       .result-tools{justify-self:end}
@@ -846,6 +898,7 @@
               </label>
             </div>
             <div class="view-controls">
+              <button id="engineModeBtn" class="engine-mode-btn" type="button" title="Switch search engine">GGL</button>
               <button id="sizeBtn" class="mini-icon" type="button" title="Pop out" aria-label="Pop out"></button>
               <button id="themeBtn" class="theme-bolt" type="button" title="Toggle theme" aria-label="Toggle theme"></button>
             </div>
@@ -905,6 +958,7 @@
         </div>
         <div id="meta" class="meta"></div>
         <div id="list" class="list"></div>
+        <div class="app-footer">© 2026 McDowell Development. All rights reserved.</div>
       </div>
     </div>
   </div>
@@ -915,6 +969,7 @@
       app: $("appRoot"),
       brandBanner: $("brandBanner"),
       sizeBtn: $("sizeBtn"),
+      engineModeBtn: $("engineModeBtn"),
       themeBtn: $("themeBtn"),
       location: $("location"),
       locationSuggest: $("locationSuggest"),
@@ -951,11 +1006,12 @@
     let suggestTimer = null;
     let suggestRequestId = 0;
     const LOCAL_IRRELEVANT_KEY = "kc_irrelevant_filters_v1";
-    const UI_STATE_KEY = "kc_ui_state_v2";
+    const UI_STATE_KEY = "kc_ui_state_v3";
     const isDesktop = window.matchMedia("(min-width: 769px)");
     const POPUP_WIDTH = 440;
     const POPUP_HEIGHT = 890;
     let preferredRowsCache = [];
+    let searchEngineMode = "api";
 
     function escapeHtml(v){
       return String(v || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;");
@@ -970,9 +1026,10 @@
       return String(v || "").trim().toLowerCase();
     }
 
-    function makeSearchSignature({ location, query, queries, radiusMiles }){
+    function makeSearchSignature({ location, query, queries, radiusMiles, engineMode = "api" }){
       const qs = Array.isArray(queries) ? [...new Set(queries.map(normalizeValue).filter(Boolean))].sort() : [];
       return [
+        normalizeValue(engineMode),
         normalizeValue(location),
         normalizeValue(query),
         qs.join("|"),
@@ -1049,6 +1106,19 @@
       return String(opt.textContent || "").replace(/\u00a0/g, " ").trim();
     }
 
+    function normalizeEngineMode(value){
+      return String(value || "").trim().toLowerCase() === "ggl" ? "ggl" : "api";
+    }
+
+    function applyEngineMode(mode){
+      searchEngineMode = normalizeEngineMode(mode);
+      if (!els.engineModeBtn) return;
+      const nextMode = searchEngineMode === "api" ? "ggl" : "api";
+      els.engineModeBtn.textContent = nextMode.toUpperCase();
+      els.engineModeBtn.title = `Switch to ${nextMode.toUpperCase()} mode`;
+      els.engineModeBtn.setAttribute("aria-label", els.engineModeBtn.title);
+    }
+
     function deriveCityFromAddress(address){
       const s = String(address || "");
       const m = s.match(/,\s*([^,]+),\s*[A-Z]{2}\s+\d{5}(?:-\d{4})?$/);
@@ -1088,6 +1158,7 @@
           manualQuery: String(els.manualQuery.value || ""),
           radiusMiles: String(els.radiusMiles.value || "25"),
           includeEmails: Boolean(els.includeEmails.checked),
+          engineMode: searchEngineMode,
           theme: String(els.app.getAttribute("data-theme") || "dark"),
           rows,
           currentSearchSignature
@@ -1408,11 +1479,10 @@
     function renderResultLinks(row){
       const segments = [];
       const distance = formatDistanceMiles(row?.distance_miles);
-      if (distance) segments.push(`<span>${escapeHtml(distance)} mi from locale</span>`);
+      if (distance) segments.push(`<span>${escapeHtml(distance)} mi</span>`);
       if (row?.phone) segments.push(`<span>${escapeHtml(row.phone)}</span>`);
-      if (row?.website) {
-        segments.push(`<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(row.website)}">website</a>`);
-      }
+      if (row?.website) segments.push(`<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(row.website)}">website</a>`);
+      else segments.push(`<span class="missing-link">website</span>`);
       const mapUrl = row?.maps_url || row?.map_url;
       if (mapUrl) {
         segments.push(`<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(mapUrl)}">map</a>`);
@@ -1666,6 +1736,7 @@
           queries,
           queryContexts,
           radiusMiles,
+          engineMode: searchEngineMode,
           includeEmails: Boolean(els.includeEmails.checked),
           strictTypeFilter: p.type === "manual" ? false : true
         };
@@ -1676,7 +1747,7 @@
           ...row,
           result_key: String(row.result_key || makeRowKey(row))
         }));
-        currentSearchSignature = String(data.search_signature || makeSearchSignature({ location: loc, query, queries, radiusMiles }));
+        currentSearchSignature = String(data.search_signature || makeSearchSignature({ location: loc, query, queries, radiusMiles, engineMode: searchEngineMode }));
         const localBlocked = getLocalBlockedSet(currentSearchSignature);
         rows = rows.filter((r)=>!localBlocked.has(String(r.result_key || "")));
         setStatus(`${rows.length} results found.`);
@@ -1881,6 +1952,7 @@
     const themeFromUrl = url.searchParams.get("theme");
     const themeFromState = persistedState?.theme;
     applyTheme((themeFromState === "light" || themeFromState === "dark") ? themeFromState : (themeFromUrl === "light" ? "light" : "dark"));
+    applyEngineMode(normalizeEngineMode(persistedState?.engineMode || "api"));
     initSizeControl();
     loadCategories().then(() => {
       if (!persistedState) {
@@ -1919,6 +1991,10 @@
     });
 
     els.themeBtn.addEventListener("click", ()=>applyTheme((els.app.getAttribute("data-theme")||"dark") === "dark" ? "light" : "dark"));
+    els.engineModeBtn.addEventListener("click", () => {
+      applyEngineMode(searchEngineMode === "api" ? "ggl" : "api");
+      saveUiState();
+    });
     els.sizeBtn.addEventListener("click", toggleSizeControl);
     els.useMyLocation.addEventListener("change", handleUseMyLocationToggle);
     els.location.addEventListener("focus", () => {

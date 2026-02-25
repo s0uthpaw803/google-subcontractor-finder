@@ -395,6 +395,65 @@ export function buildQueries(selection, location) {
   return jobs;
 }
 
+function buildLegacyQueries({ query, queries = [] }, location) {
+  const center = location && Number.isFinite(location.lat) && Number.isFinite(location.lng)
+    ? location
+    : { lat: 0, lng: 0 };
+  const radiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
+  const rawTerms = Array.isArray(queries) && queries.length
+    ? queries
+    : [query || "contractor"];
+  const terms = [...new Set(rawTerms.map((v) => String(v || "").trim()).filter(Boolean))];
+  const jobs = [];
+  const seenQuery = new Set();
+
+  const pushLegacyJob = (term, label = "Legacy") => {
+    const textQuery = String(term || "").trim().replace(/\s+/g, " ");
+    if (!textQuery || seenQuery.has(textQuery.toLowerCase())) return;
+    seenQuery.add(textQuery.toLowerCase());
+    jobs.push({
+      parent_id: "legacy",
+      parent_label: label,
+      child_id: "legacy",
+      child_label: label,
+      mode: "TEXT_SEARCH",
+      term_used: textQuery,
+      child_weight: 1,
+      category_hints: [textQuery],
+      exclude_terms: [],
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-FieldMask": FIELD_MASK
+      },
+      request_url: PLACES_TEXT_URL,
+      request_body: {
+        textQuery,
+        maxResultCount: 20,
+        locationBias: {
+          circle: {
+            center: { latitude: center.lat, longitude: center.lng },
+            radius: radiusMeters
+          }
+        },
+        rankPreference: "RELEVANCE",
+        languageCode: "en",
+        regionCode: "US"
+      },
+      fallback_text_query: ""
+    });
+  };
+
+  for (const term of terms) {
+    const t = String(term || "").trim();
+    if (!t) continue;
+    pushLegacyJob(t, t);
+    if (!/\bcontractor\b/i.test(t)) pushLegacyJob(`${t} contractor`, t);
+    if (!/\bcommercial\b/i.test(t)) pushLegacyJob(`commercial ${t}`, t);
+  }
+
+  return jobs;
+}
+
 async function fetchPlacesWithRetry({ url, payload, headers, apiKey }) {
   const maxAttempts = 4;
   const bodyPayload = { ...(payload || {}) };
@@ -670,6 +729,7 @@ export async function searchSubcontractors({
   queries = [],
   strictTypeFilter = true,
   radiusMiles = 25,
+  engineMode = "api",
   includeEmails = false,
   onProgress = () => {}
 }) {
@@ -685,11 +745,16 @@ export async function searchSubcontractors({
 
   const safeRadiusMiles = Math.max(1, Math.min(45, Number(radiusMiles || 25)));
   const selection = buildSelection({ query, queries });
-  const jobs = buildQueries(selection, {
+  const normalizedEngineMode = String(engineMode || "api").toLowerCase() === "ggl" ? "ggl" : "api";
+  const jobs = (normalizedEngineMode === "ggl" ? buildLegacyQueries({ query, queries }, {
     lat: center.lat,
     lng: center.lng,
     radius_meters: Math.round(safeRadiusMiles * 1609.34)
-  });
+  }) : buildQueries(selection, {
+    lat: center.lat,
+    lng: center.lng,
+    radius_meters: Math.round(safeRadiusMiles * 1609.34)
+  }));
 
   if (!jobs.length) {
     return {
@@ -713,7 +778,7 @@ export async function searchSubcontractors({
   let rows = mergeDedupRank(candidates, {
     center,
     radiusMiles: safeRadiusMiles,
-    strictTypeFilter
+    strictTypeFilter: normalizedEngineMode === "ggl" ? false : strictTypeFilter
   });
 
   if (!rows.length && errors.length) {
@@ -736,10 +801,11 @@ export async function searchSubcontractors({
   return {
     meta: {
       provider: "google_places_new",
+      query_engine: normalizedEngineMode,
       location_label: location,
       radius_miles: safeRadiusMiles,
       variants: jobs.length,
-      query_context: selection.kind
+      query_context: normalizedEngineMode === "ggl" ? "legacy" : selection.kind
     },
     rows
   };

@@ -21,9 +21,10 @@ function normalizeValue(v) {
   return String(v || "").trim().toLowerCase();
 }
 
-function buildSearchSignature({ location = "", query = "", queries = [], radiusMiles = 25 }) {
+function buildSearchSignature({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api" }) {
   const q = Array.isArray(queries) ? queries.map(normalizeValue).filter(Boolean).sort() : [];
   return [
+    normalizeValue(engineMode),
     normalizeValue(location),
     normalizeValue(query),
     q.join("|"),
@@ -293,7 +294,8 @@ const server = http.createServer(async (req, res) => {
         location: input.location,
         query: input.query || "general contractor",
         queries: Array.isArray(input.queries) ? input.queries : [],
-        radiusMiles: input.radiusMiles
+        radiusMiles: input.radiusMiles,
+        engineMode: input.engineMode
       });
       const result = await searchSubcontractors({
         location: input.location,
@@ -302,6 +304,7 @@ const server = http.createServer(async (req, res) => {
         queryContexts: Array.isArray(input.queryContexts) ? input.queryContexts : [],
         strictTypeFilter: input.strictTypeFilter !== false,
         radiusMiles: input.radiusMiles,
+        engineMode: String(input.engineMode || "api").toLowerCase() === "ggl" ? "ggl" : "api",
         mode: input.mode === "statewide" ? "statewide" : "single",
         gridStepMiles: input.gridMiles,
         includeEmails: Boolean(input.includeEmails),
