@@ -768,16 +768,19 @@
     }
     .pref-star.active{color:#d4af37}
     .pref-city{
-      margin:2px 2px 2px;
+      margin:2px 2px 0;
       font:800 .78rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       color:#c9c9c9;
       text-transform:uppercase;
       letter-spacing:.04em;
     }
     .pref-cat{
-      margin:0 2px 2px 12px;
+      margin:10px 2px 4px 0;
       font:600 .74rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       color:#9e9e9e;
+    }
+    .card.preferred-card{
+      padding:8px 8px 5px;
     }
     .remove-toggle{
       width:18px;
@@ -1823,7 +1826,7 @@
           const rowKey = String(r.result_key || makeRowKey(r));
           const isPending = pendingKey && pendingKey === rowKey;
           grouped.push(`
-            <div class="card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
+            <div class="card preferred-card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
               <div class="result-row1">
                 <div class="result-main">
                   <div class="result-company">
