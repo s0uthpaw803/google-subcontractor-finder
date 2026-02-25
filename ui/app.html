@@ -6,9 +6,9 @@
   <title>Keystone Connect</title>
   <style>
     :root{
-      --bg:#0e1d31;
-      --bg2:#0a1322;
-      --panel:#0f233a;
+      --bg:#141414;
+      --bg2:#101010;
+      --panel:#1a1a1a;
       --line:#3a3a3a;
       --text:#e9eef5;
       --muted:#a8b5c5;
@@ -18,7 +18,7 @@
       --accent2:#343434;
       --danger:#be1e2d;
       --danger2:#8f1220;
-      --ctl:46px;
+      --ctl:32px;
     }
     html{
       min-height:100%;
@@ -58,7 +58,7 @@
         radial-gradient(ellipse at 50% 130px, rgba(0,0,0,0), rgba(0,0,0,.34) 75%);
       z-index:0;
     }
-    .shell{width:100%;max-width:440px;height:calc(100vh - 28px)}
+    .shell{width:100%;max-width:440px;height:calc(100dvh - 28px)}
     body[data-size="full"] .shell{max-width:720px}
     .shell{position:relative;z-index:1}
     .app{
@@ -74,13 +74,13 @@
       flex-direction:column;
     }
     .app{border-color:#333}
-    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden}
+    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto;position:relative;z-index:2}
     .top img{display:block;width:100%;height:auto;background:#111}
     .body{
-      padding:14px 14px 14px;
+      padding:10px 10px 10px;
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:10px;
       background:linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.34)) !important;
       overflow:hidden;
       min-height:0;
@@ -109,8 +109,25 @@
     }
     .field-block{display:grid;gap:0;position:relative;z-index:1}
     .field-block.location-block{z-index:50}
-    .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
-    label{display:block;margin:0 0 6px;font-size:.73rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
+    .label-row{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:0 0 4px}
+    .label-left{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+      flex-wrap:wrap;
+    }
+    .label-left > label{
+      margin:0;
+      display:inline-flex;
+      align-items:center;
+      line-height:1;
+    }
+    .label-left .inline-check.compact-check{
+      margin:0;
+      align-self:center;
+    }
+    label{display:block;margin:0 0 5px;font-size:.7rem;color:#d7dee7;text-transform:uppercase;letter-spacing:.06em}
     .view-controls{
       display:inline-grid;
       grid-auto-flow:column;
@@ -157,8 +174,8 @@
     }
     input,select,button{
       width:100%;height:var(--ctl);min-height:var(--ctl);border-radius:12px;border:1px solid #353535;
-      background:rgba(22, 26, 33, .54);color:#fff;padding:0 12px;
-      font:600 .86rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif
+      background:rgba(22, 26, 33, .54);color:#fff;padding:0 8px;
+      font:600 .84rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif
     }
     select{
       -webkit-appearance:none;
@@ -212,8 +229,22 @@
       background:#111;
       appearance:auto;
     }
+    .inline-check.compact-check{
+      font-size:.66rem;
+      color:#9a9a9a;
+      gap:6px;
+      line-height:1.2;
+    }
+    .inline-check.compact-check input[type="checkbox"]{
+      width:11px;
+      min-width:11px;
+      height:11px;
+      min-height:11px;
+      border-radius:3px;
+      border:1px solid #7a7a7a;
+    }
     input,select{
-      border-color:rgba(174, 191, 216, .35);
+      border-color:rgba(160, 160, 160, .35);
       background:rgba(20, 24, 31, .48);
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
     }
@@ -312,7 +343,7 @@
       border-radius:0;
       background:transparent;
       color:#e0e6ef;
-      padding:6px 10px;
+      padding:4px 10px;
       text-align:left;
       font:600 .76rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       text-transform:none;
@@ -329,7 +360,7 @@
     }
     .query-item.child-cat{padding-left:34px}
     .query-item:hover,.query-item.active{background:rgba(255,255,255,.06)}
-    .hint{font:400 .68rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:6px}
+    .hint{font:400 .66rem "Segoe UI",Tahoma,sans-serif;color:#bcc8d8;line-height:1.25;margin-top:5px}
     .hint{color:#9a9a9a}
     .btn{
       border:1px solid #991424;
@@ -344,8 +375,8 @@
     }
     .btn:hover{filter:brightness(1.05)}
     .btn:active{transform:translateY(1px)}
-    .status-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .status{font:600 .82rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e8eef7}
+    .status-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .status{font:600 .8rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e8eef7}
     .status button{
       width:auto;
       min-width:unset;
@@ -355,12 +386,12 @@
       padding:0;
       border:0;
       background:none;
-      color:#93c5fd;
+      color:#bfbfbf;
       font:700 .82rem "Segoe UI",Tahoma,sans-serif;
       text-decoration:underline;
       cursor:pointer;
     }
-    .meta{font:500 .75rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#c4cfdd}
+    .meta{font:500 .73rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#c4cfdd}
     .results-tools-bar{display:flex;align-items:center}
     .clear-link-btn{
       width:auto;
@@ -370,7 +401,7 @@
       padding:0;
       border:0;
       background:none;
-      color:#b8c8dc;
+      color:#b8b8b8;
       font:700 .8rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       text-transform:none;
       letter-spacing:0;
@@ -378,19 +409,30 @@
       cursor:pointer;
     }
     .clear-link-btn:hover{color:#ffffff}
-    .list{display:grid;gap:8px;flex:1 1 auto;min-height:0;max-height:none;overflow:auto;scrollbar-width:thin;scrollbar-color:#6d8db1 #1a1a1a}
-    .list::-webkit-scrollbar{width:10px}
+    .list{
+      display:grid;
+      gap:6px;
+      flex:1 1 auto;
+      min-height:120px;
+      max-height:none;
+      overflow:auto;
+      padding-right:6px;
+      scrollbar-gutter:stable;
+      scrollbar-width:thin;
+      scrollbar-color:#6f6f6f #1a1a1a;
+    }
+    .list::-webkit-scrollbar{width:12px}
     .list::-webkit-scrollbar-track{
       background:#1a1a1a;
       border-left:1px solid #2a2a2a;
     }
     .list::-webkit-scrollbar-thumb{
-      background:#6d8db1;
-      border:2px solid #1a1a1a;
+      background:#6f6f6f;
+      border:3px solid #1a1a1a;
       border-radius:999px;
     }
-    .list::-webkit-scrollbar-thumb:hover{background:#86a6c8}
-    .card{border:1px solid #313131;border-radius:14px;background:#141414;padding:10px;transition:opacity .22s ease,transform .22s ease,filter .22s ease}
+    .list::-webkit-scrollbar-thumb:hover{background:#8a8a8a}
+    .card{border:1px solid #313131;border-radius:12px;background:#141414;padding:8px;transition:opacity .22s ease,transform .22s ease,filter .22s ease}
     .card{
       border-color:rgba(170,170,170,.26);
       background:rgba(20,24,31,.46);
@@ -402,13 +444,75 @@
     .card.is-pending-remove{
       filter:brightness(.62) saturate(.85);
     }
-    .name{font-weight:700;font-size:.95rem;line-height:1.15}
+    .name{
+      font-weight:700;
+      font-size:.92rem;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      min-width:0;
+    }
     .line{font:600 .8rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;color:#e0e6ef;word-break:break-word;margin-top:2px}
-    .line a{color:#b9d6f1;text-decoration:none}
+    .line a{color:#d0d0d0;text-decoration:none}
     .line.links{display:flex;align-items:center;gap:10px;margin-top:3px}
+    .result-row1{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:6px;
+      align-items:center;
+      width:100%;
+      min-height:20px;
+    }
+    .result-main{
+      display:flex;
+      align-items:center;
+      min-width:0;
+    }
+    .result-company{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+    .result-address{
+      font:600 .79rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      color:#dbe4ef;
+      min-width:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      flex:1 1 auto;
+    }
+    .result-side{
+      display:inline-flex;
+      align-items:center;
+      justify-self:end;
+      gap:8px;
+      min-width:0;
+      max-width:100%;
+    }
+    .result-links{
+      display:inline-flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:nowrap;
+      gap:8px;
+      margin-top:0;
+      padding-left:0;
+      font:700 .8rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      min-height:0;
+      white-space:nowrap;
+      overflow:visible;
+      text-overflow:clip;
+      flex:0 0 auto;
+      text-align:right;
+    }
+    .result-links a{color:#d0d0d0;text-decoration:none}
     .result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
     .result-left{display:inline-flex;align-items:center;gap:8px;min-width:0}
-    .result-tools{display:inline-flex;align-items:center;gap:6px;position:relative}
+    .result-tools{display:inline-flex;align-items:center;gap:6px;position:relative;justify-self:end;flex:0 0 auto}
     .pref-star{
       width:20px;
       min-width:20px;
@@ -423,66 +527,32 @@
     }
     .pref-star.active{color:#be1e2d}
     .pref-city{
-      margin:4px 2px 2px;
+      margin:2px 2px 2px;
       font:800 .78rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
-      color:#c7d3e3;
+      color:#c9c9c9;
       text-transform:uppercase;
       letter-spacing:.04em;
     }
     .pref-cat{
-      margin:1px 2px 4px 12px;
+      margin:0 2px 2px 12px;
       font:600 .74rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
-      color:#9fb0c6;
+      color:#9e9e9e;
     }
     .remove-toggle{
-      width:22px;
-      min-width:22px;
-      height:22px;
-      min-height:22px;
+      width:18px;
+      min-width:18px;
+      height:18px;
+      min-height:18px;
       border:1px solid rgba(170,170,170,.32);
-      border-radius:6px;
+      border-radius:5px;
       padding:0;
       background:rgba(26,33,42,.58);
       color:#d5deea;
-      font:700 .72rem/1 "Segoe UI",Tahoma,sans-serif;
+      font:700 .58rem/1 "Segoe UI",Tahoma,sans-serif;
       cursor:pointer;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-    }
-    .remove-action-wrap{
-      position:absolute;
-      right:30px;
-      top:50%;
-      transform:translateY(-50%) translateX(4px);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .16s ease,transform .16s ease;
-    }
-    .remove-action{
-      width:auto;
-      min-width:94px;
-      height:28px;
-      min-height:28px;
-      border:1px solid rgba(170,170,170,.32);
-      border-radius:10px;
-      padding:0 10px;
-      background:rgba(26,33,42,.62);
-      color:#e6effb;
-      font:700 .72rem "Segoe UI",Tahoma,sans-serif;
-      cursor:pointer;
-    }
-    .remove-action:hover{
-      border-color:#8f1220;
-      background:#be1e2d;
-      color:#fff;
-    }
-    .card:hover .remove-action-wrap,
-    .card.show-remove .remove-action-wrap,
-    .card:focus-within .remove-action-wrap{
-      opacity:1;
-      pointer-events:auto;
-      transform:translateY(-50%) translateX(0);
     }
     .card-confirm-overlay{
       position:absolute;
@@ -598,7 +668,7 @@
     .app[data-theme="light"] .body{
       background:linear-gradient(180deg, rgba(238,242,247,.72), rgba(228,233,240,.62)) !important;
     }
-    .app[data-theme="light"] label{color:#5a6778}
+    .app[data-theme="light"] label{color:#555555}
     .app[data-theme="light"] .top{border-bottom-color:#b8c1cb}
     .app[data-theme="light"] input,
     .app[data-theme="light"] select,
@@ -618,14 +688,17 @@
       background:transparent !important;
     }
     .app[data-theme="light"] .theme-bolt{color:#1f2a36 !important;opacity:1}
-    .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#5a6778}
+    .app[data-theme="light"] .status,.app[data-theme="light"] .meta{color:#555555}
     .app[data-theme="light"] .status button{color:#3a3a3a}
-    .app[data-theme="light"] .hint{color:#7a8796}
+    .app[data-theme="light"] .hint{color:#666666}
     .app[data-theme="light"] .card{background:rgba(244,248,252,.60);border-color:#bdc6d0}
-    .app[data-theme="light"] .name{color:#1f2b38}
+    .app[data-theme="light"] .name{color:#1f1f1f}
     .app[data-theme="light"] .line{color:#3a3a3a}
     .app[data-theme="light"] .line a{color:#3a3a3a}
-    .app[data-theme="light"] .pref-star{color:#728096}
+    .app[data-theme="light"] .result-address{color:#111111}
+    .app[data-theme="light"] .result-links{color:#111111}
+    .app[data-theme="light"] .result-links a{color:#111111}
+    .app[data-theme="light"] .pref-star{color:#7a7a7a}
     .app[data-theme="light"] .pref-star.active{color:#be1e2d}
     .app[data-theme="light"] .pref-city{color:#3d3d3d}
     .app[data-theme="light"] .pref-cat{color:#5a5a5a}
@@ -633,16 +706,6 @@
       border-color:#a8b3c0;
       background:#dfe6ee;
       color:#3a3a3a;
-    }
-    .app[data-theme="light"] .remove-action{
-      border-color:#aab6c5;
-      background:#e2e9f1;
-      color:#1f2b39;
-    }
-    .app[data-theme="light"] .remove-action:hover{
-      border-color:#8f1220;
-      background:#be1e2d;
-      color:#fff;
     }
     .app[data-theme="light"] .location-suggest{
       border-color:#b7bfc9;
@@ -666,6 +729,9 @@
     .app[data-theme="light"] .query-item{
       color:#1f2a36;
       border-bottom-color:#c7ced8;
+    }
+    .app[data-theme="light"] .query-item.parent-cat{
+      color:#be1e2d;
     }
     .app[data-theme="light"] .query-item:hover,
     .app[data-theme="light"] .query-item.active{
@@ -720,6 +786,7 @@
       color:#fff;
     }
     .app[data-theme="light"] .inline-check{color:#333333}
+    .app[data-theme="light"] .inline-check.compact-check{color:#666666}
     .app[data-theme="light"] .inline-check input[type="checkbox"]{
       border-color:#9ea9b6;
       background:#eef1f4;
@@ -752,23 +819,32 @@
 
     @media (max-width:768px){
       body{padding:0}
-      .shell{max-width:100%;height:100vh}
-      .app{border-radius:0;min-height:100vh}
+      .shell{max-width:100%;height:100dvh}
+      .app{border-radius:0;min-height:100dvh}
+      input,select,button{font-size:16px}
       .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
       .view-controls{width:auto;justify-content:flex-end;column-gap:8px;overflow-x:auto;scrollbar-width:none}
       .view-controls::-webkit-scrollbar{display:none}
       .row{grid-template-columns:1fr}
+      .result-tools{justify-self:end}
+      .result-links{padding-left:0}
     }
   </style>
 </head>
 <body>
   <div class="shell">
     <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
-      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png" alt="Header" /></div>
+      <div class="top"><img id="brandBanner" src="/assets/header4.png" alt="Header" /></div>
       <div class="body">
         <div class="field-block location-block">
           <div class="label-row">
-            <label for="location">Location (ZIP, city, state)</label>
+            <div class="label-left">
+              <label for="location">Location (ZIP, city, state)</label>
+              <label class="inline-check compact-check">
+                <input id="useMyLocation" type="checkbox" />
+                Use my location
+              </label>
+            </div>
             <div class="view-controls">
               <button id="sizeBtn" class="mini-icon" type="button" title="Pop out" aria-label="Pop out"></button>
               <button id="themeBtn" class="theme-bolt" type="button" title="Toggle theme" aria-label="Toggle theme"></button>
@@ -777,12 +853,6 @@
           <div class="location-wrap">
             <input id="location" placeholder="Type Requested Location or use current" autocomplete="off" />
             <div id="locationSuggest" class="location-suggest hidden"></div>
-          </div>
-          <div style="margin-top:8px">
-            <label class="inline-check">
-              <input id="useMyLocation" type="checkbox" />
-              Use my location
-            </label>
           </div>
         </div>
 
@@ -813,7 +883,7 @@
           </div>
         </div>
         <div>
-          <label class="inline-check">
+          <label class="inline-check compact-check">
             <input id="includeEmails" type="checkbox" />
             Get emails if available. (Slower)
           </label>
@@ -1211,7 +1281,7 @@
     function applyLayout(){
       document.body.setAttribute("data-layout", "keystone");
       els.app.setAttribute("data-layout", "keystone");
-      els.brandBanner.src = "/assets/keystone-header.png";
+      els.brandBanner.src = "/assets/header4.png";
       localStorage.setItem("kc_layout", "keystone");
     }
 
@@ -1326,6 +1396,31 @@
       return Math.max(0, n).toFixed(2);
     }
 
+    function compactAddress(address){
+      const raw = String(address || "").trim();
+      if (!raw) return "";
+      const parts = raw.split(",").map((p) => p.trim()).filter(Boolean);
+      if (!parts.length) return raw;
+      // UI only: hide city/state/zip and keep street/local line if present.
+      return parts[0] || raw;
+    }
+
+    function renderResultLinks(row){
+      const segments = [];
+      const distance = formatDistanceMiles(row?.distance_miles);
+      if (distance) segments.push(`<span>${escapeHtml(distance)} mi from locale</span>`);
+      if (row?.phone) segments.push(`<span>${escapeHtml(row.phone)}</span>`);
+      if (row?.website) {
+        segments.push(`<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(row.website)}">website</a>`);
+      }
+      const mapUrl = row?.maps_url || row?.map_url;
+      if (mapUrl) {
+        segments.push(`<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(mapUrl)}">map</a>`);
+      }
+      if (!segments.length) return "";
+      return segments.map((s, i) => (i === 0 ? s : `<span>|</span>${s}`)).join("");
+    }
+
     function render(){
       const data = sortRows(rows, parsePreset());
       const preset = parsePreset();
@@ -1347,6 +1442,7 @@
         sorted.forEach((r) => {
           const city = cityVal(r);
           const cat = catVal(r);
+          const linksHtml = renderResultLinks(r);
           if (city !== lastCity) {
             grouped.push(`<div class="pref-city">${escapeHtml(city)}</div>`);
             lastCity = city;
@@ -1360,25 +1456,19 @@
           const isPending = pendingKey && pendingKey === rowKey;
           grouped.push(`
             <div class="card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
-              <div class="result-head">
-                <div class="result-left">
-                  <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
-                  <div class="name">${escapeHtml(r.name || "(no name)")}</div>
-                </div>
-                <div class="result-tools">
-                  <button class="remove-toggle" type="button" title="Remove options" aria-label="Remove options">🗑</button>
-                  <div class="remove-action-wrap">
-                    <button class="remove-action" type="button">Remove</button>
+              <div class="result-row1">
+                <div class="result-main">
+                  <div class="result-company">
+                    <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
+                    <div class="name">${escapeHtml(r.name || "(no name)")}</div>
                   </div>
                 </div>
-              </div>
-              <div class="line">${formatDistanceMiles(r.distance_miles) ? `${escapeHtml(formatDistanceMiles(r.distance_miles))} mi from your location` : ""}</div>
-              <div class="line">${escapeHtml(r.address || "")}</div>
-              <div class="line">${escapeHtml(r.phone || "")}</div>
-              <div class="line links">
-                ${r.website ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.website)}">website</a>` : ""}
-                ${(r.website && (r.maps_url || r.map_url)) ? "<span>|</span>" : ""}
-                ${(r.maps_url || r.map_url) ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.maps_url || r.map_url)}">map</a>` : ""}
+                <div class="result-side">
+                  ${linksHtml ? `<div class="result-links">${linksHtml}</div>` : ""}
+                  <div class="result-tools">
+                    <button class="remove-toggle" type="button" title="Remove" aria-label="Remove">🗑</button>
+                  </div>
+                </div>
               </div>
               ${isPending ? `
                 <div class="card-confirm-overlay">
@@ -1401,27 +1491,22 @@
       els.list.innerHTML = data.map((r)=>{
         const rowKey = String(r.result_key || makeRowKey(r));
         const isPending = pendingKey && pendingKey === rowKey;
+        const linksHtml = renderResultLinks(r);
         return `
         <div class="card ${isPending ? "is-pending-remove" : ""}" data-row-key="${escapeHtml(rowKey)}">
-          <div class="result-head">
-            <div class="result-left">
-              <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
-              <div class="name">${escapeHtml(r.name || "(no name)")}</div>
-            </div>
-            <div class="result-tools">
-              <button class="remove-toggle" type="button" title="Remove options" aria-label="Remove options">🗑</button>
-              <div class="remove-action-wrap">
-                <button class="remove-action" type="button">Remove</button>
+          <div class="result-row1">
+            <div class="result-main">
+              <div class="result-company">
+                <button class="pref-star ${isPreferred(r.result_key || makeRowKey(r)) ? "active" : ""}" type="button" title="Preferred">${isPreferred(r.result_key || makeRowKey(r)) ? "★" : "☆"}</button>
+                <div class="name">${escapeHtml(r.name || "(no name)")}</div>
               </div>
             </div>
-          </div>
-          <div class="line">${formatDistanceMiles(r.distance_miles) ? `${escapeHtml(formatDistanceMiles(r.distance_miles))} mi from your location` : ""}</div>
-          <div class="line">${escapeHtml(r.address || "")}</div>
-          <div class="line">${escapeHtml(r.phone || "")}</div>
-          <div class="line links">
-            ${r.website ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.website)}">website</a>` : ""}
-            ${(r.website && (r.maps_url || r.map_url)) ? "<span>|</span>" : ""}
-            ${(r.maps_url || r.map_url) ? `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(r.maps_url || r.map_url)}">map</a>` : ""}
+            <div class="result-side">
+              ${linksHtml ? `<div class="result-links">${linksHtml}</div>` : ""}
+              <div class="result-tools">
+                <button class="remove-toggle" type="button" title="Remove" aria-label="Remove">🗑</button>
+              </div>
+            </div>
           </div>
           ${isPending ? `
             <div class="card-confirm-overlay">
@@ -1519,6 +1604,8 @@
     }
 
     async function runSearch(){
+      const active = document.activeElement;
+      if (active && typeof active.blur === "function") active.blur();
       hideLocationSuggest();
       const p = parsePreset();
       const loc = els.useMyLocation.checked && String(currentGeoLocation || "").trim()
@@ -1683,7 +1770,21 @@
       render();
     }
 
-    function handleUseMyLocationToggle(){
+    function geolocationErrorMessage(err){
+      const code = Number(err?.code);
+      if (code === 1) return "Location permission denied. Enable location access for this site in browser settings.";
+      if (code === 2) return "Location unavailable on this device/network right now.";
+      if (code === 3) return "Location request timed out. Try again.";
+      return "Location permission denied or unavailable.";
+    }
+
+    function getCurrentPositionAsync(options){
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      });
+    }
+
+    async function handleUseMyLocationToggle(){
       syncLocationFieldLock();
       hideLocationSuggest();
       if (!els.useMyLocation.checked) {
@@ -1699,31 +1800,46 @@
         syncLocationFieldLock();
         return;
       }
-      setStatus("Getting your location...");
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const lat = Number(pos.coords.latitude);
-          const lng = Number(pos.coords.longitude);
-          if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-            setStatus("Could not read your current location.");
+      if (!window.isSecureContext) {
+        setStatus("Use my location requires HTTPS (or localhost).");
+        els.useMyLocation.checked = false;
+        syncLocationFieldLock();
+        return;
+      }
+      try {
+        if (navigator.permissions && navigator.permissions.query) {
+          const perm = await navigator.permissions.query({ name: "geolocation" });
+          if (perm?.state === "denied") {
+            setStatus("Location blocked in browser settings. Allow location for this site and retry.");
             els.useMyLocation.checked = false;
-            currentGeoLocation = "";
             syncLocationFieldLock();
             return;
           }
-          currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
-          els.location.value = formatCoordDisplay(lat, lng);
-          setStatus("Using current location (Lat/Lng).");
-          saveUiState();
-        },
-        () => {
-          setStatus("Location permission denied or unavailable.");
-          els.useMyLocation.checked = false;
-          currentGeoLocation = "";
-          syncLocationFieldLock();
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-      );
+        }
+      } catch {}
+      setStatus("Getting your location...");
+      try {
+        let pos;
+        try {
+          pos = await getCurrentPositionAsync({ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
+        } catch {
+          pos = await getCurrentPositionAsync({ enableHighAccuracy: false, timeout: 18000, maximumAge: 300000 });
+        }
+        const lat = Number(pos?.coords?.latitude);
+        const lng = Number(pos?.coords?.longitude);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+          throw new Error("Invalid coordinates");
+        }
+        currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+        els.location.value = formatCoordDisplay(lat, lng);
+        setStatus("Using current location (Lat/Lng).");
+        saveUiState();
+      } catch (err) {
+        setStatus(geolocationErrorMessage(err));
+        els.useMyLocation.checked = false;
+        currentGeoLocation = "";
+        syncLocationFieldLock();
+      }
     }
 
     function handleEnterToSearch(event){
@@ -1753,7 +1869,6 @@
       }
       const idx = rows.findIndex((r) => String(r.result_key || "") === String(rowKey));
       if (idx < 0) return;
-      card.classList.remove("show-remove");
       pendingRemoval = rows[idx];
       render();
       saveUiState();
@@ -1918,14 +2033,6 @@
       if (target.classList.contains("remove-toggle")) {
         event.preventDefault();
         if (!card) return;
-        const show = !card.classList.contains("show-remove");
-        els.list.querySelectorAll(".card.show-remove").forEach((c) => c.classList.remove("show-remove"));
-        if (show) card.classList.add("show-remove");
-        return;
-      }
-      if (target.classList.contains("remove-action")) {
-        event.preventDefault();
-        if (!card) return;
         startRemoveFlow(card, rowKey);
         return;
       }
@@ -1972,8 +2079,7 @@
       if (!target.closest(".card-confirm-overlay")) {
         // Keep pending state unless user explicitly answers Yes/No.
       }
-      if (target.closest(".remove-toggle") || target.closest(".remove-action-wrap")) return;
-      els.list.querySelectorAll(".card.show-remove").forEach((c) => c.classList.remove("show-remove"));
+      if (target.closest(".remove-toggle")) return;
     });
     els.confirmDeleteYes.addEventListener("click", () => {});
     els.confirmDeleteNo.addEventListener("click", () => {});
