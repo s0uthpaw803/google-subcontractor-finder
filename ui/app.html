@@ -148,10 +148,120 @@
     }
     .view-controls{
       display:inline-flex;
-      gap:8px;
+      gap:10px;
       align-items:center;
       justify-content:end;
       justify-self:end;
+    }
+    .faq-wrap{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+    }
+    .faq-btn{
+      width:auto;
+      min-width:32px;
+      height:20px;
+      min-height:20px;
+      border-radius:999px;
+      border:1px solid rgba(170,170,170,.32);
+      background:rgba(26,33,42,.58);
+      color:#e6edf6;
+      padding:0 7px;
+      font:700 .6rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      cursor:default;
+    }
+    .faq-panel{
+      position:absolute;
+      top:calc(100% + 6px);
+      right:0;
+      width:min(96vw, 520px);
+      max-height:none;
+      overflow:visible;
+      border:1px solid rgba(170,170,170,.32);
+      border-radius:10px;
+      background:rgba(20,24,31,.92);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      padding:10px 10px 9px;
+      color:#d8e0ea;
+      font:500 .68rem/1.35 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      letter-spacing:0;
+      text-transform:none;
+      white-space:normal;
+      z-index:1500;
+      display:none;
+    }
+    .faq-title{
+      font:700 .72rem/1.25 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      margin:0 0 6px;
+      color:#f2f6fb;
+    }
+    .faq-list{
+      margin:0;
+      padding-left:14px;
+    }
+    .faq-list li{margin:0 0 4px}
+    .faq-icon-list{
+      margin-top:2px;
+      padding-top:6px;
+      border-top:1px solid rgba(170,170,170,.24);
+    }
+    .faq-trash-icon{
+      display:inline-flex;
+      width:1.12em;
+      height:1.12em;
+      margin-right:5px;
+      vertical-align:-0.08em;
+      color:currentColor;
+    }
+    .faq-trash-icon svg{
+      width:100%;
+      height:100%;
+      stroke:currentColor;
+      fill:none;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .faq-mode-icons{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      margin-right:5px;
+      vertical-align:-0.08em;
+      color:currentColor;
+    }
+    .faq-mode-icons svg{
+      width:1.12em;
+      height:1.12em;
+      stroke:currentColor;
+      fill:none;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .faq-star-icon{
+      display:inline-flex;
+      width:1.12em;
+      height:1.12em;
+      margin-right:5px;
+      vertical-align:-0.08em;
+      color:#d4af37;
+    }
+    .faq-star-icon svg{
+      width:100%;
+      height:100%;
+      stroke:currentColor;
+      fill:currentColor;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .faq-wrap:hover .faq-panel,
+    .faq-wrap:focus-within .faq-panel{
+      display:block;
     }
     .engine-mode-btn{
       width:auto;
@@ -169,11 +279,23 @@
       cursor:pointer;
       justify-self:center;
     }
+    .engine-mode-btn:hover,.faq-btn:hover{filter:brightness(1.05)}
     .app[data-theme="light"] .engine-mode-btn{
       border-color:#b7bfc9;
       background:rgba(240,245,250,.70);
       color:#2b2b2b;
     }
+    .app[data-theme="light"] .faq-btn{
+      border-color:#b7bfc9;
+      background:rgba(240,245,250,.70);
+      color:#2b2b2b;
+    }
+    .app[data-theme="light"] .faq-panel{
+      border-color:#b7bfc9;
+      background:rgba(241,245,250,.96);
+      color:#1f2a36;
+    }
+    .app[data-theme="light"] .faq-title{color:#111}
     .mini-icon,.layout-btn,.mode-pill,.theme-bolt{
       height:24px;min-height:24px;border-radius:6px;font:800 .62rem "Segoe UI",Tahoma,sans-serif;
       letter-spacing:.05em;display:inline-flex;align-items:center;justify-content:center
@@ -575,7 +697,7 @@
       font:700 18px/1 "Segoe UI Symbol","Apple Symbols","Segoe UI",sans-serif;
       cursor:pointer;
     }
-    .pref-star.active{color:#be1e2d}
+    .pref-star.active{color:#d4af37}
     .pref-city{
       margin:2px 2px 2px;
       font:800 .78rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
@@ -750,8 +872,8 @@
     .app[data-theme="light"] .result-links{color:#111111}
     .app[data-theme="light"] .result-links a{color:#111111}
     .app[data-theme="light"] .result-links .missing-link{opacity:.72}
-    .app[data-theme="light"] .pref-star{color:#7a7a7a}
-    .app[data-theme="light"] .pref-star.active{color:#be1e2d}
+    .app[data-theme="light"] .pref-star{color:#3a3a3a}
+    .app[data-theme="light"] .pref-star.active{color:#d4af37}
     .app[data-theme="light"] .pref-city{color:#3d3d3d}
     .app[data-theme="light"] .pref-cat{color:#5a5a5a}
     .app[data-theme="light"] .remove-toggle{
@@ -873,14 +995,18 @@
       body{padding:0}
       .shell{max-width:100%;height:100dvh}
       .app{border-radius:0;min-height:100dvh}
-      .body{padding:14px 12px 12px;gap:12px}
+      .body{padding:10px 10px 10px;gap:9px}
       input,select,button{font-size:16px}
-      .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px}
-      .view-controls{width:auto;justify-content:flex-end;gap:8px;overflow-x:auto;scrollbar-width:none}
+      .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
+      .view-controls{width:auto;justify-content:flex-end;gap:10px;overflow-x:auto;scrollbar-width:none}
       .view-controls::-webkit-scrollbar{display:none}
       .field-block > label,
-      .row > div > label{margin-bottom:6px}
-      .row{grid-template-columns:1fr;gap:10px}
+      .row > div > label{margin-bottom:4px}
+      .row{grid-template-columns:1fr 1fr;gap:8px}
+      .faq-panel{
+        right:-36px;
+        width:min(96vw, 420px);
+      }
 
       /* Mobile result cards: line 1 company, line 2 details/actions */
       .result-row1{
@@ -938,6 +1064,42 @@
             </div>
             <div class="view-controls">
               <button id="engineModeBtn" class="engine-mode-btn" type="button" title="Switch search engine">GGL</button>
+              <div class="faq-wrap">
+                <button class="faq-btn" type="button" aria-label="FAQ">FAQ</button>
+                <div class="faq-panel" role="dialog" aria-label="Quick Guide FAQ">
+                  <div class="faq-title">Keystone Connect - Quick Guide</div>
+                  <div><strong>What this app does:</strong> Finds local contractor businesses by location and category, then lets you review and download results.</div>
+                  <div class="faq-title" style="margin-top:8px">How to use</div>
+                  <ol class="faq-list" style="padding-left:16px;margin:0">
+                    <li>Enter a location, or use current location.</li>
+                    <li>Pick a Business Query category.</li>
+                    <li>Set radius in miles.</li>
+                    <li>Click Search.</li>
+                    <li>Open website or map links.</li>
+                    <li>Download CSV if needed.</li>
+                  </ol>
+                  <div class="faq-title" style="margin-top:8px">Main options</div>
+                  <ul class="faq-list">
+                    <li>Use my location: uses browser/device location.</li>
+                    <li>Business Query: category search or Manual Override.</li>
+                    <li>Preferred Results: shows starred companies.</li>
+                    <li>GGL/API: switches search style.</li>
+                  </ul>
+                  <div class="faq-title" style="margin-top:8px">Quick Icons</div>
+                  <ul class="faq-list faq-icon-list">
+                    <li><span class="faq-star-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17.6 6.6 20.3l1-6.1L3.2 9.9l6.1-.9L12 3.5z"/></svg></span>Adds/removes a company in Preferred Results.</li>
+                    <li><span class="faq-trash-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 10v7"/><path d="M14 10v7"/></svg></span>Permanently removes company from this specific query.</li>
+                    <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.7v2.3M12 19v2.3M4.7 12H2.4M21.6 12h-2.3M6.9 6.9 5.3 5.3M18.7 18.7l-1.6-1.6M17.1 6.9l1.6-1.6M6.9 17.1l-1.6 1.6"></path></svg><svg viewBox="0 0 24 24"><path d="M16.9 14.8c-4.5 0-8.2-3.7-8.2-8.2 0-1.1.2-2.2.7-3.1-3.6 1.1-6.2 4.5-6.2 8.5 0 4.9 4 8.9 8.9 8.9 4 0 7.4-2.6 8.5-6.2-.9.4-2 .7-3.1.7z"></path></svg></span>Day/Night appearance toggle.</li>
+                    <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 21h5v-5M3 8l6-6M21 16l-6 6"></path></svg><svg viewBox="0 0 24 24"><path d="M9 9H3V3M15 15h6v6M3 3l6 6M21 21l-6-6"></path></svg></span>Pop out / Full size window toggle.</li>
+                  </ul>
+                  <div class="faq-title" style="margin-top:8px">Notes</div>
+                  <ul class="faq-list">
+                    <li>Distance is straight-line (air distance).</li>
+                    <li>Results depend on listing data quality.</li>
+                    <li>Some listings may not include website/email.</li>
+                  </ul>
+                </div>
+              </div>
               <button id="sizeBtn" class="mini-icon" type="button" title="Pop out" aria-label="Pop out"></button>
               <button id="themeBtn" class="theme-bolt" type="button" title="Toggle theme" aria-label="Toggle theme"></button>
             </div>
