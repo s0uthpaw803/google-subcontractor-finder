@@ -1124,6 +1124,12 @@
 
     @media (max-width:768px){
       input,select,button{font-size:16px}
+      .label-row{
+        position:relative;
+      }
+      .faq-wrap{
+        position:static;
+      }
       #downloadBtn{
         white-space:nowrap;
         overflow:hidden;
@@ -1132,12 +1138,13 @@
         letter-spacing:.02em;
       }
       .faq-panel{
+        left:0;
         right:0;
-        left:auto;
-        width:calc(100vw - 44px);
-        max-width:360px;
+        width:auto;
+        max-width:none;
         max-height:56vh;
         overflow:auto;
+        top:calc(100% + 6px);
       }
       .result-row1{
         display:block;
