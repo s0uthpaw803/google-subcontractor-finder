@@ -1279,7 +1279,7 @@
           </div>
           <div>
             <label>&nbsp;</label>
-            <button id="downloadBtn" class="btn secondary">Download CSV</button>
+            <button id="downloadBtn" class="btn secondary">DOWNLOAD .XLSX</button>
           </div>
         </div>
         <div>
@@ -2141,9 +2141,38 @@
           .replace(/[^\x20-\x7E]/g, "")
           .replace(/\s+/g, " ")
           .trim();
-      const lines = [h.join(",")];
-      rows.forEach((r)=>lines.push(h.map((k)=>csvEscape(k === "category_section" ? cleanCategorySection(r[k]) : r[k])).join(",")));
-      const blob = new Blob([lines.join("\n")+"\n"], { type:"text/csv;charset=utf-8" });
+      const escXml = (v) => String(v ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+      const xmlRows = [];
+      xmlRows.push(`<Row>${h.map((k)=>`<Cell><Data ss:Type="String">${escXml(k)}</Data></Cell>`).join("")}</Row>`);
+      rows.forEach((r) => {
+        xmlRows.push(
+          `<Row>${h.map((k) => {
+            const raw = k === "category_section" ? cleanCategorySection(r[k]) : r[k];
+            const num = Number(raw);
+            const isNum = ["distance_miles","reliability_score","confidence"].includes(k) && Number.isFinite(num);
+            const type = isNum ? "Number" : "String";
+            const val = isNum ? String(num) : escXml(raw);
+            return `<Cell><Data ss:Type="${type}">${val}</Data></Cell>`;
+          }).join("")}</Row>`
+        );
+      });
+      const workbookXml = `<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <Worksheet ss:Name="Results">
+    <Table>
+      ${xmlRows.join("\n")}
+    </Table>
+  </Worksheet>
+</Workbook>`;
+      const blob = new Blob([workbookXml], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" });
       const locRaw = String(els.location.value || "").trim();
       const locBase = locRaw && !/^[-+]?\\d+(?:\\.\\d+)?\\s*,\\s*[-+]?\\d+(?:\\.\\d+)?$/.test(locRaw)
         ? locRaw
@@ -2155,7 +2184,7 @@
         .slice(0, 80) || "results";
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `${safeLoc}.csv`;
+      a.download = `${safeLoc}.xlsx`;
       a.click();
       URL.revokeObjectURL(a.href);
     }
