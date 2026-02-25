@@ -23,6 +23,8 @@
     html{
       min-height:100%;
       background:#0b0d10;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
     }
     *{box-sizing:border-box}
     body{
@@ -74,10 +76,10 @@
       flex-direction:column;
     }
     .app{border-color:#333}
-    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto;position:relative;z-index:2}
+    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto;position:relative;z-index:2;margin-bottom:14px}
     .top img{display:block;width:100%;height:auto;background:#111}
     .body{
-      padding:10px 10px 10px;
+      padding:0 10px 10px;
       display:flex;
       flex-direction:column;
       gap:10px;
@@ -131,6 +133,16 @@
     }
     .label-left .inline-check.compact-check{
       margin:0;
+      align-self:center;
+      display:inline-flex;
+      align-items:center;
+      line-height:1;
+    }
+    .label-row > .label-left,
+    .label-row > .view-controls{
+      align-self:center;
+    }
+    .view-controls > *{
       align-self:center;
     }
     label{
@@ -582,6 +594,7 @@
       background:#be1e2d;
       color:#fff;text-transform:uppercase;letter-spacing:.04em;font-weight:700;
       box-shadow:0 8px 20px rgba(0,0,0,.28), 0 2px 0 rgba(255,255,255,.06) inset;
+      white-space:nowrap;
     }
     .btn.secondary{
       border-color:rgba(170,170,170,.32);
@@ -1049,6 +1062,13 @@
 
     @media (max-width:768px){
       input,select,button{font-size:16px}
+      #downloadBtn{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:clamp(.74rem, 3.3vw, .9rem);
+        letter-spacing:.02em;
+      }
       .faq-panel{
         right:0;
         left:auto;
@@ -1096,7 +1116,7 @@
 <body>
   <div class="shell">
     <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
-      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=20260225b" alt="Header" /></div>
+      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=1772042571" alt="Header" /></div>
       <div class="body">
         <div class="field-block location-block">
           <div class="label-row">
@@ -1131,7 +1151,7 @@
                   <ul class="faq-list">
                     <li>Use my location: uses browser/device location.</li>
                     <li>Business Query: category search or Manual Override.</li>
-                    <li>Manual Override: type your own custom search term.</li>
+                    <li>Manual Override: type your own custom search term. Less restrictive.</li>
                     <li>Preferred Results: shows starred companies.</li>
                     <li>Get emails if available: attempts to retrieve relative company email addresses (slower).</li>
                   </ul>
@@ -1630,7 +1650,7 @@
     function applyLayout(){
       document.body.setAttribute("data-layout", "keystone");
       els.app.setAttribute("data-layout", "keystone");
-      els.brandBanner.src = "/assets/keystone-header.png?v=20260225b";
+      els.brandBanner.src = "/assets/keystone-header.png?v=1772042571";
       localStorage.setItem("kc_layout", "keystone");
     }
 
