@@ -259,6 +259,7 @@
       stroke-linecap:round;
       stroke-linejoin:round;
     }
+    .faq-wrap.open .faq-panel,
     .faq-wrap:hover .faq-panel,
     .faq-wrap:focus-within .faq-panel{
       display:block;
@@ -555,6 +556,7 @@
     .app-footer{
       margin-top:2px;
       text-align:right;
+      transform:translateX(-3px);
       font:500 .58rem Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       color:#7f7f7f;
       letter-spacing:.01em;
@@ -992,58 +994,10 @@
     }
 
     @media (max-width:768px){
-      body{padding:0}
-      .shell{max-width:100%;height:100dvh}
-      .app{border-radius:0;min-height:100dvh}
-      .body{padding:10px 10px 10px;gap:9px}
       input,select,button{font-size:16px}
-      .label-row{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
-      .view-controls{width:auto;justify-content:flex-end;gap:10px;overflow-x:auto;scrollbar-width:none}
-      .view-controls::-webkit-scrollbar{display:none}
-      .field-block > label,
-      .row > div > label{margin-bottom:4px}
-      .row{grid-template-columns:1fr 1fr;gap:8px}
       .faq-panel{
-        right:-36px;
-        width:min(96vw, 420px);
-      }
-
-      /* Mobile result cards: line 1 company, line 2 details/actions */
-      .result-row1{
-        grid-template-columns:1fr;
-        align-items:start;
-        gap:6px;
-      }
-      .result-main{
-        display:block;
-        min-width:0;
-      }
-      .result-company{
-        width:100%;
-        max-width:100%;
-      }
-      .name{
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-      }
-      .result-side{
-        width:100%;
-        justify-content:space-between;
-        align-items:center;
-        gap:10px;
-      }
-      .result-links{
-        padding-left:0;
-        justify-content:flex-start;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-        flex:1 1 auto;
-      }
-      .result-tools{
-        justify-self:auto;
-        margin-left:auto;
+        right:0;
+        width:min(96vw, 520px);
       }
     }
   </style>
@@ -1064,8 +1018,8 @@
             </div>
             <div class="view-controls">
               <button id="engineModeBtn" class="engine-mode-btn" type="button" title="Switch search engine">GGL</button>
-              <div class="faq-wrap">
-                <button class="faq-btn" type="button" aria-label="FAQ">FAQ</button>
+              <div id="faqWrap" class="faq-wrap">
+                <button id="faqBtn" class="faq-btn" type="button" aria-label="FAQ" aria-expanded="false">FAQ</button>
                 <div class="faq-panel" role="dialog" aria-label="Quick Guide FAQ">
                   <div class="faq-title">Keystone Connect - Quick Guide</div>
                   <div><strong>What this app does:</strong> Finds local contractor businesses by location and category, then lets you review and download results.</div>
@@ -1172,6 +1126,8 @@
       sizeBtn: $("sizeBtn"),
       engineModeBtn: $("engineModeBtn"),
       themeBtn: $("themeBtn"),
+      faqWrap: $("faqWrap"),
+      faqBtn: $("faqBtn"),
       location: $("location"),
       locationSuggest: $("locationSuggest"),
       useMyLocation: $("useMyLocation"),
@@ -1468,6 +1424,24 @@
 
     function closeQueryMenu(){
       els.queryPresetMenu.classList.add("hidden");
+    }
+
+    function openFaqPanel(){
+      if (!els.faqWrap || !els.faqBtn) return;
+      els.faqWrap.classList.add("open");
+      els.faqBtn.setAttribute("aria-expanded", "true");
+    }
+
+    function closeFaqPanel(){
+      if (!els.faqWrap || !els.faqBtn) return;
+      els.faqWrap.classList.remove("open");
+      els.faqBtn.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleFaqPanel(){
+      if (!els.faqWrap) return;
+      if (els.faqWrap.classList.contains("open")) closeFaqPanel();
+      else openFaqPanel();
     }
 
     function openQueryMenu(){
@@ -2238,6 +2212,10 @@
       updateQueryButtonText();
       void applyPreferredSelectionIfChosen();
     });
+    els.faqBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      toggleFaqPanel();
+    });
     [els.location, els.manualQuery, els.radiusMiles, els.queryPresetBtn, els.queryPreset].forEach((el) => {
       el.addEventListener("keydown", handleEnterToSearch);
     });
@@ -2353,10 +2331,14 @@
       if (!(target instanceof HTMLElement)) return;
       if (!target.closest(".location-wrap")) hideLocationSuggest();
       if (!target.closest(".query-select")) closeQueryMenu();
+      if (!target.closest(".faq-wrap")) closeFaqPanel();
       if (!target.closest(".card-confirm-overlay")) {
         // Keep pending state unless user explicitly answers Yes/No.
       }
       if (target.closest(".remove-toggle")) return;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeFaqPanel();
     });
     els.confirmDeleteYes.addEventListener("click", () => {});
     els.confirmDeleteNo.addEventListener("click", () => {});
