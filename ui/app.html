@@ -2014,11 +2014,6 @@
           const m = String(label || "").match(/^\s*(\d+)\s*[–-]/);
           return m ? Number(m[1]) : Number.POSITIVE_INFINITY;
         };
-        const cleanDivisionLabel = (label) =>
-          String(label || "")
-            .replace(/^\s*\d+\s*[–-]\s*/, "")
-            .trim();
-
         const sorted = sections
           .map((s, i) => ({ s, i }))
           .sort((a, b) => {
@@ -2030,7 +2025,7 @@
           });
         sorted.forEach(({s,i})=>{
           const rawLabel = s.label || s.section || `Section ${i+1}`;
-          const label = cleanDivisionLabel(rawLabel) || rawLabel;
+          const label = String(rawLabel || "").trim() || `Section ${i+1}`;
           const hasPreferredInParent = preferred.some((r) =>
             String(r?.category_section || "").toLowerCase().includes(String(rawLabel).toLowerCase())
           );
