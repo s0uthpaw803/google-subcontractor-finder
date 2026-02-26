@@ -519,11 +519,7 @@
     .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .query-select{position:relative}
     #queryPreset{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-      width:1px;
-      height:1px;
+      display:none;
     }
     .query-btn{
       width:100%;
@@ -1253,7 +1249,7 @@
         </div>
 
         <div class="field-block">
-          <label for="queryPreset">Business Query</label>
+          <label>Business Query</label>
           <div class="query-select">
             <select id="queryPreset">
               <option value="">Select category or trade...</option>
