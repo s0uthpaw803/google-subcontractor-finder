@@ -1189,10 +1189,10 @@
         letter-spacing:.02em;
       }
       .faq-panel{
-        left:auto;
+        left:0;
         right:0;
-        width:min(calc(100vw - 32px), 380px);
-        max-width:calc(100vw - 32px);
+        width:auto;
+        max-width:none;
         max-height:none;
         overflow:visible;
         top:calc(100% + 6px);
@@ -1203,6 +1203,15 @@
         box-sizing:border-box;
         overflow-wrap:anywhere;
         word-break:break-word;
+      }
+      .location-block .faq-wrap{
+        position:static;
+      }
+      .location-block .faq-panel{
+        left:0;
+        right:0;
+        top:calc(100% + 6px);
+        bottom:auto;
       }
       .faq-title{
         font-size:.78rem;
