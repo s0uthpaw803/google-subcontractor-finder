@@ -377,35 +377,49 @@
       display:inline-flex;
       align-items:center;
       justify-content:flex-end;
-      gap:3px;
-      font:800 .7rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
-      letter-spacing:.06em;
+      gap:0;
+      font:400 .66rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.03em;
       text-transform:uppercase;
       cursor:pointer;
+      font-size:0;
     }
     .prior-chip{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width:24px;
-      height:18px;
-      border-radius:5px;
+      min-width:auto;
+      height:auto;
       color:#b8c4d3;
       background:transparent;
-      padding:0 4px;
+      padding:0;
       pointer-events:none;
-      font-weight:700;
+      font-weight:400;
+      font-size:.66rem;
+      line-height:1;
     }
     .prior-chip.prior-label{
       min-width:auto;
       padding:0;
       color:inherit;
-      font-weight:800;
+      font-weight:400;
+      margin-right:4px;
     }
     .prior-chip.active{
-      background:#be1e2d;
-      color:#fff;
-      font-weight:800;
+      background:transparent;
+      color:#be1e2d;
+      font-weight:700;
+    }
+    .prior-slash{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:inherit;
+      padding:0;
+      margin:0;
+      font-weight:400;
+      font-size:.66rem;
+      line-height:1;
     }
     .radius-label-row{
       display:flex;
@@ -1262,7 +1276,7 @@
         font-size:clamp(.74rem, 3.3vw, .9rem);
         letter-spacing:.02em;
       }
-      .prior-chip{min-width:24px;height:18px}
+      .prior-chip{min-width:auto;height:auto}
       .faq-panel{
         position:fixed;
         left:max(10px, env(safe-area-inset-left));
@@ -1446,10 +1460,7 @@
               <label for="radiusMiles">Radius (miles)</label>
               <div class="prior-toggle" role="group" aria-label="Prior results filter">
                 <button id="priorToggleBtn" class="prior-toggle-btn" type="button" title="Prior results filter" aria-label="Prior results filter">
-                  <span class="prior-chip prior-label">Prior</span>
-                  <span class="prior-chip active" data-prior-mode="on">ON</span>
-                  <span class="engine-sep">|</span>
-                  <span class="prior-chip" data-prior-mode="off">OFF</span>
+                  <span class="prior-chip prior-label">PRIOR</span><span class="prior-chip active" data-prior-mode="on">ON</span><span class="prior-slash">/</span><span class="prior-chip" data-prior-mode="off">OFF</span>
                 </button>
               </div>
             </div>
