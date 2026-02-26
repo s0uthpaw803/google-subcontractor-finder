@@ -186,16 +186,16 @@
       align-items:center;
     }
     .faq-btn{
-      width:24px;
-      min-width:24px;
-      height:24px;
-      min-height:24px;
-      border:1px solid rgba(170,170,170,.32);
-      border-radius:7px;
-      background:rgba(26,33,42,.58);
+      width:auto;
+      min-width:unset;
+      height:auto;
+      min-height:unset;
+      border:0;
+      border-radius:0;
+      background:transparent;
       color:#d7dee7;
       padding:0;
-      font:800 .78rem/1 Arial,Helvetica,"Segoe UI Symbol","Segoe UI",Tahoma,sans-serif;
+      font:700 .72rem/1 Arial,Helvetica,"Segoe UI Symbol","Segoe UI",Tahoma,sans-serif;
       letter-spacing:0;
       text-transform:uppercase;
       cursor:pointer;
@@ -305,56 +305,57 @@
     }
     .engine-mode-btn{
       width:auto;
-      min-width:84px;
-      height:22px;
-      min-height:22px;
-      border-radius:999px;
-      border:1px solid rgba(170,170,170,.32);
-      background:rgba(26,33,42,.58);
-      color:#e6edf6;
-      padding:1px;
-      font:700 .64rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
-      letter-spacing:.04em;
+      min-width:unset;
+      height:auto;
+      min-height:unset;
+      border-radius:0;
+      border:0;
+      background:transparent;
+      color:#b8c4d3;
+      padding:0;
+      font:400 .66rem/1 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      letter-spacing:.03em;
       text-transform:uppercase;
       cursor:pointer;
       justify-self:center;
       display:inline-flex;
       align-items:center;
       gap:0;
+      font-size:0;
     }
     .engine-chip{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width:38px;
-      height:18px;
-      border-radius:999px;
+      min-width:auto;
+      height:auto;
       color:inherit;
       background:transparent;
-      padding:0 6px;
-      pointer-events:none;
+      padding:0;
+      pointer-events:auto;
+      font-weight:400;
+      font-size:.66rem;
+      line-height:1;
     }
     .engine-chip[data-engine-mode="api"]{
-      padding-right:0;
+      margin-right:0;
     }
     .engine-chip[data-engine-mode="ggl"]{
-      padding-left:0;
+      margin-left:0;
     }
     .engine-chip.active{
-      background:#be1e2d;
-      color:#fff;
-    }
-    .engine-chip.active[data-engine-mode="api"]{
-      border-radius:999px 2px 2px 999px;
-    }
-    .engine-chip.active[data-engine-mode="ggl"]{
-      border-radius:2px 999px 999px 2px;
+      background:transparent;
+      color:#be1e2d;
+      font-weight:700;
     }
     .engine-sep{
-      opacity:.7;
-      font-weight:700;
+      opacity:1;
+      font-weight:400;
       pointer-events:none;
       padding:0;
+      margin:0;
+      font-size:.66rem;
+      line-height:1;
     }
     .engine-mode-btn:hover,.faq-btn:hover{filter:brightness(1.05)}
     .prior-toggle{
@@ -432,9 +433,7 @@
       margin:0;
     }
     .app[data-theme="light"] .engine-mode-btn{
-      border-color:#b7bfc9;
-      background:rgba(240,245,250,.70);
-      color:#2b2b2b;
+      color:#4f5d6d;
     }
     .app[data-theme="light"] .prior-toggle-btn{
       color:#4f5d6d;
@@ -448,8 +447,6 @@
     }
     .app[data-theme="light"] .faq-btn{
       color:#2b2b2b;
-      border-color:#a8b4c2;
-      background:#dde5ef;
     }
     .app[data-theme="light"] .faq-panel{
       border-color:#b7bfc9;
@@ -1381,9 +1378,7 @@
             </div>
             <div class="view-controls">
               <button id="engineModeBtn" class="engine-mode-btn" type="button" title="Switch search engine">
-                <span class="engine-chip" data-engine-mode="api">API</span>
-                <span class="engine-sep">|</span>
-                <span class="engine-chip" data-engine-mode="ggl">GGL</span>
+                <span class="engine-chip" data-engine-mode="api">API</span><span class="engine-sep">/</span><span class="engine-chip" data-engine-mode="ggl">GGL</span>
               </button>
               <div id="faqWrap" class="faq-wrap">
                 <button id="faqBtn" class="faq-btn" type="button" aria-label="FAQ" aria-expanded="false">?</button>
@@ -1414,10 +1409,12 @@
                     <li><span class="faq-trash-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 10v7"/><path d="M14 10v7"/></svg></span>Permanently removes company from this specific query.</li>
                     <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.7v2.3M12 19v2.3M4.7 12H2.4M21.6 12h-2.3M6.9 6.9 5.3 5.3M18.7 18.7l-1.6-1.6M17.1 6.9l1.6-1.6M6.9 17.1l-1.6 1.6"></path></svg><svg viewBox="0 0 24 24"><path d="M16.9 14.8c-4.5 0-8.2-3.7-8.2-8.2 0-1.1.2-2.2.7-3.1-3.6 1.1-6.2 4.5-6.2 8.5 0 4.9 4 8.9 8.9 8.9 4 0 7.4-2.6 8.5-6.2-.9.4-2 .7-3.1.7z"></path></svg></span>Day/Night appearance toggle.</li>
                     <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 21h5v-5M3 8l6-6M21 16l-6 6"></path></svg><svg viewBox="0 0 24 24"><path d="M9 9H3V3M15 15h6v6M3 3l6 6M21 21l-6-6"></path></svg></span>Pop out / Full size window toggle.</li>
+                    <li><span class="faq-mode-icons" aria-hidden="true">?</span>Quick guide control (desktop hover, mobile tap).</li>
                     <li>
-                      API | GGL button: 2 different search modes. Active side is red.
+                      API/GGL text switch: 2 different search modes. Active side is red.
                       <span class="faq-sub">- API: tighter match. GGL: broader match.</span>
                     </li>
+                    <li>PRIOR ON/OFF text switch: ON hides prior radius-chain results; OFF shows all fetched results.</li>
                   </ul>
                   <div class="faq-title" style="margin-top:8px">Notes</div>
                 <ul class="faq-list">
@@ -1839,9 +1836,7 @@
       searchEngineMode = normalizeEngineMode(mode);
       if (!els.engineModeBtn) return;
       els.engineModeBtn.innerHTML = `
-        <span class="engine-chip ${searchEngineMode === "api" ? "active" : ""}" data-engine-mode="api">API</span>
-        <span class="engine-sep">|</span>
-        <span class="engine-chip ${searchEngineMode === "ggl" ? "active" : ""}" data-engine-mode="ggl">GGL</span>
+        <span class="engine-chip ${searchEngineMode === "api" ? "active" : ""}" data-engine-mode="api">API</span><span class="engine-sep">/</span><span class="engine-chip ${searchEngineMode === "ggl" ? "active" : ""}" data-engine-mode="ggl">GGL</span>
       `;
       els.engineModeBtn.title = `Current engine: ${searchEngineMode.toUpperCase()}`;
       els.engineModeBtn.setAttribute("aria-label", els.engineModeBtn.title);
