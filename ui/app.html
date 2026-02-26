@@ -298,9 +298,7 @@
       stroke-linecap:round;
       stroke-linejoin:round;
     }
-    .faq-wrap.open .faq-panel,
-    .faq-wrap:hover .faq-panel,
-    .faq-wrap:focus-within .faq-panel{
+    .faq-wrap.open .faq-panel{
       display:block;
     }
     .engine-mode-btn{
@@ -1296,10 +1294,6 @@
         font-size:.72rem;
         margin-bottom:4px;
       }
-      .faq-wrap:hover .faq-panel,
-      .faq-wrap:focus-within .faq-panel{
-        display:none;
-      }
       .faq-wrap.open .faq-panel{
         display:block;
       }
@@ -1399,9 +1393,9 @@
                     <li>Use my location: uses browser/device location.</li>
                     <li>Business Query: category search or Manual Override.</li>
                     <li>Manual Override: type your own custom search term. Less restrictive.</li>
+                    <li>Preferred Results: shows starred companies.</li>
                     <li>API/GGL text switch: 2 different search modes. Active side is red. API is tighter; GGL is broader.</li>
                     <li>Prior ON|OFF: hides previously seen results during radius expansion when ON.</li>
-                    <li>Preferred Results: shows starred companies.</li>
                     <li>Get emails if available: attempts to retrieve relative company email addresses (slower).</li>
                   </ul>
                   <div class="faq-title" style="margin-top:8px">Quick Icons</div>
@@ -2034,10 +2028,6 @@
       if (!els.faqWrap) return;
       if (els.faqWrap.classList.contains("open")) closeFaqPanel();
       else openFaqPanel();
-    }
-
-    function isMobileViewport(){
-      return window.matchMedia("(max-width: 768px)").matches;
     }
 
     function openQueryMenu(){
@@ -2855,11 +2845,7 @@
     els.radiusMiles.addEventListener("change", updateRadiusFieldTone);
     els.faqBtn.addEventListener("click", (event) => {
       event.preventDefault();
-      if (isMobileViewport()) {
-        toggleFaqPanel();
-      } else {
-        closeFaqPanel();
-      }
+      toggleFaqPanel();
     });
     [els.location, els.manualQuery, els.radiusMiles, els.queryPresetBtn, els.queryPreset].forEach((el) => {
       el.addEventListener("keydown", handleEnterToSearch);
@@ -2976,17 +2962,17 @@
       if (!(target instanceof HTMLElement)) return;
       if (!target.closest(".location-wrap")) hideLocationSuggest();
       if (!target.closest(".query-select")) closeQueryMenu();
-      if (!isMobileViewport() && !target.closest(".faq-wrap")) closeFaqPanel();
+      if (!target.closest(".faq-wrap")) closeFaqPanel();
       if (!target.closest(".card-confirm-overlay")) {
         // Keep pending state unless user explicitly answers Yes/No.
       }
       if (target.closest(".remove-toggle")) return;
     });
     document.addEventListener("keydown", (event) => {
-      if (!isMobileViewport() && event.key === "Escape") closeFaqPanel();
+      if (event.key === "Escape") closeFaqPanel();
     });
     window.addEventListener("resize", () => {
-      if (!isMobileViewport()) closeFaqPanel();
+      closeFaqPanel();
     });
     els.confirmDeleteYes.addEventListener("click", () => {});
     els.confirmDeleteNo.addEventListener("click", () => {});
