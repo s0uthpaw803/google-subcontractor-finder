@@ -1138,9 +1138,9 @@
         letter-spacing:.02em;
       }
       .faq-panel{
-        left:0;
-        right:0;
-        width:auto;
+        left:8px;
+        right:8px;
+        width:calc(100% - 16px);
         max-width:none;
         max-height:min(78vh, calc(100dvh - 130px));
         overflow:auto;
@@ -1148,6 +1148,9 @@
         padding:8px 8px 7px;
         font-size:.6rem;
         line-height:1.2;
+        box-sizing:border-box;
+        overflow-wrap:anywhere;
+        word-break:break-word;
       }
       .faq-title{
         font-size:.64rem;
