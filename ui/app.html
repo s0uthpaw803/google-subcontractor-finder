@@ -1151,6 +1151,10 @@
     .app[data-theme="light"] #radiusMiles{
       color:#8a95a3;
     }
+    .app[data-theme="light"] #queryPresetBtn.has-value,
+    .app[data-theme="light"] #radiusMiles.has-value{
+      color:#1f2a36;
+    }
 
     @media (max-width:768px){
       html,body{
@@ -1216,6 +1220,9 @@
       }
       .faq-wrap.open .faq-panel{
         display:block;
+      }
+      .app.faq-open::after{
+        opacity:0;
       }
       .faq-list{
         padding-left:12px;
@@ -1706,6 +1713,12 @@
       const opt = els.queryPreset.options[els.queryPreset.selectedIndex];
       const txt = String(opt?.textContent || "Select category or trade...").replace(/\u00a0/g, " ").trim();
       els.queryPresetBtn.textContent = txt || "Select category or trade...";
+      els.queryPresetBtn.classList.toggle("has-value", String(els.queryPreset.value || "").trim() !== "");
+    }
+
+    function updateRadiusFieldTone(){
+      const v = String(els.radiusMiles.value || "").trim();
+      els.radiusMiles.classList.toggle("has-value", v !== "");
     }
 
     function closeQueryMenu(){
@@ -2455,6 +2468,7 @@
       if (!persistedState) {
         syncLocationFieldLock();
         updateQueryButtonText();
+        updateRadiusFieldTone();
         return;
       }
       currentGeoLocation = String(persistedState.currentGeoLocation || "");
@@ -2484,6 +2498,7 @@
       currentSearchSignature = String(persistedState.currentSearchSignature || "");
       syncLocationFieldLock();
       updateQueryButtonText();
+      updateRadiusFieldTone();
       render();
     });
 
@@ -2542,6 +2557,8 @@
       updateQueryButtonText();
       void applyPreferredSelectionIfChosen();
     });
+    els.radiusMiles.addEventListener("input", updateRadiusFieldTone);
+    els.radiusMiles.addEventListener("change", updateRadiusFieldTone);
     els.faqBtn.addEventListener("click", (event) => {
       event.preventDefault();
       if (isMobileViewport()) {
