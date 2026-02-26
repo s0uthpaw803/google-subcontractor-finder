@@ -64,6 +64,7 @@
     body[data-size="full"] .shell{max-width:720px}
     .shell{position:relative;z-index:1}
     .app{
+      position:relative;
       border:1px solid var(--line);
       border-radius:24px;
       overflow:hidden;
@@ -74,6 +75,19 @@
       height:100%;
       display:flex;
       flex-direction:column;
+    }
+    .app::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.42);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .14s ease;
+      z-index:1200;
+    }
+    .app.faq-open::after{
+      opacity:1;
     }
     .app{border-color:#333}
     .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto;position:relative;z-index:2;margin-bottom:14px}
@@ -201,7 +215,7 @@
       box-shadow:0 12px 26px rgba(0,0,0,.35);
       padding:10px 10px 9px;
       color:#d8e0ea;
-      font:500 .68rem/1.35 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      font:500 .74rem/1.35 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       letter-spacing:0;
       text-transform:none;
       white-space:normal;
@@ -1175,7 +1189,7 @@
         top:auto;
         bottom:calc(100% + 6px);
         padding:8px 8px 7px;
-        font-size:.6rem;
+        font-size:.66rem;
         line-height:1.2;
         box-sizing:border-box;
         overflow-wrap:anywhere;
@@ -1244,7 +1258,7 @@
 <body>
   <div class="shell">
     <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
-      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=1772042571" alt="Header" /></div>
+      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=1772125502" alt="Header" /></div>
       <div class="body">
         <div class="field-block location-block">
           <div class="label-row">
@@ -1684,12 +1698,14 @@
     function openFaqPanel(){
       if (!els.faqWrap || !els.faqBtn) return;
       els.faqWrap.classList.add("open");
+      els.app.classList.add("faq-open");
       els.faqBtn.setAttribute("aria-expanded", "true");
     }
 
     function closeFaqPanel(){
       if (!els.faqWrap || !els.faqBtn) return;
       els.faqWrap.classList.remove("open");
+      els.app.classList.remove("faq-open");
       els.faqBtn.setAttribute("aria-expanded", "false");
     }
 
@@ -1697,6 +1713,10 @@
       if (!els.faqWrap) return;
       if (els.faqWrap.classList.contains("open")) closeFaqPanel();
       else openFaqPanel();
+    }
+
+    function isMobileViewport(){
+      return window.matchMedia("(max-width: 768px)").matches;
     }
 
     function openQueryMenu(){
@@ -1782,7 +1802,7 @@
     function applyLayout(){
       document.body.setAttribute("data-layout", "keystone");
       els.app.setAttribute("data-layout", "keystone");
-      els.brandBanner.src = "/assets/keystone-header.png?v=1772042571";
+      els.brandBanner.src = "/assets/keystone-header.png?v=1772125502";
       localStorage.setItem("kc_layout", "keystone");
     }
 
@@ -2624,14 +2644,14 @@
       if (!(target instanceof HTMLElement)) return;
       if (!target.closest(".location-wrap")) hideLocationSuggest();
       if (!target.closest(".query-select")) closeQueryMenu();
-      if (!target.closest(".faq-wrap")) closeFaqPanel();
+      if (!isMobileViewport() && !target.closest(".faq-wrap")) closeFaqPanel();
       if (!target.closest(".card-confirm-overlay")) {
         // Keep pending state unless user explicitly answers Yes/No.
       }
       if (target.closest(".remove-toggle")) return;
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeFaqPanel();
+      if (!isMobileViewport() && event.key === "Escape") closeFaqPanel();
     });
     els.confirmDeleteYes.addEventListener("click", () => {});
     els.confirmDeleteNo.addEventListener("click", () => {});
