@@ -215,7 +215,7 @@
       box-shadow:0 12px 26px rgba(0,0,0,.35);
       padding:10px 10px 9px;
       color:#d8e0ea;
-      font:500 .74rem/1.35 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      font:500 .84rem/1.38 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       letter-spacing:0;
       text-transform:none;
       white-space:normal;
@@ -223,7 +223,7 @@
       display:none;
     }
     .faq-title{
-      font:700 .72rem/1.25 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      font:700 .84rem/1.25 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       margin:0 0 6px;
       color:#f2f6fb;
     }
@@ -1189,15 +1189,22 @@
         top:auto;
         bottom:calc(100% + 6px);
         padding:8px 8px 7px;
-        font-size:.66rem;
+        font-size:.84rem;
         line-height:1.2;
         box-sizing:border-box;
         overflow-wrap:anywhere;
         word-break:break-word;
       }
       .faq-title{
-        font-size:.64rem;
+        font-size:.78rem;
         margin-bottom:4px;
+      }
+      .faq-wrap:hover .faq-panel,
+      .faq-wrap:focus-within .faq-panel{
+        display:none;
+      }
+      .faq-wrap.open .faq-panel{
+        display:block;
       }
       .faq-list{
         padding-left:12px;
