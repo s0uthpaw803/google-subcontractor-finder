@@ -17,6 +17,7 @@
       --btn2:#2a2f36;
       --radius:13px;
       --radius-card:12px;
+      --label-gap:6px;
       --shadow-soft:0 10px 24px rgba(0,0,0,.28);
     }
     *{box-sizing:border-box}
@@ -34,40 +35,55 @@
       justify-content:center;
       padding:14px;
     }
-    .shell{width:100%;max-width:700px;height:calc(100dvh - 28px)}
+    .shell{width:100%;max-width:850px;height:calc(100dvh - 28px)}
     .app{
       height:100%;
       border:1px solid var(--line);
       border-radius:20px;
       overflow:hidden;
-      background:rgba(0,0,0,.52);
-      backdrop-filter:blur(14px) saturate(125%);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)),
+        rgba(0,0,0,.46);
+      backdrop-filter:blur(18px) saturate(132%);
       display:flex;
       flex-direction:column;
-      box-shadow:0 22px 44px rgba(0,0,0,.36);
+      box-shadow:
+        0 22px 44px rgba(0,0,0,.36),
+        inset 0 1px 0 rgba(255,255,255,.12);
     }
     .top{border-bottom:1px solid var(--line);line-height:0}
     .top img{display:block;width:100%;height:auto}
     .body{padding:17px 10px 10px;display:flex;flex-direction:column;gap:11px;min-height:0;flex:1}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-    .label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
-    .label-left{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
-    label{font-size:.72rem;font-weight:800;letter-spacing:.065em;text-transform:uppercase;color:#dbe2ec}
-    .field-label{margin:0 0 6px}
+    .controls-row{align-items:end}
+    .download-col{display:flex;align-items:flex-end}
+    .label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:var(--label-gap);min-height:18px}
+    .label-left{display:flex;align-items:center;gap:11px;flex-wrap:wrap;line-height:1}
+    label{font-size:.72rem;font-weight:800;letter-spacing:.065em;text-transform:uppercase;color:#dbe2ec;line-height:1;margin:0}
+    .field-label{display:block;margin:0 0 var(--label-gap)}
     input,select,button{
       width:100%;height:35px;border-radius:var(--radius);border:1px solid #303742;
-      background:rgba(16,20,27,.68);color:#c8d0dc;padding:0 10px;font:600 .9rem Arial,Helvetica,sans-serif;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
+        rgba(16,20,27,.58);
+      color:#d7dee7;padding:0 10px;font:500 .9rem Arial,Helvetica,sans-serif;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.09),
+        inset 0 -1px 0 rgba(0,0,0,.25);
     }
-    input::placeholder{color:#a5afbf}
-    .tiny-check{display:inline-flex;align-items:center;gap:6px;font-size:.71rem;font-weight:700;color:#c8d0dc;text-transform:none;letter-spacing:0}
-    .tiny-check input{width:14px;height:14px;margin:0;min-height:14px}
-    .controls{display:inline-flex;align-items:center;gap:13px}
-    .switch{display:inline-flex;align-items:center;gap:0;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1}
-    .switch button{width:auto;height:auto;border:0;background:transparent;padding:0;color:#aab4c4;cursor:pointer;font:inherit;box-shadow:none}
+    select, input[type="number"]{font-weight:500;color:#d7dee7}
+    input::placeholder{color:#d7dee7;opacity:.82}
+    .tiny-check{display:inline-flex;align-items:center;gap:6px;font-size:.71rem;font-weight:700;color:#c8d0dc;text-transform:none;letter-spacing:0;line-height:1}
+    .tiny-check input{width:14px;height:14px;margin:0;min-height:14px;vertical-align:middle}
+    .controls{display:inline-flex;align-items:center;justify-content:flex-end;gap:13px;line-height:1;height:18px}
+    .switch{display:inline-flex;align-items:center;gap:0;font-size:.72rem;font-weight:500;text-transform:uppercase;letter-spacing:.03em;line-height:1;height:18px;text-shadow:none}
+    .switch button{width:auto;height:auto;border:0;background:transparent;padding:0;color:#aab4c4;cursor:pointer;font:inherit;box-shadow:none;text-shadow:none}
     .switch .active{color:var(--accent)}
-    .switch .sep{opacity:.9}
+    .switch .sep{opacity:1;text-shadow:none}
     .faq-wrap{position:relative}
-    .faq-btn{width:auto;height:auto;border:0;background:transparent;padding:0;color:#d7deea;font:600 .72rem/1 Arial;cursor:pointer;letter-spacing:.03em;display:inline-flex;align-items:center}
+    .faq-btn{width:auto;height:18px;border:0;background:transparent;padding:0;color:#d7deea;font:500 .72rem/1 Arial;cursor:pointer;letter-spacing:.03em;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+    #faqBtn{position:relative;top:0}
+    #themeBtn{font-size:.88rem;line-height:1;height:18px;position:relative;top:0}
     .faq-panel{
       position:absolute;right:0;top:calc(100% + 8px);z-index:1200;display:none;
       width:min(540px, calc(100vw - 40px));max-height:min(76dvh,720px);overflow:auto;
@@ -76,15 +92,93 @@
       font:500 .8rem/1.35 Arial;color:#e1e7f0;
     }
     .faq-wrap.open .faq-panel{display:block}
+    @media (min-width: 769px){
+      .faq-wrap:hover .faq-panel{display:block}
+    }
     .faq-title{font:700 .82rem/1.2 Arial;color:#fff;margin:0 0 6px}
     .faq-list{margin:0;padding-left:14px}
     .faq-list li{margin:0 0 4px}
     .hint{font:500 .71rem/1.3 Arial;color:#9aa3af;margin-top:6px}
     .location-wrap{position:relative}
+    .query-select{position:relative}
+    #queryPreset{display:none}
+    .query-btn{
+      width:100%;
+      text-align:left;
+      padding-right:34px;
+      position:relative;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      font-weight:500;
+      color:#d7dee7;
+    }
+    .query-btn::after{
+      content:"";
+      position:absolute;
+      right:11px;
+      top:50%;
+      width:12px;
+      height:12px;
+      transform:translateY(-50%);
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23d9d9d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+      pointer-events:none;
+    }
+    .query-menu{
+      position:absolute;
+      left:0;
+      right:0;
+      top:calc(100% + 6px);
+      border:1px solid rgba(170,170,170,.32);
+      border-radius:12px;
+      background:rgba(20,24,31,.72);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
+      max-height:240px;
+      overflow:auto;
+      z-index:1300;
+    }
+    .query-item{
+      width:100%;
+      min-width:100%;
+      height:auto;
+      min-height:unset;
+      border:0;
+      border-bottom:1px solid rgba(120,120,120,.22);
+      border-radius:0;
+      background:transparent;
+      color:#e0e6ef;
+      padding:4px 10px;
+      text-align:left;
+      font:600 .76rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      text-transform:none;
+      letter-spacing:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      cursor:pointer;
+    }
+    .query-item:last-child{border-bottom:0}
+    .query-item.parent-cat{color:#be1e2d;font-size:.9rem}
+    .query-item.child-cat{padding-left:34px}
+    .query-item:hover,.query-item.active{background:rgba(255,255,255,.06)}
+    .query-item .menu-icon{
+      display:inline-block;
+      width:14px;
+      text-align:center;
+      margin-right:6px;
+      font:700 13px/1 Arial,Helvetica,sans-serif;
+      vertical-align:middle;
+    }
+    .query-item .menu-icon.manual{color:#be1e2d;font-size:15px}
+    .query-item .menu-icon.pref{color:#d4af37;font-size:13px}
     .location-suggest{
       position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1200;
-      border:1px solid rgba(170,170,170,.32);border-radius:12px;background:rgba(19,24,32,.92);
+      border:1px solid rgba(170,170,170,.32);border-radius:12px;background:rgba(19,24,32,.76);
       box-shadow:0 12px 26px rgba(0,0,0,.35);overflow:hidden;max-height:220px;overflow-y:auto;
+      backdrop-filter:blur(12px) saturate(118%);
+      -webkit-backdrop-filter:blur(12px) saturate(118%);
     }
     .location-suggest button{
       width:100%;height:auto;min-height:unset;border:0;border-bottom:1px solid rgba(120,120,120,.22);
@@ -93,54 +187,234 @@
     }
     .location-suggest button:last-child{border-bottom:0}
     .location-suggest button:hover{background:rgba(255,255,255,.06)}
-    .btn{background:var(--btn);border-color:#9d1724;color:#fff;font-weight:800;letter-spacing:.03em;text-transform:uppercase;box-shadow:none}
-    .btn.secondary{background:rgba(38,44,54,.75);border-color:#4b5564;color:#f3f7ff}
+    .btn{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.03)),
+        var(--btn);
+      border-color:#9d1724;color:#fff;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+      box-shadow:
+        0 8px 18px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.22);
+    }
+    .btn.secondary{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03)),
+        rgba(38,44,54,.66);
+      border-color:#4b5564;color:#f3f7ff;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
     .btn:hover{filter:brightness(1.04)}
     .status-row{display:flex;align-items:center;justify-content:space-between}
     .status{font:700 .86rem Arial;color:#e7edf6}
     .clear-btn{width:auto;height:auto;border:0;background:transparent !important;color:#c9d0db;text-decoration:underline;padding:0;font:700 .85rem Arial;cursor:pointer;box-shadow:none !important}
     .clear-btn[disabled]{opacity:.45;cursor:default;text-decoration:none}
-    .list{display:grid;gap:7px;min-height:120px;overflow:auto;padding-right:6px;flex:1}
-    .card{border:1px solid rgba(170,170,170,.28);border-radius:var(--radius-card);background:rgba(17,22,30,.68);padding:8px 9px}
-    .line1{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
-    .name-wrap{display:inline-flex;align-items:center;gap:8px;min-width:0}
-    .name{font:700 .96rem/1.15 Arial;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .meta{display:inline-flex;gap:7px;align-items:center;font:700 .81rem Arial;color:#dce4ef;white-space:nowrap}
-    .links{display:inline-flex;gap:8px;align-items:center}
-    .links a{color:#dce4ef;text-decoration:none}
-    .pref{border:0;background:transparent;color:#aab4c4;cursor:pointer;padding:0;font:700 17px/1 Arial}
-    .pref.active{color:#d4af37}
-    .remove-btn{
-      width:19px;height:19px;min-height:19px;min-width:19px;border-radius:6px;
-      border:1px solid rgba(170,170,170,.35);background:rgba(34,40,50,.5);color:#dce4ef;
-      display:inline-flex;align-items:center;justify-content:center;padding:0;cursor:pointer;font:700 11px/1 Arial;
+    .inline-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .text-action{
+      width:auto;
+      height:auto;
+      min-height:0;
+      border:0 !important;
+      border-radius:0 !important;
+      background:transparent !important;
+      box-shadow:none !important;
+      color:#c9d0db;
+      font:700 .78rem Arial,Helvetica,sans-serif;
+      letter-spacing:.01em;
+      text-transform:none;
+      text-decoration:none;
+      padding:0;
+      cursor:pointer;
+      white-space:nowrap;
     }
+    .text-action:hover{text-decoration:underline}
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-height:120px;
+      overflow:auto;
+      padding-right:6px;
+      flex:1;
+    }
+    .card{
+      border:1px solid rgba(170,170,170,.28);
+      border-radius:var(--radius-card);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        rgba(17,22,30,.58);
+      padding:0 12px;
+      backdrop-filter:blur(8px) saturate(112%);
+      -webkit-backdrop-filter:blur(8px) saturate(112%);
+      position:relative;
+      min-height:44px;
+      height:44px;
+      flex:0 0 44px;
+      display:flex;
+      align-items:center;
+    }
+    .result-row1{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      height:44px;
+    }
+    .result-main{min-width:0;display:flex;align-items:center;gap:8px;flex:1;height:44px}
+    .result-company{display:flex;align-items:center;gap:8px;min-width:0;flex:1;height:44px}
+    .name{font:700 .98rem/1 Arial;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .result-side{display:flex;align-items:center;gap:8px;min-width:0;justify-content:flex-end;height:44px}
+    .result-links{display:inline-flex;align-items:center;gap:7px;font:700 .81rem/1 Arial;color:#dce4ef;white-space:nowrap;justify-content:flex-end}
+    .result-links a{color:#dce4ef;text-decoration:none}
+    .result-company > .pref-star{
+      width:18px !important;
+      min-width:18px !important;
+      height:18px !important;
+      min-height:18px !important;
+      border:0 !important;
+      border-radius:0 !important;
+      padding:0 !important;
+      background:transparent !important;
+      color:#aab4c4;
+      font:700 15px/1 "Segoe UI Symbol","Apple Symbols","Segoe UI",sans-serif;
+      cursor:pointer;
+      display:inline-flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      line-height:1;
+      flex:0 0 18px !important;
+      box-shadow:none !important;
+    }
+    .result-company > .pref-star.active{color:#d4af37}
+    .result-side > .remove-toggle{
+      width:19px !important;
+      height:19px !important;
+      min-height:19px !important;
+      min-width:19px !important;
+      border-radius:0 !important;
+      border:0 !important;
+      background:transparent !important;
+      color:#dce4ef;
+      display:inline-flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      padding:0 !important;
+      cursor:pointer;
+      font:700 11px/1 Arial;
+      box-shadow:none !important;
+      flex:0 0 19px !important;
+    }
+    .result-side > .remove-toggle:hover{opacity:.9}
+    .card-confirm-overlay{
+      position:absolute;
+      inset:0;
+      border-radius:var(--radius-card);
+      background:rgba(0,0,0,.38);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:5;
+    }
+    .card-confirm-box{
+      border:1px solid rgba(170,170,170,.32);
+      border-radius:10px;
+      background:rgba(16,20,27,.92);
+      padding:8px 10px;
+      max-width:92%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+    }
+    .card-confirm-text{font:700 .8rem Arial;color:#e7edf6}
+    .card-confirm-actions{display:inline-flex;gap:6px}
+    .card-confirm-actions button{
+      width:auto;height:auto;min-height:24px;
+      border-radius:8px;
+      border:1px solid #4e5663;
+      background:rgba(34,40,50,.8);
+      color:#e7edf6;
+      font:700 .75rem Arial;
+      padding:0 10px;
+      cursor:pointer;
+    }
+    .card-confirm-actions .confirm-yes{border-color:#9d1724;background:#be1e2d;color:#fff}
     .card.preferred-card{
       border-color:#be1e2d;
       background:linear-gradient(180deg, rgba(190,30,45,.22), rgba(120,18,30,.14));
     }
     .footer{display:flex;justify-content:flex-end;font:500 .62rem Arial;color:#8e98a8;padding:4px 6px 0}
     .hidden{display:none !important}
-    .radius-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 6px}
+    .radius-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 var(--label-gap)}
     .radius-label-row > label{margin:0}
+    .field-block{margin:0}
     #radiusMiles{color-scheme:dark}
 
-    body[data-theme="light"] .app{background:rgba(231,233,236,.72);border-color:#adb2b9}
-    body[data-theme="light"] .body{background:linear-gradient(180deg, rgba(238,240,243,.62), rgba(226,229,234,.55))}
+    body[data-theme="light"] .app{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.22)),
+        rgba(223,227,233,.62);
+      border-color:#adb2b9;
+      box-shadow:
+        0 22px 44px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.72);
+    }
+    body[data-theme="light"] .body{background:linear-gradient(180deg, rgba(238,240,243,.34), rgba(226,229,234,.28))}
     body[data-theme="light"] label{color:#4a4f56}
     body[data-theme="light"] input,
     body[data-theme="light"] select,
-    body[data-theme="light"] button{background:rgba(242,243,246,.76);border-color:#b4b8bf;color:#5e6672}
+    body[data-theme="light"] button{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42)),
+        rgba(238,241,245,.72);
+      border-color:#b4b8bf;color:#5e6672;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.92),
+        inset 0 -1px 0 rgba(0,0,0,.07);
+    }
     body[data-theme="light"] .tiny-check{color:#51555d}
-    body[data-theme="light"] .switch button{color:#5e6672;background:transparent !important;border:0 !important}
-    body[data-theme="light"] .switch button.active{color:#be1e2d}
+    body[data-theme="light"] .switch{color:#4f5661}
+    body[data-theme="light"] .switch .sep{color:#4f5661;opacity:1;text-shadow:none}
+    body[data-theme="light"] .switch button{
+      color:#4f5661;
+      -webkit-text-fill-color:#4f5661;
+      background:transparent !important;
+      border:0 !important;
+      box-shadow:none !important;
+      text-shadow:none !important;
+    }
+    body[data-theme="light"] .switch button.active{
+      color:#be1e2d;
+      -webkit-text-fill-color:#be1e2d;
+    }
     body[data-theme="light"] .btn{background:#be1e2d;color:#fff;border-color:#9d1724}
-    body[data-theme="light"] .btn.secondary{background:#e4e6ea;color:#1f2a36;box-shadow:none}
+    body[data-theme="light"] .btn.secondary{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
+        #6f7784;
+      border-color:#616976;
+      color:#f4f7fb;
+      box-shadow:
+        0 6px 14px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.18);
+    }
     body[data-theme="light"] .status{color:#2c3440}
     body[data-theme="light"] .clear-btn{color:#3c4654;background:transparent !important;border:0 !important}
-    body[data-theme="light"] .card{background:rgba(245,248,252,.78);border-color:#bcc6d1}
-    body[data-theme="light"] .name, body[data-theme="light"] .meta, body[data-theme="light"] .links a{color:#1f2a36}
-    body[data-theme="light"] .remove-btn{border-color:#a7b2c0;background:#e3eaf2;color:#1f2a36}
+    body[data-theme="light"] .text-action{color:#3c4654}
+    body[data-theme="light"] .card{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.68), rgba(255,255,255,.45)),
+        rgba(241,245,250,.78);
+      border-color:#bcc6d1;
+    }
+    body[data-theme="light"] .name, body[data-theme="light"] .result-links, body[data-theme="light"] .result-links a{color:#1f2a36}
+    body[data-theme="light"] .remove-toggle{border:0;background:transparent;color:#1f2a36}
+    body[data-theme="light"] .card-confirm-overlay{background:rgba(0,0,0,.22)}
+    body[data-theme="light"] .card-confirm-box{background:rgba(242,246,250,.96);border-color:#b9c2cf}
+    body[data-theme="light"] .card-confirm-text{color:#1f2a36}
+    body[data-theme="light"] .card-confirm-actions button{background:#e7edf4;color:#1f2a36;border-color:#b2bcc9}
+    body[data-theme="light"] .card-confirm-actions .confirm-yes{background:#be1e2d;color:#fff;border-color:#9d1724}
     body[data-theme="light"] .card.preferred-card{
       border-color:#be1e2d;
       background:linear-gradient(180deg, rgba(190,30,45,.18), rgba(120,18,30,.10));
@@ -154,12 +428,26 @@
     body[data-theme="light"] .location-suggest button:hover{
       background:rgba(0,0,0,.05);
     }
-    body[data-theme="light"] #priorSwitch button{color:#5e6672}
-    body[data-theme="light"] #priorSwitch button.active{color:#be1e2d}
-    body[data-theme="light"] #engineSwitch button{color:#5e6672}
-    body[data-theme="light"] #engineSwitch button.active{color:#be1e2d}
+    body[data-theme="light"] .query-btn::after{
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23343a44' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
+    }
+    body[data-theme="light"] .query-menu{
+      border-color:#b7bfc9;background:rgba(241,245,250,.84);
+      backdrop-filter:blur(14px) saturate(112%);
+      -webkit-backdrop-filter:blur(14px) saturate(112%);
+    }
+    body[data-theme="light"] .query-item{
+      color:#1f2a36;border-bottom-color:#c7ced8;
+    }
+    body[data-theme="light"] .query-item.parent-cat{color:#be1e2d}
+    body[data-theme="light"] .query-item:hover,
+    body[data-theme="light"] .query-item.active{background:rgba(0,0,0,.05)}
+    body[data-theme="light"] #priorSwitch button{color:#4f5661;-webkit-text-fill-color:#4f5661}
+    body[data-theme="light"] #priorSwitch button.active{color:#be1e2d;-webkit-text-fill-color:#be1e2d}
+    body[data-theme="light"] #engineSwitch button{color:#4f5661;-webkit-text-fill-color:#4f5661}
+    body[data-theme="light"] #engineSwitch button.active{color:#be1e2d;-webkit-text-fill-color:#be1e2d}
     body[data-theme="light"] .faq-btn,
-    body[data-theme="light"] #themeBtn{background:transparent !important;border:0 !important;box-shadow:none !important;color:#5e6672}
+    body[data-theme="light"] #themeBtn{background:transparent !important;border:0 !important;box-shadow:none !important;color:#111111}
     body[data-theme="light"] #radiusMiles{color-scheme:light}
 
     @media (max-width: 768px){
@@ -176,9 +464,12 @@
       .faq-panel{position:fixed;left:10px;right:10px;top:96px;width:auto;max-height:calc(100dvh - 106px)}
       .location-suggest{position:fixed;left:10px;right:10px;top:132px}
       .name{white-space:normal;font-size:.92rem}
-      .line1{grid-template-columns:1fr;gap:4px}
-      .meta{white-space:normal;flex-wrap:wrap;font-size:.79rem;gap:6px}
-      .meta .remove-btn{margin-left:auto}
+      .card{height:auto;min-height:56px;flex:0 0 auto;padding:6px 10px}
+      .result-row1{display:flex;flex-direction:column;align-items:flex-start;gap:4px;height:auto}
+      .result-main{height:auto;min-height:22px}
+      .result-company{height:auto;min-height:22px}
+      .result-side{width:100%;justify-content:space-between;height:auto;min-height:22px}
+      .result-links{white-space:normal;flex-wrap:wrap;font-size:.79rem;gap:6px}
     }
   </style>
 </head>
@@ -187,7 +478,7 @@
     <div class="app">
       <div class="top"><img src="/v2/assets/keystone-header.png?v=1" alt="Keystone Header"></div>
       <div class="body">
-        <div>
+        <div class="field-block">
           <div class="label-row">
             <div class="label-left">
               <label for="location">Location</label>
@@ -242,14 +533,18 @@
           </div>
         </div>
 
-        <div>
+        <div class="field-block">
           <label for="queryPreset" class="field-label">Business Query</label>
-          <select id="queryPreset"></select>
+          <div class="query-select">
+            <select id="queryPreset"></select>
+            <button id="queryPresetBtn" type="button" class="query-btn">Select category or trade...</button>
+            <div id="queryPresetMenu" class="query-menu hidden"></div>
+          </div>
           <input id="manualQuery" class="hidden" placeholder="Manual search override" autocomplete="off">
           <div id="queryLegend" class="hint">Selecting a parent runs all child categories in that section.</div>
         </div>
 
-        <div class="row">
+        <div class="row controls-row field-block">
           <div>
             <div class="radius-label-row">
               <label for="radiusMiles">Radius (miles)</label>
@@ -257,13 +552,15 @@
             </div>
             <input id="radiusMiles" type="number" min="1" max="45" value="25">
           </div>
-          <div>
-            <label>&nbsp;</label>
+          <div class="download-col">
             <button id="downloadBtn" class="btn secondary">DOWNLOAD .XLSX</button>
           </div>
         </div>
 
-        <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
+        <div class="inline-actions">
+          <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
+          <button id="resetFieldsBtn" class="text-action" type="button">Reset fields ↻</button>
+        </div>
         <button id="searchBtn" class="btn">Search</button>
 
         <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn" disabled>Clear results</button></div>
@@ -278,7 +575,9 @@ const $ = id => document.getElementById(id);
 const UI_STATE_KEY = "kc_v2_state_1";
 const els = {
   location: $('location'), useMyLocation: $('useMyLocation'), queryPreset: $('queryPreset'), manualQuery: $('manualQuery'),
+  queryPresetBtn: $('queryPresetBtn'), queryPresetMenu: $('queryPresetMenu'),
   radiusMiles: $('radiusMiles'), includeEmails: $('includeEmails'), searchBtn: $('searchBtn'), downloadBtn: $('downloadBtn'),
+  resetFieldsBtn: $('resetFieldsBtn'),
   list: $('list'), status: $('status'), clearBtn: $('clearBtn'), queryLegend: $('queryLegend'),
   engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
   locationSuggest: $('locationSuggest')
@@ -297,6 +596,8 @@ let currentSearchCity = '';
 let currentSearchCategoryLabel = '';
 let suggestTimer = null;
 let suggestRequestId = 0;
+let statusTimer = null;
+let pendingRemoval = null;
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
 const makeSearchSignature = ({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
@@ -312,7 +613,34 @@ const makeRowKey = (r) => {
 };
 const rowSeenKey = (r) => (r?.place_id ? `place:${String(r.place_id).trim()}` : `row:${makeRowKey(r)}`);
 
-function setStatus(msg){ els.status.textContent = msg || ''; }
+function setStatus(msg, options = {}){
+  const { hideAfterMs = 0, undoLabel = "", onUndo = null } = options;
+  if (statusTimer) { clearTimeout(statusTimer); statusTimer = null; }
+  els.status.textContent = msg || '';
+  if (undoLabel && typeof onUndo === 'function') {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = undoLabel;
+    btn.style.marginLeft = '8px';
+    btn.style.border = '0';
+    btn.style.background = 'transparent';
+    btn.style.color = '#be1e2d';
+    btn.style.fontWeight = '700';
+    btn.style.textDecoration = 'underline';
+    btn.style.cursor = 'pointer';
+    btn.addEventListener('click', () => {
+      if (statusTimer) { clearTimeout(statusTimer); statusTimer = null; }
+      onUndo();
+    }, { once: true });
+    els.status.appendChild(btn);
+  }
+  if (hideAfterMs > 0) {
+    statusTimer = setTimeout(() => {
+      els.status.textContent = 'Ready.';
+      statusTimer = null;
+    }, hideAfterMs);
+  }
+}
 
 function saveUiState(){
   try{
@@ -450,6 +778,42 @@ function renderLocationSuggest(items){
   els.locationSuggest.classList.remove('hidden');
 }
 
+function updateQueryButtonText(){
+  const opt = els.queryPreset.options[els.queryPreset.selectedIndex];
+  const txt = String(opt?.textContent || "Select category or trade...").replace(/\u00a0/g, " ").trim();
+  els.queryPresetBtn.textContent = txt || "Select category or trade...";
+  els.queryPresetBtn.classList.toggle("has-value", String(els.queryPreset.value || "").trim() !== "");
+}
+
+function closeQueryMenu(){
+  els.queryPresetMenu.classList.add('hidden');
+}
+
+function openQueryMenu(){
+  const options = [...els.queryPreset.options];
+  if (!options.length) return;
+  const current = String(els.queryPreset.value || "");
+  els.queryPresetMenu.innerHTML = options.map((o) => {
+    const value = String(o.value || "");
+    const label = String(o.textContent || "").replace(/\u00a0/g, " ").trim();
+    const active = value === current ? "active" : "";
+    const isParent = value.startsWith("parent:");
+    const isChild = value.startsWith("child:");
+    const parentClass = isParent ? " parent-cat" : "";
+    const childClass = isChild ? " child-cat" : "";
+    const iconHtml = value === 'manual'
+      ? `<span class="menu-icon manual">●</span>`
+      : (value === 'preferred:all' ? `<span class="menu-icon pref">★</span>` : '');
+    return `<button type="button" class="query-item ${active}${parentClass}${childClass}" data-value="${escapeHtml(value)}" title="${escapeHtml(label)}">${iconHtml}${escapeHtml(label)}</button>`;
+  }).join("");
+  els.queryPresetMenu.classList.remove('hidden');
+}
+
+function toggleQueryMenu(){
+  if (els.queryPresetMenu.classList.contains('hidden')) openQueryMenu();
+  else closeQueryMenu();
+}
+
 async function fetchLocationSuggest(query){
   const q = String(query || '').trim();
   if (q.length < 2 || els.useMyLocation.checked) { hideLocationSuggest(); return; }
@@ -485,6 +849,34 @@ function updateEngineUI(){
 }
 function updatePriorUI(){
   els.priorSwitch.querySelectorAll('button[data-prior]').forEach(b => b.classList.toggle('active', (hidePrior ? 'on' : 'off') === b.dataset.prior));
+}
+
+function resetFields(){
+  currentGeoLocation = '';
+  currentSearchSignature = '';
+  currentSearchCity = '';
+  currentSearchCategoryLabel = '';
+  seenByChain = {};
+  rows = [];
+  lastFetchedRows = [];
+  pendingRemoval = null;
+
+  els.location.value = '';
+  els.useMyLocation.checked = false;
+  els.manualQuery.value = '';
+  els.radiusMiles.value = '25';
+  els.includeEmails.checked = false;
+  els.queryPreset.value = '';
+  els.manualQuery.classList.add('hidden');
+
+  hideLocationSuggest();
+  closeQueryMenu();
+  closeFaq();
+  updateQueryButtonText();
+  syncLocationFieldLock();
+  render();
+  setStatus('Fields reset.');
+  saveUiState();
 }
 
 function preferredKeySet(){
@@ -541,21 +933,34 @@ function render(){
   if (!rows.length){ els.list.innerHTML = ''; return; }
   els.list.innerHTML = rows.map(r => {
     const k = makeRowKey(r);
+    const isPending = String(pendingRemoval?.result_key || '') === String(k);
     const isPreferred = prefSet.has(k);
     const dist = Number(r.distance_miles);
-    const d = Number.isFinite(dist) ? `${dist.toFixed(2)} mi` : '';
+    const d = Number.isFinite(dist) ? `<span>${dist.toFixed(2)} mi</span>` : '';
     const phone = r.phone ? `<span>${escapeHtml(r.phone)}</span>` : '';
     const website = r.website ? `<a href="${escapeHtml(r.website)}" target="_blank" rel="noopener">website</a>` : `<span style="text-decoration:line-through;opacity:.65">website</span>`;
     const map = (r.maps_url || r.map_url) ? `<a href="${escapeHtml(r.maps_url || r.map_url)}" target="_blank" rel="noopener">map</a>` : '';
     const links = [d, phone, website, map].filter(Boolean).map((v,i)=>i===0?v:`<span>|</span>${v}`).join(' ');
     return `<div class="card ${isPreferred ? 'preferred-card' : ''}" data-key="${escapeHtml(k)}">
-      <div class="line1">
-        <div class="name-wrap">
-          <button class="pref ${isPreferred ? 'active' : ''}" type="button" title="Preferred">${isPreferred ? '★' : '☆'}</button>
-          <div class="name">${escapeHtml(r.name||'')}</div>
+      <div class="result-row1">
+        <div class="result-main">
+          <div class="result-company">
+            <button class="pref-star ${isPreferred ? 'active' : ''}" type="button" title="Preferred">${isPreferred ? '★' : '☆'}</button>
+            <div class="name">${escapeHtml(r.name||'')}</div>
+          </div>
         </div>
-        <div class="meta">${links}<button class="remove-btn" type="button" title="Remove">🗑</button></div>
+        <div class="result-side"><div class="result-links">${links}</div><button class="remove-toggle" type="button" title="Remove">🗑</button></div>
       </div>
+      ${isPending ? `
+        <div class="card-confirm-overlay">
+          <div class="card-confirm-box">
+            <div class="card-confirm-text">Delete "${escapeHtml(r.name || 'this result')}"?</div>
+            <div class="card-confirm-actions">
+              <button type="button" class="confirm-yes">Yes</button>
+              <button type="button" class="confirm-no">No</button>
+            </div>
+          </div>
+        </div>` : ``}
     </div>`;
   }).join('');
 }
@@ -574,7 +979,7 @@ async function loadCategories(selectedValue = ""){
     sections = Array.isArray(data.sections) ? data.sections : [];
     await refreshPreferredRows();
     if (data.legend) els.queryLegend.textContent = data.legend;
-    const opts = ['<option value="">Select category or trade...</option>','<option value="manual">• Manual Override (Optional)</option>','<option value="preferred:all">★ Preferred Results - All</option>'];
+    const opts = ['<option value="">Select category or trade...</option>','<option value="manual">Manual Override (Optional)</option>','<option value="preferred:all">Preferred Results - All</option>'];
     const sorted = sections.map((s, i) => ({ s, i })).sort((a, b) => {
       const aLabel = String(a.s.label || a.s.section || '');
       const bLabel = String(b.s.label || b.s.section || '');
@@ -591,9 +996,11 @@ async function loadCategories(selectedValue = ""){
       els.queryPreset.value = selectedValue;
     }
     updateQueryTone();
+    updateQueryButtonText();
   }catch{
-    els.queryPreset.innerHTML = '<option value="">Select category or trade...</option><option value="manual">• Manual Override (Optional)</option><option value="preferred:all">★ Preferred Results - All</option>';
+    els.queryPreset.innerHTML = '<option value="">Select category or trade...</option><option value="manual">Manual Override (Optional)</option><option value="preferred:all">Preferred Results - All</option>';
     updateQueryTone();
+    updateQueryButtonText();
   }
 }
 
@@ -756,12 +1163,32 @@ els.queryPreset.addEventListener('change', async () => {
   const manual = String(els.queryPreset.value || '') === 'manual';
   els.manualQuery.classList.toggle('hidden', !manual);
   updateQueryTone();
+  updateQueryButtonText();
   if (String(els.queryPreset.value || '') === 'preferred:all') {
     await runSearch();
   }
   saveUiState();
 });
+els.queryPresetBtn.addEventListener('click', (event) => {
+  event.preventDefault();
+  toggleQueryMenu();
+});
+els.queryPresetMenu.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const item = target.closest('.query-item');
+  if (!item) return;
+  const value = String(item.getAttribute('data-value') || '');
+  if ([...els.queryPreset.options].some((o) => String(o.value || '') === value)) {
+    els.queryPreset.value = value;
+  }
+  closeQueryMenu();
+  updateQueryButtonText();
+  els.queryPreset.dispatchEvent(new Event('change', { bubbles: true }));
+});
 els.location.addEventListener('focus', () => { if (!els.useMyLocation.checked) void fetchLocationSuggest(els.location.value); });
+els.location.addEventListener('click', () => closeFaq());
+els.useMyLocation.addEventListener('click', () => closeFaq());
 els.location.addEventListener('input', () => {
   if (suggestTimer) clearTimeout(suggestTimer);
   suggestTimer = setTimeout(() => { void fetchLocationSuggest(els.location.value); }, 180);
@@ -778,6 +1205,7 @@ els.locationSuggest.addEventListener('click', (event) => {
 });
 els.searchBtn.addEventListener('click', runSearch);
 els.downloadBtn.addEventListener('click', downloadXlsx);
+els.resetFieldsBtn.addEventListener('click', resetFields);
 els.clearBtn.addEventListener('click', () => { rows = []; render(); setStatus('Ready.'); saveUiState(); });
 els.useMyLocation.addEventListener('change', useMyLocationChanged);
 els.includeEmails.addEventListener('change', saveUiState);
@@ -817,7 +1245,7 @@ els.list.addEventListener('click', async (event) => {
   const row = rows.find((r) => String(makeRowKey(r)) === String(k));
   if (!row) return;
 
-  if (target.closest('.pref')) {
+  if (target.closest('.pref-star')) {
     try{
       const set = preferredKeySet();
       if (set.has(k)) {
@@ -840,29 +1268,73 @@ els.list.addEventListener('click', async (event) => {
     return;
   }
 
-  if (target.closest('.remove-btn')) {
-    if (!window.confirm(`Remove \"${row.name || 'this company'}\" from this query?`)) return;
+  if (target.closest('.confirm-no')) {
+    pendingRemoval = null;
+    render();
+    setStatus('Delete cancelled.', { hideAfterMs: 1800 });
+    return;
+  }
+
+  if (target.closest('.confirm-yes')) {
     try{
+      const removed = rows.find((r) => String(makeRowKey(r)) === String(k));
       await setIrrelevant(k, 'add');
       rows = rows.filter((r) => String(makeRowKey(r)) !== String(k));
       lastFetchedRows = lastFetchedRows.filter((r) => String(makeRowKey(r)) !== String(k));
-      setStatus('Removed from this specific query.');
+      pendingRemoval = null;
       render();
       saveUiState();
+      setStatus('Removed from this specific query.', {
+        hideAfterMs: 10000,
+        undoLabel: 'Undo',
+        onUndo: async () => {
+          try{
+            await setIrrelevant(k, 'remove');
+            if (removed) {
+              rows.unshift(removed);
+              lastFetchedRows.unshift(removed);
+              render();
+              saveUiState();
+            }
+            setStatus('Result restored.', { hideAfterMs: 2200 });
+          }catch(err){
+            setStatus(`Undo failed: ${err.message}`, { hideAfterMs: 3000 });
+          }
+        }
+      });
     }catch(err){
+      pendingRemoval = null;
+      render();
       setStatus(`Could not remove: ${err.message}`);
     }
+    return;
+  }
+
+  if (target.closest('.remove-toggle')) {
+    pendingRemoval = { result_key: k, name: row.name || '' };
+    render();
+    setStatus('Confirm delete.');
+    return;
   }
 });
 document.addEventListener('click', (e) => {
   const t = e.target;
   if (!(t instanceof HTMLElement)) return;
   if (!t.closest('.location-wrap')) hideLocationSuggest();
-  if (!t.closest('#faqWrap')) closeFaq();
+  if (!t.closest('.query-select')) closeQueryMenu();
+  if (els.faqWrap.classList.contains('open')) closeFaq();
 });
-[els.location, els.manualQuery, els.radiusMiles, els.queryPreset].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
+[els.location, els.manualQuery, els.radiusMiles, els.queryPreset, els.queryPresetBtn].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
 
 (async function init(){
+  try {
+    const nav = performance.getEntriesByType('navigation');
+    const navType = Array.isArray(nav) && nav[0] ? String(nav[0].type || '') : '';
+    if (navType === 'reload') {
+      sessionStorage.removeItem(UI_STATE_KEY);
+    }
+  } catch {}
+
   await refreshPreferredRows();
   const state = loadUiState();
   if (state) {
@@ -880,6 +1352,25 @@ document.addEventListener('click', (e) => {
     els.includeEmails.checked = Boolean(state.includeEmails);
     rows = Array.isArray(state.rows) ? state.rows : [];
     lastFetchedRows = Array.isArray(state.lastFetchedRows) ? state.lastFetchedRows : [];
+  } else {
+    currentGeoLocation = '';
+    currentSearchSignature = '';
+    currentSearchCity = '';
+    currentSearchCategoryLabel = '';
+    seenByChain = {};
+    rows = [];
+    lastFetchedRows = [];
+    pendingRemoval = null;
+    els.location.value = '';
+    els.useMyLocation.checked = false;
+    els.manualQuery.value = '';
+    els.radiusMiles.value = '25';
+    els.includeEmails.checked = false;
+    els.queryPreset.value = '';
+    document.body.setAttribute('data-theme', 'dark');
+    els.themeBtn.textContent = '☼';
+    searchEngineMode = 'api';
+    hidePrior = true;
   }
   updateEngineUI();
   updatePriorUI();

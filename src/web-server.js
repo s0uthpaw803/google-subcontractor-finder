@@ -253,7 +253,7 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
 
     if (req.method === "GET" && url.pathname === "/") {
-      const html = fs.readFileSync(APP_HTML, "utf8");
+      const html = fs.readFileSync(APP_V2_HTML, "utf8");
       res.writeHead(200, {
         "Content-Type": "text/html; charset=utf-8",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
@@ -266,6 +266,18 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname === "/v2") {
       const html = fs.readFileSync(APP_V2_HTML, "utf8");
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
+      res.end(html);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/v1") {
+      const html = fs.readFileSync(APP_HTML, "utf8");
       res.writeHead(200, {
         "Content-Type": "text/html; charset=utf-8",
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
