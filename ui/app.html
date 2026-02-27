@@ -225,6 +225,7 @@
       padding-left:14px;
     }
     .faq-list li{margin:0 0 4px}
+    .hide-mobile{display:list-item}
     .faq-sub{
       display:block;
       margin:2px 0 0 0;
@@ -1282,6 +1283,9 @@
         word-break:break-word;
         z-index:1800;
       }
+      .hide-mobile{
+        display:none !important;
+      }
       .faq-title{
         font-size:.72rem;
         margin-bottom:4px;
@@ -1395,8 +1399,8 @@
                     <li><span class="faq-star-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17.6 6.6 20.3l1-6.1L3.2 9.9l6.1-.9L12 3.5z"/></svg></span>Star / unstar company</li>
                     <li><span class="faq-trash-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 10v7"/><path d="M14 10v7"/></svg></span>Remove company from query</li>
                     <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.7v2.3M12 19v2.3M4.7 12H2.4M21.6 12h-2.3M6.9 6.9 5.3 5.3M18.7 18.7l-1.6-1.6M17.1 6.9l1.6-1.6M6.9 17.1l-1.6 1.6"></path></svg><svg viewBox="0 0 24 24"><path d="M16.9 14.8c-4.5 0-8.2-3.7-8.2-8.2 0-1.1.2-2.2.7-3.1-3.6 1.1-6.2 4.5-6.2 8.5 0 4.9 4 8.9 8.9 8.9 4 0 7.4-2.6 8.5-6.2-.9.4-2 .7-3.1.7z"></path></svg></span>Day / Night mode</li>
-                    <li><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 21h5v-5M3 8l6-6M21 16l-6 6"></path></svg><svg viewBox="0 0 24 24"><path d="M9 9H3V3M15 15h6v6M3 3l6 6M21 21l-6-6"></path></svg></span>Pop-out window</li>
-                    <li><span class="faq-mode-icons" aria-hidden="true">?</span>Quick Guide toggle</li>
+                    <li class="hide-mobile"><span class="faq-mode-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 21h5v-5M3 8l6-6M21 16l-6 6"></path></svg><svg viewBox="0 0 24 24"><path d="M9 9H3V3M15 15h6v6M3 3l6 6M21 21l-6-6"></path></svg></span>Pop-out window</li>
+                    <li><span class="faq-mode-icons" aria-hidden="true">FAQ</span>FAQ toggle</li>
                   </ul>
                   <div class="faq-title" style="margin-top:8px">Notes</div>
                 <ul class="faq-list">
@@ -2020,6 +2024,21 @@
       if (!els.faqWrap) return;
       if (els.faqWrap.classList.contains("open")) closeFaqPanel();
       else openFaqPanel();
+    }
+
+    function isMobileViewport(){
+      return window.matchMedia("(max-width: 768px)").matches;
+    }
+
+    function syncMobileControls(){
+      const mobile = isMobileViewport();
+      if (els.sizeBtn) {
+        els.sizeBtn.classList.toggle("hidden", mobile);
+      }
+      if (els.faqBtn) {
+        els.faqBtn.textContent = mobile ? "FAQ" : "?";
+        els.faqBtn.setAttribute("aria-label", "FAQ");
+      }
     }
 
     function openQueryMenu(){
@@ -2728,6 +2747,7 @@
     applyTheme((themeFromState === "light" || themeFromState === "dark") ? themeFromState : (themeFromUrl === "light" ? "light" : "dark"));
     applyEngineMode(normalizeEngineMode(persistedState?.engineMode || "api"));
     initSizeControl();
+    syncMobileControls();
     loadCategories().then(() => {
       if (!persistedState) {
         syncLocationFieldLock();
@@ -2967,6 +2987,7 @@
     });
     window.addEventListener("resize", () => {
       closeFaqPanel();
+      syncMobileControls();
     });
     els.confirmDeleteYes.addEventListener("click", () => {});
     els.confirmDeleteNo.addEventListener("click", () => {});
