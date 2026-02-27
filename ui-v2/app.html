@@ -216,7 +216,7 @@
         <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
         <button id="searchBtn" class="btn">Search</button>
 
-        <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn hidden">Clear results</button></div>
+        <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn" disabled>Clear results</button></div>
         <div id="list" class="list"></div>
         <div class="footer">© 2026 McDowell Development. All rights reserved.</div>
       </div>
@@ -641,9 +641,21 @@ function downloadXlsx(){
   const blob = buildXlsxBlob(headers, exportRows);
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
+  const categoryTextRaw = String(els.queryPreset.options[els.queryPreset.selectedIndex]?.textContent || '').replace(/\u00a0/g, ' ').trim();
+  const categoryText = categoryTextRaw || 'results';
+  const cleanCategory = categoryText
+    .replace(/^[•\-\s]+/, '')
+    .replace(/\s*[-–]\s*all$/i, '')
+    .replace(/\s*\(optional\)\s*/ig, '')
+    .trim();
   const locRaw = String(els.location.value || '').trim();
-  const safeLoc = (locRaw || 'results-v2').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'results-v2';
-  a.download = `${safeLoc}.xlsx`;
+  const locParts = locRaw.includes(',') ? locRaw.split(',').map((s) => s.trim()).filter(Boolean) : [];
+  const locLabel = locParts.length >= 2
+    ? `${locParts[0]}-${locParts[1]}`
+    : (locRaw || 'location');
+  const safeCategory = cleanCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'results';
+  const safeLoc = locLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'location';
+  a.download = `${safeCategory}-${safeLoc}.xlsx`;
   a.click();
   URL.revokeObjectURL(a.href);
 }
