@@ -91,6 +91,7 @@
     .status-row{display:flex;align-items:center;justify-content:space-between}
     .status{font:700 .9rem Arial;color:#e7edf6}
     .clear-btn{width:auto;height:auto;border:0;background:transparent;color:#c9d0db;text-decoration:underline;padding:0;font:700 .85rem Arial;cursor:pointer}
+    .clear-btn[disabled]{opacity:.45;cursor:default;text-decoration:none}
     .list{display:grid;gap:6px;min-height:120px;overflow:auto;padding-right:6px;flex:1}
     .card{border:1px solid rgba(170,170,170,.28);border-radius:12px;background:rgba(17,22,30,.68);padding:8px}
     .line1{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
@@ -248,10 +249,10 @@ let suggestTimer = null;
 let suggestRequestId = 0;
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
-const makeSearchSignature = ({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api" }) =>
-  [normalize(engineMode), normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|"), String(Number(radiusMiles || 25))].join("::");
-const makeChainKey = ({ location = "", query = "", queries = [], engineMode = "api" }) =>
-  [normalize(engineMode), normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|")].join("::");
+const makeSearchSignature = ({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
+  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|"), String(Number(radiusMiles || 25))].join("::");
+const makeChainKey = ({ location = "", query = "", queries = [], engineMode = "api", includeEmails = false }) =>
+  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|")].join("::");
 const makeRowKey = (r) => {
   if (r?.result_key) return String(r.result_key);
   if (r?.place_id) return `place:${String(r.place_id).trim()}`;
@@ -486,7 +487,7 @@ async function setIrrelevant(rowKey, action){
 
 function render(){
   const prefSet = preferredKeySet();
-  els.clearBtn.classList.toggle('hidden', rows.length === 0);
+  els.clearBtn.disabled = rows.length === 0;
   if (!rows.length){ els.list.innerHTML = ''; return; }
   els.list.innerHTML = rows.map(r => {
     const k = makeRowKey(r);
@@ -598,14 +599,15 @@ async function runSearch(){
 
   try{
     const radiusMiles = Number(els.radiusMiles.value || 25);
-    currentSearchSignature = makeSearchSignature({ location: loc, query, queries, radiusMiles, engineMode: searchEngineMode });
+    const includeEmails = Boolean(els.includeEmails.checked);
+    currentSearchSignature = makeSearchSignature({ location: loc, query, queries, radiusMiles, engineMode: searchEngineMode, includeEmails });
     currentSearchCity = String(loc.split(',')[0] || '').trim();
-    const payload = { location: loc, query, queries, queryContexts, radiusMiles, engineMode: searchEngineMode, includeEmails: Boolean(els.includeEmails.checked), strictTypeFilter: p.type === 'manual' ? false : true };
+    const payload = { location: loc, query, queries, queryContexts, radiusMiles, engineMode: searchEngineMode, includeEmails, strictTypeFilter: p.type === 'manual' ? false : true };
     const res = await fetch('/api/search', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
     const fetched = (Array.isArray(data.rows) ? data.rows : []).map(r => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
-    const key = makeChainKey({ location: loc, query, queries, engineMode: searchEngineMode });
+    const key = makeChainKey({ location: loc, query, queries, engineMode: searchEngineMode, includeEmails });
     const seen = new Set(Array.isArray(seenByChain[key]) ? seenByChain[key] : []);
     fetched.forEach(r => { const rk = rowSeenKey(r); r._seen = seen.has(rk); });
     fetched.forEach(r => seen.add(rowSeenKey(r)));
@@ -613,7 +615,9 @@ async function runSearch(){
 
     lastFetchedRows = fetched;
     rows = applyPriorFilter(lastFetchedRows);
-    setStatus(`${rows.length} results found.`);
+    const hiddenByPrior = fetched.length - rows.length;
+    if (hidePrior && hiddenByPrior > 0) setStatus(`${rows.length} results found. (${hiddenByPrior} hidden by PRIOR ON)`);
+    else setStatus(`${rows.length} results found.`);
     render();
     saveUiState();
   }catch(err){
