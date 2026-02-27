@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keystone Connect V2</title>
+  <style>
+    :root{
+      --bg:#0b0d11;
+      --panel:#0f1116;
+      --line:#2a2f36;
+      --text:#e8edf5;
+      --muted:#98a3b5;
+      --field:#10141b;
+      --accent:#be1e2d;
+      --btn:#be1e2d;
+      --btn2:#2a2f36;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.05), transparent 40%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 44px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg,#0a0b0e,#07080a);
+      display:flex;
+      justify-content:center;
+      padding:14px;
+    }
+    .shell{width:100%;max-width:720px;height:calc(100dvh - 28px)}
+    .app{
+      height:100%;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      background:rgba(0,0,0,.52);
+      backdrop-filter:blur(14px) saturate(125%);
+      display:flex;
+      flex-direction:column;
+    }
+    .top{border-bottom:1px solid var(--line);line-height:0}
+    .top img{display:block;width:100%;height:auto}
+    .body{padding:14px 10px 10px;display:flex;flex-direction:column;gap:10px;min-height:0;flex:1}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+    .label-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    label{font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#dbe2ec}
+    input,select,button{
+      width:100%;height:36px;border-radius:12px;border:1px solid #303742;
+      background:rgba(16,20,27,.78);color:#f3f7ff;padding:0 10px;font:600 .95rem Arial,Helvetica,sans-serif;
+    }
+    input::placeholder{color:#a5afbf}
+    .tiny-check{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:#c8d0dc;text-transform:none;letter-spacing:0}
+    .tiny-check input{width:14px;height:14px;margin:0;min-height:14px}
+    .controls{display:inline-flex;align-items:center;gap:12px}
+    .switch{display:inline-flex;align-items:center;gap:0;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .switch button{width:auto;height:auto;border:0;background:transparent;padding:0;color:#aab4c4;cursor:pointer;font:inherit}
+    .switch .active{color:var(--accent)}
+    .faq-wrap{position:relative}
+    .faq-btn{width:auto;height:auto;border:0;background:transparent;padding:0;color:#d7deea;font:700 .75rem Arial;cursor:pointer}
+    .faq-panel{
+      position:absolute;right:0;top:calc(100% + 8px);z-index:1200;display:none;
+      width:min(540px, calc(100vw - 40px));max-height:min(76dvh,720px);overflow:auto;
+      border:1px solid rgba(170,170,170,.32);border-radius:10px;background:rgba(19,24,32,.96);padding:10px;
+      font:500 .8rem/1.35 Arial;color:#e1e7f0;
+    }
+    .faq-wrap.open .faq-panel{display:block}
+    .faq-title{font:700 .82rem/1.2 Arial;color:#fff;margin:0 0 6px}
+    .faq-list{margin:0;padding-left:14px}
+    .faq-list li{margin:0 0 4px}
+    .hint{font:500 .72rem/1.25 Arial;color:#98a3b5}
+    .location-wrap{position:relative}
+    .location-suggest{
+      position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1200;
+      border:1px solid rgba(170,170,170,.32);border-radius:12px;background:rgba(19,24,32,.92);
+      box-shadow:0 12px 26px rgba(0,0,0,.35);overflow:hidden;max-height:220px;overflow-y:auto;
+    }
+    .location-suggest button{
+      width:100%;height:auto;min-height:unset;border:0;border-bottom:1px solid rgba(120,120,120,.22);
+      border-radius:0;background:transparent;color:#e0e6ef;padding:10px 12px;text-align:left;
+      font:600 .82rem Arial,Helvetica,sans-serif;text-transform:none;letter-spacing:0;cursor:pointer;
+    }
+    .location-suggest button:last-child{border-bottom:0}
+    .location-suggest button:hover{background:rgba(255,255,255,.06)}
+    .btn{background:var(--btn);border-color:#9d1724;color:#fff;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+    .btn.secondary{background:rgba(38,44,54,.75);border-color:#4b5564;color:#f3f7ff}
+    .status-row{display:flex;align-items:center;justify-content:space-between}
+    .status{font:700 .9rem Arial;color:#e7edf6}
+    .clear-btn{width:auto;height:auto;border:0;background:transparent;color:#c9d0db;text-decoration:underline;padding:0;font:700 .85rem Arial;cursor:pointer}
+    .list{display:grid;gap:6px;min-height:120px;overflow:auto;padding-right:6px;flex:1}
+    .card{border:1px solid rgba(170,170,170,.28);border-radius:12px;background:rgba(17,22,30,.68);padding:8px}
+    .line1{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+    .name-wrap{display:inline-flex;align-items:center;gap:7px;min-width:0}
+    .name{font:700 1rem/1.2 Arial;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .meta{display:inline-flex;gap:8px;align-items:center;font:700 .85rem Arial;color:#dce4ef;white-space:nowrap}
+    .links{display:inline-flex;gap:8px;align-items:center}
+    .links a{color:#dce4ef;text-decoration:none}
+    .pref{border:0;background:transparent;color:#aab4c4;cursor:pointer;padding:0;font:700 17px/1 Arial}
+    .pref.active{color:#d4af37}
+    .remove-btn{
+      width:20px;height:20px;min-height:20px;min-width:20px;border-radius:6px;
+      border:1px solid rgba(170,170,170,.35);background:rgba(34,40,50,.5);color:#dce4ef;
+      display:inline-flex;align-items:center;justify-content:center;padding:0;cursor:pointer;font:700 12px/1 Arial;
+    }
+    .card.preferred-card{
+      border-color:#be1e2d;
+      background:linear-gradient(180deg, rgba(190,30,45,.22), rgba(120,18,30,.14));
+    }
+    .footer{display:flex;justify-content:flex-end;font:500 .64rem Arial;color:#8e98a8;padding:4px 6px 0}
+    .hidden{display:none !important}
+
+    body[data-theme="light"] .app{background:rgba(227,232,239,.76);border-color:#b8c1cc}
+    body[data-theme="light"] .body{background:linear-gradient(180deg, rgba(241,245,250,.64), rgba(230,235,242,.54))}
+    body[data-theme="light"] label{color:#4e5662}
+    body[data-theme="light"] input,
+    body[data-theme="light"] select,
+    body[data-theme="light"] button{background:rgba(242,246,251,.8);border-color:#b8c1cc;color:#1f2a36}
+    body[data-theme="light"] .tiny-check{color:#495463}
+    body[data-theme="light"] .switch button{color:#5b6676}
+    body[data-theme="light"] .switch button.active{color:#be1e2d}
+    body[data-theme="light"] .btn{background:#be1e2d;color:#fff;border-color:#9d1724}
+    body[data-theme="light"] .btn.secondary{background:#e6ebf1;color:#1f2a36}
+    body[data-theme="light"] .status{color:#2c3440}
+    body[data-theme="light"] .clear-btn{color:#3c4654}
+    body[data-theme="light"] .card{background:rgba(245,248,252,.78);border-color:#bcc6d1}
+    body[data-theme="light"] .name, body[data-theme="light"] .meta, body[data-theme="light"] .links a{color:#1f2a36}
+    body[data-theme="light"] .remove-btn{border-color:#a7b2c0;background:#e3eaf2;color:#1f2a36}
+    body[data-theme="light"] .card.preferred-card{
+      border-color:#be1e2d;
+      background:linear-gradient(180deg, rgba(190,30,45,.18), rgba(120,18,30,.10));
+    }
+    body[data-theme="light"] .location-suggest{
+      border-color:#b7bfc9;background:rgba(241,245,250,.92);
+    }
+    body[data-theme="light"] .location-suggest button{
+      color:#1f2a36;border-bottom-color:#c7ced8;
+    }
+    body[data-theme="light"] .location-suggest button:hover{
+      background:rgba(0,0,0,.05);
+    }
+
+    @media (max-width: 768px){
+      body{padding:0}
+      .shell{max-width:100vw;height:100dvh}
+      .app{height:100dvh;border-radius:0}
+      .body{padding-top:15px}
+      .row{grid-template-columns:1fr 1fr}
+      .faq-btn{font-size:.78rem}
+      .faq-panel{position:fixed;left:10px;right:10px;top:96px;width:auto;max-height:calc(100dvh - 106px)}
+      .location-suggest{position:fixed;left:10px;right:10px;top:132px}
+      .name{white-space:normal}
+      .line1{grid-template-columns:1fr;gap:4px}
+      .meta{white-space:normal;flex-wrap:wrap}
+      .meta .remove-btn{margin-left:auto}
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="shell">
+    <div class="app">
+      <div class="top"><img src="/v2/assets/keystone-header.png?v=1" alt="Keystone Header"></div>
+      <div class="body">
+        <div>
+          <div class="label-row">
+            <div class="label-left">
+              <label for="location">Location</label>
+              <label class="tiny-check"><input id="useMyLocation" type="checkbox">Use my location</label>
+            </div>
+            <div class="controls">
+              <div class="switch" id="engineSwitch"><button data-engine="api" class="active">API</button><span>/</span><button data-engine="ggl">GGL</button></div>
+              <div class="switch" id="priorSwitch"><span>PRIOR</span>&nbsp;<button data-prior="on" class="active">ON</button><span>/</span><button data-prior="off">OFF</button></div>
+              <div class="faq-wrap" id="faqWrap">
+                <button class="faq-btn" id="faqBtn">FAQ</button>
+                <div class="faq-panel">
+                  <div class="faq-title">Keystone Connect — V2</div>
+                  <div class="faq-title" style="margin-top:6px">Scope</div>
+                  <ul class="faq-list">
+                    <li>Clean rebuild baseline.</li>
+                    <li>Core search, categories, results, export.</li>
+                    <li>No legacy UI patch drift.</li>
+                  </ul>
+                </div>
+              </div>
+              <button id="themeBtn" class="faq-btn" title="Theme">☼</button>
+            </div>
+          </div>
+          <div class="location-wrap">
+            <input id="location" placeholder="Type Requested Location or use current" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+            <div id="locationSuggest" class="location-suggest hidden"></div>
+          </div>
+        </div>
+
+        <div>
+          <label for="queryPreset">Business Query</label>
+          <select id="queryPreset"></select>
+          <input id="manualQuery" class="hidden" placeholder="Manual search override" autocomplete="off">
+          <div id="queryLegend" class="hint">Selecting a parent runs all child categories in that section.</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="radiusMiles">Radius (miles)</label>
+            <input id="radiusMiles" type="number" min="1" max="45" value="25">
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="downloadBtn" class="btn secondary">DOWNLOAD .XLSX</button>
+          </div>
+        </div>
+
+        <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
+        <button id="searchBtn" class="btn">Search</button>
+
+        <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn hidden">Clear results</button></div>
+        <div id="list" class="list"></div>
+        <div class="footer">© 2026 McDowell Development. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const $ = id => document.getElementById(id);
+const UI_STATE_KEY = "kc_v2_state_1";
+const els = {
+  location: $('location'), useMyLocation: $('useMyLocation'), queryPreset: $('queryPreset'), manualQuery: $('manualQuery'),
+  radiusMiles: $('radiusMiles'), includeEmails: $('includeEmails'), searchBtn: $('searchBtn'), downloadBtn: $('downloadBtn'),
+  list: $('list'), status: $('status'), clearBtn: $('clearBtn'), queryLegend: $('queryLegend'),
+  engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
+  locationSuggest: $('locationSuggest')
+};
+
+let sections = [];
+let rows = [];
+let lastFetchedRows = [];
+let preferredRowsCache = [];
+let searchEngineMode = 'api';
+let hidePrior = true;
+let seenByChain = {};
+let currentGeoLocation = '';
+let currentSearchSignature = '';
+let currentSearchCity = '';
+let currentSearchCategoryLabel = '';
+let suggestTimer = null;
+let suggestRequestId = 0;
+
+const normalize = (v) => String(v || "").trim().toLowerCase();
+const makeSearchSignature = ({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api" }) =>
+  [normalize(engineMode), normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|"), String(Number(radiusMiles || 25))].join("::");
+const makeChainKey = ({ location = "", query = "", queries = [], engineMode = "api" }) =>
+  [normalize(engineMode), normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|")].join("::");
+const makeRowKey = (r) => {
+  if (r?.result_key) return String(r.result_key);
+  if (r?.place_id) return `place:${String(r.place_id).trim()}`;
+  if (r?.maps_url || r?.map_url) return `map:${String(r.maps_url || r.map_url).trim()}`;
+  if (r?.website) return `web:${String(r.website).trim()}`;
+  return `name:${String(r?.name || '').trim()}|addr:${String(r?.address || '').trim()}`;
+};
+const rowSeenKey = (r) => (r?.place_id ? `place:${String(r.place_id).trim()}` : `row:${makeRowKey(r)}`);
+
+function setStatus(msg){ els.status.textContent = msg || ''; }
+
+function saveUiState(){
+  try{
+    sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({
+      location: String(els.location.value || ''),
+      useMyLocation: Boolean(els.useMyLocation.checked),
+      currentGeoLocation: String(currentGeoLocation || ''),
+      queryPreset: String(els.queryPreset.value || ''),
+      manualQuery: String(els.manualQuery.value || ''),
+      radiusMiles: String(els.radiusMiles.value || '25'),
+      includeEmails: Boolean(els.includeEmails.checked),
+      engineMode: searchEngineMode,
+      hidePrior,
+      seenByChain,
+      rows,
+      lastFetchedRows,
+      theme: String(document.body.getAttribute('data-theme') || 'dark')
+    }));
+  }catch{}
+}
+
+function loadUiState(){
+  try{
+    const raw = sessionStorage.getItem(UI_STATE_KEY);
+    const data = raw ? JSON.parse(raw) : null;
+    return data && typeof data === 'object' ? data : null;
+  }catch{
+    return null;
+  }
+}
+
+function crc32(bytes){
+  let c = -1;
+  for (let i = 0; i < bytes.length; i += 1) {
+    c ^= bytes[i];
+    for (let k = 0; k < 8; k += 1) c = (c >>> 1) ^ (0xEDB88320 & -(c & 1));
+  }
+  return (c ^ -1) >>> 0;
+}
+
+function concatUint8(chunks){
+  const total = chunks.reduce((n, a) => n + a.length, 0);
+  const out = new Uint8Array(total);
+  let off = 0;
+  for (const a of chunks) { out.set(a, off); off += a.length; }
+  return out;
+}
+
+function zipStore(files){
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+  for (const file of files) {
+    const nameBytes = new TextEncoder().encode(file.name);
+    const data = file.data instanceof Uint8Array ? file.data : new TextEncoder().encode(String(file.data || ""));
+    const crc = crc32(data);
+    const local = new Uint8Array(30 + nameBytes.length + data.length);
+    const lv = new DataView(local.buffer);
+    lv.setUint32(0, 0x04034b50, true);
+    lv.setUint16(4, 20, true); lv.setUint16(6, 0, true); lv.setUint16(8, 0, true);
+    lv.setUint16(10, 0, true); lv.setUint16(12, 0, true); lv.setUint32(14, crc, true);
+    lv.setUint32(18, data.length, true); lv.setUint32(22, data.length, true);
+    lv.setUint16(26, nameBytes.length, true); lv.setUint16(28, 0, true);
+    local.set(nameBytes, 30); local.set(data, 30 + nameBytes.length); localParts.push(local);
+
+    const central = new Uint8Array(46 + nameBytes.length);
+    const cv = new DataView(central.buffer);
+    cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true);
+    cv.setUint16(8, 0, true); cv.setUint16(10, 0, true); cv.setUint16(12, 0, true); cv.setUint16(14, 0, true);
+    cv.setUint32(16, crc, true); cv.setUint32(20, data.length, true); cv.setUint32(24, data.length, true);
+    cv.setUint16(28, nameBytes.length, true); cv.setUint16(30, 0, true); cv.setUint16(32, 0, true);
+    cv.setUint16(34, 0, true); cv.setUint16(36, 0, true); cv.setUint32(38, 0, true); cv.setUint32(42, offset, true);
+    central.set(nameBytes, 46); centralParts.push(central);
+    offset += local.length;
+  }
+  const centralBlob = concatUint8(centralParts);
+  const eocd = new Uint8Array(22);
+  const ev = new DataView(eocd.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true);
+  ev.setUint32(12, centralBlob.length, true); ev.setUint32(16, offset, true);
+  return concatUint8([...localParts, centralBlob, eocd]);
+}
+
+function colName(idx){
+  let n = idx + 1; let s = "";
+  while (n > 0) { const r = (n - 1) % 26; s = String.fromCharCode(65 + r) + s; n = Math.floor((n - 1) / 26); }
+  return s;
+}
+
+function xmlEsc(v){
+  return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&apos;");
+}
+
+function buildXlsxBlob(headers, rowsData){
+  const numCols = new Set(["distance_miles","reliability_score","confidence"]);
+  const sheetRows = [];
+  const makeCell = (ref, value, key = "") => {
+    const raw = value ?? ""; const maybeNum = Number(raw);
+    const isNum = numCols.has(String(key || "")) && Number.isFinite(maybeNum);
+    if (isNum) return `<c r="${ref}"><v>${String(maybeNum)}</v></c>`;
+    return `<c r="${ref}" t="inlineStr"><is><t>${xmlEsc(raw)}</t></is></c>`;
+  };
+  sheetRows.push(`<row r="1">${headers.map((h, i) => makeCell(`${colName(i)}1`, h, h)).join("")}</row>`);
+  rowsData.forEach((row, rIdx) => {
+    const rr = rIdx + 2;
+    const cells = headers.map((h, cIdx) => makeCell(`${colName(cIdx)}${rr}`, row[h], h)).join("");
+    sheetRows.push(`<row r="${rr}">${cells}</row>`);
+  });
+  const sheetXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows.join("")}</sheetData></worksheet>`;
+  const workbookXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Results" sheetId="1" r:id="rId1"/></sheets></workbook>`;
+  const relsXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
+  const wbRelsXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`;
+  const stylesXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="1"><font><sz val="11"/><name val="Calibri"/></font></fonts><fills count="1"><fill><patternFill patternType="none"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="1"><xf xfId="0"/></cellXfs></styleSheet>`;
+  const contentTypesXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`;
+  const zipBytes = zipStore([
+    { name: "[Content_Types].xml", data: contentTypesXml },
+    { name: "_rels/.rels", data: relsXml },
+    { name: "xl/workbook.xml", data: workbookXml },
+    { name: "xl/_rels/workbook.xml.rels", data: wbRelsXml },
+    { name: "xl/styles.xml", data: stylesXml },
+    { name: "xl/worksheets/sheet1.xml", data: sheetXml }
+  ]);
+  return new Blob([zipBytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+}
+
+function hideLocationSuggest(){
+  els.locationSuggest.classList.add('hidden');
+  els.locationSuggest.innerHTML = '';
+}
+
+function renderLocationSuggest(items){
+  if (!Array.isArray(items) || !items.length) { hideLocationSuggest(); return; }
+  els.locationSuggest.innerHTML = items.map(item => `<button type="button" class="location-suggest-item">${escapeHtml(String(item || ""))}</button>`).join('');
+  els.locationSuggest.classList.remove('hidden');
+}
+
+async function fetchLocationSuggest(query){
+  const q = String(query || '').trim();
+  if (q.length < 2 || els.useMyLocation.checked) { hideLocationSuggest(); return; }
+  const reqId = ++suggestRequestId;
+  try{
+    const res = await fetch(`/api/location-suggest?q=${encodeURIComponent(q)}`);
+    const data = await res.json().catch(() => ({}));
+    if (reqId !== suggestRequestId) return;
+    renderLocationSuggest(Array.isArray(data?.suggestions) ? data.suggestions : []);
+  }catch{
+    if (reqId !== suggestRequestId) return;
+    hideLocationSuggest();
+  }
+}
+
+function syncLocationFieldLock(){
+  const locked = Boolean(els.useMyLocation.checked);
+  els.location.readOnly = locked;
+  els.location.setAttribute('aria-readonly', locked ? 'true' : 'false');
+  if (locked) hideLocationSuggest();
+}
+
+function handleEnterToSearch(event){
+  if (!event || event.key !== 'Enter' || event.isComposing) return;
+  event.preventDefault();
+  hideLocationSuggest();
+  if (els.searchBtn.disabled) return;
+  void runSearch();
+}
+
+function updateEngineUI(){
+  els.engineSwitch.querySelectorAll('button[data-engine]').forEach(b => b.classList.toggle('active', b.dataset.engine === searchEngineMode));
+}
+function updatePriorUI(){
+  els.priorSwitch.querySelectorAll('button[data-prior]').forEach(b => b.classList.toggle('active', (hidePrior ? 'on' : 'off') === b.dataset.prior));
+}
+
+function preferredKeySet(){
+  return new Set((Array.isArray(preferredRowsCache) ? preferredRowsCache : []).map((r) => String(r?.result_key || '').trim()).filter(Boolean));
+}
+
+async function refreshPreferredRows(){
+  try{
+    const res = await fetch('/api/preferred');
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    preferredRowsCache = Array.isArray(data.rows) ? data.rows : [];
+  }catch{}
+  return preferredRowsCache;
+}
+
+async function addPreferredRow(row){
+  const res = await fetch('/api/preferred', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'add', row })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  preferredRowsCache = Array.isArray(data.rows) ? data.rows : preferredRowsCache;
+}
+
+async function removePreferredRow(key){
+  const res = await fetch('/api/preferred', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'remove', key })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  preferredRowsCache = Array.isArray(data.rows) ? data.rows : preferredRowsCache.filter((r) => String(r?.result_key || '') !== String(key));
+}
+
+async function setIrrelevant(rowKey, action){
+  if (!currentSearchSignature || !rowKey) throw new Error('Missing search signature or row key.');
+  const res = await fetch('/api/irrelevant', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ signature: currentSearchSignature, key: rowKey, action })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+function render(){
+  const prefSet = preferredKeySet();
+  els.clearBtn.classList.toggle('hidden', rows.length === 0);
+  if (!rows.length){ els.list.innerHTML = ''; return; }
+  els.list.innerHTML = rows.map(r => {
+    const k = makeRowKey(r);
+    const isPreferred = prefSet.has(k);
+    const dist = Number(r.distance_miles);
+    const d = Number.isFinite(dist) ? `${dist.toFixed(2)} mi` : '';
+    const phone = r.phone ? `<span>${escapeHtml(r.phone)}</span>` : '';
+    const website = r.website ? `<a href="${escapeHtml(r.website)}" target="_blank" rel="noopener">website</a>` : `<span style="text-decoration:line-through;opacity:.65">website</span>`;
+    const map = (r.maps_url || r.map_url) ? `<a href="${escapeHtml(r.maps_url || r.map_url)}" target="_blank" rel="noopener">map</a>` : '';
+    const links = [d, phone, website, map].filter(Boolean).map((v,i)=>i===0?v:`<span>|</span>${v}`).join(' ');
+    return `<div class="card ${isPreferred ? 'preferred-card' : ''}" data-key="${escapeHtml(k)}">
+      <div class="line1">
+        <div class="name-wrap">
+          <button class="pref ${isPreferred ? 'active' : ''}" type="button" title="Preferred">${isPreferred ? '★' : '☆'}</button>
+          <div class="name">${escapeHtml(r.name||'')}</div>
+        </div>
+        <div class="meta">${links}<button class="remove-btn" type="button" title="Remove">🗑</button></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(v){ return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function parseDivisionNumber(label){
+  const m = String(label || "").match(/^\s*(\d+)\s*[–-]/);
+  return m ? Number(m[1]) : Number.POSITIVE_INFINITY;
+}
+
+async function loadCategories(selectedValue = ""){
+  try{
+    const res = await fetch('/api/query-categories');
+    const data = await res.json();
+    sections = Array.isArray(data.sections) ? data.sections : [];
+    await refreshPreferredRows();
+    if (data.legend) els.queryLegend.textContent = data.legend;
+    const opts = ['<option value="">Select category or trade...</option>','<option value="manual">Manual Override (Optional)</option>','<option value="preferred:all">Preferred Results - All</option>'];
+    const sorted = sections.map((s, i) => ({ s, i })).sort((a, b) => {
+      const aLabel = String(a.s.label || a.s.section || '');
+      const bLabel = String(b.s.label || b.s.section || '');
+      const n = parseDivisionNumber(aLabel) - parseDivisionNumber(bLabel);
+      return n !== 0 ? n : aLabel.localeCompare(bLabel);
+    });
+    sorted.forEach(({ s, i }) => {
+      const label = String(s.label || s.section || `Section ${i+1}`);
+      opts.push(`<option value="parent:${i}">${escapeHtml(label)}</option>`);
+      (Array.isArray(s.children) ? s.children : []).forEach((c, cIdx) => opts.push(`<option value="child:${i}:${cIdx}">\u00A0\u00A0\u2022 ${escapeHtml(String(c||''))}</option>`));
+    });
+    els.queryPreset.innerHTML = opts.join('');
+    if (selectedValue && [...els.queryPreset.options].some((o) => String(o.value) === selectedValue)) {
+      els.queryPreset.value = selectedValue;
+    }
+  }catch{
+    els.queryPreset.innerHTML = '<option value="">Select category or trade...</option><option value="manual">Manual Override (Optional)</option><option value="preferred:all">Preferred Results - All</option>';
+  }
+}
+
+function parsePreset(){
+  const v = String(els.queryPreset.value || '');
+  if (v === 'manual') return {type:'manual'};
+  if (v === 'preferred:all') return {type:'preferred_all'};
+  if (v.startsWith('parent:')) {
+    const idx = Number(v.split(':')[1]);
+    return Number.isInteger(idx) && sections[idx] ? {type:'parent', section: sections[idx]} : {type:'none'};
+  }
+  if (v.startsWith('child:')) {
+    const p = v.split(':');
+    const i = Number(p[1]); const c = Number(p[2]);
+    const s = sections[i];
+    const child = Array.isArray(s?.children) ? s.children[c] : '';
+    return child ? {type:'child', section:s, child:String(child)} : {type:'none'};
+  }
+  return {type:'none'};
+}
+
+function applyPriorFilter(input){
+  const arr = Array.isArray(input) ? input : [];
+  return hidePrior ? arr.filter(r => !r._seen) : arr;
+}
+
+async function runSearch(){
+  const p = parsePreset();
+  const loc = els.useMyLocation.checked && currentGeoLocation ? currentGeoLocation : String(els.location.value || '').trim();
+  const manual = String(els.manualQuery.value || '').trim();
+  currentSearchCategoryLabel = String(els.queryPreset.options[els.queryPreset.selectedIndex]?.textContent || '').trim();
+
+  if (p.type === 'preferred_all') {
+    await refreshPreferredRows();
+    rows = preferredRowsCache.map((r) => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
+    setStatus(`${rows.length} preferred results found.`);
+    render();
+    saveUiState();
+    return;
+  }
+
+  if (!loc){ setStatus('Enter a location first.'); return; }
+
+  let query = 'contractor'; let queries = []; let queryContexts = [];
+  if (p.type === 'manual' && manual){ query = manual; }
+  else if (p.type === 'child'){ query = p.child; queries = [p.child]; queryContexts = [{term:p.child, section: p.section.label || p.section.section || 'Category'}]; }
+  else if (p.type === 'parent'){
+    const kids = (Array.isArray(p.section.children) ? p.section.children.filter(Boolean) : []);
+    if (kids.length){ query = kids[0]; queries = kids; queryContexts = kids.map(k => ({term:k, section: p.section.label || p.section.section || 'Category'})); }
+  } else if (manual){ query = manual; }
+
+  els.searchBtn.disabled = true;
+  setStatus('Searching...');
+  rows = []; render();
+
+  try{
+    const radiusMiles = Number(els.radiusMiles.value || 25);
+    currentSearchSignature = makeSearchSignature({ location: loc, query, queries, radiusMiles, engineMode: searchEngineMode });
+    currentSearchCity = String(loc.split(',')[0] || '').trim();
+    const payload = { location: loc, query, queries, queryContexts, radiusMiles, engineMode: searchEngineMode, includeEmails: Boolean(els.includeEmails.checked), strictTypeFilter: p.type === 'manual' ? false : true };
+    const res = await fetch('/api/search', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    const fetched = (Array.isArray(data.rows) ? data.rows : []).map(r => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
+    const key = makeChainKey({ location: loc, query, queries, engineMode: searchEngineMode });
+    const seen = new Set(Array.isArray(seenByChain[key]) ? seenByChain[key] : []);
+    fetched.forEach(r => { const rk = rowSeenKey(r); r._seen = seen.has(rk); });
+    fetched.forEach(r => seen.add(rowSeenKey(r)));
+    seenByChain[key] = Array.from(seen);
+
+    lastFetchedRows = fetched;
+    rows = applyPriorFilter(lastFetchedRows);
+    setStatus(`${rows.length} results found.`);
+    render();
+    saveUiState();
+  }catch(err){
+    setStatus(`Search failed: ${err.message}`);
+  }finally{
+    els.searchBtn.disabled = false;
+  }
+}
+
+function downloadXlsx(){
+  if (!rows.length) { setStatus('No rows to download.'); return; }
+  const headers = ['name','address','phone','website','distance_miles','category_section','reliability_score','confidence','emails'];
+  const exportSourceRows = hidePrior ? applyPriorFilter(rows) : rows;
+  if (!exportSourceRows.length){ setStatus('No rows to download.'); return; }
+  const cleanCategorySection = (value) => String(value ?? "").replace(/[\u2012\u2013\u2014\u2015]/g, "-").replace(/[^\x20-\x7E]/g, "").replace(/\s+/g, " ").trim();
+  const exportRows = exportSourceRows.map((r) => {
+    const out = {};
+    headers.forEach((k) => { out[k] = k === 'category_section' ? cleanCategorySection(r[k]) : (r[k] ?? ''); });
+    return out;
+  });
+  const blob = buildXlsxBlob(headers, exportRows);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const locRaw = String(els.location.value || '').trim();
+  const safeLoc = (locRaw || 'results-v2').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'results-v2';
+  a.download = `${safeLoc}.xlsx`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+async function useMyLocationChanged(){
+  syncLocationFieldLock();
+  if (!els.useMyLocation.checked){
+    currentGeoLocation = '';
+    els.location.value = '';
+    saveUiState();
+    return;
+  }
+  if (!navigator.geolocation || !window.isSecureContext){
+    setStatus('Use my location requires HTTPS and browser geolocation.');
+    els.useMyLocation.checked = false;
+    syncLocationFieldLock();
+    return;
+  }
+  setStatus('Getting your location...');
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const lat = Number(pos?.coords?.latitude);
+    const lng = Number(pos?.coords?.longitude);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      setStatus('Location unavailable.');
+      els.useMyLocation.checked = false;
+      syncLocationFieldLock();
+      return;
+    }
+    currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+    els.location.value = currentGeoLocation;
+    setStatus('Using current location.');
+    saveUiState();
+  }, () => {
+    setStatus('Location permission denied or unavailable.');
+    els.useMyLocation.checked = false;
+    syncLocationFieldLock();
+  }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 });
+}
+
+function closeFaq(){ els.faqWrap.classList.remove('open'); }
+function toggleFaq(ev){ ev.preventDefault(); ev.stopPropagation(); els.faqWrap.classList.toggle('open'); }
+
+els.queryPreset.addEventListener('change', async () => {
+  const manual = String(els.queryPreset.value || '') === 'manual';
+  els.manualQuery.classList.toggle('hidden', !manual);
+  if (String(els.queryPreset.value || '') === 'preferred:all') {
+    await runSearch();
+  }
+  saveUiState();
+});
+els.location.addEventListener('focus', () => { if (!els.useMyLocation.checked) void fetchLocationSuggest(els.location.value); });
+els.location.addEventListener('input', () => {
+  if (suggestTimer) clearTimeout(suggestTimer);
+  suggestTimer = setTimeout(() => { void fetchLocationSuggest(els.location.value); }, 180);
+  saveUiState();
+});
+els.locationSuggest.addEventListener('click', (event) => {
+  const t = event.target;
+  if (!(t instanceof HTMLElement)) return;
+  const item = t.closest('.location-suggest-item');
+  if (!item) return;
+  els.location.value = String(item.textContent || '').trim();
+  hideLocationSuggest();
+  saveUiState();
+});
+els.searchBtn.addEventListener('click', runSearch);
+els.downloadBtn.addEventListener('click', downloadXlsx);
+els.clearBtn.addEventListener('click', () => { rows = []; render(); setStatus('Ready.'); saveUiState(); });
+els.useMyLocation.addEventListener('change', useMyLocationChanged);
+els.includeEmails.addEventListener('change', saveUiState);
+els.faqBtn.addEventListener('click', toggleFaq);
+els.faqBtn.addEventListener('touchend', toggleFaq, { passive:false });
+els.themeBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  const light = document.body.getAttribute('data-theme') === 'light';
+  document.body.setAttribute('data-theme', light ? 'dark' : 'light');
+  els.themeBtn.textContent = light ? '☼' : '☾';
+  saveUiState();
+});
+els.engineSwitch.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-engine]');
+  if (!b) return;
+  searchEngineMode = b.dataset.engine === 'ggl' ? 'ggl' : 'api';
+  updateEngineUI();
+  saveUiState();
+});
+els.priorSwitch.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-prior]');
+  if (!b) return;
+  hidePrior = b.dataset.prior === 'on';
+  updatePriorUI();
+  rows = applyPriorFilter(lastFetchedRows);
+  render();
+  setStatus(`${rows.length} results found.`);
+  saveUiState();
+});
+els.radiusMiles.addEventListener('input', saveUiState);
+els.list.addEventListener('click', async (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const card = target.closest('.card');
+  const k = card?.getAttribute('data-key') || '';
+  if (!k) return;
+  const row = rows.find((r) => String(makeRowKey(r)) === String(k));
+  if (!row) return;
+
+  if (target.closest('.pref')) {
+    try{
+      const set = preferredKeySet();
+      if (set.has(k)) {
+        await removePreferredRow(k);
+        setStatus('Removed from preferred.');
+      } else {
+        await addPreferredRow({
+          ...row,
+          result_key: k,
+          preferred_city: currentSearchCity,
+          preferred_category: currentSearchCategoryLabel
+        });
+        setStatus('Added to preferred.');
+      }
+      render();
+      saveUiState();
+    }catch(err){
+      setStatus(`Could not update preferred: ${err.message}`);
+    }
+    return;
+  }
+
+  if (target.closest('.remove-btn')) {
+    if (!window.confirm(`Remove \"${row.name || 'this company'}\" from this query?`)) return;
+    try{
+      await setIrrelevant(k, 'add');
+      rows = rows.filter((r) => String(makeRowKey(r)) !== String(k));
+      lastFetchedRows = lastFetchedRows.filter((r) => String(makeRowKey(r)) !== String(k));
+      setStatus('Removed from this specific query.');
+      render();
+      saveUiState();
+    }catch(err){
+      setStatus(`Could not remove: ${err.message}`);
+    }
+  }
+});
+document.addEventListener('click', (e) => {
+  const t = e.target;
+  if (!(t instanceof HTMLElement)) return;
+  if (!t.closest('.location-wrap')) hideLocationSuggest();
+  if (!t.closest('#faqWrap')) closeFaq();
+});
+[els.location, els.manualQuery, els.radiusMiles, els.queryPreset].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
+
+(async function init(){
+  await refreshPreferredRows();
+  const state = loadUiState();
+  if (state) {
+    if (state.theme === 'light' || state.theme === 'dark') document.body.setAttribute('data-theme', state.theme);
+    els.themeBtn.textContent = document.body.getAttribute('data-theme') === 'light' ? '☾' : '☼';
+    searchEngineMode = normalize(state.engineMode) === 'ggl' ? 'ggl' : 'api';
+    hidePrior = state.hidePrior !== false;
+    seenByChain = state.seenByChain && typeof state.seenByChain === 'object' ? state.seenByChain : {};
+    currentGeoLocation = String(state.currentGeoLocation || '');
+    els.useMyLocation.checked = Boolean(state.useMyLocation);
+    if (els.useMyLocation.checked && currentGeoLocation) els.location.value = currentGeoLocation;
+    else els.location.value = String(state.location || '');
+    els.manualQuery.value = String(state.manualQuery || '');
+    els.radiusMiles.value = String(state.radiusMiles || '25');
+    els.includeEmails.checked = Boolean(state.includeEmails);
+    rows = Array.isArray(state.rows) ? state.rows : [];
+    lastFetchedRows = Array.isArray(state.lastFetchedRows) ? state.lastFetchedRows : [];
+  }
+  updateEngineUI();
+  updatePriorUI();
+  syncLocationFieldLock();
+  const selected = state ? String(state.queryPreset || '') : '';
+  await loadCategories(selected);
+  els.manualQuery.classList.toggle('hidden', String(els.queryPreset.value || '') !== 'manual');
+  render();
+})();
+</script>
+</body>
+</html>

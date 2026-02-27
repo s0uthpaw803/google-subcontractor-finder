@@ -9,7 +9,9 @@ const PORT = Number(process.env.PORT || 8787);
 const HOST = process.env.HOST || "0.0.0.0";
 const ROOT = path.resolve(process.cwd());
 const APP_HTML = path.join(ROOT, "ui", "app.html");
+const APP_V2_HTML = path.join(ROOT, "ui-v2", "app.html");
 const UI_DIR = path.join(ROOT, "ui");
+const UI_V2_DIR = path.join(ROOT, "ui-v2");
 const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
 const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
@@ -262,10 +264,40 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && url.pathname === "/v2") {
+      const html = fs.readFileSync(APP_V2_HTML, "utf8");
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
+      res.end(html);
+      return;
+    }
+
     if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
       const relPath = url.pathname.replace(/^\/+/, "");
       const filePath = path.join(UI_DIR, relPath);
       if (!filePath.startsWith(UI_DIR) || !fs.existsSync(filePath)) {
+        sendJson(res, 404, { error: "Not found" });
+        return;
+      }
+      const buf = fs.readFileSync(filePath);
+      res.writeHead(200, {
+        "Content-Type": contentTypeFor(filePath),
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
+      res.end(buf);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname.startsWith("/v2/assets/")) {
+      const relPath = url.pathname.replace(/^\/v2\/+/, "");
+      const filePath = path.join(UI_V2_DIR, relPath);
+      if (!filePath.startsWith(UI_V2_DIR) || !fs.existsSync(filePath)) {
         sendJson(res, 404, { error: "Not found" });
         return;
       }
