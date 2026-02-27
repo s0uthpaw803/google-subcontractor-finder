@@ -1246,10 +1246,10 @@
         height:100dvh;
       }
       .top{
-        margin-bottom:0;
+        margin-bottom:15px;
       }
       .body{
-        padding-top:10px;
+        padding-top:0;
         overflow:hidden;
       }
       .list{
@@ -2859,6 +2859,7 @@
     els.radiusMiles.addEventListener("change", updateRadiusFieldTone);
     els.faqBtn.addEventListener("click", (event) => {
       event.preventDefault();
+      event.stopPropagation();
       toggleFaqPanel();
     });
     [els.location, els.manualQuery, els.radiusMiles, els.queryPresetBtn, els.queryPreset].forEach((el) => {
