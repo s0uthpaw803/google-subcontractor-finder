@@ -8,7 +8,7 @@ Lean Google Places (New) construction-business finder.
 - Or run:
 
 ```bash
-cd "/Users/mcdowell/Desktop/temp files/google-subcontractor-finder"
+cd "/Users/mcdowell/Desktop/temp files/Keystone Connect"
 npm start
 ```
 

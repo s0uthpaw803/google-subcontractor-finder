@@ -1,5 +1,5 @@
 {
-  "name": "google-subcontractor-finder",
+  "name": "keystone-connect",
   "version": "1.0.0",
   "description": "Find subcontractors by city, ZIP code, or state using Google Places API.",
   "type": "module",

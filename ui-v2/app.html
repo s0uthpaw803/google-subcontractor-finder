@@ -482,7 +482,7 @@
 <body data-theme="dark">
   <div class="shell">
     <div class="app">
-      <div class="top"><img src="/v2/assets/keystone-header.png?v=1" alt="Keystone Header"></div>
+      <div class="top"><img id="v2HeaderImage" src="/v2/assets/v2-keystone-header.png?v=2" alt="Keystone Header"></div>
       <div class="body">
         <div class="field-block">
           <div class="label-row">
@@ -588,6 +588,23 @@ const els = {
   engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
   locationSuggest: $('locationSuggest')
 };
+
+const v2HeaderCandidates = [
+  "/v2/assets/v2-keystone-header.png?v=2",
+  "/ui-v2/assets/v2-keystone-header.png?v=2",
+  "./assets/v2-keystone-header.png?v=2",
+  "assets/v2-keystone-header.png?v=2"
+];
+
+function wireHeaderFallback(){
+  const img = document.getElementById("v2HeaderImage");
+  if (!img) return;
+  let idx = 0;
+  img.onerror = () => {
+    idx += 1;
+    if (idx < v2HeaderCandidates.length) img.src = v2HeaderCandidates[idx];
+  };
+}
 
 let sections = [];
 let rows = [];
@@ -1333,6 +1350,7 @@ document.addEventListener('click', (e) => {
 [els.location, els.manualQuery, els.radiusMiles, els.queryPreset, els.queryPresetBtn].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
 
 (async function init(){
+  wireHeaderFallback();
   try {
     const nav = performance.getEntriesByType('navigation');
     const navType = Array.isArray(nav) && nav[0] ? String(nav[0].type || '') : '';

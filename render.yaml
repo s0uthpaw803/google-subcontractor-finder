@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: subcontractor-finder
+    name: keystone-connect
     runtime: node
     plan: free
     buildCommand: npm install

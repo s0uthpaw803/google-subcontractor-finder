@@ -172,7 +172,7 @@ async function reverseZipLookup(lat, lng) {
 
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "google-subcontractor-finder/1.0"
+      "User-Agent": "keystone-connect/1.0"
     },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
   });
@@ -205,7 +205,7 @@ async function resolveCityFromLocation(location) {
 
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "google-subcontractor-finder/1.0"
+      "User-Agent": "keystone-connect/1.0"
     },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
   });
@@ -276,6 +276,18 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && (url.pathname === "/ui-v2" || url.pathname === "/ui-v2/app.html")) {
+      const html = fs.readFileSync(APP_V2_HTML, "utf8");
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
+      res.end(html);
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === "/v1") {
       const html = fs.readFileSync(APP_HTML, "utf8");
       res.writeHead(200, {
@@ -308,6 +320,24 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname.startsWith("/v2/assets/")) {
       const relPath = url.pathname.replace(/^\/v2\/+/, "");
+      const filePath = path.join(UI_V2_DIR, relPath);
+      if (!filePath.startsWith(UI_V2_DIR) || !fs.existsSync(filePath)) {
+        sendJson(res, 404, { error: "Not found" });
+        return;
+      }
+      const buf = fs.readFileSync(filePath);
+      res.writeHead(200, {
+        "Content-Type": contentTypeFor(filePath),
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0"
+      });
+      res.end(buf);
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname.startsWith("/ui-v2/assets/")) {
+      const relPath = url.pathname.replace(/^\/ui-v2\/+/, "");
       const filePath = path.join(UI_V2_DIR, relPath);
       if (!filePath.startsWith(UI_V2_DIR) || !fs.existsSync(filePath)) {
         sendJson(res, 404, { error: "Not found" });
@@ -469,7 +499,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "GET" && url.pathname === "/api/ping") {
-      sendJson(res, 200, { ok: true, service: "subcontractor-finder" });
+      sendJson(res, 200, { ok: true, service: "keystone-connect" });
       return;
     }
 

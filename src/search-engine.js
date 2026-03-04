@@ -92,7 +92,7 @@ async function scrapeDomainEmails(websiteUrl) {
   for (const p of paths) {
     try {
       const url = new URL(p, website).toString();
-      const html = await fetchText(url, { "User-Agent": "subcontractor-finder/4.0" });
+      const html = await fetchText(url, { "User-Agent": "keystone-connect/4.0" });
       extractEmails(html).forEach((e) => emails.add(e));
       await sleep(120);
     } catch {
