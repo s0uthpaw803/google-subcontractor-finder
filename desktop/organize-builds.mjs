@@ -128,7 +128,11 @@ async function copyArtifact({ src, dest, directory = false }) {
   const destPath = path.join(DIST, dest);
   await ensureDir(path.dirname(destPath));
   await moveToArchiveIfExists(destPath, replacedArchiveDir);
-  await fs.cp(srcPath, destPath, { recursive: directory, force: true });
+  await fs.cp(srcPath, destPath, {
+    recursive: directory,
+    force: true,
+    dereference: true,
+  });
 }
 
 async function archiveTopLevelClutter() {
