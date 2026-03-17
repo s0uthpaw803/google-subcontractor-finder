@@ -8,9 +8,13 @@ const PLACES_NEARBY_URL = "https://places.googleapis.com/v1/places:searchNearby"
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(MODULE_DIR, "..");
 const TAXONOMY_JSON = path.join(ROOT_DIR, "data", "taxonomy.json");
+const KNOWN_PLACE_CACHE_JSON = path.join(ROOT_DIR, "data", "known-place-cache.json");
 const REQUEST_TIMEOUT_MS = 20000;
 const MAX_GOOGLE_RADIUS_METERS = 50000;
 const MAX_JOB_CONCURRENCY = 4;
+const MAX_PAGES_PER_JOB = 3;
+const NEXT_PAGE_DELAY_MS = 1100;
+const MAX_KNOWN_PLACE_CACHE_ROWS = 5000;
 const FIELD_MASK = [
   "places.id",
   "places.displayName",
@@ -28,20 +32,73 @@ const FIELD_MASK = [
 
 let taxonomyCache = null;
 let taxonomyMtime = 0;
+const SEARCH_TOKEN_STOP_WORDS = new Set([
+  "a", "an", "and", "all", "the", "for", "of", "to", "in", "on", "by", "with",
+  "commercial", "contractor", "contractors", "construction", "company", "companies",
+  "services", "service", "llc", "inc", "optional", "manual", "override",
+  "select", "category", "trade", "general", "requirements"
+]);
+const SEARCH_TOKEN_EQUIVALENTS = {
+  plumbing: ["plumber"],
+  plumber: ["plumbing"],
+  electrical: ["electrician"],
+  electrician: ["electrical"],
+  roofing: ["roofer"],
+  roofer: ["roofing"],
+  hvac: ["heating", "air"],
+  heating: ["hvac"],
+  cooling: ["hvac"]
+};
+const SAFE_NEARBY_TYPES = new Set([
+  "plumber",
+  "electrician",
+  "roofing_contractor",
+  "general_contractor"
+]);
 
 function getGoogleApiKey() {
-  if (process.env.GOOGLE_MAPS_API_KEY) return process.env.GOOGLE_MAPS_API_KEY.trim();
+  const direct =
+    String(process.env.GOOGLE_MAPS_API_KEY || "").trim() ||
+    String(process.env.KEYSTONE_GOOGLE_MAPS_API_KEY || "").trim();
+  if (direct) return direct;
 
-  const envPath = path.join(ROOT_DIR, ".env");
-  if (!fs.existsSync(envPath)) return "";
+  const readKeyFromEnvFile = (envPath) => {
+    try {
+      if (!envPath || !fs.existsSync(envPath)) return "";
+      const line = fs
+        .readFileSync(envPath, "utf8")
+        .split(/\r?\n/)
+        .find((r) => /^(\s*export\s+)?GOOGLE_MAPS_API_KEY\s*=/.test(r));
+      if (!line) return "";
+      return line
+        .replace(/^(\s*export\s+)?GOOGLE_MAPS_API_KEY\s*=\s*/, "")
+        .trim()
+        .replace(/^['"]|['"]$/g, "");
+    } catch {
+      return "";
+    }
+  };
 
-  const line = fs
-    .readFileSync(envPath, "utf8")
-    .split(/\r?\n/)
-    .find((r) => r.trim().startsWith("GOOGLE_MAPS_API_KEY="));
+  const candidates = [];
+  const push = (p) => {
+    const v = String(p || "").trim();
+    if (!v || candidates.includes(v)) return;
+    candidates.push(v);
+  };
 
-  if (!line) return "";
-  return line.split("=").slice(1).join("=").trim().replace(/^['"]|['"]$/g, "");
+  push(process.env.KEYSTONE_ENV_PATH);
+  push(path.join(ROOT_DIR, ".env"));
+  push(path.join(process.cwd(), ".env"));
+  push(path.join(String(process.env.KEYSTONE_ROOT || ROOT_DIR), ".env"));
+  if (process.env.KEYSTONE_USER_DATA) push(path.join(process.env.KEYSTONE_USER_DATA, ".env"));
+  if (process.resourcesPath) push(path.join(process.resourcesPath, ".env"));
+  if (process.execPath) push(path.join(path.dirname(process.execPath), ".env"));
+
+  for (const envPath of candidates) {
+    const key = readKeyFromEnvFile(envPath);
+    if (key) return key;
+  }
+  return "";
 }
 
 function normalizeWebsite(url) {
@@ -51,6 +108,18 @@ function normalizeWebsite(url) {
     return new URL(raw).toString();
   } catch {
     return "";
+  }
+}
+
+function parseCidFromMapsUrl(url) {
+  const raw = String(url || "").trim();
+  if (!raw) return "";
+  try {
+    const u = new URL(raw);
+    return String(u.searchParams.get("cid") || "").trim();
+  } catch {
+    const m = raw.match(/[?&]cid=([0-9]{6,})/i);
+    return m ? String(m[1] || "").trim() : "";
   }
 }
 
@@ -125,6 +194,181 @@ function haversineMiles(aLat, aLng, bLat, bLng) {
 
 function normalizeLabel(v) {
   return String(v || "").trim().toLowerCase();
+}
+
+function loadKnownPlaceCache() {
+  try {
+    if (!fs.existsSync(KNOWN_PLACE_CACHE_JSON)) return [];
+    const raw = fs.readFileSync(KNOWN_PLACE_CACHE_JSON, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveKnownPlaceCache(rows) {
+  try {
+    fs.mkdirSync(path.dirname(KNOWN_PLACE_CACHE_JSON), { recursive: true });
+    fs.writeFileSync(KNOWN_PLACE_CACHE_JSON, JSON.stringify(rows, null, 2));
+  } catch {
+    // Best effort cache; ignore write failures.
+  }
+}
+
+function cacheKeyForPlaceRow(row) {
+  const placeId = String(row?.id || row?.place_id || "").trim();
+  if (placeId) return `place:${placeId}`;
+  const cid = String(row?.cid || parseCidFromMapsUrl(row?.maps_url || row?.map_url || "")).trim();
+  if (cid) return `cid:${cid}`;
+  return "";
+}
+
+function persistKnownPlaces(candidates = []) {
+  const existing = loadKnownPlaceCache();
+  const byKey = new Map();
+
+  for (const row of existing) {
+    const key = cacheKeyForPlaceRow(row);
+    if (!key) continue;
+    byKey.set(key, row);
+  }
+
+  for (const row of candidates) {
+    const key = cacheKeyForPlaceRow(row);
+    if (!key) continue;
+
+    const loc = row?.location;
+    const lat = Number(loc?.lat ?? row?.location_lat ?? 0);
+    const lng = Number(loc?.lng ?? row?.location_lng ?? 0);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || (lat === 0 && lng === 0)) continue;
+
+    const prev = byKey.get(key) || {};
+    byKey.set(key, {
+      id: String(row?.id || row?.place_id || prev.id || "").trim(),
+      cid: String(row?.cid || parseCidFromMapsUrl(row?.maps_url || row?.map_url || prev.maps_url || "") || prev.cid || "").trim(),
+      name: String(row?.name || prev.name || "").trim(),
+      formattedAddress: String(row?.formattedAddress || row?.address || prev.formattedAddress || prev.address || "").trim(),
+      phone: String(row?.phone || prev.phone || "").trim(),
+      website: normalizeWebsite(row?.website || prev.website || ""),
+      maps_url: String(row?.maps_url || row?.map_url || prev.maps_url || prev.map_url || "").trim(),
+      location: { lat, lng },
+      primaryType: String(row?.primaryType || prev.primaryType || "").trim(),
+      types: Array.isArray(row?.types) ? row.types : Array.isArray(prev.types) ? prev.types : [],
+      rating: Number(row?.rating ?? prev.rating ?? 0),
+      userRatingCount: Number(row?.userRatingCount ?? row?.user_rating_count ?? prev.userRatingCount ?? prev.user_rating_count ?? 0),
+      business_status: String(row?.business_status || prev.business_status || "").trim(),
+      last_seen_at: new Date().toISOString()
+    });
+  }
+
+  const sorted = [...byKey.values()]
+    .sort((a, b) => String(b?.last_seen_at || "").localeCompare(String(a?.last_seen_at || "")))
+    .slice(0, MAX_KNOWN_PLACE_CACHE_ROWS);
+  saveKnownPlaceCache(sorted);
+}
+
+function buildSearchTokens({ query, queries = [], selection }) {
+  const values = [
+    String(query || ""),
+    ...(Array.isArray(queries) ? queries.map((v) => String(v || "")) : [])
+  ];
+
+  if (selection?.kind === "taxonomy" && Array.isArray(selection.selectedChildren)) {
+    for (const child of selection.selectedChildren) {
+      values.push(String(child?.child_label || ""));
+      values.push(String(child?.parent_label || ""));
+    }
+  }
+
+  const out = new Set();
+  for (const value of values) {
+    String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .map((t) => t.trim())
+      .filter((t) => t.length >= 3)
+      .forEach((t) => {
+        if (SEARCH_TOKEN_STOP_WORDS.has(t)) return;
+        out.add(t);
+      });
+  }
+
+  for (const token of [...out]) {
+    const extras = SEARCH_TOKEN_EQUIVALENTS[token] || [];
+    for (const e of extras) {
+      const v = String(e || "").trim().toLowerCase();
+      if (!v || SEARCH_TOKEN_STOP_WORDS.has(v)) continue;
+      out.add(v);
+    }
+    if (token.endsWith("ing") && token.length > 5) {
+      out.add(token.slice(0, -3));
+    }
+    if (token.endsWith("er") && token.length > 4) {
+      out.add(token.slice(0, -2));
+    }
+  }
+
+  return [...out].slice(0, 10);
+}
+
+function buildKnownPlaceRescueCandidates({
+  center,
+  radiusMiles,
+  queryTokens,
+  existingIds,
+  activeSectionLabel,
+  activeTerm
+}) {
+  const known = loadKnownPlaceCache();
+  if (!known.length || !Array.isArray(queryTokens) || !queryTokens.length) return [];
+
+  const rows = [];
+  for (const row of known) {
+    const id = String(row?.id || "").trim();
+    if (!id || existingIds.has(id)) continue;
+
+    const lat = Number(row?.location?.lat ?? row?.location_lat ?? 0);
+    const lng = Number(row?.location?.lng ?? row?.location_lng ?? 0);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || (lat === 0 && lng === 0)) continue;
+
+    const distance = haversineMiles(center.lat, center.lng, lat, lng);
+    if (!Number.isFinite(distance) || distance > Number(radiusMiles || 25)) continue;
+
+    const blob = [
+      String(row?.name || ""),
+      String(row?.formattedAddress || row?.address || ""),
+      String(row?.primaryType || ""),
+      ...(Array.isArray(row?.types) ? row.types : [])
+    ].join(" ").toLowerCase();
+    if (!queryTokens.some((t) => blob.includes(t))) continue;
+
+    rows.push({
+      id,
+      name: String(row?.name || "").trim(),
+      formattedAddress: String(row?.formattedAddress || row?.address || "").trim(),
+      phone: String(row?.phone || "").trim(),
+      website: normalizeWebsite(row?.website || ""),
+      maps_url: String(row?.maps_url || row?.map_url || "").trim(),
+      location: { lat, lng },
+      primaryType: String(row?.primaryType || "").trim(),
+      types: Array.isArray(row?.types) ? row.types : [],
+      rating: Number(row?.rating || 0),
+      userRatingCount: Number(row?.userRatingCount || row?.user_rating_count || 0),
+      business_status: String(row?.business_status || "").trim(),
+      distance_miles: Number(distance.toFixed(2)),
+      matched_children: ["known_place_rescue"],
+      matched_terms: [activeTerm ? `${activeTerm} -> known` : "known_place_rescue"],
+      matched_sections: [String(activeSectionLabel || "Known Place Rescue").trim()],
+      category_hints: queryTokens,
+      child_weight: 0.95,
+      profile_exclude_terms: []
+    });
+  }
+
+  rows.sort((a, b) => Number(a.distance_miles || 9999) - Number(b.distance_miles || 9999));
+  return rows.slice(0, 25);
 }
 
 function loadTaxonomy() {
@@ -236,11 +480,52 @@ async function resolveCenterFromPlaces(location, apiKey) {
   return { lat, lng };
 }
 
-function buildFallbackTextQuery(textQuery) {
-  const compact = String(textQuery || "").trim();
-  if (!compact) return "";
-  const withoutCommercial = compact.replace(/\bcommercial\b/gi, "").replace(/\s+/g, " ").trim();
-  return withoutCommercial === compact ? "" : withoutCommercial;
+function buildFallbackTextQueries(term, includeModifiers = []) {
+  const base = String(term || "").trim();
+  if (!base) return [];
+
+  const lowerModifiers = (Array.isArray(includeModifiers) ? includeModifiers : [])
+    .map((m) => String(m || "").trim().toLowerCase())
+    .filter(Boolean);
+
+  const stripModifierWords = (value) => {
+    let out = String(value || "");
+    for (const m of lowerModifiers) {
+      const escaped = m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s+");
+      out = out.replace(new RegExp(`\\b${escaped}\\b`, "gi"), " ");
+    }
+    return out.replace(/\s+/g, " ").trim();
+  };
+
+  const dedup = new Set();
+  const push = (value) => {
+    const cleaned = String(value || "").replace(/\s+/g, " ").trim();
+    if (!cleaned) return;
+    const key = cleaned.toLowerCase();
+    if (key === base.toLowerCase()) return;
+    if (dedup.has(key)) return;
+    dedup.add(key);
+  };
+
+  const noModifiers = stripModifierWords(base);
+  push(noModifiers);
+
+  const noContractor = noModifiers.replace(/\bcontractors?\b/gi, " ").replace(/\s+/g, " ").trim();
+  push(noContractor);
+
+  const nounSwaps = [
+    { re: /\bplumbing\b/i, to: "plumber" },
+    { re: /\belectrical\b/i, to: "electrician" },
+    { re: /\bhvac\b/i, to: "heating and air" },
+    { re: /\broofing\b/i, to: "roofer" },
+    { re: /\bconcrete\b/i, to: "concrete contractor" }
+  ];
+  for (const swap of nounSwaps) {
+    if (!swap.re.test(noContractor || noModifiers || base)) continue;
+    push((noContractor || noModifiers || base).replace(swap.re, swap.to));
+  }
+
+  return [...dedup].slice(0, 4);
 }
 
 function buildSelection({ query, queries = [] }) {
@@ -277,6 +562,86 @@ function buildSelection({ query, queries = [] }) {
   };
 }
 
+function inferNearbyTypesFromText(value) {
+  const text = String(value || "").toLowerCase();
+  const out = new Set();
+  if (!text) return [];
+  if (/\bplumb(er|ing)?\b/.test(text)) out.add("plumber");
+  if (/\belectr(ic|ical|ician)?\b/.test(text)) out.add("electrician");
+  if (/\broof(ing|er)?\b/.test(text)) out.add("roofing_contractor");
+  if (
+    /\bgeneral contractor\b/.test(text) ||
+    /\bconstruction\b/.test(text) ||
+    /\bsite(work| preparation)?\b/.test(text) ||
+    /\bconcrete\b/.test(text) ||
+    /\bmasonry\b/.test(text) ||
+    /\bdemolition\b/.test(text) ||
+    /\bmechanical\b/.test(text) ||
+    /\bhvac\b/.test(text)
+  ) {
+    out.add("general_contractor");
+  }
+  return [...out].filter((t) => SAFE_NEARBY_TYPES.has(t));
+}
+
+function inferNearbyTypesFromProfile(profile = {}, child = {}) {
+  const values = [
+    String(child?.child_label || ""),
+    ...(Array.isArray(profile.primary_terms) ? profile.primary_terms : []),
+    ...(Array.isArray(profile.secondary_terms) ? profile.secondary_terms : []),
+    ...(Array.isArray(profile.category_hints) ? profile.category_hints : [])
+  ];
+  const out = new Set();
+  for (const value of values) {
+    for (const t of inferNearbyTypesFromText(value)) out.add(t);
+  }
+  return [...out];
+}
+
+function makeNearbyJob({
+  parent,
+  child,
+  includeTypes = [],
+  center,
+  radiusMeters,
+  childWeight = 1,
+  categoryHints = [],
+  excludeTerms = [],
+  termUsed = ""
+}) {
+  const includedTypes = [...new Set((Array.isArray(includeTypes) ? includeTypes : []).filter((t) => SAFE_NEARBY_TYPES.has(String(t || ""))))];
+  if (!includedTypes.length) return null;
+  return {
+    parent_id: String(parent?.parent_id || ""),
+    parent_label: String(parent?.parent_label || ""),
+    child_id: String(child?.child_id || "manual"),
+    child_label: String(child?.child_label || "Manual Override"),
+    mode: "NEARBY_TYPES",
+    term_used: termUsed || `nearby:${includedTypes.join("|")}`,
+    child_weight: Number(childWeight || 1),
+    category_hints: Array.isArray(categoryHints) ? categoryHints : [],
+    exclude_terms: Array.isArray(excludeTerms) ? excludeTerms : [],
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-FieldMask": FIELD_MASK
+    },
+    request_url: PLACES_NEARBY_URL,
+    request_body: {
+      includedTypes,
+      maxResultCount: 20,
+      locationRestriction: {
+        circle: {
+          center: { latitude: center.lat, longitude: center.lng },
+          radius: radiusMeters
+        }
+      },
+      rankPreference: "DISTANCE"
+    },
+    fallback_text_query: "",
+    fallback_text_queries: []
+  };
+}
+
 export function buildQueries(selection, location) {
   const taxonomy = loadTaxonomy();
   const center = location && Number.isFinite(location.lat) && Number.isFinite(location.lng)
@@ -284,6 +649,7 @@ export function buildQueries(selection, location) {
     : { lat: 0, lng: 0 };
   const radiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
   const jobs = [];
+  const nearbyAddedFor = new Set();
 
   const pushTextJob = ({ parent, child, term, profile }) => {
     const modifiers = (Array.isArray(profile.include_modifiers) && profile.include_modifiers.length
@@ -322,7 +688,8 @@ export function buildQueries(selection, location) {
         languageCode: "en",
         regionCode: "US"
       },
-      fallback_text_query: buildFallbackTextQuery(textQuery)
+      fallback_text_query: "",
+      fallback_text_queries: buildFallbackTextQueries(term, profile.include_modifiers)
     });
   };
 
@@ -377,6 +744,24 @@ export function buildQueries(selection, location) {
       for (const term of secondaryTerms.slice(0, 2)) {
         pushTextJob({ parent, child, term, profile });
       }
+
+      const nearbyTypes = inferNearbyTypesFromProfile(profile, child);
+      const nearbyKey = `${String(child.child_id || "")}::${nearbyTypes.join("|")}`;
+      if (nearbyTypes.length && !nearbyAddedFor.has(nearbyKey)) {
+        nearbyAddedFor.add(nearbyKey);
+        const nearbyJob = makeNearbyJob({
+          parent,
+          child,
+          includeTypes: nearbyTypes,
+          center,
+          radiusMeters,
+          childWeight: Number(profile.priority_weight || 1),
+          categoryHints: Array.isArray(profile.category_hints) ? profile.category_hints : [],
+          excludeTerms: Array.isArray(profile.exclude_terms) ? profile.exclude_terms : [],
+          termUsed: `${String(child.child_label || "").trim()} nearby`
+        });
+        if (nearbyJob) jobs.push(nearbyJob);
+      }
     }
   } else {
     const parent = { parent_id: "manual", parent_label: "Manual Override" };
@@ -389,6 +774,21 @@ export function buildQueries(selection, location) {
     };
     for (const term of selection.manualTerms) {
       pushTextJob({ parent, child, term, profile });
+    }
+    const nearbyTypes = inferNearbyTypesFromText(selection.manualTerms.join(" "));
+    if (nearbyTypes.length) {
+      const nearbyJob = makeNearbyJob({
+        parent,
+        child,
+        includeTypes: nearbyTypes,
+        center,
+        radiusMeters,
+        childWeight: 1,
+        categoryHints: selection.manualTerms,
+        excludeTerms: taxonomy.defaults.global_exclude_terms,
+        termUsed: `Manual nearby ${nearbyTypes.join("|")}`
+      });
+      if (nearbyJob) jobs.push(nearbyJob);
     }
   }
 
@@ -406,6 +806,7 @@ function buildLegacyQueries({ query, queries = [] }, location) {
   const terms = [...new Set(rawTerms.map((v) => String(v || "").trim()).filter(Boolean))];
   const jobs = [];
   const seenQuery = new Set();
+  const seenNearbyTypeSet = new Set();
 
   const pushLegacyJob = (term, label = "Legacy") => {
     const textQuery = String(term || "").trim().replace(/\s+/g, " ");
@@ -439,7 +840,8 @@ function buildLegacyQueries({ query, queries = [] }, location) {
         languageCode: "en",
         regionCode: "US"
       },
-      fallback_text_query: ""
+      fallback_text_query: "",
+      fallback_text_queries: []
     });
   };
 
@@ -449,6 +851,24 @@ function buildLegacyQueries({ query, queries = [] }, location) {
     pushLegacyJob(t, t);
     if (!/\bcontractor\b/i.test(t)) pushLegacyJob(`${t} contractor`, t);
     if (!/\bcommercial\b/i.test(t)) pushLegacyJob(`commercial ${t}`, t);
+
+    const nearbyTypes = inferNearbyTypesFromText(t);
+    for (const nt of nearbyTypes) {
+      if (seenNearbyTypeSet.has(nt)) continue;
+      seenNearbyTypeSet.add(nt);
+      const nearbyJob = makeNearbyJob({
+        parent: { parent_id: "legacy", parent_label: t },
+        child: { child_id: "legacy", child_label: t },
+        includeTypes: [nt],
+        center,
+        radiusMeters,
+        childWeight: 1,
+        categoryHints: [t],
+        excludeTerms: [],
+        termUsed: `${t} nearby ${nt}`
+      });
+      if (nearbyJob) jobs.push(nearbyJob);
+    }
   }
 
   return jobs;
@@ -478,7 +898,13 @@ async function fetchPlacesWithRetry({ url, payload, headers, apiKey }) {
     });
 
     const json = await res.json().catch(() => ({}));
-    if (res.ok) return { ok: true, places: Array.isArray(json?.places) ? json.places : [] };
+    if (res.ok) {
+      return {
+        ok: true,
+        places: Array.isArray(json?.places) ? json.places : [],
+        nextPageToken: String(json?.nextPageToken || "").trim()
+      };
+    }
 
     const code = Number(res.status || 0);
     const retriable = code === 429 || (code >= 500 && code < 600);
@@ -546,22 +972,82 @@ export async function runPlacesJobs(jobs, { apiKey, center, onProgress = () => {
       if (!result.ok) {
         errors.push(result.error || "Request failed");
       } else {
-        const baseRows = result.places.map((p) => mapPlaceToCandidate(p, job, center));
-        out.push(...baseRows);
+        const allPlaces = [...result.places];
+        let nextPageToken = String(result.nextPageToken || "").trim();
+        let pagesFetched = 1;
 
-        if (job.mode === "TEXT_SEARCH" && baseRows.length < 5 && String(job.fallback_text_query || "").trim()) {
-          const fallbackPayload = {
-            ...job.request_body,
-            textQuery: String(job.fallback_text_query).trim()
-          };
-          const retryResult = await fetchPlacesWithRetry({
+        while (nextPageToken && pagesFetched < MAX_PAGES_PER_JOB) {
+          await sleep(NEXT_PAGE_DELAY_MS);
+          const pagedResult = await fetchPlacesWithRetry({
             url: job.request_url,
-            payload: fallbackPayload,
+            payload: {
+              ...job.request_body,
+              pageToken: nextPageToken
+            },
             headers: job.headers,
             apiKey
           });
-          if (retryResult.ok) {
-            out.push(...retryResult.places.map((p) => mapPlaceToCandidate(p, { ...job, term_used: `${job.term_used} (fallback)` }, center)));
+          if (!pagedResult.ok) {
+            errors.push(pagedResult.error || "Pagination request failed");
+            break;
+          }
+          allPlaces.push(...pagedResult.places);
+          nextPageToken = String(pagedResult.nextPageToken || "").trim();
+          pagesFetched += 1;
+        }
+
+        const baseRows = allPlaces.map((p) => mapPlaceToCandidate(p, job, center));
+        out.push(...baseRows);
+
+        const fallbackQueries = Array.isArray(job.fallback_text_queries)
+          ? job.fallback_text_queries.map((v) => String(v || "").trim()).filter(Boolean)
+          : String(job.fallback_text_query || "").trim()
+            ? [String(job.fallback_text_query || "").trim()]
+            : [];
+
+        if (job.mode === "TEXT_SEARCH" && baseRows.length < 5 && fallbackQueries.length) {
+          let addedFromFallback = 0;
+          for (const fallbackQuery of fallbackQueries) {
+            const fallbackPayload = {
+              ...job.request_body,
+              textQuery: fallbackQuery
+            };
+            const retryResult = await fetchPlacesWithRetry({
+              url: job.request_url,
+              payload: fallbackPayload,
+              headers: job.headers,
+              apiKey
+            });
+            if (!retryResult.ok) continue;
+
+            const fallbackPlaces = [...retryResult.places];
+            let fallbackNextPageToken = String(retryResult.nextPageToken || "").trim();
+            let fallbackPagesFetched = 1;
+
+            while (fallbackNextPageToken && fallbackPagesFetched < MAX_PAGES_PER_JOB) {
+              await sleep(NEXT_PAGE_DELAY_MS);
+              const pagedFallback = await fetchPlacesWithRetry({
+                url: job.request_url,
+                payload: {
+                  ...fallbackPayload,
+                  pageToken: fallbackNextPageToken
+                },
+                headers: job.headers,
+                apiKey
+              });
+              if (!pagedFallback.ok) break;
+              fallbackPlaces.push(...pagedFallback.places);
+              fallbackNextPageToken = String(pagedFallback.nextPageToken || "").trim();
+              fallbackPagesFetched += 1;
+            }
+
+            const fallbackRows = fallbackPlaces.map((p) =>
+              mapPlaceToCandidate(p, { ...job, term_used: `${job.term_used} -> ${fallbackQuery}` }, center)
+            );
+            out.push(...fallbackRows);
+            addedFromFallback += fallbackRows.length;
+
+            if (addedFromFallback >= 25) break;
           }
         }
       }
@@ -595,7 +1081,7 @@ function textBlobOf(row) {
   ].join(" ").toLowerCase();
 }
 
-export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTypeFilter = true } = {}) {
+export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTypeFilter = true, minScore = 10 } = {}) {
   const taxonomy = loadTaxonomy();
   const hardExcludes = (taxonomy.defaults.hard_exclude_terms || []).map((s) => normalizeLabel(s));
   const globalSoftExcludes = (taxonomy.defaults.global_exclude_terms || []).map((s) => normalizeLabel(s));
@@ -676,7 +1162,7 @@ export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTyp
 
     score = Math.max(0, Math.round(score * Number(row.child_weight || 1)));
 
-    if (strictTypeFilter && score < 10) continue;
+    if (strictTypeFilter && score < Number(minScore || 10)) continue;
 
     filtered.push({
       id: row.id,
@@ -729,7 +1215,7 @@ export async function searchSubcontractors({
   queries = [],
   strictTypeFilter = true,
   radiusMiles = 25,
-  engineMode = "api",
+  engineMode = "apib",
   includeEmails = false,
   onProgress = () => {}
 }) {
@@ -745,7 +1231,8 @@ export async function searchSubcontractors({
 
   const safeRadiusMiles = Math.max(1, Math.min(45, Number(radiusMiles || 25)));
   const selection = buildSelection({ query, queries });
-  const normalizedEngineMode = String(engineMode || "api").toLowerCase() === "ggl" ? "ggl" : "api";
+  const rawMode = String(engineMode || "apib").toLowerCase();
+  const normalizedEngineMode = rawMode === "ggl" || rawMode === "api" || rawMode === "apib" ? rawMode : "apib";
   const jobs = (normalizedEngineMode === "ggl" ? buildLegacyQueries({ query, queries }, {
     lat: center.lat,
     lng: center.lng,
@@ -775,10 +1262,44 @@ export async function searchSubcontractors({
     onProgress
   });
 
+  persistKnownPlaces(candidates);
+
+  const existingIds = new Set(
+    (Array.isArray(candidates) ? candidates : [])
+      .map((c) => String(c?.id || "").trim())
+      .filter(Boolean)
+  );
+  const activeSectionLabel = selection.kind === "taxonomy"
+    ? (selection.selectedChildren || [])
+      .map((c) => String(c?.parent_label || "").trim())
+      .filter(Boolean)[0] || "Category"
+    : "Manual Override";
+  const queryTokens = buildSearchTokens({ query, queries, selection });
+  const rescueCandidates = buildKnownPlaceRescueCandidates({
+    center,
+    radiusMiles: safeRadiusMiles,
+    queryTokens,
+    existingIds,
+    activeSectionLabel,
+    activeTerm: String(query || "").trim()
+  });
+  if (rescueCandidates.length) {
+    candidates.push(...rescueCandidates);
+    onProgress(`Known-place rescue added ${rescueCandidates.length} row(s).`);
+  }
+
+  const rankingOptions =
+    normalizedEngineMode === "ggl"
+      ? { strictTypeFilter: false, minScore: 0 }
+      : normalizedEngineMode === "apib"
+        ? { strictTypeFilter: true, minScore: 5 }
+        : { strictTypeFilter, minScore: 10 };
+
   let rows = mergeDedupRank(candidates, {
     center,
     radiusMiles: safeRadiusMiles,
-    strictTypeFilter: normalizedEngineMode === "ggl" ? false : strictTypeFilter
+    strictTypeFilter: rankingOptions.strictTypeFilter,
+    minScore: rankingOptions.minScore
   });
 
   if (!rows.length && errors.length) {
@@ -805,7 +1326,12 @@ export async function searchSubcontractors({
       location_label: location,
       radius_miles: safeRadiusMiles,
       variants: jobs.length,
-      query_context: normalizedEngineMode === "ggl" ? "legacy" : selection.kind
+      query_context:
+        normalizedEngineMode === "ggl"
+          ? "legacy"
+          : normalizedEngineMode === "apib"
+            ? `${selection.kind}_broad`
+            : selection.kind
     },
     rows
   };

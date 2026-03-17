@@ -1376,7 +1376,7 @@
               <label for="location">Location</label>
               <label class="inline-check compact-check">
                 <input id="useMyLocation" type="checkbox" />
-                Use my location
+                Use approximate location
               </label>
             </div>
             <div class="view-controls">
@@ -2677,7 +2677,7 @@
         return;
       }
       if (!window.isSecureContext) {
-        setStatus("Use my location requires HTTPS (or localhost).");
+        setStatus("Use approximate location requires HTTPS (or localhost).");
         els.useMyLocation.checked = false;
         syncLocationFieldLock();
         return;

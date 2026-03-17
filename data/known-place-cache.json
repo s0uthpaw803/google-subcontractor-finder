@@ -1,0 +1,5027 @@
+[
+  {
+    "id": "ChIJ1bablUxqAIkR51GPVaObPIY",
+    "cid": "9672777225502413287",
+    "name": "Adams & Son Plumbing Co Inc",
+    "formattedAddress": "228 Gresham Ln, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 903-6060",
+    "website": "http://yourmyrtlebeachplumber.com/",
+    "maps_url": "https://maps.google.com/?cid=9672777225502413287&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6731891,
+      "lng": -78.9896107
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 24,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJf4HtI_ZAAIkR9Yhheh4WEkU",
+    "cid": "4977064858355861749",
+    "name": "Devlin Plumbing Service",
+    "formattedAddress": "3350 Phillis Blvd # 103, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 585-0550",
+    "website": "http://www.plumbingdoneproperly.com/",
+    "maps_url": "https://maps.google.com/?cid=4977064858355861749&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6724165,
+      "lng": -78.9384589
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 433,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJx8lZzOZrAIkR7foMKl9jbm8",
+    "cid": "8029464446026709741",
+    "name": "B&B Pluming and design inc",
+    "formattedAddress": "139 Prather Park Dr, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 241-1763",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8029464446026709741&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.690838400000004,
+      "lng": -79.0036324
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJIdoyJxpqAIkRD6vnycjZvcg",
+    "cid": "14464957034587990799",
+    "name": "Roto-Rooter Plumbing & Drain Service",
+    "formattedAddress": "3350 Phillis Blvd Unit 104, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 508-0744",
+    "website": "https://www.rotorooter.com/myrtlebeachsc/",
+    "maps_url": "https://maps.google.com/?cid=14464957034587990799&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6726358,
+      "lng": -78.938687
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 969,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJmUjhsVhrAIkRgsmsQfvXh_0",
+    "cid": "18268807887590312322",
+    "name": "Hunter Plumbing Services, LLC",
+    "formattedAddress": "1774 Burcale Rd, Myrtle Beach, SC 29579, USA",
+    "phone": "(843) 685-6840",
+    "website": "https://hunterplumbingservices.com/?utm_source=GBPlisting",
+    "maps_url": "https://maps.google.com/?cid=18268807887590312322&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.7047562,
+      "lng": -78.9600087
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 836,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJuayN5aKJvgYRbMLqsqBPM0c",
+    "cid": "5130531952120218220",
+    "name": "Joe's Toolbox",
+    "formattedAddress": "1123 Milford Wy, Myrtle Beach, SC 29588, USA",
+    "phone": "(845) 337-5606",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=5130531952120218220&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.658186,
+      "lng": -78.983532
+    },
+    "primaryType": "service",
+    "types": [
+      "painter",
+      "plumber",
+      "manufacturer",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 37,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJCRu83rGr6qwRHnnL2r3XtwY",
+    "cid": "484092695385176350",
+    "name": "Emergency Plumbing",
+    "formattedAddress": "59 Plantation Rd, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 286-3158",
+    "website": "https://www.plumber-myrtlebeach.com/",
+    "maps_url": "https://maps.google.com/?cid=484092695385176350&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6784191,
+      "lng": -78.9925033
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 114,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJq0pSKvlqAIkRQnf1wOVh6bo",
+    "cid": "13468403800040896322",
+    "name": "Graham's Plumbing",
+    "formattedAddress": "707 Reef Rd, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 602-2116",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=13468403800040896322&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6976953,
+      "lng": -78.9770473
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.4,
+    "userRatingCount": 7,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJtZ2wd4RpAIkRQZKv1WzDM3Y",
+    "cid": "8517366192496677441",
+    "name": "Victory Plumbing",
+    "formattedAddress": "1614 American Way, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 353-7301",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8517366192496677441&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6927495,
+      "lng": -78.921174
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 5,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJ6zVtC_RtAIkRC2Xcns-OSHc",
+    "cid": "8595276911211209995",
+    "name": "Mia's Master Plumbing",
+    "formattedAddress": "3454 Forestbrook Rd, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 274-9707",
+    "website": "https://www.masterplumbingsc.com/",
+    "maps_url": "https://maps.google.com/?cid=8595276911211209995&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.696448100000005,
+      "lng": -78.9996784
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 71,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJ_-2egkZqAIkRIsb_4NTwLZI",
+    "cid": "10533339900588049954",
+    "name": "ARS / Rescue Rooter",
+    "formattedAddress": "1221 Harbour Towne Dr, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 932-7465",
+    "website": "https://www.ars.com/myrtle-beach?utm_source=google&utm_medium=gbp&utm_campaign=local_seo&utm_content=gbp_website_click",
+    "maps_url": "https://maps.google.com/?cid=10533339900588049954&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6878952,
+      "lng": -78.95646459999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 6220,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJl5pu02u8jSgRTcAQRTDFSXo",
+    "cid": "8811790957034913869",
+    "name": "Diversified Property Services LLC",
+    "formattedAddress": "158 Sugar Mill Loop, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 999-2302",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8811790957034913869&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.7040564,
+      "lng": -78.99391709999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "electrician",
+      "locksmith",
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.7,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJV76syIVpAIkR9NO5aryjZkM",
+    "cid": "4856749277805401076",
+    "name": "Jamie Sessions Plumbing",
+    "formattedAddress": "1215 Session St, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 626-2629",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=4856749277805401076&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6895236,
+      "lng": -78.9220924
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 5,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJ5X4p58pBAIkRP-TCYtLDvXs",
+    "cid": "8916498145630938175",
+    "name": "Shawn O'Neill Plumbing Services",
+    "formattedAddress": "1804 Gibson Ave, Surfside Beach, SC 29575, USA",
+    "phone": "(843) 215-8203",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8916498145630938175&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6391296,
+      "lng": -78.97247879999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.5,
+    "userRatingCount": 8,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJPT8eEdZrAIkRd4zKoZfEERo",
+    "cid": "1878498675123719287",
+    "name": "A Rooter Now",
+    "formattedAddress": "494 Piedmont Ave, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 272-1669",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=1878498675123719287&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.7056288,
+      "lng": -78.9299375
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJ0WbfkQVAAIkRY5A0a3CYnsE",
+    "cid": "13951756304242741347",
+    "name": "Stonegate Plumbing Co",
+    "formattedAddress": "5957 Friendship Ln, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 215-5020",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=13951756304242741347&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6520657,
+      "lng": -79.0117269
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJUy8h0rBBAIkRvPJFwAhZb5U",
+    "cid": "10767923128186565308",
+    "name": "Carolina Cool",
+    "formattedAddress": "1294 Surfside Industrial Park, Surfside Beach, SC 29575, USA",
+    "phone": "(843) 213-2050",
+    "website": "https://carolinacool.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_website",
+    "maps_url": "https://maps.google.com/?cid=10767923128186565308&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6296876,
+      "lng": -78.96554770000002
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "electrician",
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 2250,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJAYNF2XNpAIkRhECLbJ_g-jc",
+    "cid": "4033783391589187716",
+    "name": "Home Services at The Home Depot",
+    "formattedAddress": "951 Oak Forest Ln, Myrtle Beach, SC 29577, USA",
+    "phone": "(844) 476-2140",
+    "website": "https://www.homedepot.com/l/Myrtle-Beach/SC/Myrtle-Beach/29577/1116/services?emt=HSEN?emt=GCGoogleMaps",
+    "maps_url": "https://maps.google.com/?cid=4033783391589187716&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.7048531,
+      "lng": -78.9141999
+    },
+    "primaryType": "service",
+    "types": [
+      "electrician",
+      "painter",
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.3,
+    "userRatingCount": 7,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJm7KapfFpAIkRhlO4MQJoCxk",
+    "cid": "1804650434325402502",
+    "name": "Shepherd Co LLC",
+    "formattedAddress": "976 Park Dr, Myrtle Beach, SC 29577, USA",
+    "phone": "(843) 712-5229",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=1804650434325402502&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.691384,
+      "lng": -78.90320799999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJL9sSsyRtAIkROSM_Jc3AjUk",
+    "cid": "5300104323810665273",
+    "name": "Benjamin Franklin Plumbing",
+    "formattedAddress": "2318 SC-544, Conway, SC 29526",
+    "phone": "(843) 904-6218",
+    "website": "https://benjaminfranklinmb.com/",
+    "maps_url": "https://maps.google.com/?cid=5300104323810665273&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.754253,
+      "lng": -79.0212942
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 3188,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJVVWZbSNtAIkRhBJOHrb4NBA",
+    "cid": "1167831664471970436",
+    "name": "Billys Plumbing",
+    "formattedAddress": "1824 Lone Star St, Conway, SC 29526",
+    "phone": "(843) 234-0123",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=1167831664471970436&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8029364,
+      "lng": -79.0011414
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 3.9,
+    "userRatingCount": 12,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJUWwUKUNqAIkRwBOL6I_GB_c",
+    "cid": "17800414373589226432",
+    "name": "Alpha Mechanical Services LLC",
+    "formattedAddress": "4722 US Highway 17 Bypass South, Myrtle Beach, SC 29588, USA",
+    "phone": "(843) 808-5030",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=17800414373589226432&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+    "location": {
+      "lat": 33.6794125,
+      "lng": -78.9656404
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJ04q1EXsPAIkR4bgZglsErpg",
+    "cid": "11001735730783959265",
+    "name": "First Choice Plumbing Services LLC",
+    "formattedAddress": "162a Ole Woodward Ave, Conway, SC 29526",
+    "phone": "(843) 353-4923",
+    "website": "http://www.firstchoiceplumbingmb.com/",
+    "maps_url": "https://maps.google.com/?cid=11001735730783959265&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8134965,
+      "lng": -79.0142553
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 93,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJyS9JppsSAIkRM200y-J95Us",
+    "cid": "5468915735536626995",
+    "name": "Superior Maintenance",
+    "formattedAddress": "406 Beaty St, Conway, SC 29526",
+    "phone": "(843) 488-2850",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=5468915735536626995&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8351993,
+      "lng": -79.05000059999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.996Z"
+  },
+  {
+    "id": "ChIJa-yk_ixh_ogRkiJSwZWbnGI",
+    "cid": "7105725379579617938",
+    "name": "B.M. Construction and Renovation LLC",
+    "formattedAddress": "9433 Hwy 78 d2, Ladson, SC 29456",
+    "phone": "(843) 324-6546",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=7105725379579617938&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 32.9823027,
+      "lng": -80.0904899
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.750Z"
+  },
+  {
+    "id": "ChIJpTM3MKtrAIkRHDhTB9Ek9ac",
+    "cid": "12102620053817735196",
+    "name": "B & B Plumbing",
+    "formattedAddress": "2070 Woodburn Dr, Myrtle Beach, SC 29579",
+    "phone": "(843) 236-3357",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=12102620053817735196&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7456338,
+      "lng": -78.93766169999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.3,
+    "userRatingCount": 15,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.750Z"
+  },
+  {
+    "id": "ChIJ06ZcKW9sAIkRcTtXmLmD3sA",
+    "cid": "13897690333259971441",
+    "name": "USA Plumbing",
+    "formattedAddress": "741 Commerce Pl, Myrtle Beach, SC 29577",
+    "phone": "(843) 241-8054",
+    "website": "http://www.usaplumbingmb.com/",
+    "maps_url": "https://maps.google.com/?cid=13897690333259971441&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7070198,
+      "lng": -78.9046448
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 326,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.750Z"
+  },
+  {
+    "id": "ChIJN6wNjWBI_gARcIisgqSp6Ko",
+    "cid": "12315279705076697200",
+    "name": "ServiceWorks Mechanical Solutions LLC.",
+    "formattedAddress": "1010 5th Ave N Suite 106, Surfside Beach, SC 29575",
+    "phone": "(843) 877-7554",
+    "website": "https://www.serviceworksms.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp",
+    "maps_url": "https://maps.google.com/?cid=12315279705076697200&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.617087399999996,
+      "lng": -78.97847279999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "electrician",
+      "manufacturer",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 203,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.750Z"
+  },
+  {
+    "id": "ChIJVVVVVUUVAIkRdTEpWgNaMDY",
+    "cid": "3904719847374270837",
+    "name": "Vines Heating & Air, Plumbing, Restoration",
+    "formattedAddress": "489 Myrtle Ridge Dr, Conway, SC 29526",
+    "phone": "(843) 474-5996",
+    "website": "https://www.vineswaterexperts.com/?utm_source=google&utm_medium=gbp&se_campaign=FM-GBP",
+    "maps_url": "https://maps.google.com/?cid=3904719847374270837&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.769528,
+      "lng": -78.994269
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 3451,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.383Z"
+  },
+  {
+    "id": "ChIJ2WR_gig_dkgR79u429p7bGA",
+    "cid": "6948064505045244911",
+    "name": "BM plumbing and heating",
+    "formattedAddress": "21, Pembroke Court, Newsom Pl, St Peter's Rd, St Albans AL1 3EX, UK",
+    "phone": "07501 051097",
+    "website": "http://www.bmheating.co.uk/",
+    "maps_url": "https://maps.google.com/?cid=6948064505045244911&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 51.7545593,
+      "lng": -0.3307965
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "supplier",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 46,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.383Z"
+  },
+  {
+    "id": "ChIJsxwDdSkRAIkRtb0j6c5H12w",
+    "cid": "7842816230089276853",
+    "name": "A & M Tub Services",
+    "formattedAddress": "2715 Society Dr, Conway, SC 29527",
+    "phone": "(843) 397-8827",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=7842816230089276853&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7700167,
+      "lng": -79.1519665
+    },
+    "primaryType": "service",
+    "types": [
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.383Z"
+  },
+  {
+    "id": "ChIJreWY4OFOpYkRSzJ0aHs4bDA",
+    "cid": "3489225913989870155",
+    "name": "C B Plumbing & Mechanical Inc",
+    "formattedAddress": "210 Maddrey Dr, Camden, NC 27921",
+    "phone": "(252) 338-6221",
+    "website": "http://www.cbpminc.com/",
+    "maps_url": "https://maps.google.com/?cid=3489225913989870155&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.365007999999996,
+      "lng": -76.205934
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJNQiLRsVuW4gR-2KK37RhaD0",
+    "cid": "4424894063363908347",
+    "name": "B & M Plumbing & Electrical",
+    "formattedAddress": "RR 2, Rose Hill, VA 24281",
+    "phone": "(276) 346-0239",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=4424894063363908347&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.6717539,
+      "lng": -83.3674041
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 5,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJjVciQ0-BUocR5g5OCZsrjlw",
+    "cid": "6669316043058319078",
+    "name": "B & M Plumbing",
+    "formattedAddress": "935 W 14600 S, Bluffdale, UT 84065",
+    "phone": "(801) 302-5927",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=6669316043058319078&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.4851465,
+      "lng": -111.918032
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 6,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJnfjRp7mNqYkRcOi6sdMfVBE",
+    "cid": "1248657990768846960",
+    "name": "Banks Channel Plumbing & Mechanical",
+    "formattedAddress": "8804 Market St, Wilmington, NC 28411",
+    "phone": "(910) 821-1085",
+    "website": "https://bankschannelpm.com/",
+    "maps_url": "https://maps.google.com/?cid=1248657990768846960&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.3108988,
+      "lng": -77.7768375
+    },
+    "primaryType": "service",
+    "types": [
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.3,
+    "userRatingCount": 9,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJ_UoJlYAWq4kRbqIWTUzoReQ",
+    "cid": "16448808628449092206",
+    "name": "B & M Mechanical",
+    "formattedAddress": "3619 Kenny Dr, Hope Mills, NC 28348",
+    "phone": "(910) 424-5009",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=16448808628449092206&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.9711898,
+      "lng": -78.9729601
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.7,
+    "userRatingCount": 11,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJaQ13Wz9EpYkRdUzS4lrars0",
+    "cid": "14821023507610225781",
+    "name": "B&M Contractors, Inc.",
+    "formattedAddress": "790 Pitts Chapel Rd, Elizabeth City, NC 27909",
+    "phone": "(252) 338-6090",
+    "website": "http://www.hvacnc.com/",
+    "maps_url": "https://maps.google.com/?cid=14821023507610225781&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.262780400000004,
+      "lng": -76.1997288
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "electrician",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 523,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:42:55.063Z"
+  },
+  {
+    "id": "ChIJaS0GHnppAIkR7LRDWLL5S4Q",
+    "cid": "9532987580640113900",
+    "name": "Bluewater Plumbing Service",
+    "formattedAddress": "1406 Commerce Pl L, Myrtle Beach, SC 29577",
+    "phone": "(843) 214-2874",
+    "website": "https://www.facebook.com/Bluewater-Plumbing-Service-104152338022052/",
+    "maps_url": "https://maps.google.com/?cid=9532987580640113900&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.705912999999995,
+      "lng": -78.903858
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 217,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJ_VWkH36HAIkR9WnRhpGorag",
+    "cid": "12154556312328432117",
+    "name": "James Plumbing Company",
+    "formattedAddress": "50 Park St Ext, Little River, SC 29566",
+    "phone": "(843) 249-2685",
+    "website": "http://www.northmyrtlebeachplumbers.com/",
+    "maps_url": "https://maps.google.com/?cid=12154556312328432117&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8551186,
+      "lng": -78.6563544
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "building_materials_store",
+      "home_goods_store",
+      "store",
+      "supplier",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 848,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJCy5vVoF5qokR_isrfL0gdmM",
+    "cid": "7166951855210834942",
+    "name": "J&S Plumbing of the Carolinas",
+    "formattedAddress": "3062 Ash Little River Rd NW, Ash, NC 28420",
+    "phone": "(910) 274-2333",
+    "website": "https://jsplumbingofthecarolinas.com/",
+    "maps_url": "https://maps.google.com/?cid=7166951855210834942&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.019111699999996,
+      "lng": -78.5641555
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 67,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJUfXq2Eh8AIkRSMFhR3ZbH1c",
+    "cid": "6277836969139618120",
+    "name": "Chase Plumbing Service",
+    "formattedAddress": "946 State Hwy 57 S, Little River, SC 29566",
+    "phone": "(843) 399-4250",
+    "website": "http://chaseplumbingservice.com/",
+    "maps_url": "https://maps.google.com/?cid=6277836969139618120&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8731199,
+      "lng": -78.710859
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 22,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJcQ72JexAAIkR-M1QGL6ASlQ",
+    "cid": "6073808601402625528",
+    "name": "Cascade Plumbing",
+    "formattedAddress": "1413 US-17 BUS, Surfside Beach, SC 29575",
+    "phone": "(843) 424-1639",
+    "website": "http://www.cascade.plumbing/",
+    "maps_url": "https://maps.google.com/?cid=6073808601402625528&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.604338999999996,
+      "lng": -78.9887669
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 67,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJDbe_hWg_AIkRwCIWvag51-8",
+    "cid": "17282345491947201216",
+    "name": "SC Plumbing & Drain Cleaning",
+    "formattedAddress": "11530 Frontage Rd, Murrells Inlet, SC 29576",
+    "phone": "(843) 360-5078",
+    "website": "https://scplumbing.info/",
+    "maps_url": "https://maps.google.com/?cid=17282345491947201216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.5969075,
+      "lng": -79.0237464
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 253,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJRS0_CLxpAIkRgBoX32UU-Bc",
+    "cid": "1727152884863670912",
+    "name": "Palmetto Plumbing Inc",
+    "formattedAddress": "611 10th Ave S, Myrtle Beach, SC 29577",
+    "phone": "(843) 238-4624",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=1727152884863670912&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6806706,
+      "lng": -78.9008171
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 30,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJtUGcSdVB24gR1Pb1OrBbW5E",
+    "cid": "10474066170841790164",
+    "name": "The Family Beach Plumbing Experts",
+    "formattedAddress": "1991 Glenns Bay Rd Myrtle Beach, Surfside Beach, SC 29587",
+    "phone": "(843) 920-5344",
+    "website": "http://www.plumbingsurfsidebeach.com/",
+    "maps_url": "https://maps.google.com/?cid=10474066170841790164&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.61831180000001,
+      "lng": -78.994559
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "building_materials_store",
+      "manufacturer",
+      "supplier",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 14,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJCZpurBbysiYR1F-8Dunc2Lk",
+    "cid": "13391696385518886868",
+    "name": "H2O PROS Plumbing",
+    "formattedAddress": "1620 Villena Dr, Myrtle Beach, SC 29579",
+    "phone": "(843) 997-2975",
+    "website": "http://yourh2opros.com/",
+    "maps_url": "https://maps.google.com/?cid=13391696385518886868&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7364467,
+      "lng": -78.9206401
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "supplier",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 449,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJFWDjCFs_AIkRh17Yvye2fcc",
+    "cid": "14374845867475099271",
+    "name": "At Your Service Plumbing, Heating, and Air",
+    "formattedAddress": "117 Elk Dr Unit G, Murrells Inlet, SC 29576",
+    "phone": "(843) 380-8333",
+    "website": "https://atyourserviceplumbingmb.com/",
+    "maps_url": "https://maps.google.com/?cid=14374845867475099271&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.590041,
+      "lng": -79.028368
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 536,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJZ1SCot44AIkRdp-9PCT_xR0",
+    "cid": "2145401328614874998",
+    "name": "Dependable Service Plumbing & Air, Inc.",
+    "formattedAddress": "166 Tiller Dr, Pawleys Island, SC 29585",
+    "phone": "(843) 979-9977",
+    "website": "https://www.dependableservice.com/",
+    "maps_url": "https://maps.google.com/?cid=2145401328614874998&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.4478619,
+      "lng": -79.12420290000001
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 2278,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJU1eUb5VoAIkR6As4nEqd7Oc",
+    "cid": "16711905261039127528",
+    "name": "Myrtle Beach Winnelson",
+    "formattedAddress": "3197 Fred Nash Blvd, Myrtle Beach, SC 29577",
+    "phone": "(843) 293-7839",
+    "website": "http://www.myrtlebeachwinnelson.com/",
+    "maps_url": "https://maps.google.com/?cid=16711905261039127528&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.68841,
+      "lng": -78.9525299
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "hardware_store",
+      "building_materials_store",
+      "manufacturer",
+      "supplier",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 24,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJiRc3jQ9pAIkR7gJJWrpIIjc",
+    "cid": "3972817786510050030",
+    "name": "Palmetto Parts Co",
+    "formattedAddress": "1627 Plaza Pl, Myrtle Beach, SC 29577",
+    "phone": "(843) 444-0811",
+    "website": "http://www.palmettoparts.com/",
+    "maps_url": "https://maps.google.com/?cid=3972817786510050030&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7056872,
+      "lng": -78.8955257
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "hardware_store",
+      "wholesaler",
+      "building_materials_store",
+      "manufacturer",
+      "supplier",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 35,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:13.518Z"
+  },
+  {
+    "id": "ChIJCZ4eMBNpAIkRxCXXdbrV0y8",
+    "cid": "3446333136686228932",
+    "name": "Cooper Mechanical Services",
+    "formattedAddress": "908a Frontage Rd E, Myrtle Beach, SC 29577",
+    "phone": "(843) 626-3689",
+    "website": "http://www.coopermechanicalservices.com/",
+    "maps_url": "https://maps.google.com/?cid=3446333136686228932&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7100995,
+      "lng": -78.9050974
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "electrician",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 149,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJVVVVVQVpAIkReELIqBzENgE",
+    "cid": "87472870150128248",
+    "name": "Budget Plumbing & Remodeling",
+    "formattedAddress": "Myrtle Beach, SC 29577",
+    "phone": "(843) 340-0359",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=87472870150128248&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7070405,
+      "lng": -78.8948741
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJI9jeSlBrAIkR0l0G25zInAk",
+    "cid": "692649018723294674",
+    "name": "PlumbinGo LLC",
+    "formattedAddress": "183 Campania St, Myrtle Beach, SC 29579",
+    "phone": "(843) 264-0327",
+    "website": "http://www.plumbingollc.com/",
+    "maps_url": "https://maps.google.com/?cid=692649018723294674&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7303466,
+      "lng": -78.9344151
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 11,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJh_tE1-KvOIgRYwwfSzWJ_6E",
+    "cid": "11673199621154212963",
+    "name": "Construct Plumbing Design LLC",
+    "formattedAddress": "312 Lafayette St Building 1, London, OH 43140",
+    "phone": "(740) 956-1243",
+    "website": "https://www.cpdohio.com/",
+    "maps_url": "https://maps.google.com/?cid=11673199621154212963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 39.9046024,
+      "lng": -83.4276648
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 63,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJUyE8JwQbyYkRe0XwTOkRSd8",
+    "cid": "16089410837473674619",
+    "name": "Galbraith Commercial & Industrial Construction",
+    "formattedAddress": "229 Petersburg Rd, Carlisle, PA 17013",
+    "phone": "(717) 776-6337",
+    "website": "http://gp-inc.com/",
+    "maps_url": "https://maps.google.com/?cid=16089410837473674619&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.18851,
+      "lng": -77.166176
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJ5d-PtFFAAIkR2WuVDPWb-d0",
+    "cid": "15994987028363439065",
+    "name": "JSOC Construction",
+    "formattedAddress": "1200 Glenns Bay Rd Unit 6, Myrtle Beach, SC 29575",
+    "phone": "(843) 977-5762",
+    "website": "http://www.jsocconstruction.com/",
+    "maps_url": "https://maps.google.com/?cid=15994987028363439065&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6152204,
+      "lng": -78.9834819
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "roofing_contractor",
+      "home_goods_store",
+      "manufacturer",
+      "store",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 37,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJ4SPxPflvAIkRrJypXUGFUfo",
+    "cid": "18037344498386312364",
+    "name": "Carpenter Construction",
+    "formattedAddress": "4999 Carolina Forest Blvd Unit 22d, Myrtle Beach, SC 29579",
+    "phone": "(843) 742-5020",
+    "website": "http://carpenterconstructionllc.com/",
+    "maps_url": "https://maps.google.com/?cid=18037344498386312364&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7536826,
+      "lng": -78.8669935
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 21,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJgUocwXdpAIkRwgDrdLtdN9M",
+    "cid": "15219736525423706306",
+    "name": "Re-Builders, Inc.",
+    "formattedAddress": "BY APPOINTMENT, 675 Robert M Grissom Pkwy, Myrtle Beach, SC 29577",
+    "phone": "(843) 448-0041",
+    "website": "http://rebuildersmyrtlebeach.com/",
+    "maps_url": "https://maps.google.com/?cid=15219736525423706306&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7031145,
+      "lng": -78.9003343
+    },
+    "primaryType": "service",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 43,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJZ3ptN5trAIkRpheWrydq0Wo",
+    "cid": "7697049956835006374",
+    "name": "CND Company llc",
+    "formattedAddress": "361 Waterside Dr, Myrtle Beach, SC 29577",
+    "phone": "(843) 504-9353",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=7697049956835006374&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7069282,
+      "lng": -78.92978389999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJe2yfJYlrAIkR_US1W6GvVa4",
+    "cid": "12562139843183068413",
+    "name": "Memin's Construction",
+    "formattedAddress": "3116 Shetland Ln Unit 3, Myrtle Beach, SC 29577",
+    "phone": "(843) 293-0583",
+    "website": "https://meminsconstruction.com/",
+    "maps_url": "https://maps.google.com/?cid=12562139843183068413&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6912337,
+      "lng": -78.93800569999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 8,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJ_UvCQhplAIkRtxfm6bk6oJ4",
+    "cid": "11430200424433850295",
+    "name": "Real Estate Improvments of SC",
+    "formattedAddress": "6015 Catalina Dr #722, North Myrtle Beach, SC 29582",
+    "phone": "(843) 447-9804",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=11430200424433850295&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8004086,
+      "lng": -78.7698025
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "general_contractor",
+      "home_goods_store",
+      "manufacturer",
+      "store",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 8,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJVVVVVUUVAIkRbwd2UfJ2X2s",
+    "cid": "7737033467966654319",
+    "name": "EC Home Improvement",
+    "formattedAddress": "6505 Rodney Dr, Myrtle Beach, SC 29588",
+    "phone": "(843) 286-5059",
+    "website": "http://echomeimprovementmb.com/",
+    "maps_url": "https://maps.google.com/?cid=7737033467966654319&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6677742,
+      "lng": -78.9974706
+    },
+    "primaryType": "service",
+    "types": [
+      "general_contractor",
+      "home_goods_store",
+      "store",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 37,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJN5KB6ex9AIkRDHEnk6T1Ui0",
+    "cid": "3265942766989308172",
+    "name": "NMB Handyman United Construction",
+    "formattedAddress": "809 Hwy 17 S, North Myrtle Beach, SC 29582",
+    "phone": "(843) 283-8944",
+    "website": "https://www.nmbhandymanunited.com/",
+    "maps_url": "https://maps.google.com/?cid=3265942766989308172&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8218187,
+      "lng": -78.6864736
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 83,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJowm9tDxvAIkRHjSzw-O1IJc",
+    "cid": "10889903888827364382",
+    "name": "Price Is Right Construction, LLC",
+    "formattedAddress": "764 Dragonfly Dr, Myrtle Beach, SC 29579",
+    "phone": "(704) 578-7158",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=10889903888827364382&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.75573500000001,
+      "lng": -78.872153
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "painter",
+      "general_contractor",
+      "manufacturer",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJM0P0tS1BAIkRODY6fJTgZWY",
+    "cid": "7378550492860397112",
+    "name": "Two J Enterprise LLC",
+    "formattedAddress": "3100 Dick Pond Rd Suite E, Myrtle Beach, SC 29588",
+    "phone": "(843) 931-8158",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=7378550492860397112&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6554196,
+      "lng": -78.9895973
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJvcca1NxrAIkRXi8KN5zawv0",
+    "cid": "18285417801550802782",
+    "name": "Progressive Plumbing",
+    "formattedAddress": "3926 Wesley St # 901, Myrtle Beach, SC 29579",
+    "phone": "(843) 236-9123",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=18285417801550802782&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7185317,
+      "lng": -78.9402198
+    },
+    "primaryType": "service",
+    "types": [
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJNWwVeFDttocRn5LMlzam3yo",
+    "cid": "3089370622804660895",
+    "name": "Tulsa Plumbing and Remodeling, LLC",
+    "formattedAddress": "1515 E 6th St, Tulsa, OK 74120",
+    "phone": "(918) 400-3511",
+    "website": "https://www.tulsapar.com/?utm_campaign=gmb",
+    "maps_url": "https://maps.google.com/?cid=3089370622804660895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.1524068,
+      "lng": -95.9708893
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 326,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJrccejVo_AIkR_t2WLNzzCPY",
+    "cid": "17728688060110396926",
+    "name": "JMJ Plumbing Ltd",
+    "formattedAddress": "9751 Moose Rd, Murrells Inlet, SC 29576",
+    "phone": "(843) 651-1080",
+    "website": "http://localmyrtlebeachplumbers.com/",
+    "maps_url": "https://maps.google.com/?cid=17728688060110396926&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.5877383,
+      "lng": -79.02841529999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.5,
+    "userRatingCount": 36,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJZWROi9x8AIkRhS5F0B3VEHM",
+    "cid": "8291361238014045829",
+    "name": "Lucas Board Plumbing Company",
+    "formattedAddress": "11790 SC-90, Little River, SC 29566",
+    "phone": "(843) 582-3014",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8291361238014045829&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8563474,
+      "lng": -78.6623314
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.5,
+    "userRatingCount": 20,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJW7TZ0ZQ4AIkRWYDCqxPB3fk",
+    "cid": "18004759175527301209",
+    "name": "Sir Flush-A Lot",
+    "formattedAddress": "210 Chesapeake Ln, Murrells Inlet, SC 29576",
+    "phone": "(843) 357-6303",
+    "website": "https://www.sirflushalotplumbing.com/",
+    "maps_url": "https://maps.google.com/?cid=18004759175527301209&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.5470426,
+      "lng": -79.05551799999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 41,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJR_2T7DhsAIkR89lYbVVOfKM",
+    "cid": "11780376854108101107",
+    "name": "R.A.S.K. Plumbing, Inc.",
+    "formattedAddress": "3067 Bayhaven Dr, Myrtle Beach, SC 29579",
+    "phone": "(843) 241-7366",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=11780376854108101107&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7745159,
+      "lng": -78.94994369999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 15,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJs9MkHKZpAIkR_YJlOL8YFps",
+    "cid": "11175146734930461437",
+    "name": "RJM Plumbing Inc",
+    "formattedAddress": "904 Todd St, Myrtle Beach, SC 29577",
+    "phone": "(843) 444-0718",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=11175146734930461437&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.691717,
+      "lng": -78.8948909
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 2.6,
+    "userRatingCount": 15,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJrQol7TptAIkRw4ZLD2IswQM",
+    "cid": "270546252293965507",
+    "name": "Ferguson Waterworks",
+    "formattedAddress": "3046 Emory Rd, Myrtle Beach, SC 29577",
+    "phone": "(843) 691-6017",
+    "website": "https://www.ferguson.com/store/sc/myrtle+beach/waterworks-0543?utm_source=google&utm_medium=organic&utm_campaign=ww_lis_listingtraffic&utm_content=listing",
+    "maps_url": "https://maps.google.com/?cid=270546252293965507&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6862816,
+      "lng": -78.95359570000001
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "building_materials_store",
+      "supplier",
+      "food",
+      "manufacturer",
+      "service",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.9,
+    "userRatingCount": 9,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJP1fR7IBpAIkRfC7qmW7QhQM",
+    "cid": "253838127463542396",
+    "name": "Ferguson Plumbing Supply",
+    "formattedAddress": "1651 US-501, Myrtle Beach, SC 29577",
+    "phone": "(843) 626-3978",
+    "website": "https://www.ferguson.com/store/sc/myrtle+beach/plumbingpvf-0029?utm_source=google&utm_medium=organic&utm_campaign=rt_lis_listingtraffic&utm_content=listing",
+    "maps_url": "https://maps.google.com/?cid=253838127463542396&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7008532,
+      "lng": -78.9036984
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "hardware_store",
+      "building_materials_store",
+      "wholesaler",
+      "supplier",
+      "general_contractor",
+      "home_improvement_store",
+      "home_goods_store",
+      "manufacturer",
+      "service",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 6,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.912Z"
+  },
+  {
+    "id": "ChIJl9XNrMJ9AIkRhweg1ILZeI8",
+    "cid": "10338252100565206919",
+    "name": "Beach House Plumbing LLC",
+    "formattedAddress": "1105 Captain Hooks Wy, North Myrtle Beach, SC 29582",
+    "phone": "(854) 854-0049",
+    "website": "https://www.beachhouseplumbingllc.com/",
+    "maps_url": "https://maps.google.com/?cid=10338252100565206919&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8341285,
+      "lng": -78.664292
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.381Z"
+  },
+  {
+    "id": "ChIJe9f-EIN9AIkRElXBNLuh2Ds",
+    "cid": "4312374468623291666",
+    "name": "Affordable plumbing Sewer, Drain & Septic Service LLC",
+    "formattedAddress": "479 Hwy 9 E, Longs, SC 29568",
+    "phone": "(843) 340-0094",
+    "website": "http://www.affordableplumbingnmb.com/",
+    "maps_url": "https://maps.google.com/?cid=4312374468623291666&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.925720999999996,
+      "lng": -78.7256112
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.1,
+    "userRatingCount": 54,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:39:12.381Z"
+  },
+  {
+    "id": "ChIJNxfwbeNe3ogRVTrzlMEeMcY",
+    "cid": "14281229710145043029",
+    "name": "Bobby's Plumbing, Inc.",
+    "formattedAddress": "2340 12th Ave, Vero Beach, FL 32960",
+    "phone": "(772) 567-0485",
+    "website": "https://bobbysplumbing.com/",
+    "maps_url": "https://maps.google.com/?cid=14281229710145043029&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 27.642684199999998,
+      "lng": -80.3970417
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "building_materials_store",
+      "manufacturer",
+      "store",
+      "supplier",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 143,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.748Z"
+  },
+  {
+    "id": "ChIJXfF9c-81w4ARza1SoQX42Ug",
+    "cid": "5249499543742098893",
+    "name": "Bobby Blue Plumbing Rancho Cucamonga",
+    "formattedAddress": "10970 Arrow Route #104, Rancho Cucamonga, CA 91730",
+    "phone": "(909) 944-8999",
+    "website": "https://www.bobbyblueplumbing.com/",
+    "maps_url": "https://maps.google.com/?cid=5249499543742098893&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.0994655,
+      "lng": -117.56458049999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 356,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.748Z"
+  },
+  {
+    "id": "ChIJAUDzqv-sy4cREQpXHYpHSmc",
+    "cid": "7442839992706468369",
+    "name": "Bobby's Plumbing Services Inc",
+    "formattedAddress": "12518 Windy Acres Point, Fort Smith, AR 72916",
+    "phone": "(479) 648-3749",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=7442839992706468369&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.265611,
+      "lng": -94.35949989999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 3,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.748Z"
+  },
+  {
+    "id": "ChIJq6pW61wSAIkRgAmPZXYZvNc",
+    "cid": "15545328010076817792",
+    "name": "Pipe Doctors",
+    "formattedAddress": "1203 US-501 BUS #107, Conway, SC 29526",
+    "phone": "(843) 424-0041",
+    "website": "http://pipedoctors-sc.com/?utm_source=Google%20Business&utm_medium=Website%20Link",
+    "maps_url": "https://maps.google.com/?cid=15545328010076817792&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8168541,
+      "lng": -79.0203444
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "building_materials_store",
+      "manufacturer",
+      "store",
+      "supplier",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 73,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.748Z"
+  },
+  {
+    "id": "ChIJzYoMynjB2YgRRLZ0BUGyyo8",
+    "cid": "10361289885053400644",
+    "name": "Bobby's Plumbing Contractors",
+    "formattedAddress": "15718 SW 56th St Suite 15024, Miami, FL 33185",
+    "phone": "(786) 442-3598",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=10361289885053400644&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 25.712601,
+      "lng": -80.44800409999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 67,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJGWG4POxyAIkRIUKLjLcO_-0",
+    "cid": "17149442087549878817",
+    "name": "Trusted Home Services",
+    "formattedAddress": "2130 SC-905, Conway, SC 29526",
+    "phone": "(843) 365-1783",
+    "website": "https://trustedhomesc.com/",
+    "maps_url": "https://maps.google.com/?cid=17149442087549878817&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8637765,
+      "lng": -78.9893439
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "electrician",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 807,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJ7aS7riRtAIkRv3qJ1E9XbOM",
+    "cid": "16387569144474204863",
+    "name": "Mister Sparky of Myrtle Beach",
+    "formattedAddress": "2318 SC-544, Conway, SC 29526",
+    "phone": "(843) 427-5388",
+    "website": "http://www.mistersparkymyrtlebeachsc.com/",
+    "maps_url": "https://maps.google.com/?cid=16387569144474204863&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.754253,
+      "lng": -79.0212942
+    },
+    "primaryType": "electrician",
+    "types": [
+      "electrician",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 3843,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJ02qAG2U3WIgRQiQK0PfKYOs",
+    "cid": "16960779362373346370",
+    "name": "Bobby Belt Plumbing Co Inc",
+    "formattedAddress": "4603 Old Easley Bridge Rd, Easley, SC 29642",
+    "phone": "(864) 269-4158",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=16960779362373346370&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.8176707,
+      "lng": -82.50628460000001
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJx5sEoAEVAIkR2YUN0sYeToQ",
+    "cid": "9533591300466378201",
+    "name": "Scott's Plumbing",
+    "formattedAddress": "5940 Bear Ln, Myrtle Beach, SC 29588",
+    "phone": "(843) 467-0100",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=9533591300466378201&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6956511,
+      "lng": -79.0311569
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 4,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJV1QrQhJpAIkR9tlB4Fx7abs",
+    "cid": "13504460596476762614",
+    "name": "Buddy Rabon Plumbing",
+    "formattedAddress": "810 Seaboard St, Myrtle Beach, SC 29577",
+    "phone": "(843) 385-1713",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=13504460596476762614&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7091144,
+      "lng": -78.9024769
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4,
+    "userRatingCount": 4,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:45.336Z"
+  },
+  {
+    "id": "ChIJY1xeO-83UogRWOnRm7vy7Zg",
+    "cid": "11019730750832503128",
+    "name": "Bobby Nichols Plumbing",
+    "formattedAddress": "131 W Main St, Pilot Mountain, NC 27041",
+    "phone": "(336) 368-4466",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=11019730750832503128&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.385597,
+      "lng": -80.46803299999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJxy6Ft2AQkFQRDAYj94Ub48s",
+    "cid": "14691616671603557900",
+    "name": "Bobby T's Plumbing",
+    "formattedAddress": "2346 N 193rd St, Seattle, WA 98133",
+    "phone": "(206) 579-0529",
+    "website": "https://www.bobbytsplumbing.com/",
+    "maps_url": "https://maps.google.com/?cid=14691616671603557900&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 47.769339599999995,
+      "lng": -122.33047810000001
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 36,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJDdi4i7b9wokRNbJ6GivtqX4",
+    "cid": "9127086889226646069",
+    "name": "Bobby Van Plumbing, Heating & Cooling",
+    "formattedAddress": "98 Lincoln Ave, Hawthorne, NJ 07506",
+    "phone": "(973) 423-4395",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=9127086889226646069&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.945406999999996,
+      "lng": -74.14764509999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 14,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJe3YWAgNrkFQRg8fpOVXax-Q",
+    "cid": "16485385020591687555",
+    "name": "Beacon Plumbing, Heating, Electrical & Mechanical Inc - Seattle",
+    "formattedAddress": "515 7th Ave S, Seattle, WA 98104",
+    "phone": "(206) 720-2040",
+    "website": "https://www.beaconplumbing.net/",
+    "maps_url": "https://maps.google.com/?cid=16485385020591687555&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 47.5978676,
+      "lng": -122.32394920000002
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 3056,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJ7RNoc_iB24ARKnE-7n1Di0E",
+    "cid": "4722942842375139626",
+    "name": "Big B's Plumbing, Electric, Heating & Air",
+    "formattedAddress": "41610 Date St STE 101, Murrieta, CA 92562",
+    "phone": "(951) 297-9946",
+    "website": "https://www.bigbhomepro.com/",
+    "maps_url": "https://maps.google.com/?cid=4722942842375139626&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.527651,
+      "lng": -117.176796
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "home_goods_store",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 3009,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJIelD29snVIgR5fDthYrKsSk",
+    "cid": "3004405122734092517",
+    "name": "M.D. Plumbing, Water Heater & Sewer Repair",
+    "formattedAddress": "2240 Stevens Mill Rd, Matthews, NC 28104",
+    "phone": "(704) 486-2808",
+    "website": "https://mdplumbingco.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+    "maps_url": "https://maps.google.com/?cid=3004405122734092517&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.1080342,
+      "lng": -80.6820748
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "supplier",
+      "home_goods_store",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 356,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJo0vWKGO1VIgRwYHtTNcwvDk",
+    "cid": "4160253857050231233",
+    "name": "Pride Plumbing - Southern Pines",
+    "formattedAddress": "795 SW Broad St D, Southern Pines, NC 28387",
+    "phone": "(910) 216-9188",
+    "website": "https://www.callprideplumbing.com/",
+    "maps_url": "https://maps.google.com/?cid=4160253857050231233&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.168189999999996,
+      "lng": -79.40033
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 24,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJb3SStGpv_4gR4KH0eRIDy0c",
+    "cid": "5173231974855516640",
+    "name": "Hill Plumbing & Air",
+    "formattedAddress": "438 N Main St, Sumter, SC 29150",
+    "phone": "(803) 773-6689",
+    "website": "https://www.hillplumbingandair.com/",
+    "maps_url": "https://maps.google.com/?cid=5173231974855516640&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9290434,
+      "lng": -80.3425005
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 241,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJPUKCiSJv_ogR6ekzoW0-Jd0",
+    "cid": "15935211497097259497",
+    "name": "C&C Myers Heating, Cooling, Plumbing & Electrical",
+    "formattedAddress": "1757 Clements Ferry Rd Unit A, Charleston, SC 29492",
+    "phone": "(843) 310-5409",
+    "website": "https://ccmyersservice.com/?utm_source=google-gbp&utm_medium=organic&utm_campaign=*56*c-c-myers-heating-charleston",
+    "maps_url": "https://maps.google.com/?cid=15935211497097259497&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 32.9218672,
+      "lng": -79.874208
+    },
+    "primaryType": "service",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 2863,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJC354iOyfAIkRjmILitjT92Y",
+    "cid": "7419631838098580110",
+    "name": "Mansfield Sales & Service",
+    "formattedAddress": "2185 Boones Neck Rd SW, Supply, NC 28462",
+    "phone": "(910) 842-8425",
+    "website": "https://msshvac.com/",
+    "maps_url": "https://maps.google.com/?cid=7419631838098580110&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9305826,
+      "lng": -78.309536
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "manufacturer",
+      "supplier",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 636,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJ-_Ax_CPxNIgRRTeM9mSq-60",
+    "cid": "12536801338325743429",
+    "name": "Roto-Rooter Plumbing & Water Cleanup",
+    "formattedAddress": "355 Fifth Ave Suite 733, Pittsburgh, PA 15222",
+    "phone": "(412) 781-3180",
+    "website": "https://www.rotorooter.com/pittsburgh/?utm_source=Google&utm_medium=organic&utm_campaign=gmb&utm_content=website",
+    "maps_url": "https://maps.google.com/?cid=12536801338325743429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.4402962,
+      "lng": -79.9988235
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "supplier",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 4127,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJKQtnsjgTq4kRZAHlvu_z_gU",
+    "cid": "432050825299558756",
+    "name": "Cape Fear Air, Electric, & Plumbing",
+    "formattedAddress": "1139 Robeson St, Fayetteville, NC 28305",
+    "phone": "(910) 216-9394",
+    "website": "https://capefearair.com/contact-us/air-conditioning-fayetteville-nc",
+    "maps_url": "https://maps.google.com/?cid=432050825299558756&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.039842799999995,
+      "lng": -78.90544059999999
+    },
+    "primaryType": "service",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "manufacturer",
+      "store",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 1559,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJbzIIZ4_xNIgR6vyDHktlGSU",
+    "cid": "2673279227130019050",
+    "name": "Mr. Rooter Plumbing of Pittsburgh",
+    "formattedAddress": "301 Grant St #4300a, Pittsburgh, PA 15219",
+    "phone": "(412) 630-8369",
+    "website": "https://www.mrrooterpittsburgh.com/",
+    "maps_url": "https://maps.google.com/?cid=2673279227130019050&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.438326499999995,
+      "lng": -79.99907689999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 2501,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.834Z"
+  },
+  {
+    "id": "ChIJV5f-2y99AIkRsMcBzZbaztk",
+    "cid": "15694722092652152752",
+    "name": "Four Star Plumbing and Air Conditioning",
+    "formattedAddress": "1019 Hwy 17 S #204, North Myrtle Beach, SC 29582",
+    "phone": "(843) 353-2770",
+    "website": "http://www.trustfourstar.com/",
+    "maps_url": "https://maps.google.com/?cid=15694722092652152752&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.817343099999995,
+      "lng": -78.691199
+    },
+    "primaryType": "service",
+    "types": [
+      "plumber",
+      "building_materials_store",
+      "general_contractor",
+      "supplier",
+      "manufacturer",
+      "service",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 460,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.320Z"
+  },
+  {
+    "id": "ChIJZRU4Z5e42YgRo_Mk1mUTDbI",
+    "cid": "12829932241553781667",
+    "name": "Bob's Plumbing Co",
+    "formattedAddress": "4055 SW 89th Ave, Miami, FL 33165",
+    "phone": "(305) 229-9932",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=12829932241553781667&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 25.7321235,
+      "lng": -80.3394672
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.1,
+    "userRatingCount": 101,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJBTmXOUK6IIYRm6VWtjg2l3c",
+    "cid": "8617416029201933723",
+    "name": "Bob's Plumbing Inc.",
+    "formattedAddress": "800 Hickory Ave, Harahan, LA 70123",
+    "phone": "(504) 737-6468",
+    "website": "https://www.bobsplumbing1.com/",
+    "maps_url": "https://maps.google.com/?cid=8617416029201933723&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 29.948799299999997,
+      "lng": -90.20027840000002
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 183,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJE26mT_OMO4gR22pzauMer88",
+    "cid": "14965214048867805915",
+    "name": "Bob's Plumbing, Heating & A/C LLC",
+    "formattedAddress": "232 Walnut St Box 295, Luckey, OH 43443",
+    "phone": "(419) 833-5281",
+    "website": "http://www.bobsplumbinghvac.com/",
+    "maps_url": "https://maps.google.com/?cid=14965214048867805915&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 41.4510417,
+      "lng": -83.4851496
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 34,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJNWv7NZFCsocRLK_bHn4FvoU",
+    "cid": "9637146291861172012",
+    "name": "Bob's Plumbing",
+    "formattedAddress": "2656 Classen Blvd, Norman, OK 73071",
+    "phone": "(405) 329-1178",
+    "website": "http://www.bobsplumbinginc.com/",
+    "maps_url": "https://maps.google.com/?cid=9637146291861172012&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.1907797,
+      "lng": -97.42321609999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.4,
+    "userRatingCount": 74,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJ13NrfRXTvYcRAsqQZezJa3M",
+    "cid": "8316963154023205378",
+    "name": "Bob's Plumbing & Heating LLC",
+    "formattedAddress": "1127 Hayes Dr, Manhattan, KS 66502",
+    "phone": "(785) 539-4155",
+    "website": "http://bobsplumbingandheatinginc.com/",
+    "maps_url": "https://maps.google.com/?cid=8316963154023205378&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 39.1914228,
+      "lng": -96.55537849999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 41,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJgz7tGhBI9ocRTSTK5wZO_Ic",
+    "cid": "9798792680816911437",
+    "name": "Bob's Plumbing",
+    "formattedAddress": "8991 211th St W, Lakeville, MN 55044",
+    "phone": "(952) 432-5321",
+    "website": "https://www.bobsplumbingservices.com/",
+    "maps_url": "https://maps.google.com/?cid=9798792680816911437&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 44.644464299999996,
+      "lng": -93.247734
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 25,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJM_MnEk6rAYgRV7GU_eiNrwY",
+    "cid": "481759716978241879",
+    "name": "Bob's Plumbing & Heating Of Central Wi Inc",
+    "formattedAddress": "5609 Co Rd K, Amherst, WI 54406",
+    "phone": "(715) 345-9990",
+    "website": "https://bobsplumbingandheating.biz/",
+    "maps_url": "https://maps.google.com/?cid=481759716978241879&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 44.411487799999996,
+      "lng": -89.3651872
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJG8dFOe4l5okRVc4k3M7_2og",
+    "cid": "9861475598002867797",
+    "name": "Bob's Plumbing & Heating",
+    "formattedAddress": "38 Fish Plain Rd, Clinton, CT 06413",
+    "phone": "(860) 669-7415",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=9861475598002867797&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 41.297218099999995,
+      "lng": -72.50923499999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 5,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJrdzQku16NYgR0L1PFRw2TVA",
+    "cid": "5786340590485487056",
+    "name": "Bob's Plumbing & Drain Cleaning",
+    "formattedAddress": "1902 Eljadid St, Dellslow, WV 26531",
+    "phone": "(304) 292-7712",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=5786340590485487056&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 39.6196185,
+      "lng": -79.9244307
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 35,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJxbVTyh3TWlMR-YeAh9p7Vfg",
+    "cid": "17894344872932968441",
+    "name": "Bob's Plumbing & Drain",
+    "formattedAddress": "Three Forks, MT 59752",
+    "phone": "(406) 285-4800",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=17894344872932968441&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 45.8924239,
+      "lng": -111.5521332
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 13,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJodaHFr2qAYgRwT4o6wrY61o",
+    "cid": "6551567624347074241",
+    "name": "Bob's Plumbing & Heating Of Central WI Inc",
+    "formattedAddress": "8105 Stoney Rd, Amherst, WI 54406",
+    "phone": "(715) 345-9990",
+    "website": "https://bobsplumbingandheating.biz/",
+    "maps_url": "https://maps.google.com/?cid=6551567624347074241&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 44.408424,
+      "lng": -89.38131589999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 16,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJVQWhMpbj2ogRbx4BoIyUUrI",
+    "cid": "12849496018542206575",
+    "name": "Bob's Plumbing & Repair",
+    "formattedAddress": "4820 Barcelona Cir, Naples, FL 34112",
+    "phone": "(239) 774-4023",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=12849496018542206575&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 26.111434,
+      "lng": -81.74869199999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJPQUU_uMQ54gRq8cuNShlZBw",
+    "cid": "2045871354098403243",
+    "name": "Bob's Plumbing",
+    "formattedAddress": "1280 Florida Ave, Orange City, FL 32763",
+    "phone": "(321) 806-7544",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=2045871354098403243&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 28.9083094,
+      "lng": -81.27947429999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJ1cNrwNylHogRVd12N9FyA2c",
+    "cid": "7422902853740977493",
+    "name": "Bobs Plumbing, Heating, and Cooling",
+    "formattedAddress": "6683 US-10, Walhalla, MI 49458",
+    "phone": "(231) 613-0911",
+    "website": "http://www.bobsplumbingllc.com/",
+    "maps_url": "https://maps.google.com/?cid=7422902853740977493&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 43.952838899999996,
+      "lng": -86.11230789999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 37,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJNwjxeri1woARQbanXisWMPY",
+    "cid": "17739703307739838017",
+    "name": "Bob & Marc Plumbing",
+    "formattedAddress": "3336 Rosecrans Ave, Hawthorne, CA 90250",
+    "phone": "(310) 970-1099",
+    "website": "http://www.bobandmarc.plumbing/",
+    "maps_url": "https://maps.google.com/?cid=17739703307739838017&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9017616,
+      "lng": -118.3321842
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.8,
+    "userRatingCount": 28,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJs9u5VJh7RVMRAggc3jTSoYc",
+    "cid": "9773323790877198338",
+    "name": "Bob's Plumbing & Drain",
+    "formattedAddress": "130 N Main St, Livingston, MT 59047",
+    "phone": "(406) 222-3585",
+    "website": "https://www.myplumberbob.com/",
+    "maps_url": "https://maps.google.com/?cid=9773323790877198338&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 45.6623841,
+      "lng": -110.5607831
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 1.7,
+    "userRatingCount": 6,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJ5dBQypkOkFQRy8cumpIwY1M",
+    "cid": "6008699734052489163",
+    "name": "Bob's Heating & Air Conditioning",
+    "formattedAddress": "14148 NE 190th St, Woodinville, WA 98072",
+    "phone": "(800) 840-3346",
+    "website": "https://www.bobsheating.com/",
+    "maps_url": "https://maps.google.com/?cid=6008699734052489163&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 47.767952199999996,
+      "lng": -122.1518734
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 1372,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:44.319Z"
+  },
+  {
+    "id": "ChIJ8-EJlwtFwokRpmLPJNJ7LPM",
+    "cid": "17522516392682676902",
+    "name": "Bobby Contracts Inc. (Roofing, Waterproofing and Remodels)",
+    "formattedAddress": "171 Bay 17th St, Brooklyn, NY 11214",
+    "phone": "(917) 704-7174",
+    "website": "http://bobbycontracts.net/",
+    "maps_url": "https://maps.google.com/?cid=17522516392682676902&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.6040925,
+      "lng": -74.00701889999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "roofing_contractor",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 41,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJF2P5EdGwVYgRO9xy2e4N5y0",
+    "cid": "3307627770828479547",
+    "name": "Bobby Kirkley & Son Construction",
+    "formattedAddress": "2177 Kirkley Rd, Jefferson, SC 29718",
+    "phone": "(843) 658-7582",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=3307627770828479547&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.6977438,
+      "lng": -80.35592900000002
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJe8HJZ7eCAIkR5l1NRjFEQSU",
+    "cid": "2684501831313087974",
+    "name": "Bobby M Long Surveyor",
+    "formattedAddress": "6609 Ocean Hwy W, Ocean Isle Beach, NC 28469",
+    "phone": "(910) 754-6300",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=2684501831313087974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9489289,
+      "lng": -78.4807731
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 3.8,
+    "userRatingCount": 10,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJvwWgV74zVIgRFmSb1snJnDs",
+    "cid": "4295530013330727958",
+    "name": "Bobby Mills Heating & A/C, Inc.",
+    "formattedAddress": "3413 Austin Rd, Monroe, NC 28112",
+    "phone": "(704) 764-3806",
+    "website": "https://www.facebook.com/profile.php?id=100072555187311&mibextid=LQQJ4d",
+    "maps_url": "https://maps.google.com/?cid=4295530013330727958&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.910069,
+      "lng": -80.56776669999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 13,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJWaShaziwYYgR3xF3qGcgsFU",
+    "cid": "6174470718705045983",
+    "name": "Bobby Rich Construction Co",
+    "formattedAddress": "540 Co Rd 94, Bridgeport, AL 35740",
+    "phone": "(256) 495-3141",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=6174470718705045983&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.943520899999996,
+      "lng": -85.73727339999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJr57nt9uwUogRHQGyo3PaRDg",
+    "cid": "4054605754742735133",
+    "name": "Bobby R Martin Class-A Contractor",
+    "formattedAddress": "1100 Vandola Church Rd, Danville, VA 24541",
+    "phone": "(434) 822-0537",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=4054605754742735133&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.591840999999995,
+      "lng": -79.52243899999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ_admbgWtVIgRgopl-QIVinw",
+    "cid": "8974008310007433858",
+    "name": "Bobby G Livengood Electrical Contractor",
+    "formattedAddress": "5153 US-501, Carthage, NC 28327",
+    "phone": "(910) 947-5659",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8974008310007433858&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.309371999999996,
+      "lng": -79.41608099999999
+    },
+    "primaryType": "electrician",
+    "types": [
+      "electrician",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ2xS7YruhVogRFNNQiY3YLlE",
+    "cid": "5849851068406616852",
+    "name": "Bobby's Painting Co Inc",
+    "formattedAddress": "2915 Rozzelles Ferry Rd, Charlotte, NC 28208",
+    "phone": "(704) 394-5124",
+    "website": "http://bobbyspaintingcompany.com/",
+    "maps_url": "https://maps.google.com/?cid=5849851068406616852&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.2515584,
+      "lng": -80.8711835
+    },
+    "primaryType": "painter",
+    "types": [
+      "painter",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 8,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJCVerc-sUrYkRU6yu5qNC0v8",
+    "cid": "18433869496498170963",
+    "name": "Bobby Hicks Home Improvement",
+    "formattedAddress": "980 Thaxton Rd, Roxboro, NC 27573",
+    "phone": "(336) 599-5156",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=18433869496498170963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.4151221,
+      "lng": -78.9529757
+    },
+    "primaryType": "roofing_contractor",
+    "types": [
+      "roofing_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJy9CVXq0rAIkRzgITzGnyrqY",
+    "cid": "12010803792452977358",
+    "name": "Bobby's Appliance Center Inc",
+    "formattedAddress": "4258 Highmarket St, Georgetown, SC 29440",
+    "phone": "(843) 546-7411",
+    "website": "http://bobbysappliance.com/",
+    "maps_url": "https://maps.google.com/?cid=12010803792452977358&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.391613,
+      "lng": -79.334137
+    },
+    "primaryType": "home_goods_store",
+    "types": [
+      "home_goods_store",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 80,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ3RiC8gl2qokREUGM-BOAfz4",
+    "cid": "4503458975656460561",
+    "name": "Bobbys Auto Parts",
+    "formattedAddress": "4767 Main St, Shallotte, NC 28470",
+    "phone": "(910) 754-6619",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=4503458975656460561&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9729627,
+      "lng": -78.385396
+    },
+    "primaryType": "auto_parts_store",
+    "types": [
+      "auto_parts_store",
+      "car_repair",
+      "store",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 38,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJfUglXwV_AIkRfPB6cm153Ho",
+    "cid": "8853084478482608252",
+    "name": "Bobbie's Hair Salon",
+    "formattedAddress": "1826B Hwy 9 E, Longs, SC 29568",
+    "phone": "(843) 390-2288",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8853084478482608252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8968597,
+      "lng": -78.696935
+    },
+    "primaryType": "hair_salon",
+    "types": [
+      "hair_salon",
+      "hair_care",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 27,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJUWhVRRFtAIkR_eFqoMj6l4E",
+    "cid": "9338208091967775229",
+    "name": "Bobby Clary - State Farm Insurance Agent",
+    "formattedAddress": "748 SC-544, Conway, SC 29526",
+    "phone": "(843) 438-6000",
+    "website": "https://www.bobbyclary.com/",
+    "maps_url": "https://maps.google.com/?cid=9338208091967775229&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7975061,
+      "lng": -79.0191451
+    },
+    "primaryType": "insurance_agency",
+    "types": [
+      "insurance_agency",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 249,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJRY60yzieVogRvaXYXb3lnEc",
+    "cid": "5160251874545804733",
+    "name": "Bobby's Burgers by Bobby Flay",
+    "formattedAddress": "6100 Fairview Rd #100, Charlotte, NC 28210",
+    "phone": "(877) 616-4509",
+    "website": "https://bobbysburgers.com/?olonwp=JjBtp_vMLk25gkYh_bnoiQ",
+    "maps_url": "https://maps.google.com/?cid=5160251874545804733&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.1505575,
+      "lng": -80.83746909999999
+    },
+    "primaryType": "hamburger_restaurant",
+    "types": [
+      "hamburger_restaurant",
+      "american_restaurant",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 850,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ_yfwXLZqAIkR3U1ez5yUTj4",
+    "cid": "4489689279749836253",
+    "name": "Bobby G Mobile Disc Jockey & Karaoke Party",
+    "formattedAddress": "5852 Creekside Dr, Myrtle Beach, SC 29588",
+    "phone": "(843) 650-3869",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=4489689279749836253&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.681937,
+      "lng": -79.01143470000001
+    },
+    "primaryType": "karaoke",
+    "types": [
+      "karaoke",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJz0-c0JIFAIkRxyKjhlqlo2Q",
+    "cid": "7251821633221108423",
+    "name": "Bobby's Bike Shop",
+    "formattedAddress": "4060 Gunters Island Rd, Galivants Ferry, SC 29544",
+    "phone": "(843) 274-8114",
+    "website": "https://www.bobbysbikeshopsc.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=3087712212737366505",
+    "maps_url": "https://maps.google.com/?cid=7251821633221108423&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9344572,
+      "lng": -79.2737523
+    },
+    "primaryType": "store",
+    "types": [
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 7,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJX4C6FLhSVYgRVq6ZlY1y8tA",
+    "cid": "15056222456678821462",
+    "name": "Bobby Hood Auto Body",
+    "formattedAddress": "113 Hoods Pl, Marion, SC 29571",
+    "phone": "(843) 423-6475",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=15056222456678821462&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.2037871,
+      "lng": -79.3929024
+    },
+    "primaryType": "car_repair",
+    "types": [
+      "car_repair",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 10,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ_ysIXZ8Uq4kReBdxs3XS5ew",
+    "cid": "17070281365581272952",
+    "name": "Bobby's Barbies",
+    "formattedAddress": "106 Broadfoot Ave, Fayetteville, NC 28305",
+    "phone": "(910) 670-2292",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=17070281365581272952&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.0564502,
+      "lng": -78.9004665
+    },
+    "primaryType": "beauty_salon",
+    "types": [
+      "beauty_salon",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 11,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJSVEKN8trAIkRs3toOIjq8Uw",
+    "cid": "5544470487052614579",
+    "name": "Bob Mills Mitsubishi-Myrtle Beach",
+    "formattedAddress": "431 Hospitality Ln, Myrtle Beach, SC 29579",
+    "phone": "(843) 796-9155",
+    "website": "http://www.bobmillsmitsubishimb.com/",
+    "maps_url": "https://maps.google.com/?cid=5544470487052614579&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7451489,
+      "lng": -78.95482299999999
+    },
+    "primaryType": "car_dealer",
+    "types": [
+      "car_dealer",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 1977,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJO6bUUhBjqokRaKgBWIfcysk",
+    "cid": "14540676820774266984",
+    "name": "Bobby's Auto Repair & Wrecker",
+    "formattedAddress": "321 Snake Island Rd, Whiteville, NC 28472",
+    "phone": "(910) 640-1067",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=14540676820774266984&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.183748,
+      "lng": -78.5973216
+    },
+    "primaryType": "car_repair",
+    "types": [
+      "car_repair",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 6,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJSdTi0s5oAIkRhPCNxj4I9co",
+    "cid": "14624604430667739268",
+    "name": "Wyman Wise - State Farm Insurance Agent",
+    "formattedAddress": "1341 44th Ave N Ste 101, Myrtle Beach, SC 29577",
+    "phone": "(843) 448-2420",
+    "website": "http://www.wymanwise.net/",
+    "maps_url": "https://maps.google.com/?cid=14624604430667739268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.729838799999996,
+      "lng": -78.8665841
+    },
+    "primaryType": "insurance_agency",
+    "types": [
+      "insurance_agency",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 227,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ14kMODIYhosRuV90Y5VSV8o",
+    "cid": "14580213120207445945",
+    "name": "Bobby Jordan Realtor - RE/MAX Executive",
+    "formattedAddress": "10769 Ocean Hwy, Pawleys Island, SC 29585",
+    "phone": "(843) 240-5684",
+    "website": "https://bobbyjordan.remax.com/",
+    "maps_url": "https://maps.google.com/?cid=14580213120207445945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.442305399999995,
+      "lng": -79.12519619999999
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 5,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJDbAhIuVBAIkRgiAIbiX-P9Q",
+    "cid": "15294222296286765186",
+    "name": "The Old Bull and Bush Pub and Eatery",
+    "formattedAddress": "4700 US-17 BYP, Myrtle Beach, SC 29577",
+    "phone": "(843) 831-0505",
+    "website": "http://oldbullandbush.com/",
+    "maps_url": "https://maps.google.com/?cid=15294222296286765186&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6807283,
+      "lng": -78.9648394
+    },
+    "primaryType": "pub",
+    "types": [
+      "pub",
+      "restaurant",
+      "food",
+      "bar",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 973,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJMdC3ETdZ3ogRqSkc51oKAQU",
+    "cid": "360580830707067305",
+    "name": "Bobby's Restaurant & Lounge",
+    "formattedAddress": "3450 Ocean Dr, Vero Beach, FL 32963",
+    "phone": "(772) 231-6996",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=360580830707067305&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 27.654895999999997,
+      "lng": -80.35669299999999
+    },
+    "primaryType": "lounge_bar",
+    "types": [
+      "lounge_bar",
+      "night_club",
+      "restaurant",
+      "food",
+      "bar",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 1225,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJQS3yRfVpAIkRDRlk3Y86-GE",
+    "cid": "7059456805472311565",
+    "name": "Lolli's on 3rd",
+    "formattedAddress": "1213 3rd Ave S, Myrtle Beach, SC 29577",
+    "phone": "(843) 839-9787",
+    "website": "https://lollison3rd.com/",
+    "maps_url": "https://maps.google.com/?cid=7059456805472311565&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6978635,
+      "lng": -78.8996059
+    },
+    "primaryType": "bar_and_grill",
+    "types": [
+      "bar_and_grill",
+      "lounge_bar",
+      "karaoke",
+      "live_music_venue",
+      "hookah_bar",
+      "night_club",
+      "restaurant",
+      "food",
+      "bar",
+      "event_venue",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 159,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJXfmZ0I8r8IgRgtv6oWr9mjU",
+    "cid": "3862678264849554306",
+    "name": "Bobby's Treat Shop",
+    "formattedAddress": "201 W Ward St, Douglas, GA 31533",
+    "phone": "(912) 384-3660",
+    "website": "https://www.bobbystreatshop.com/",
+    "maps_url": "https://maps.google.com/?cid=3862678264849554306&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 31.509197999999994,
+      "lng": -82.8512409
+    },
+    "primaryType": "fast_food_restaurant",
+    "types": [
+      "fast_food_restaurant",
+      "hamburger_restaurant",
+      "breakfast_restaurant",
+      "american_restaurant",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 659,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJTwoMGrkQrokR4OiDL6qJReY",
+    "cid": "16592819766151080160",
+    "name": "Bobby's Grocery",
+    "formattedAddress": "1209 Bolling Rd, Roanoke Rapids, NC 27870",
+    "phone": "(252) 537-1546",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=16592819766151080160&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 36.466169199999996,
+      "lng": -77.6685388
+    },
+    "primaryType": "gas_station",
+    "types": [
+      "gas_station",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.4,
+    "userRatingCount": 79,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ_9O1QvlAAIkRWMldOXQ5Zm8",
+    "cid": "8027166557175925080",
+    "name": "Benjamin's Bakery & Cafe",
+    "formattedAddress": "810 3rd Ave S, Surfside Beach, SC 29575",
+    "phone": "(843) 477-1100",
+    "website": "http://www.benjaminsbakery.com/",
+    "maps_url": "https://maps.google.com/?cid=8027166557175925080&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6106109,
+      "lng": -78.9810889
+    },
+    "primaryType": "bakery",
+    "types": [
+      "bakery",
+      "breakfast_restaurant",
+      "food_store",
+      "restaurant",
+      "food",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 1330,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJCwU-vLRAAIkRFasaQxvT30A",
+    "cid": "4674687052277263125",
+    "name": "Bobby's Girl - Second Row in Garden City Beach",
+    "formattedAddress": "Garden City, SC 29576, USA",
+    "phone": "",
+    "website": "https://www.vrbo.com/pdp/lo/120563393?MDPCID=VRBO-META.HPA.WEB-ORGANIC.VR",
+    "maps_url": "https://maps.google.com/?cid=4674687052277263125&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.574112,
+      "lng": -79.00135039999999
+    },
+    "primaryType": "lodging",
+    "types": [
+      "lodging",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJxXY1PfU7xokR5_awuoxLRoY",
+    "cid": "9675503917251753703",
+    "name": "Bobby Bay's Sandwich Shop (Lancaster)",
+    "formattedAddress": "1878 Lincoln Hwy E, Lancaster, PA 17602",
+    "phone": "(717) 621-2511",
+    "website": "https://bobbybays.com/",
+    "maps_url": "https://maps.google.com/?cid=9675503917251753703&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 40.0338357,
+      "lng": -76.2504241
+    },
+    "primaryType": "sandwich_shop",
+    "types": [
+      "sandwich_shop",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 489,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJlY41bW0hTIYRlTjeEYNIImA",
+    "cid": "6927178904626935957",
+    "name": "Bobbie's Airway Grill",
+    "formattedAddress": "5959 Royal Ln #515, Dallas, TX 75230",
+    "phone": "(214) 272-8754",
+    "website": "http://bobbiesrestaurant.com/",
+    "maps_url": "https://maps.google.com/?cid=6927178904626935957&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 32.896355,
+      "lng": -96.8044975
+    },
+    "primaryType": "restaurant",
+    "types": [
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.4,
+    "userRatingCount": 323,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ98SzR5b6rIkReGiRHKhRbpM",
+    "cid": "10623518353489225848",
+    "name": "Bobby Wilson Electric",
+    "formattedAddress": "2224 Page Rd, Durham, NC 27703",
+    "phone": "(919) 237-2380",
+    "website": "http://www.bwilsonelec.com/",
+    "maps_url": "https://maps.google.com/?cid=10623518353489225848&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.9270335,
+      "lng": -78.8138534
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJbeqX678G9x4RmeAb3gggTAo",
+    "cid": "742003261067485337",
+    "name": "Bobby's Construction",
+    "formattedAddress": "35 Amarshi Pl, Effingham Rd, Kenville, Durban, 4051, South Africa",
+    "phone": "083 555 0768",
+    "website": "https://www.africanadvice.com/1045184/Building_Contractors/Durban/Bobby's_Construction/",
+    "maps_url": "https://maps.google.com/?cid=742003261067485337&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": -29.779040000000002,
+      "lng": 31.009582599999998
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ3VB3Z160j4ARc0faV8gF77A",
+    "cid": "12749415428134684531",
+    "name": "Bobby Builder",
+    "formattedAddress": "8327 Pinotage Ct, San Jose, CA 95135",
+    "phone": "(408) 497-0476",
+    "website": "http://www.bobbybuilder.com/",
+    "maps_url": "https://maps.google.com/?cid=12749415428134684531&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 37.282843,
+      "lng": -121.7486755
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJ0UmAYnZpVIgR2SwgKU3U_F0",
+    "cid": "6772521367525928153",
+    "name": "Bobby Edwards Electric",
+    "formattedAddress": "8815 Swift Rd, Oakboro, NC 28129",
+    "phone": "(704) 485-3058",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=6772521367525928153&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.2266839,
+      "lng": -80.349904
+    },
+    "primaryType": "electrician",
+    "types": [
+      "electrician",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJz1bjcocmVIgRI3ljlG64CAA",
+    "cid": "2454584889145635",
+    "name": "Bobbi Thomas Builders",
+    "formattedAddress": "3329 Weddington Rd, Matthews, NC 28105",
+    "phone": "(704) 226-6884",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=2454584889145635&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.0804999,
+      "lng": -80.7292454
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 1.5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJbW4FM3AxAIkRKOXgOzkdTzs",
+    "cid": "4273666703052825896",
+    "name": "Seaspray Homes LLC",
+    "formattedAddress": "263 Commerce Dr #202, Pawleys Island, SC 29585",
+    "phone": "(843) 458-7977",
+    "website": "http://seasprayhomesllc.com/",
+    "maps_url": "https://maps.google.com/?cid=4273666703052825896&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.449456700000006,
+      "lng": -79.1263688
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 3.7,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJKTgmK82_woARCi-Kh_vNKo0",
+    "cid": "10172169188564152074",
+    "name": "Bob's Big Boy",
+    "formattedAddress": "4211 W Riverside Dr, Burbank, CA 91505",
+    "phone": "(818) 843-9334",
+    "website": "http://www.bobs.net/",
+    "maps_url": "https://maps.google.com/?cid=10172169188564152074&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.1524797,
+      "lng": -118.3461035
+    },
+    "primaryType": "hamburger_restaurant",
+    "types": [
+      "hamburger_restaurant",
+      "historical_landmark",
+      "diner",
+      "breakfast_restaurant",
+      "fast_food_restaurant",
+      "coffee_shop",
+      "cafe",
+      "american_restaurant",
+      "food_store",
+      "restaurant",
+      "food",
+      "historical_place",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 7892,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJYQkjFSVAAIkR2frbBhPpGno",
+    "cid": "8798601089950415577",
+    "name": "Lowes Foods on South Commons Drive",
+    "formattedAddress": "1399 S Commons Dr, Myrtle Beach, SC 29588",
+    "phone": "(843) 650-0601",
+    "website": "http://www.lowesfoods.com/",
+    "maps_url": "https://maps.google.com/?cid=8798601089950415577&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6504252,
+      "lng": -78.9868551
+    },
+    "primaryType": "grocery_store",
+    "types": [
+      "grocery_store",
+      "deli",
+      "chicken_restaurant",
+      "supermarket",
+      "liquor_store",
+      "food_delivery",
+      "bakery",
+      "food_store",
+      "restaurant",
+      "food",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 1690,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJbQEbm3ppAIkRFpxOxc71z0Q",
+    "cid": "4958451983180536854",
+    "name": "Logan's Roadhouse",
+    "formattedAddress": "1136 Oak Forest Ln, Myrtle Beach, SC 29577",
+    "phone": "(843) 839-4666",
+    "website": "https://logansroadhouse.com/locations/us/sc/myrtle-beach/1136-Oak-Forrest-Drive/",
+    "maps_url": "https://maps.google.com/?cid=4958451983180536854&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7072028,
+      "lng": -78.91800289999999
+    },
+    "primaryType": "steak_house",
+    "types": [
+      "steak_house",
+      "family_restaurant",
+      "western_restaurant",
+      "barbecue_restaurant",
+      "breakfast_restaurant",
+      "american_restaurant",
+      "meal_takeaway",
+      "bar_and_grill",
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 3812,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJB5lq0jE_AIkR-2D6NdH0DeE",
+    "cid": "16216887012621967611",
+    "name": "Lowes Foods of Murrells Inlet",
+    "formattedAddress": "11903 SC-707, Murrells Inlet, SC 29576",
+    "phone": "(843) 651-1665",
+    "website": "http://www.lowesfoods.com/",
+    "maps_url": "https://maps.google.com/?cid=16216887012621967611&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.5873765,
+      "lng": -79.0527954
+    },
+    "primaryType": "grocery_store",
+    "types": [
+      "grocery_store",
+      "deli",
+      "chicken_restaurant",
+      "supermarket",
+      "liquor_store",
+      "food_delivery",
+      "bakery",
+      "food_store",
+      "restaurant",
+      "food",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 1430,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJl9vpJ4ANAIkRbSW76ew9Gd0",
+    "cid": "15931833244542772589",
+    "name": "Chick-fil-A",
+    "formattedAddress": "1613 Church St, Conway, SC 29526",
+    "phone": "(843) 488-0042",
+    "website": "https://www.chick-fil-a.com/locations/sc/church-street?utm_source=google&utm_medium=gmb",
+    "maps_url": "https://maps.google.com/?cid=15931833244542772589&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8456677,
+      "lng": -79.0646141
+    },
+    "primaryType": "fast_food_restaurant",
+    "types": [
+      "fast_food_restaurant",
+      "family_restaurant",
+      "breakfast_restaurant",
+      "chicken_restaurant",
+      "catering_service",
+      "food_delivery",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 2979,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJU648Xe5sAIkROI7wtUGIrLw",
+    "cid": "13595391190931377720",
+    "name": "Firehouse Subs Myrtle Ridge",
+    "formattedAddress": "152 Middle Ridge Ave A, Conway, SC 29526",
+    "phone": "(843) 349-4300",
+    "website": "https://www.firehousesubs.com/",
+    "maps_url": "https://maps.google.com/?cid=13595391190931377720&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.778645,
+      "lng": -78.98738
+    },
+    "primaryType": "sandwich_shop",
+    "types": [
+      "sandwich_shop",
+      "catering_service",
+      "food_delivery",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.4,
+    "userRatingCount": 724,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJD1RYf-TiwIcR3lSprgcQ5Gc",
+    "cid": "7486126105777755358",
+    "name": "Big Boy Burgers",
+    "formattedAddress": "12401 E US Hwy 40, Independence, MO 64055",
+    "phone": "(816) 356-1221",
+    "website": "http://www.bigboyindependence.com/",
+    "maps_url": "https://maps.google.com/?cid=7486126105777755358&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 39.042052999999996,
+      "lng": -94.433628
+    },
+    "primaryType": "american_restaurant",
+    "types": [
+      "american_restaurant",
+      "hamburger_restaurant",
+      "fast_food_restaurant",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.4,
+    "userRatingCount": 1816,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJK35LvX8NAIkR6r2dTG7AAQA",
+    "cid": "493054941052394",
+    "name": "McDonald's",
+    "formattedAddress": "1622 US-501, Conway, SC 29526",
+    "phone": "(843) 488-1647",
+    "website": "https://www.mcdonalds.com/us/en-us/location/SC/CONWAY/1622-US-HWY-501/3464.html?cid=RF:YXT:GMB::Clicks",
+    "maps_url": "https://maps.google.com/?cid=493054941052394&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8474472,
+      "lng": -79.0654924
+    },
+    "primaryType": "fast_food_restaurant",
+    "types": [
+      "fast_food_restaurant",
+      "hamburger_restaurant",
+      "breakfast_restaurant",
+      "sandwich_shop",
+      "coffee_shop",
+      "cafe",
+      "american_restaurant",
+      "food_store",
+      "restaurant",
+      "food",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3.6,
+    "userRatingCount": 2850,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.895Z"
+  },
+  {
+    "id": "ChIJLzuws1gLAIkR4_28slHVoow",
+    "cid": "10133896658404834787",
+    "name": "BC Moore Engineering",
+    "formattedAddress": "3700 Paradise Estates Dr, Conway, SC 29526",
+    "phone": "(843) 855-0783",
+    "website": "http://www.bcmooreengineering.com/",
+    "maps_url": "https://maps.google.com/?cid=10133896658404834787&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9300333,
+      "lng": -79.03708929999999
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJf-6bhlrw5AARzC2VFtKF7Kg",
+    "cid": "12172251030244109772",
+    "name": "JPK Contractors Inc.",
+    "formattedAddress": "405 Bobby Gerald Pkwy, Marion, SC 29571",
+    "phone": "(843) 423-5446",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=12172251030244109772&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.18399540000001,
+      "lng": -79.40468469999999
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJE3grzLto_4gRCnFaOIzTo-A",
+    "cid": "16187014084894028042",
+    "name": "Bobby Richardson Sports Complex",
+    "formattedAddress": "440 Theatre Dr, Sumter, SC 29150",
+    "phone": "(803) 436-2248",
+    "website": "https://www.sumtersc.gov/discover-sumter/things-do/parks-trails",
+    "maps_url": "https://maps.google.com/?cid=16187014084894028042&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.938429899999996,
+      "lng": -80.380112
+    },
+    "primaryType": "park",
+    "types": [
+      "park",
+      "tourist_attraction",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 173,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJKwRG7GxpAIkRCZvpBwHbxIU",
+    "cid": "9639069899953904393",
+    "name": "Myrtle Beach Chrysler Jeep",
+    "formattedAddress": "785 Jason Blvd, Myrtle Beach, SC 29577",
+    "phone": "(843) 448-1191",
+    "website": "https://www.myrtlebeachchryslerjeep.net/?utm_source=google&utm_medium=google+my+business",
+    "maps_url": "https://maps.google.com/?cid=9639069899953904393&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7122212,
+      "lng": -78.9080302
+    },
+    "primaryType": "car_dealer",
+    "types": [
+      "car_dealer",
+      "truck_dealer",
+      "car_repair",
+      "finance",
+      "service",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.2,
+    "userRatingCount": 829,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJX9E_Hcttq4kRfOqeb8IW8ew",
+    "cid": "17073452686690413180",
+    "name": "Bobby Taylor Oil Company Inc",
+    "formattedAddress": "4501 Ramsey St, Fayetteville, NC 28311",
+    "phone": "(910) 488-3760",
+    "website": "https://www.bobbytayloroilnc.com/",
+    "maps_url": "https://maps.google.com/?cid=17073452686690413180&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.1216864,
+      "lng": -78.8815978
+    },
+    "primaryType": "service",
+    "types": [
+      "supplier",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.1,
+    "userRatingCount": 76,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJVQtHCQR9AIkRLTu30TVvrhI",
+    "cid": "1346135615572753197",
+    "name": "Bobby Putman - Contour Mortgage",
+    "formattedAddress": "1000 2nd Ave S suite 321, North Myrtle Beach, SC 29582",
+    "phone": "(630) 345-0177",
+    "website": "https://www.contourmortgage.com/bobby-putman",
+    "maps_url": "https://maps.google.com/?cid=1346135615572753197&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8264796,
+      "lng": -78.6833517
+    },
+    "primaryType": "finance",
+    "types": [
+      "finance",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 16,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJoz-OVpJUqokRY0qkSxqLUTc",
+    "cid": "3986120090254068323",
+    "name": "Bobby Taylor Oil Co Inc",
+    "formattedAddress": "2229 US-701 Hwy N, Elizabethtown, NC 28337",
+    "phone": "(910) 862-7700",
+    "website": "https://parkeroilcompany.com/btenergy/",
+    "maps_url": "https://maps.google.com/?cid=3986120090254068323&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.6481674,
+      "lng": -78.57709
+    },
+    "primaryType": "service",
+    "types": [
+      "supplier",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 22,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJ0RqwSlS1rokRyzq7_yR8B8s",
+    "cid": "14629798412887472843",
+    "name": "Bobby's Auto Sales",
+    "formattedAddress": "1001 Dr Martin Luther King Jr Blvd, Kinston, NC 28501",
+    "phone": "(252) 527-7399",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=14629798412887472843&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.270320399999996,
+      "lng": -77.570323
+    },
+    "primaryType": "car_dealer",
+    "types": [
+      "car_dealer",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 29,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJa5ucHvpzq4kREFkQJ6OLxlQ",
+    "cid": "6108723477425969424",
+    "name": "The Bobby Pin Hair Studio",
+    "formattedAddress": "4029 Dunn Rd, Eastover, NC 28312",
+    "phone": "(910) 339-5284",
+    "website": "https://www.thebobbypinhairstudio.com/",
+    "maps_url": "https://maps.google.com/?cid=6108723477425969424&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.101301400000004,
+      "lng": -78.78062829999999
+    },
+    "primaryType": "hair_salon",
+    "types": [
+      "hair_salon",
+      "hair_care",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.8,
+    "userRatingCount": 125,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:06:43.469Z"
+  },
+  {
+    "id": "ChIJFR9167whwY0R676hpv_fMKM",
+    "cid": "11759144916169637611",
+    "name": "Neptune Plumbing LLC",
+    "formattedAddress": "294 Longside Ct, Little River, SC 29566",
+    "phone": "(854) 901-0066",
+    "website": "http://neptuneplumbingsc.com/",
+    "maps_url": "https://maps.google.com/?cid=11759144916169637611&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8994603,
+      "lng": -78.5982943
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 40,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:05:47.158Z"
+  },
+  {
+    "id": "ChIJq0-935pV_4gRLlb1MFR_90I",
+    "cid": "4825465525326140974",
+    "name": "Sacon Commercial Construction",
+    "formattedAddress": "749 Kirkland Cir, Elgin, SC 29045",
+    "phone": "(803) 572-4300",
+    "website": "http://sacon.us/",
+    "maps_url": "https://maps.google.com/?cid=4825465525326140974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.147304999999996,
+      "lng": -80.75824340000001
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "electrician",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.7,
+    "userRatingCount": 18,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:05:46.787Z"
+  },
+  {
+    "id": "ChIJsxejn7gB3IARwevrW3tIELE",
+    "cid": "12758777439000980417",
+    "name": "Mann Contracting",
+    "formattedAddress": "1804 Garnet Ave, San Diego, CA 92109",
+    "phone": "(619) 535-1322",
+    "website": "http://www.mannplumbingsandiego.com/",
+    "maps_url": "https://maps.google.com/?cid=12758777439000980417&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 32.8016527,
+      "lng": -117.2366395
+    },
+    "primaryType": "service",
+    "types": [
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:05:46.317Z"
+  },
+  {
+    "id": "ChIJ3W8Nx9hh44kROgE9mqZwoY8",
+    "cid": "10349677279528681786",
+    "name": "Jack Conway Realtors - Conway Commercial",
+    "formattedAddress": "137 Washington St, Norwell, MA 02061",
+    "phone": "(781) 982-2333",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=10349677279528681786&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 42.170090099999996,
+      "lng": -70.87602799999999
+    },
+    "primaryType": "real_estate_agency",
+    "types": [
+      "real_estate_agency",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.700Z"
+  },
+  {
+    "id": "ChIJtT0q3Y8TAIkRCB5nM_btg-Q",
+    "cid": "16466266304276798984",
+    "name": "Barney’s Builders",
+    "formattedAddress": "3217 Holly Lp, Conway, SC 29527",
+    "phone": "(843) 503-1079",
+    "website": "http://www.facebook.com/barneysbuilders/",
+    "maps_url": "https://maps.google.com/?cid=16466266304276798984&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8249497,
+      "lng": -79.08120960000001
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJ5dcCBvkNAIkRTxnpwmcYr6M",
+    "cid": "11794672783037372751",
+    "name": "Bakers Residential Experts-Hvac-Plumbing-Electrical",
+    "formattedAddress": "2910 Hwy 65, Conway, SC 29526",
+    "phone": "(843) 236-0099",
+    "website": "https://bakersresidentialexperts.com/?utm_campaign=gmb",
+    "maps_url": "https://maps.google.com/?cid=11794672783037372751&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8772648,
+      "lng": -79.0477623
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "plumber",
+      "electrician",
+      "manufacturer",
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 1241,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJu1l2A24RAIkR5JdRTvN9oHs",
+    "cid": "8908258546883336164",
+    "name": "Big Nick the Handyman",
+    "formattedAddress": "6263 Deborah Cir, Conway, SC 29527",
+    "phone": "(843) 231-0524",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=8908258546883336164&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7743044,
+      "lng": -79.1580163
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJE-syah5tAIkRr6pDIxDTwHA",
+    "cid": "8124725794040949423",
+    "name": "Fbi Construction Inc",
+    "formattedAddress": "490 Allied Dr, Conway, SC 29526",
+    "phone": "(843) 234-4324",
+    "website": "https://fbiconstruction.com/",
+    "maps_url": "https://maps.google.com/?cid=8124725794040949423&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.794773,
+      "lng": -78.9929028
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJUYIvOzRtAIkRpSVYBNI5rxw",
+    "cid": "2066934328165148069",
+    "name": "Sb Precision Builders",
+    "formattedAddress": "150 Ole Woodward Ave, Conway, SC 29526",
+    "phone": "",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=2066934328165148069&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.812334199999995,
+      "lng": -79.0151047
+    },
+    "primaryType": "service",
+    "types": [
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJb82Z9mkQAIkR6iRkOkym-fo",
+    "cid": "18084668625010304234",
+    "name": "Brothers General Services",
+    "formattedAddress": "5371 Zaccheus Ln, Conway, SC 29527",
+    "phone": "(843) 855-1525",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=18084668625010304234&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8252154,
+      "lng": -79.1778909
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJsR_3U9gTAIkRy_WPxzqfglQ",
+    "cid": "6089604720963352011",
+    "name": "Guy Smith Plumbing LLC",
+    "formattedAddress": "3663 Red Elf Ln, Conway, SC 29527",
+    "phone": "(843) 397-3567",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=6089604720963352011&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7897999,
+      "lng": -79.1067728
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 3.7,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJGcqurp0SAIkRKALjw4B0P5s",
+    "cid": "11186788095802671656",
+    "name": "Craig Causey Plumbing LLC",
+    "formattedAddress": "PO Box 201, Conway, SC 29528",
+    "phone": "(843) 458-4715",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=11186788095802671656&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.840016399999996,
+      "lng": -79.04998479999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.1,
+    "userRatingCount": 22,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJ6a4o5Y8SAIkR0vhpbSm7jsk",
+    "cid": "14523751634920143058",
+    "name": "Thomas Supply Co Inc",
+    "formattedAddress": "1509 3rd Ave, Conway, SC 29526",
+    "phone": "(843) 248-4685",
+    "website": "http://www.thomassupply.com/",
+    "maps_url": "https://maps.google.com/?cid=14523751634920143058&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8310916,
+      "lng": -79.0537865
+    },
+    "primaryType": "manufacturer",
+    "types": [
+      "building_materials_store",
+      "manufacturer",
+      "store",
+      "point_of_interest",
+      "supplier",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.3,
+    "userRatingCount": 53,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJ1f1L5HcIAIkRYZSEmfcbofU",
+    "cid": "17699458760789234785",
+    "name": "Buddy Rabon Plumbing Inc",
+    "formattedAddress": "2299 SC-319, Aynor, SC 29511",
+    "phone": "(843) 385-1713",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=17699458760789234785&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.989402999999996,
+      "lng": -79.161261
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 0,
+    "userRatingCount": 0,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:23.409Z"
+  },
+  {
+    "id": "ChIJTzZOW1qOMYgRPhdxkEbFpeY",
+    "cid": "16619906906742396734",
+    "name": "Bobby's Sewer & Drain Cleaning Inc",
+    "formattedAddress": "5481 Old Orchard Dr, Geneva, OH 44041",
+    "phone": "(440) 466-4297",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=16619906906742396734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 41.772424,
+      "lng": -80.950523
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "building_materials_store",
+      "manufacturer",
+      "store",
+      "point_of_interest",
+      "supplier",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 28,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-09T12:02:22.985Z"
+  },
+  {
+    "id": "ChIJv1hpYsGvdEQRuNJTjaxfB5c",
+    "cid": "10882772219274187448",
+    "name": "American Electric And Plumbing",
+    "formattedAddress": "1351 Stockholder Ave #3, Myrtle Beach, SC 29577",
+    "phone": "(843) 839-9069",
+    "website": "http://goamericansc.com/",
+    "maps_url": "https://maps.google.com/?cid=10882772219274187448&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7041598,
+      "lng": -78.9040625
+    },
+    "primaryType": "electrician",
+    "types": [
+      "electrician",
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 43,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:39.117Z"
+  },
+  {
+    "id": "ChIJyTfkla-qUYgR5oLiRmzRtbE",
+    "cid": "12805371378473796326",
+    "name": "Plumbing 2 Perfection, LLC",
+    "formattedAddress": "8846 Nashville Dr NW, Calabash, NC 28467",
+    "phone": "(910) 880-5289",
+    "website": "http://www.plumbing2perfection.com/",
+    "maps_url": "https://maps.google.com/?cid=12805371378473796326&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.9515874,
+      "lng": -78.56262939999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 58,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:39.117Z"
+  },
+  {
+    "id": "ChIJtRH8taqhlVQRyuYvWm_80Ew",
+    "cid": "5535201497222997706",
+    "name": "Perfect Service Plumbing and Drain Cleaning",
+    "formattedAddress": "1011 SE Oak St, Portland, OR 97214",
+    "phone": "(503) 964-4000",
+    "website": "https://www.theperfectservice.com/",
+    "maps_url": "https://maps.google.com/?cid=5535201497222997706&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 45.5205172,
+      "lng": -122.6552987
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 157,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.734Z"
+  },
+  {
+    "id": "ChIJw24DUU58AIkRxdtA5UdWHjw",
+    "cid": "4331994758365895621",
+    "name": "Chase Plumbing Service INC",
+    "formattedAddress": "2120 Sea Mountain Hwy, North Myrtle Beach, SC 29582",
+    "phone": "(843) 399-4250",
+    "website": "http://chaseplumbingservice.com/",
+    "maps_url": "https://maps.google.com/?cid=4331994758365895621&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8510801,
+      "lng": -78.65524979999999
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 24,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.734Z"
+  },
+  {
+    "id": "ChIJnyBev-bI3IAR3I-Fkpr6hzw",
+    "cid": "4361730305921748956",
+    "name": "Plumbing Concepts, Inc.",
+    "formattedAddress": "2445 Railroad St, Corona, CA 92878",
+    "phone": "(951) 520-8590",
+    "website": "https://plumbingconcepts.com/",
+    "maps_url": "https://maps.google.com/?cid=4361730305921748956&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.8879247,
+      "lng": -117.61571769999998
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 4.9,
+    "userRatingCount": 442,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.734Z"
+  },
+  {
+    "id": "ChIJAQAAALxlAIkRW4rXXkUWTBE",
+    "cid": "1246395684074523227",
+    "name": "Action Plumbing Inc",
+    "formattedAddress": "Myrtle Beach, SC 29572",
+    "phone": "(843) 650-0701",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=1246395684074523227&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.7611785,
+      "lng": -78.8121542
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 3,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.734Z"
+  },
+  {
+    "id": "ChIJQ-L_3USE9YgRr7PXfxOwlUQ",
+    "cid": "4942049763904697263",
+    "name": "Innovative Plumbing and Construction",
+    "formattedAddress": "4755 Spot Rd, Cumming, GA 30040",
+    "phone": "(678) 776-2116",
+    "website": "https://www.innovativeplumbingandconstruction.com/",
+    "maps_url": "https://maps.google.com/?cid=4942049763904697263&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.248983200000005,
+      "lng": -84.1571866
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 62,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.274Z"
+  },
+  {
+    "id": "ChIJOdxIRX-5woAR7KA-1J20ELc",
+    "cid": "13191241898531922156",
+    "name": "Build Solutions (Commercial General Contractor)",
+    "formattedAddress": "1901 Ave of the Stars # 200, Los Angeles, CA 90067",
+    "phone": "(424) 234-1881",
+    "website": "http://www.buildsolutionsgc.com/",
+    "maps_url": "https://maps.google.com/?cid=13191241898531922156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 34.0595944,
+      "lng": -118.41766410000001
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 25,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T23:02:38.274Z"
+  },
+  {
+    "id": "ChIJ_____w9rq4kRsSucrzGTRvk",
+    "cid": "17962206005422730161",
+    "name": "Residential Plumbing Co",
+    "formattedAddress": "Fayetteville, NC 28303",
+    "phone": "(910) 257-9871",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=17962206005422730161&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.0939,
+      "lng": -78.9626931
+    },
+    "primaryType": "plumber",
+    "types": [
+      "plumber",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.771Z"
+  },
+  {
+    "id": "ChIJAbpodLV8_ogRBMaOu3bCC-w",
+    "cid": "17008902232903435780",
+    "name": "C.R. Hipp Construction, Inc.",
+    "formattedAddress": "121 Carolina Ave, Goose Creek, SC 29445",
+    "phone": "(843) 744-4477",
+    "website": "https://www.crhippconstruction.com/",
+    "maps_url": "https://maps.google.com/?cid=17008902232903435780&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 32.994811999999996,
+      "lng": -80.0407943
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.6,
+    "userRatingCount": 17,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.770Z"
+  },
+  {
+    "id": "ChIJf_FSnjqfVogRVbRC6xqmZQ8",
+    "cid": "1109475517763073109",
+    "name": "Tenant Improvement Interiors, LLC",
+    "formattedAddress": "2108 South Blvd, Charlotte, NC 28203",
+    "phone": "(704) 305-2770",
+    "website": "http://www.tiinteriors.net/",
+    "maps_url": "https://maps.google.com/?cid=1109475517763073109&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.2076899,
+      "lng": -80.86177839999999
+    },
+    "primaryType": "",
+    "types": [
+      "corporate_office",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 3,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.770Z"
+  },
+  {
+    "id": "ChIJt8YG_rXL5YgRH89ClutvpfM",
+    "cid": "17556561780002705183",
+    "name": "Tenant Contractors",
+    "formattedAddress": "5120 Sunbeam Rd, Jacksonville, FL 32257",
+    "phone": "(904) 268-1008",
+    "website": "http://tenantcontractors.com/",
+    "maps_url": "https://maps.google.com/?cid=17556561780002705183&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 30.2055831,
+      "lng": -81.5812693
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 4,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.770Z"
+  },
+  {
+    "id": "ChIJI59OtVhqAIkR7MNDnyiFUkk",
+    "cid": "5283431722376217580",
+    "name": "Steve's Handyman",
+    "formattedAddress": "5512 Jennifer Ln, Myrtle Beach, SC 29588",
+    "phone": "(843) 293-2221",
+    "website": "",
+    "maps_url": "https://maps.google.com/?cid=5283431722376217580&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.6864942,
+      "lng": -78.9727218
+    },
+    "primaryType": "general_contractor",
+    "types": [
+      "general_contractor",
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4,
+    "userRatingCount": 2,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.770Z"
+  },
+  {
+    "id": "ChIJozvOL-vf3IARzSQnOU87KtQ",
+    "cid": "15288097096509891789",
+    "name": "Tenant Inc.",
+    "formattedAddress": "5281 California Ave Suite 320, Irvine, CA 92617",
+    "phone": "(949) 894-4500",
+    "website": "https://tenantinc.com/",
+    "maps_url": "https://maps.google.com/?cid=15288097096509891789&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 33.635484399999996,
+      "lng": -117.8506713
+    },
+    "primaryType": "",
+    "types": [
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 4.5,
+    "userRatingCount": 46,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.770Z"
+  },
+  {
+    "id": "ChIJn3mYV7Vtq4kRYDMjFK0TUQU",
+    "cid": "383109077391324000",
+    "name": "Commercial Construction Contractors",
+    "formattedAddress": "584 Executive Pl Suite 102, Fayetteville, NC 28305",
+    "phone": "(910) 303-7683",
+    "website": "https://cccbuildnc.com/",
+    "maps_url": "https://maps.google.com/?cid=383109077391324000&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "location": {
+      "lat": 35.049076899999996,
+      "lng": -78.923661
+    },
+    "primaryType": "service",
+    "types": [
+      "service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "rating": 5,
+    "userRatingCount": 1,
+    "business_status": "OPERATIONAL",
+    "last_seen_at": "2026-03-06T22:26:34.769Z"
+  }
+]

@@ -3,11 +3,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
+import { pathToFileURL } from "node:url";
 import { searchSubcontractors, toCsv, taxonomyForUi } from "./search-engine.js";
 
-const PORT = Number(process.env.PORT || 8787);
-const HOST = process.env.HOST || "0.0.0.0";
-const ROOT = path.resolve(process.cwd());
+const DEFAULT_PORT = Number(process.env.PORT || 8787);
+const DEFAULT_HOST = process.env.HOST || "0.0.0.0";
+const ROOT = path.resolve(process.env.KEYSTONE_ROOT || process.cwd());
 const APP_HTML = path.join(ROOT, "ui", "app.html");
 const APP_V2_HTML = path.join(ROOT, "ui-v2", "app.html");
 const UI_DIR = path.join(ROOT, "ui");
@@ -17,6 +18,10 @@ const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
+const IP_GEO_URLS = [
+  "https://ipapi.co/json/",
+  "https://ipwho.is/"
+];
 const REQUEST_TIMEOUT_MS = 12000;
 
 function normalizeValue(v) {
@@ -110,15 +115,48 @@ function sanitizePreferredRow(input) {
 }
 
 function getGoogleApiKey() {
-  if (process.env.GOOGLE_MAPS_API_KEY) return process.env.GOOGLE_MAPS_API_KEY.trim();
-  const envPath = path.join(ROOT, ".env");
-  if (!fs.existsSync(envPath)) return "";
-  const line = fs
-    .readFileSync(envPath, "utf8")
-    .split(/\r?\n/)
-    .find((r) => r.trim().startsWith("GOOGLE_MAPS_API_KEY="));
-  if (!line) return "";
-  return line.split("=").slice(1).join("=").trim().replace(/^['"]|['"]$/g, "");
+  const direct =
+    String(process.env.GOOGLE_MAPS_API_KEY || "").trim() ||
+    String(process.env.KEYSTONE_GOOGLE_MAPS_API_KEY || "").trim();
+  if (direct) return direct;
+
+  const readKeyFromEnvFile = (envPath) => {
+    try {
+      if (!envPath || !fs.existsSync(envPath)) return "";
+      const line = fs
+        .readFileSync(envPath, "utf8")
+        .split(/\r?\n/)
+        .find((r) => /^(\s*export\s+)?GOOGLE_MAPS_API_KEY\s*=/.test(r));
+      if (!line) return "";
+      return line
+        .replace(/^(\s*export\s+)?GOOGLE_MAPS_API_KEY\s*=\s*/, "")
+        .trim()
+        .replace(/^['"]|['"]$/g, "");
+    } catch {
+      return "";
+    }
+  };
+
+  const candidates = [];
+  const push = (p) => {
+    const v = String(p || "").trim();
+    if (!v || candidates.includes(v)) return;
+    candidates.push(v);
+  };
+
+  push(process.env.KEYSTONE_ENV_PATH);
+  push(path.join(ROOT, ".env"));
+  push(path.join(process.cwd(), ".env"));
+  push(path.join(String(process.env.KEYSTONE_ROOT || ROOT), ".env"));
+  if (process.env.KEYSTONE_USER_DATA) push(path.join(process.env.KEYSTONE_USER_DATA, ".env"));
+  if (process.resourcesPath) push(path.join(process.resourcesPath, ".env"));
+  if (process.execPath) push(path.join(path.dirname(process.execPath), ".env"));
+
+  for (const envPath of candidates) {
+    const key = readKeyFromEnvFile(envPath);
+    if (key) return key;
+  }
+  return "";
 }
 
 function extractSuggestionText(item) {
@@ -215,6 +253,55 @@ async function resolveCityFromLocation(location) {
   const address = first?.address || {};
   const city = String(address.city || address.town || address.village || address.hamlet || "").trim();
   return { city };
+}
+
+async function fetchApproxLocationFromIp() {
+  for (const endpoint of IP_GEO_URLS) {
+    try {
+      const res = await fetch(endpoint, {
+        headers: {
+          "User-Agent": "keystone-connect/1.0",
+          Accept: "application/json"
+        },
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) continue;
+
+      const lat = Number(
+        json?.latitude ??
+        json?.lat
+      );
+      const lng = Number(
+        json?.longitude ??
+        json?.lon ??
+        json?.lng
+      );
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+
+      const city = String(
+        json?.city ||
+        json?.city_name ||
+        ""
+      ).trim();
+      const state = String(
+        json?.region ||
+        json?.region_code ||
+        json?.state ||
+        ""
+      ).trim();
+      const label = [city, state].filter(Boolean).join(", ");
+      return {
+        lat,
+        lng,
+        label,
+        source: endpoint.includes("ipapi.co") ? "ipapi" : "ipwhois"
+      };
+    } catch {
+      // try next provider
+    }
+  }
+  return null;
 }
 
 function contentTypeFor(filePath) {
@@ -378,7 +465,11 @@ const server = http.createServer(async (req, res) => {
         queryContexts: Array.isArray(input.queryContexts) ? input.queryContexts : [],
         strictTypeFilter: input.strictTypeFilter !== false,
         radiusMiles: input.radiusMiles,
-        engineMode: String(input.engineMode || "api").toLowerCase() === "ggl" ? "ggl" : "api",
+        engineMode: (() => {
+          const mode = String(input.engineMode || "apib").toLowerCase();
+          if (mode === "ggl" || mode === "api" || mode === "apib") return mode;
+          return "apib";
+        })(),
         mode: input.mode === "statewide" ? "statewide" : "single",
         gridStepMiles: input.gridMiles,
         includeEmails: Boolean(input.includeEmails),
@@ -498,6 +589,16 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && url.pathname === "/api/ip-location") {
+      const result = await fetchApproxLocationFromIp();
+      if (!result) {
+        sendJson(res, 503, { error: "IP location unavailable" });
+        return;
+      }
+      sendJson(res, 200, result);
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === "/api/ping") {
       sendJson(res, 200, { ok: true, service: "keystone-connect" });
       return;
@@ -522,6 +623,52 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, HOST, () => {
-  console.log(`Web app running at http://${HOST}:${PORT}`);
-});
+let started = false;
+let currentHost = DEFAULT_HOST;
+let currentPort = DEFAULT_PORT;
+
+export async function startServer({ host = DEFAULT_HOST, port = DEFAULT_PORT } = {}) {
+  if (started) {
+    return { server, host: currentHost, port: currentPort };
+  }
+
+  return new Promise((resolve, reject) => {
+    const onError = (error) => {
+      server.off("listening", onListening);
+      reject(error);
+    };
+    const onListening = () => {
+      server.off("error", onError);
+      started = true;
+      currentHost = host;
+      currentPort = port;
+      console.log(`Web app running at http://${host}:${port}`);
+      resolve({ server, host, port });
+    };
+
+    server.once("error", onError);
+    server.once("listening", onListening);
+    server.listen(port, host);
+  });
+}
+
+export async function stopServer() {
+  if (!started) return;
+  await new Promise((resolve) => {
+    server.close(() => resolve());
+  });
+  started = false;
+}
+
+const isDirectRun = (() => {
+  const argPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
+  if (!argPath) return false;
+  return import.meta.url === pathToFileURL(argPath).href;
+})();
+
+if (isDirectRun) {
+  startServer().catch((error) => {
+    console.error(error?.message || error);
+    process.exit(1);
+  });
+}

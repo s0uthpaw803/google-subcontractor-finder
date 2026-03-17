@@ -25,6 +25,7 @@
       background:#0b0d10;
       -webkit-text-size-adjust:100%;
       text-size-adjust:100%;
+      caret-color:transparent;
     }
     *{box-sizing:border-box}
     body{
@@ -42,7 +43,9 @@
       padding:14px;
       position:relative;
       overflow:hidden;
+      caret-color:transparent;
     }
+    input, textarea, [contenteditable="true"]{caret-color:auto}
     body[data-theme="light"]{
       background:
         radial-gradient(circle at 50% 24%, rgba(255,255,255,.04), transparent 48%),
@@ -754,6 +757,26 @@
       text-decoration:underline;
       cursor:pointer;
     }
+    .app,
+    .body,
+    .field-block,
+    .label-row,
+    .label-row label,
+    .status-row,
+    .status,
+    .results-tools-bar,
+    .list,
+    .card,
+    .result-row1,
+    .result-main,
+    .result-company,
+    .result-side,
+    .name,
+    .footer-row,
+    .app-footer,
+    .app-footer *:not(a):not(button){
+      cursor:default;
+    }
     .clear-link-btn:hover{color:#ffffff}
     .list{
       display:grid;
@@ -1376,7 +1399,7 @@
               <label for="location">Location</label>
               <label class="inline-check compact-check">
                 <input id="useMyLocation" type="checkbox" />
-                Use my location
+                Use approximate location
               </label>
             </div>
             <div class="view-controls">
@@ -1417,6 +1440,8 @@
                   <div class="faq-title" style="margin-top:8px">Notes</div>
                 <ul class="faq-list">
                   <li>Distance shown is straight-line</li>
+                  <li>Results are not sponsored ads</li>
+                  <li>Results are sorted by relevance first, then distance</li>
                   <li>Results depend on listing quality</li>
                   <li>Some listings may lack website or email</li>
                 </ul>
@@ -2677,7 +2702,7 @@
         return;
       }
       if (!window.isSecureContext) {
-        setStatus("Use my location requires HTTPS (or localhost).");
+        setStatus("Use approximate location requires HTTPS (or localhost).");
         els.useMyLocation.checked = false;
         syncLocationFieldLock();
         return;
@@ -2998,6 +3023,10 @@
       if (target.closest(".remove-toggle")) return;
     });
     document.addEventListener("keydown", (event) => {
+      if (event.key === "F7") {
+        event.preventDefault();
+        return;
+      }
       if (event.key === "Escape") closeFaqPanel();
     });
     window.addEventListener("resize", () => {

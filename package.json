@@ -1,12 +1,62 @@
 {
   "name": "keystone-connect",
   "version": "1.0.0",
-  "description": "Find subcontractors by city, ZIP code, or state using Google Places API.",
+  "description": "Keystone Connect desktop and web contractor discovery platform.",
   "type": "module",
-  "main": "src/web-server.js",
+  "main": "desktop/main.cjs",
   "scripts": {
     "start": "node src/web-server.js",
-    "app": "node src/web-server.js"
+    "app": "node src/web-server.js",
+    "desktop:dev": "electron .",
+    "desktop:organize": "node desktop/organize-builds.mjs",
+    "desktop:build": "npm run desktop:build:mac && npm run desktop:build:win",
+    "desktop:build:mac": "electron-builder --mac && electron-builder --mac --x64 && npm run desktop:organize",
+    "desktop:build:win": "electron-builder --win && electron-builder --win --x64 && npm run desktop:organize"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^34.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.mcdowell.keystoneconnect",
+    "productName": "Keystone Connect",
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "files": [
+      "desktop/**/*",
+      "src/**/*",
+      "ui/**/*",
+      "ui-v2/**/*",
+      "data/**/*",
+      "package.json",
+      ".env",
+      ".env.example"
+    ],
+    "mac": {
+      "icon": "build/icons/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.business",
+      "extendInfo": {
+        "NSLocationWhenInUseUsageDescription": "Keystone Connect uses your location to find nearby contractors.",
+        "NSLocationUsageDescription": "Keystone Connect uses your location to find nearby contractors."
+      }
+    },
+    "win": {
+      "icon": "build/icons/icon.ico",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "nsis": {
+      "installerIcon": "build/icons/icon.ico",
+      "uninstallerIcon": "build/icons/icon.ico",
+      "installerHeaderIcon": "build/icons/icon.ico"
+    }
+  }
 }

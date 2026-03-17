@@ -8,6 +8,8 @@ npm-debug.log*
 # Runtime output
 logs/
 data/exports/*.csv
+dist-desktop/
+.electron-cache/
 
 # macOS
 .DS_Store
