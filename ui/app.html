@@ -83,8 +83,32 @@
       content:none;
     }
     .app{border-color:#333}
-    .top{line-height:0;border-bottom:1px solid var(--line);overflow:hidden;flex:0 0 auto;position:relative;z-index:2;margin-bottom:0}
-    .top img{display:block;width:100%;height:auto;background:#111}
+    .top{
+      line-height:0;
+      border-bottom:1px solid var(--line);
+      overflow:hidden;
+      flex:0 0 auto;
+      position:relative;
+      z-index:2;
+      margin-bottom:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#111;
+      padding:0 16px;
+      min-height:112px;
+    }
+    .top img{
+      display:block;
+      width:100%;
+      max-width:100%;
+      height:auto;
+      max-height:100%;
+      margin:0 auto;
+      background:#111;
+      object-fit:contain;
+      object-position:center center;
+    }
     .body{
       padding:15px 10px 10px;
       display:flex;
@@ -1391,7 +1415,7 @@
 <body>
   <div class="shell">
     <div class="app" id="appRoot" data-theme="dark" data-layout="keystone">
-      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=1772211200" alt="Header" /></div>
+      <div class="top"><img id="brandBanner" src="/assets/keystone-header.png?v=1772555500" alt="Header" /></div>
       <div class="body">
         <div class="field-block location-block">
           <div class="label-row">
@@ -2161,7 +2185,7 @@
     function applyLayout(){
       document.body.setAttribute("data-layout", "keystone");
       els.app.setAttribute("data-layout", "keystone");
-      els.brandBanner.src = "/assets/keystone-header.png?v=1772211200";
+      els.brandBanner.src = "/assets/keystone-header.png?v=1772555500";
       localStorage.setItem("kc_layout", "keystone");
     }
 

@@ -144,11 +144,31 @@ def build_pdf(source_name: str, output_name: str):
 
 
 if __name__ == "__main__":
-    build_pdf(
-        "Production-Technical-Blueprint-First-Person.md",
-        "Production-Technical-Blueprint-First-Person.pdf",
-    )
-    build_pdf(
-        "Production-Technical-Blueprint-Executive-Summary.md",
-        "Production-Technical-Blueprint-Executive-Summary.pdf",
-    )
+    builds = [
+        (
+            "Production-Technical-Blueprint.md",
+            "Production-Technical-Blueprint.pdf",
+        ),
+        (
+            "Production-Technical-Blueprint-First-Person.md",
+            "Production-Technical-Blueprint-First-Person.pdf",
+        ),
+        (
+            "Production-Technical-Blueprint-Executive-Summary.md",
+            "Production-Technical-Blueprint-Executive-Summary.pdf",
+        ),
+        (
+            "Keystone-Connect-One-Pager-Plain-English.md",
+            "Keystone-Connect-One-Pager-Plain-English.pdf",
+        ),
+        (
+            "Quick-Guide-Plain-English.md",
+            "Keystone-Connect-Super-Simple-Guide.pdf",
+        ),
+        (
+            "Public-Release-FAQ.md",
+            "Public-Release-FAQ.pdf",
+        ),
+    ]
+    for source_name, output_name in builds:
+        build_pdf(source_name, output_name)

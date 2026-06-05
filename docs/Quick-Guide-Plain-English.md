@@ -1,48 +1,54 @@
 # Keystone Connect - Quick Guide (Plain English)
 
 ## What This App Does
-Keystone Connect helps you find local contractor businesses fast.
-You pick a location and a business type, then the app gives you matching companies.
+Keystone Connect helps me find local contractor businesses fast.
+I pick a location and a business type, then the app gives me matching companies.
 
 ## Quick Steps
-1. Enter a location (ZIP, city, state), or check **Use my location**.
-2. Pick a **Business Query** category (or choose **Manual Override** to type your own search).
-3. Set the search **Radius (miles)**.
+1. Enter a location, or check **Use approximate location**.
+2. Pick a **Business Query** category, or choose **Manual Override** to type my own search.
+3. Set the search **Radius (mi)**.
 4. Click **Search**.
 5. Review the results and click **website** or **map**.
-6. Click **Download CSV** if you want a file of the results.
+6. Click **DOWNLOAD .XLSX** if I want a file of the results.
 
 ## Main Options (Simple)
-- **Use my location**: Uses your device/browser location.
+- **Use approximate location**: Uses device/browser location.
 - **Business Query**:
   - Picking a **parent category** searches all child trades in that group.
-  - **Manual Override** lets you type any search phrase.
-  - **Preferred Results** shows companies you starred.
-- **Radius (miles)**: How far out to search.
-- **Day/Night**: Changes app colors only.
-- **Pop out / Full size**: Changes window size only.
-- **GGL / API button**:
-  - This switches search engines.
-  - **API mode**: Uses the current structured search logic.
-  - **GGL mode**: Uses a looser legacy-style Google search logic.
-  - The button text shows what you will switch to next.
+  - **Manual Override** lets me type any search phrase.
+  - **Preferred Results** shows companies I starred.
+- **Radius (mi)**: How far out to search.
+- **API / APIB / GGL**:
+  - `API`: tighter, cleaner matches
+  - `APIB`: broader than API
+  - `GGL`: broadest search mode
+- **PRIOR ON / OFF**:
+  - `ON`: hides companies I already saw when I expand radius
+  - `OFF`: shows everything
+- **Get emails if available. (Slower)**:
+  - Tries to retrieve business email addresses when available
+- **Reset fields**:
+  - Clears the current search inputs and results
 
 ## Result Actions
 - **Star icon**: Save or remove a company from Preferred Results.
-- **Trash icon**: Mark a result as not relevant for that search.
-- **Clear results**: Clears current results from the screen.
+- **Trash icon**: Remove a company from that specific query.
+- **Clear results**: Clear the current visible results from the screen.
 
 ## Important Notes
 - Distance shown is **air distance** (straight-line), not driving distance.
+- Results are not sponsored ads.
+- Results are ranked by relevance first, then distance.
 - Result quality depends on Google business listing data.
 - Some businesses may not have website/email data available.
 
-## CSV Export
+## .xlsx Export
 - Exports the results currently shown on screen.
 - Includes key business fields and category section.
-- UI actions (star/remove) are not exported as extra CSV columns.
+- UI actions like star/remove are not exported as extra columns.
 
 ## If Something Looks Wrong
-- If no results: try a broader search term, bigger radius, or a nearby city.
+- If no results: try a broader search term, bigger radius, or another search mode.
 - If location suggestions overlap or look stuck: refresh and try again.
 - If location is blocked: allow location access in browser/site settings.

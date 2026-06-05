@@ -247,6 +247,13 @@ My desktop packaging target is:
 - Windows (Most PCs) current build
 - compatibility builds separated for edge cases
 
+My desktop launcher behavior is:
+
+- start on `127.0.0.1`
+- prefer port `8788`
+- move to the next open port automatically if needed
+- open the system browser only after the local server is healthy
+
 I also want the packaging workflow to automatically archive older artifacts and keep only the latest mainstream files exposed.
 
 ## 14) My Team Workflow Direction

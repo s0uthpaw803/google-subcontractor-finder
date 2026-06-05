@@ -1,6 +1,6 @@
 # Keystone Connect
 
-Lean Google Places (New) construction-business finder.
+Contractor discovery platform powered by Google Places.
 
 ## Run local
 
@@ -27,10 +27,12 @@ GOOGLE_MAPS_API_KEY=YOUR_KEY
 ## Main files
 
 - `src/web-server.js` HTTP API + static app serving
-- `src/search-engine.js` taxonomy-driven Places search, merge, rank, CSV output
+- `src/search-engine.js` taxonomy-driven Places search, merge, rank, `.xlsx` export helpers
 - `data/taxonomy.json` parent/child trade taxonomy + query profiles
-- `ui/app.html` main UI
-- `ui/assets/*` branding assets
+- `ui-v2/app.html` current primary UI
+- `ui-v2/assets/*` current branding assets
+- `desktop/main.cjs` Electron desktop launcher
+- `desktop/organize-builds.mjs` desktop artifact cleanup/renaming
 
 ## API endpoints
 

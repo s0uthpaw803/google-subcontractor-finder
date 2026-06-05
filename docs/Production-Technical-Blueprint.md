@@ -38,14 +38,16 @@ Current routes:
 4. Server resolves center (lat/lng direct or Places geocode by text).
 5. Engine builds jobs:
 6. `API` mode: taxonomy-driven job generation (`buildQueries`), weighted by parent/child query profiles.
-7. `GGL` mode: broader legacy query expansion (`buildLegacyQueries`).
-8. Engine executes Google Places jobs with retries and concurrency.
-9. Results are deduped, filtered, ranked, radius-clamped, and returned.
+7. `APIB` mode: broader weighted query generation than `API`, but still more structured than `GGL`.
+8. `GGL` mode: broadest legacy-style query expansion (`buildLegacyQueries`).
+9. Engine executes Google Places jobs with retries and concurrency.
+10. Results are deduped, filtered, ranked, radius-clamped, and returned.
 
 ### 3.2 Quality controls
 - Prior ON/OFF: client-side filtering of previously seen results in current expansion chain.
 - Irrelevant removal: search-signature scoped suppression stored server-side in JSON.
 - Preferred results: persistent star list stored server-side in JSON.
+- Approximate location: browser/device location used as search center when selected.
 
 ### 3.3 Export
 - UI exports `.xlsx` in-browser using generated OOXML ZIP.
@@ -228,6 +230,14 @@ Minimum schema validation:
 - `/api/query-categories`
 - `/` render check
 
+### 11.4 Desktop packaging outputs
+Keep desktop artifacts organized into:
+
+- `Run` for current mainstream launch/install files
+- `Share` for current mainstream zipped files
+- `Compatibility` for edge-platform builds
+- `Archive` for replaced or raw build clutter
+
 ## 12) Data Governance for Team Workflows (Master Workbook Vision)
 For shared calling/enrichment workflows:
 
@@ -271,4 +281,3 @@ This avoids concurrent edit collisions common in shared spreadsheets.
 - Key management policy documented and enforced
 - One-click rollback path documented
 - SLO dashboard and alerting configured
-

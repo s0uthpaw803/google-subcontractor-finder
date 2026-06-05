@@ -1,48 +1,56 @@
 # Keystone Connect — One-Page Guide
 
 ## What this app does
-Keystone Connect helps you quickly find local contractor companies by:
+Keystone Connect helps me quickly find local contractor companies by:
 
 - location
 - business category
 - search radius
 
-It then gives you contact info and lets you download results to `.xlsx`.
+It then lets me review results, save preferred companies, remove irrelevant ones, and download the current list to `.xlsx`.
 
 ## How to use it
-1. Enter a location (city, ZIP, or state), or check **Use my location**.
+1. Enter a location, or check **Use approximate location**.
 2. Pick a **Business Query** category, or use **Manual Override**.
 3. Set **Radius (mi)**.
 4. Click **Search**.
 5. Review results and open **website** or **map**.
-6. Click **Download .xlsx** when you want to export.
+6. Click **DOWNLOAD .XLSX** when I want to export.
 
-## Main controls (plain terms)
-- **API / GGL**
+## Main controls
+- **API / APIB / GGL**
   - `API`: tighter, cleaner matches
-  - `GGL`: broader, more results
-- **PRIOR ON/OFF**
-  - `ON`: hides companies you already saw in earlier radius expansions
+  - `APIB`: broader than API
+  - `GGL`: broadest search mode
+- **PRIOR ON / OFF**
+  - `ON`: hides companies already seen in earlier radius expansions
   - `OFF`: shows everything
-- **Get emails**
-  - Tries to pull business emails from websites
-  - Slower when enabled
-- **Star**
-  - Saves a company to Preferred Results
-- **Trash**
-  - Removes a company from this specific search query
+- **Get emails if available. (Slower)**
+  - Tries to pull business email addresses when available
+- **Use approximate location**
+  - Uses device/browser location as the search center
 - **Reset fields**
-  - Clears fields/results and starts fresh
+  - Clears the current search inputs and results
+
+## Result actions
+- **Star**
+  - Saves or removes a company from Preferred Results
+- **Trash**
+  - Removes a company from that specific query result set
+- **Clear results**
+  - Clears only the current visible results
 
 ## Important notes
-- Distance shown is straight-line distance.
-- Results quality depends on Google listing quality.
-- Some businesses will not have a website or email available.
+- Distance shown is straight-line distance, not drive time.
+- Results are not sponsored ads.
+- Results are ranked by relevance first, then distance.
+- Some businesses may not have a website or email available.
 - The app supports both desktop and mobile layouts.
 
-## Best workflow for real use
-1. Start with `API` + smaller radius.
-2. If results are thin, increase radius and keep `PRIOR ON`.
-3. Use **GGL** when you need broader discovery.
-4. Star good companies as you go.
-5. Export final list to `.xlsx`.
+## Best workflow
+1. Start with `API` and a smaller radius.
+2. If results are thin, increase the radius and keep `PRIOR ON`.
+3. Try `APIB` if `API` feels too strict.
+4. Use `GGL` when I want the broadest net.
+5. Star good companies as I go.
+6. Export the final list to `.xlsx`.

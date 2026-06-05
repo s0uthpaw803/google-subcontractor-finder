@@ -58,8 +58,27 @@
         0 22px 44px rgba(0,0,0,.36),
         inset 0 1px 0 rgba(255,255,255,.12);
     }
-    .top{border-bottom:1px solid var(--line);line-height:0}
-    .top img{display:block;width:100%;height:auto}
+    .top{
+      border-bottom:1px solid var(--line);
+      line-height:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      background:#111;
+      padding:0 16px;
+      min-height:112px;
+    }
+    .top img{
+      display:block;
+      width:100%;
+      max-width:100%;
+      height:auto;
+      max-height:100%;
+      margin:0 auto;
+      object-fit:contain;
+      object-position:center center;
+    }
     .body{padding:17px 16px 10px;display:flex;flex-direction:column;gap:11px;min-height:0;flex:1}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
     .controls-row{align-items:end}
@@ -553,7 +572,7 @@
 <body data-theme="dark">
   <div class="shell">
     <div class="app">
-      <div class="top"><img id="v2HeaderImage" src="/v2/assets/v2-keystone-header.png?v=2" alt="Keystone Header"></div>
+      <div class="top"><img id="v2HeaderImage" src="/v2/assets/v2-keystone-header.png?v=1772555500" alt="Keystone Header"></div>
       <div class="body">
         <div class="field-block">
           <div class="label-row">
@@ -663,10 +682,10 @@ const els = {
 };
 
 const v2HeaderCandidates = [
-  "/v2/assets/v2-keystone-header.png?v=2",
-  "/ui-v2/assets/v2-keystone-header.png?v=2",
-  "./assets/v2-keystone-header.png?v=2",
-  "assets/v2-keystone-header.png?v=2"
+  "/v2/assets/v2-keystone-header.png?v=1772555500",
+  "/ui-v2/assets/v2-keystone-header.png?v=1772555500",
+  "./assets/v2-keystone-header.png?v=1772555500",
+  "assets/v2-keystone-header.png?v=1772555500"
 ];
 
 function wireHeaderFallback(){

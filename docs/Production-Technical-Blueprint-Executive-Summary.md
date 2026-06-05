@@ -41,11 +41,11 @@ The product is useful because it gives users a practical workflow:
 
 The system also supports:
 
-- tighter search mode,
-- broader search mode,
+- `API`, `APIB`, and `GGL` search modes,
 - prior-result hiding during radius expansion,
 - preferred result saving,
 - irrelevant result removal,
+- approximate-location searching,
 - and `.xlsx` export generation.
 
 ## What I Need for Production
@@ -103,6 +103,12 @@ A production-ready release should include:
 - health checks,
 - clean desktop build outputs,
 - and a clear rollback path.
+
+For desktop packaging, my current mainstream outputs are intentionally simplified for internal users:
+
+- Mac (M-chip) `LATEST`
+- Windows (Most PCs) `LATEST`
+- compatibility builds separated into their own folder
 
 ## My Long-Term Direction
 Long term, I want Keystone Connect to support:
