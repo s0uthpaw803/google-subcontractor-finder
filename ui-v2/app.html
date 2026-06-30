@@ -437,7 +437,39 @@
       border-color:#be1e2d;
       background:linear-gradient(180deg, rgba(190,30,45,.22), rgba(120,18,30,.14));
     }
-    .footer{display:flex;justify-content:flex-end;font:500 .62rem Arial;color:#8e98a8;padding:4px 6px 0}
+    .footer{
+      margin-top:auto;
+      padding:10px 0 0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+      gap:9px;
+      flex:0 0 auto;
+    }
+    .footer-divider{
+      width:100%;
+      height:1px;
+      background:rgba(118,124,134,.24);
+    }
+    .footer-brand{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      flex-wrap:wrap;
+      text-align:center;
+      color:#a7afb9;
+      font:500 .72rem/1 Arial,Helvetica,sans-serif;
+      letter-spacing:.01em;
+    }
+    .footer-copy{display:inline-block}
+    .footer-logo{
+      display:block;
+      width:auto;
+      height:13px;
+      opacity:.94;
+    }
     .hidden{display:none !important}
     .radius-label-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 var(--label-gap)}
     .radius-label-row > label{margin:0}
@@ -468,6 +500,8 @@
     }
     body[data-theme="light"] .tiny-check{color:#51555d}
     body[data-theme="light"] .switch{color:#4f5661}
+    body[data-theme="light"] .footer-brand{color:#6f7680}
+    body[data-theme="light"] .footer-divider{background:rgba(103,110,119,.22)}
     body[data-theme="light"] .switch .sep{color:#4f5661;opacity:1;text-shadow:none}
     body[data-theme="light"] .switch button{
       color:#4f5661;
@@ -663,7 +697,14 @@
 
         <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn" disabled>Clear results</button></div>
         <div id="list" class="list"></div>
-        <div class="footer">© 2026 McDowell Development. All rights reserved.</div>
+        <div class="footer">
+          <div class="footer-divider" aria-hidden="true"></div>
+          <div class="footer-brand">
+            <span class="footer-copy">© 2026</span>
+            <img class="footer-logo" src="/v2/assets/footer-md-logo.png" alt="McDowell Development logo">
+            <span class="footer-copy">McDowell Development</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
