@@ -18,10 +18,6 @@ const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
-const IP_GEO_URLS = [
-  "https://ipapi.co/json/",
-  "https://ipwho.is/"
-];
 const REQUEST_TIMEOUT_MS = 12000;
 
 function normalizeValue(v) {
@@ -255,8 +251,34 @@ async function resolveCityFromLocation(location) {
   return { city };
 }
 
-async function fetchApproxLocationFromIp() {
-  for (const endpoint of IP_GEO_URLS) {
+function requestClientIp(req) {
+  const forwarded = String(req?.headers?.["x-forwarded-for"] || "")
+    .split(",")[0]
+    .trim();
+  const direct = String(
+    req?.headers?.["cf-connecting-ip"] ||
+    req?.headers?.["x-real-ip"] ||
+    ""
+  ).trim();
+  let ip = forwarded || direct;
+  if (ip.startsWith("::ffff:")) ip = ip.slice(7);
+  if (/^\d{1,3}(?:\.\d{1,3}){3}:\d+$/.test(ip)) ip = ip.replace(/:\d+$/, "");
+  return ip;
+}
+
+async function fetchApproxLocationFromIp(clientIp = "") {
+  const encodedIp = encodeURIComponent(String(clientIp || "").trim());
+  const endpoints = encodedIp
+    ? [
+        `https://ipapi.co/${encodedIp}/json/`,
+        `https://ipwho.is/${encodedIp}`
+      ]
+    : [
+        "https://ipapi.co/json/",
+        "https://ipwho.is/"
+      ];
+
+  for (const endpoint of endpoints) {
     try {
       const res = await fetch(endpoint, {
         headers: {
@@ -590,7 +612,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "GET" && url.pathname === "/api/ip-location") {
-      const result = await fetchApproxLocationFromIp();
+      const result = await fetchApproxLocationFromIp(requestClientIp(req));
       if (!result) {
         sendJson(res, 503, { error: "IP location unavailable" });
         return;
