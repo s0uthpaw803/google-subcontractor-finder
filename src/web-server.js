@@ -13,12 +13,33 @@ const APP_HTML = path.join(ROOT, "ui", "app.html");
 const APP_V2_HTML = path.join(ROOT, "ui-v2", "app.html");
 const UI_DIR = path.join(ROOT, "ui");
 const UI_V2_DIR = path.join(ROOT, "ui-v2");
-const IRRELEVANT_JSON = path.join(ROOT, "data", "irrelevant-filters.json");
-const PREFERRED_JSON = path.join(ROOT, "data", "preferred-results.json");
+const SOURCE_DATA_DIR = path.join(ROOT, "data");
+const DATA_DIR = path.resolve(
+  process.env.KEYSTONE_DATA_DIR ||
+  (String(process.env.RENDER || "").toLowerCase() === "true" ? "/var/data" : SOURCE_DATA_DIR)
+);
+const IRRELEVANT_JSON = path.join(DATA_DIR, "irrelevant-filters.json");
+const PREFERRED_JSON = path.join(DATA_DIR, "preferred-results.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
 const REQUEST_TIMEOUT_MS = 12000;
+
+function initializeRuntimeDataFile(fileName) {
+  const targetPath = path.join(DATA_DIR, fileName);
+  if (fs.existsSync(targetPath)) return;
+
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  const sourcePath = path.join(SOURCE_DATA_DIR, fileName);
+  if (sourcePath !== targetPath && fs.existsSync(sourcePath)) {
+    fs.copyFileSync(sourcePath, targetPath);
+    return;
+  }
+  fs.writeFileSync(targetPath, "[]\n", "utf8");
+}
+
+initializeRuntimeDataFile("irrelevant-filters.json");
+initializeRuntimeDataFile("preferred-results.json");
 
 function normalizeValue(v) {
   return String(v || "").trim().toLowerCase();
