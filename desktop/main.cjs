@@ -4,6 +4,7 @@ const { pathToFileURL } = require("node:url");
 const { app, shell, dialog, BrowserWindow } = require("electron");
 
 const APP_HOST = "127.0.0.1";
+const APP_DISPLAY_HOST = "localhost";
 const DEFAULT_PORT = Number(process.env.KEYSTONE_DESKTOP_PORT || 8788);
 const DESKTOP_LOG = "/tmp/keystone-connect-desktop.log";
 function fileExists(p) {
@@ -144,7 +145,7 @@ function ensureDesktopApiKey() {
 }
 
 function appUrl() {
-  return `http://${APP_HOST}:${appPort}/`;
+  return `http://${APP_DISPLAY_HOST}:${appPort}/`;
 }
 
 async function waitForServer(timeoutMs = 20000) {
