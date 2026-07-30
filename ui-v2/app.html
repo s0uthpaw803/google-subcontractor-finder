@@ -59,19 +59,38 @@
         inset 0 1px 0 rgba(255,255,255,.12);
     }
     .top{
-      border-bottom:1px solid var(--line);
-      line-height:0;
+      min-height:76px;
+      flex:0 0 76px;
+      display:flex;
+      align-items:center;
+      gap:13px;
       overflow:hidden;
-      background:#111;
-      padding:0;
-      min-height:0;
-      flex:0 0 auto;
+      background:#050505;
+      padding:10px clamp(16px,3vw,34px);
+      border-bottom:3px solid #be1e2d;
     }
-    .top img{
+    .top-logo{
       display:block;
-      width:100%;
-      height:auto;
+      width:54px;
+      height:54px;
+      flex:0 0 54px;
+      object-fit:contain;
       margin:0;
+    }
+    .top-copy{min-width:0}
+    .top-title{
+      margin:0;
+      color:#fff;
+      font:900 clamp(20px,2vw,28px)/1 Arial,Helvetica,sans-serif;
+      letter-spacing:-.025em;
+      white-space:nowrap;
+    }
+    .top-title .connect-word{color:#be1e2d}
+    .top-slogan{
+      margin:4px 0 0;
+      color:#c7ccd4;
+      font:700 clamp(11px,1.1vw,13px)/1.15 Arial,Helvetica,sans-serif;
+      white-space:nowrap;
     }
     .body{padding:17px 16px 10px;display:flex;flex-direction:column;gap:11px;min-height:0;flex:1}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -627,7 +646,6 @@
         border:0;border-radius:0;overflow:hidden;box-shadow:none;
       }
       .top{width:100%;border-radius:0}
-      .top img{width:100%;height:auto}
       .body{width:100%;padding:17px 12px 0;gap:8px;overflow:hidden}
       .list{min-height:0}
       .footer{
@@ -660,7 +678,13 @@
 <body data-theme="dark">
   <div class="shell">
     <div class="app">
-      <div class="top"><img id="v2HeaderImage" src="/v2/assets/v2-keystone-header.png?v=1782849600" alt="Keystone Header"></div>
+      <header class="top">
+        <img class="top-logo" src="/v2/assets/connect-logo.png" alt="" aria-hidden="true">
+        <div class="top-copy">
+          <h1 class="top-title">Keystone <span class="connect-word">Connect</span></h1>
+          <p class="top-slogan">Targeted Contractor Search</p>
+        </div>
+      </header>
       <div class="body">
         <div class="field-block">
           <div class="label-row">
@@ -778,23 +802,6 @@ const els = {
   engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
   locationSuggest: $('locationSuggest')
 };
-
-const v2HeaderCandidates = [
-  "/v2/assets/v2-keystone-header.png?v=1782849600",
-  "/ui-v2/assets/v2-keystone-header.png?v=1782849600",
-  "./assets/v2-keystone-header.png?v=1782849600",
-  "assets/v2-keystone-header.png?v=1782849600"
-];
-
-function wireHeaderFallback(){
-  const img = document.getElementById("v2HeaderImage");
-  if (!img) return;
-  let idx = 0;
-  img.onerror = () => {
-    idx += 1;
-    if (idx < v2HeaderCandidates.length) img.src = v2HeaderCandidates[idx];
-  };
-}
 
 let sections = [];
 let rows = [];
@@ -1647,7 +1654,6 @@ document.addEventListener('click', (e) => {
 [els.location, els.manualQuery, els.radiusMiles, els.queryPreset, els.queryPresetBtn].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
 
 (async function init(){
-  wireHeaderFallback();
   try {
     const nav = performance.getEntriesByType('navigation');
     const navType = Array.isArray(nav) && nav[0] ? String(nav[0].type || '') : '';
