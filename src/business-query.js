@@ -124,7 +124,7 @@ function scoreTrade(trade, query) {
   return 0;
 }
 
-function scoreDivision(division, query, relatedDivisionCodes) {
+function scoreDivision(division, query, relatedDivisionCodes, relatedDivisionRanks = new Map()) {
   if (!query) return 0;
   const queryCode = normalizedCode(query);
   if (division.normalizedTitle === query) return 800;
@@ -132,22 +132,27 @@ function scoreDivision(division, query, relatedDivisionCodes) {
   if (division.normalizedTitle.startsWith(query)) return 670;
   if (division.normalizedTitle.includes(query)) return 630;
   if (queryCode && division.normalizedCode.startsWith(queryCode)) return 650;
-  if (relatedDivisionCodes.has(String(division.division_code || ""))) return 640;
+  const divisionCode = String(division.division_code || "");
+  const relatedRank = relatedDivisionRanks.get(divisionCode);
+  if (Number.isInteger(relatedRank)) return 645 - relatedRank;
+  if (relatedDivisionCodes.has(divisionCode)) return 640;
   return 0;
 }
 
-function scoreEntry(entry, query, popularCodes) {
+function scoreEntry(entry, query, popularCodes, relatedRefRanks = new Map()) {
   if (!query) return 0;
   const queryCode = normalizedCode(query);
-  if (entry.normalizedTitle === query) return entry.kind === "category" ? 900 : 880;
-  if (queryCode && entry.normalizedCode === queryCode) return entry.kind === "category" ? 890 : 870;
-
   let score = 0;
-  if (entry.normalizedTitle.startsWith(query)) score = entry.kind === "category" ? 660 : 650;
+  if (entry.normalizedTitle === query) score = entry.kind === "category" ? 900 : 880;
+  else if (queryCode && entry.normalizedCode === queryCode) score = entry.kind === "category" ? 890 : 870;
+
+  else if (entry.normalizedTitle.startsWith(query)) score = entry.kind === "category" ? 660 : 650;
   else if (entry.normalizedTitle.includes(query)) score = entry.kind === "category" ? 620 : 610;
   else if (queryCode && entry.normalizedCode.startsWith(queryCode)) score = entry.kind === "category" ? 630 : 600;
   else if (query.length >= 3 && entry.normalizedKeywords.includes(query)) score = 500;
 
+  const relatedRank = relatedRefRanks.get(String(entry.section_code || ""));
+  if (Number.isInteger(relatedRank)) score = Math.max(score, 930 - relatedRank);
   if (score && popularCodes.has(String(entry.section_code || ""))) score += 45;
   return score;
 }
@@ -194,16 +199,30 @@ export function getBusinessQuerySuggestions(rawQuery, requestedLimit = 10) {
 
   if (query) {
     const relatedDivisionCodes = new Set();
+    const relatedDivisionRanks = new Map();
+    const relatedRefRanks = new Map();
     for (const trade of matchedTrades) {
-      for (const ref of Array.isArray(trade.csi_refs) ? trade.csi_refs : []) {
+      for (const [refIndex, ref] of (Array.isArray(trade.csi_refs) ? trade.csi_refs : []).entries()) {
         const value = String(ref || "");
-        if (value.startsWith("division:")) relatedDivisionCodes.add(value.split(":", 2)[1]);
-        else if (/^\d{2}\s/.test(value)) relatedDivisionCodes.add(value.slice(0, 2));
+        if (value.startsWith("division:")) {
+          const divisionCode = value.split(":", 2)[1];
+          relatedDivisionCodes.add(divisionCode);
+          const existingRank = relatedDivisionRanks.get(divisionCode);
+          if (!Number.isInteger(existingRank) || refIndex < existingRank) relatedDivisionRanks.set(divisionCode, refIndex);
+        }
+        else if (/^\d{2}\s/.test(value)) {
+          const divisionCode = value.slice(0, 2);
+          relatedDivisionCodes.add(divisionCode);
+          const existingDivisionRank = relatedDivisionRanks.get(divisionCode);
+          if (!Number.isInteger(existingDivisionRank) || refIndex < existingDivisionRank) relatedDivisionRanks.set(divisionCode, refIndex);
+          const existingRank = relatedRefRanks.get(value);
+          if (!Number.isInteger(existingRank) || refIndex < existingRank) relatedRefRanks.set(value, refIndex);
+        }
       }
     }
 
     for (const division of data.indexedDivisions) {
-      const score = scoreDivision(division, query, relatedDivisionCodes);
+      const score = scoreDivision(division, query, relatedDivisionCodes, relatedDivisionRanks);
       if (!score) continue;
       ranked.push({
         id: division.id,
@@ -219,7 +238,7 @@ export function getBusinessQuerySuggestions(rawQuery, requestedLimit = 10) {
 
     for (const entry of data.indexedEntries) {
       if (entry.kind === "division") continue;
-      const score = scoreEntry(entry, query, data.popularCodes);
+      const score = scoreEntry(entry, query, data.popularCodes, relatedRefRanks);
       if (!score) continue;
       ranked.push({
         id: entry.id,

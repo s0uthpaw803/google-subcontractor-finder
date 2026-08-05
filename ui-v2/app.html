@@ -77,6 +77,18 @@
       object-fit:contain;
       margin:0;
     }
+    .brand-reset{
+      width:54px;
+      height:54px;
+      flex:0 0 54px;
+      padding:0;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+      cursor:pointer;
+    }
+    .brand-reset:hover .top-logo{filter:brightness(1.08)}
     .top-copy{min-width:0}
     .top-title{
       margin:0;
@@ -217,11 +229,10 @@
         inset 0 1px 0 rgba(255,255,255,.12);
     }
     .btn:hover{filter:brightness(1.04)}
-    .status-row{display:flex;align-items:center;justify-content:space-between}
+    .status-row{display:flex;align-items:center;justify-content:flex-start}
     .status{font:700 .86rem Arial;color:#e7edf6}
-    .clear-btn{width:auto;height:auto;border:0;background:transparent !important;color:#c9d0db;text-decoration:underline;padding:0;font:700 .85rem Arial;cursor:pointer;box-shadow:none !important}
-    .clear-btn[disabled]{opacity:.45;cursor:default;text-decoration:none}
-    .inline-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .inline-actions{display:flex;align-items:center;justify-content:flex-start;gap:10px}
+    .reset-row{display:flex;align-items:center;justify-content:center;min-height:18px}
     .panel,
     .shell,
     .app,
@@ -549,7 +560,6 @@
         inset 0 1px 0 rgba(255,255,255,.18);
     }
     body[data-theme="light"] .status{color:#2c3440}
-    body[data-theme="light"] .clear-btn{color:#3c4654;background:transparent !important;border:0 !important}
     body[data-theme="light"] .text-action{color:#3c4654}
     body[data-theme="light"] .results-head{color:#2f3947}
     body[data-theme="light"] .results-head .sort-toggle{
@@ -645,64 +655,290 @@
       .result-links{white-space:normal;flex-wrap:wrap;font-size:.79rem;gap:6px}
       .results-head{padding:0 8px 1px 8px}
     }
+
+    /* Shared Keystone workspace: flat, compact, and results-first. */
+    body{
+      padding:0;
+      display:block;
+      background:#08090b;
+    }
+    .shell{width:100%;max-width:none;height:100dvh}
+    .app{
+      width:100%;
+      height:100%;
+      border:0;
+      border-radius:0;
+      background:#08090b;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      box-shadow:none;
+    }
+    .top{
+      min-height:72px;
+      flex-basis:72px;
+      padding:8px 18px;
+      gap:10px;
+      border-bottom:4px solid var(--accent);
+    }
+    .top-logo{width:46px;height:46px;flex-basis:46px}
+    .top-title{font-size:24px;letter-spacing:-.02em}
+    .top-slogan{margin-top:3px;font-size:11px;letter-spacing:.01em}
+    .body{
+      padding:12px 16px 8px;
+      gap:8px;
+      background:#08090b;
+    }
+    .search-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      grid-template-areas:
+        "location radius"
+        "query download";
+      column-gap:18px;
+      row-gap:13px;
+      align-items:start;
+    }
+    .location-block{grid-area:location}
+    .query-block{grid-area:query}
+    .radius-block{grid-area:radius}
+    .download-block{
+      grid-area:download;
+      padding-top:0;
+    }
+    .download-block::before{
+      content:"";
+      display:block;
+      height:.7rem;
+      margin-bottom:5px;
+    }
+    .label-row,
+    .radius-label-row{margin-bottom:5px;min-height:17px}
+    .field-label{margin-bottom:5px}
+    label{font-size:.7rem;letter-spacing:.055em}
+    input,
+    select,
+    button{
+      height:34px;
+      border-radius:4px;
+      border-color:#343942;
+      background:#11151b;
+      color:#e3e7ed;
+      box-shadow:none;
+    }
+    input::placeholder{color:#9ca5b1;opacity:1}
+    select,
+    input[type="number"]{color:#e3e7ed}
+    .btn{
+      border-radius:4px;
+      background:#be1e2d;
+      border-color:#be1e2d;
+      box-shadow:none;
+    }
+    .btn.secondary{
+      border-radius:4px;
+      background:#171b21;
+      border-color:#3b414a;
+      box-shadow:none;
+    }
+    .btn:hover{filter:brightness(1.08)}
+    .hint{margin-top:5px;color:#8f98a4}
+    .query-menu{
+      top:calc(100% + 4px);
+      border:1px solid #3a4049;
+      border-radius:4px;
+      background:#0f1218;
+      box-shadow:0 14px 30px rgba(0,0,0,.48);
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+    }
+    .query-item{
+      min-height:38px;
+      padding:7px 10px;
+      border-bottom-color:#30353d;
+      background:#0f1218;
+      color:#f0f2f5;
+      font-weight:600;
+    }
+    .query-item:hover,
+    .query-item.active{
+      background:#211116;
+      box-shadow:inset 3px 0 #be1e2d;
+    }
+    .query-item.kind-division .query-main{
+      color:#be1e2d;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .query-item.kind-trade .query-main{font-weight:750}
+    .query-item.kind-category .query-main,
+    .query-item.kind-section .query-main{padding-left:12px}
+    .query-detail{color:#9ca5b1}
+    .query-kind{color:#838d99}
+    .query-item mark{color:#fff}
+    .location-suggest{
+      top:calc(100% + 4px);
+      border-color:#3a4049;
+      border-radius:4px;
+      background:#0f1218;
+      box-shadow:0 14px 30px rgba(0,0,0,.48);
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+    }
+    .location-suggest button{
+      min-height:36px;
+      padding:8px 10px;
+      border-bottom-color:#30353d;
+      background:#0f1218;
+    }
+    .location-suggest button:hover{background:#211116}
+    .list{gap:5px;padding-right:5px}
+    .card{
+      min-height:42px;
+      height:42px;
+      flex-basis:42px;
+      padding:0 10px;
+      border-radius:4px;
+      border-color:#343942;
+      background:#11151b;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+    }
+    .result-row1,
+    .result-main,
+    .result-company,
+    .result-side{height:42px}
+    .card-confirm-overlay{border-radius:4px}
+    .card-confirm-box{border-radius:4px;background:#11151b}
+    .card-confirm-actions button{border-radius:4px}
+    .card.preferred-card{background:#211116}
+    .footer{padding-top:7px;gap:6px}
+
+    body[data-theme="light"] .app,
+    body[data-theme="light"] .body{
+      background:#e0e3e5;
+      box-shadow:none;
+    }
+    body[data-theme="light"] input,
+    body[data-theme="light"] select,
+    body[data-theme="light"] button{
+      background:#f6f7f8;
+      border-color:#b9bec5;
+      color:#222a33;
+      box-shadow:none;
+    }
+    body[data-theme="light"] input::placeholder{color:#737b85}
+    body[data-theme="light"] .btn{background:#be1e2d;color:#fff;border-color:#be1e2d}
+    body[data-theme="light"] .btn.secondary{
+      background:#d2d6da;
+      border-color:#aeb4ba;
+      color:#20262d;
+      box-shadow:none;
+    }
+    body[data-theme="light"] .query-menu,
+    body[data-theme="light"] .location-suggest{
+      background:#f3f4f5;
+      border-color:#aeb4bb;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+    }
+    body[data-theme="light"] .query-item,
+    body[data-theme="light"] .location-suggest button{
+      background:#f3f4f5;
+      color:#20262d;
+      border-bottom-color:#c7cbd0;
+    }
+    body[data-theme="light"] .query-item:hover,
+    body[data-theme="light"] .query-item.active,
+    body[data-theme="light"] .location-suggest button:hover{
+      background:#e9dfe1;
+    }
+    body[data-theme="light"] .query-item.kind-division .query-main{color:#be1e2d}
+    body[data-theme="light"] .query-detail{color:#606a75}
+    body[data-theme="light"] .query-kind{color:#68727d}
+    body[data-theme="light"] .card{
+      background:#f7f8f9;
+      border-color:#b9bec5;
+    }
+    body[data-theme="light"] .card.preferred-card{background:#f3e7e9}
+
+    @media (max-width: 1024px), (hover: none) and (pointer: coarse){
+      .top{min-height:64px;flex-basis:64px;padding:7px 12px}
+      .top-logo{width:42px;height:42px;flex-basis:42px}
+      .brand-reset{width:42px;height:42px;flex-basis:42px}
+      .top-title{font-size:21px}
+      .body{padding:10px 12px 0;gap:7px}
+      .query-menu{left:0;right:0;border-radius:4px}
+      .card{min-height:52px;height:auto;flex-basis:auto;border-radius:4px}
+      .footer{padding-top:6px}
+    }
+    @media (max-width: 700px){
+      .search-grid{
+        grid-template-columns:1fr;
+        grid-template-areas:"location" "query" "radius" "download";
+        gap:10px;
+      }
+      .download-block::before{display:none}
+    }
   </style>
 </head>
 <body data-theme="dark">
   <div class="shell">
     <div class="app">
       <header class="top">
-        <img class="top-logo" src="/v2/assets/connect-logo.png" alt="" aria-hidden="true">
+        <button id="brandResetBtn" class="brand-reset" type="button" title="Reset" aria-label="Reset Keystone Connect">
+          <img class="top-logo" src="/v2/assets/connect-logo.png" alt="" aria-hidden="true">
+        </button>
         <div class="top-copy">
           <h1 class="top-title">Keystone <span class="connect-word">Connect</span></h1>
           <p class="top-slogan">Targeted Contractor Search</p>
         </div>
       </header>
       <div class="body">
-        <div class="field-block">
-          <div class="label-row">
-            <div class="label-left">
-              <label for="location">Location</label>
-              <label class="tiny-check"><input id="useMyLocation" type="checkbox">Use approximate location</label>
+        <div class="search-grid">
+            <div class="field-block location-block">
+              <div class="label-row">
+                <div class="label-left">
+                  <label for="location">Location</label>
+                  <label class="tiny-check"><input id="useMyLocation" type="checkbox">Use approximate location</label>
+                </div>
+                <div class="controls">
+                  <div class="switch" id="engineSwitch"><button data-engine="api">API</button><span class="sep">&nbsp;/&nbsp;</span><button data-engine="apib" class="active">APIB</button><span class="sep">&nbsp;/&nbsp;</span><button data-engine="ggl">GGL</button></div>
+                </div>
+              </div>
+              <div class="location-wrap">
+                <input id="location" placeholder="Type Requested Location or use current" autocomplete="on" autocorrect="on" autocapitalize="words" spellcheck="true">
+                <div id="locationSuggest" class="location-suggest hidden"></div>
+              </div>
             </div>
-            <div class="controls">
-              <div class="switch" id="engineSwitch"><button data-engine="api">API</button><span class="sep">&nbsp;/&nbsp;</span><button data-engine="apib" class="active">APIB</button><span class="sep">&nbsp;/&nbsp;</span><button data-engine="ggl">GGL</button></div>
-            </div>
-          </div>
-          <div class="location-wrap">
-            <input id="location" placeholder="Type Requested Location or use current" autocomplete="on" autocorrect="on" autocapitalize="words" spellcheck="true">
-            <div id="locationSuggest" class="location-suggest hidden"></div>
-          </div>
-        </div>
 
-        <div class="field-block">
-          <label for="businessQuery" class="field-label">Business Query</label>
-          <div class="query-select">
-            <input id="businessQuery" class="business-query-input" placeholder="Search trade, CSI division, section, or keyword..." autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="businessQueryMenu">
-            <div id="businessQueryMenu" class="query-menu hidden" role="listbox"></div>
-          </div>
-          <div id="queryLegend" class="hint">Search by common trade terminology or official CSI MasterFormat nomenclature.</div>
-        </div>
-
-        <div class="row controls-row field-block">
-          <div>
-            <div class="radius-label-row">
-              <label for="radiusMiles">Radius <span class="unit-lower">(mi)</span></label>
-              <div class="switch" id="priorSwitch"><span>PRIOR&nbsp;</span><button data-prior="on" class="active">ON</button><span class="sep">&nbsp;/&nbsp;</span><button data-prior="off">OFF</button></div>
+            <div class="field-block query-block">
+              <label for="businessQuery" class="field-label">Business Query</label>
+              <div class="query-select">
+                <input id="businessQuery" class="business-query-input" placeholder="Search trade, CSI division, section, or keyword..." autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="businessQueryMenu">
+                <div id="businessQueryMenu" class="query-menu hidden" role="listbox"></div>
+              </div>
+              <div id="queryLegend" class="hint">Search by common trade terminology or official CSI MasterFormat nomenclature.</div>
             </div>
-            <input id="radiusMiles" type="number" min="1" max="45" value="25">
-          </div>
-          <div class="download-col">
-            <button id="downloadBtn" class="btn secondary">DOWNLOAD .XLSX</button>
-          </div>
+
+            <div class="field-block radius-block">
+              <div class="radius-label-row">
+                <label for="radiusMiles">Radius <span class="unit-lower">(mi)</span></label>
+                <div class="switch" id="priorSwitch"><span>PRIOR&nbsp;</span><button data-prior="on" class="active">ON</button><span class="sep">&nbsp;/&nbsp;</span><button data-prior="off">OFF</button></div>
+              </div>
+              <input id="radiusMiles" type="number" min="1" max="500" value="25">
+            </div>
+            <div class="download-block field-block">
+              <button id="downloadBtn" class="btn secondary">DOWNLOAD .XLSX</button>
+            </div>
         </div>
 
         <div class="inline-actions">
           <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
-          <button id="resetFieldsBtn" class="text-action" type="button">Reset fields ↻</button>
         </div>
+        <div class="reset-row"><button id="resetFieldsBtn" class="text-action" type="button">Reset ↻</button></div>
         <button id="searchBtn" class="btn">Search</button>
 
-        <div class="status-row"><div id="status" class="status">Ready.</div><button id="clearBtn" class="clear-btn" disabled>Clear results</button></div>
+        <div class="status-row"><div id="status" class="status">Ready.</div></div>
         <div id="list" class="list"></div>
         <div class="footer">
           <div class="footer-divider" aria-hidden="true"></div>
@@ -747,7 +983,7 @@
                 <ul class="faq-list">
                   <li>Distance shown is straight-line</li>
                   <li>Results are not sponsored ads</li>
-                  <li>Results are sorted by relevance first, then distance</li>
+                  <li>Results default to closest first; Name and Miles From can be reversed</li>
                   <li>Results depend on listing quality</li>
                   <li>Some listings may lack website or email</li>
                 </ul>
@@ -765,8 +1001,8 @@ const UI_STATE_KEY = "kc_v2_state_1";
 const els = {
   location: $('location'), useMyLocation: $('useMyLocation'), businessQuery: $('businessQuery'), businessQueryMenu: $('businessQueryMenu'),
   radiusMiles: $('radiusMiles'), includeEmails: $('includeEmails'), searchBtn: $('searchBtn'), downloadBtn: $('downloadBtn'),
-  resetFieldsBtn: $('resetFieldsBtn'),
-  list: $('list'), status: $('status'), clearBtn: $('clearBtn'), queryLegend: $('queryLegend'),
+  resetFieldsBtn: $('resetFieldsBtn'), brandResetBtn: $('brandResetBtn'),
+  list: $('list'), status: $('status'), queryLegend: $('queryLegend'),
   engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
   locationSuggest: $('locationSuggest')
 };
@@ -790,7 +1026,7 @@ let suggestTimer = null;
 let suggestRequestId = 0;
 let statusTimer = null;
 let pendingRemoval = null;
-let resultSort = { key: '', dir: 'asc' };
+let resultSort = { key: 'distance_miles', dir: 'asc' };
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
 const makeSearchSignature = ({ location = "", query = "", businessSelectionId = "", radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
@@ -995,8 +1231,10 @@ function renderBusinessQuerySuggestions(){
     els.businessQueryMenu.innerHTML = businessQuerySuggestions.map((item, index) => {
       const preferred = item.kind === 'preferred';
       const active = index === businessQueryActiveIndex ? ' active' : '';
+      const supportedKinds = new Set(['preferred', 'trade', 'division', 'category', 'section']);
+      const kindClass = supportedKinds.has(item.kind) ? ` kind-${item.kind}` : '';
       const icon = preferred ? '<span class="menu-icon pref">★</span>' : '';
-      return `<button type="button" class="query-item${active}${preferred ? ' preferred' : ''}" data-index="${index}" role="option" aria-selected="${index === businessQueryActiveIndex}">
+      return `<button type="button" class="query-item${active}${preferred ? ' preferred' : ''}${kindClass}" data-index="${index}" role="option" aria-selected="${index === businessQueryActiveIndex}">
         <span class="query-main">${icon}${highlightQueryMatch(item.display, query)}</span>
         ${item.detail ? `<span class="query-detail">${highlightQueryMatch(item.detail, query)}</span>` : ''}
         <span class="query-kind">${escapeHtml(item.kind_label || '')}</span>
@@ -1128,14 +1366,20 @@ function resetFields(){
   businessQuerySuggestions = [];
   els.radiusMiles.value = '25';
   els.includeEmails.checked = false;
+  searchEngineMode = 'apib';
+  hidePrior = true;
+  resultSort = { key: 'distance_miles', dir: 'asc' };
+  document.body.setAttribute('data-theme', 'dark');
   els.queryLegend.textContent = 'Search by common trade terminology or official CSI MasterFormat nomenclature.';
 
   hideLocationSuggest();
   closeBusinessQueryMenu();
   closeFaq();
   syncLocationFieldLock();
+  updateEngineUI();
+  updatePriorUI();
   render();
-  setStatus('Fields reset.');
+  setStatus('Ready.');
   saveUiState();
 }
 
@@ -1189,7 +1433,6 @@ async function setIrrelevant(rowKey, action){
 
 function render(){
   const prefSet = preferredKeySet();
-  els.clearBtn.disabled = rows.length === 0;
   if (!rows.length){ els.list.innerHTML = ''; return; }
   const sortedRows = getSortedRows(rows);
   const nameSortArrow = resultSort.key === 'name' ? (resultSort.dir === 'asc' ? '▲' : '▼') : '';
@@ -1525,7 +1768,7 @@ els.locationSuggest.addEventListener('click', (event) => {
 els.searchBtn.addEventListener('click', runSearch);
 els.downloadBtn.addEventListener('click', downloadXlsx);
 els.resetFieldsBtn.addEventListener('click', resetFields);
-els.clearBtn.addEventListener('click', () => { rows = []; render(); setStatus('Ready.'); saveUiState(); });
+els.brandResetBtn.addEventListener('click', resetFields);
 els.useMyLocation.addEventListener('change', useMyLocationChanged);
 els.includeEmails.addEventListener('change', saveUiState);
 els.faqBtn.addEventListener('click', toggleFaq);
@@ -1684,10 +1927,12 @@ document.addEventListener('click', (e) => {
     lastFetchedRows = Array.isArray(state.lastFetchedRows) ? state.lastFetchedRows : [];
     resultSort = state.resultSort && typeof state.resultSort === 'object'
       ? {
-          key: String(state.resultSort.key || ''),
+          key: ['name', 'distance_miles'].includes(String(state.resultSort.key || ''))
+            ? String(state.resultSort.key)
+            : 'distance_miles',
           dir: String(state.resultSort.dir || 'asc') === 'desc' ? 'desc' : 'asc'
         }
-      : { key: '', dir: 'asc' };
+      : { key: 'distance_miles', dir: 'asc' };
   } else {
     currentGeoLocation = '';
     currentSearchSignature = '';
@@ -1696,7 +1941,7 @@ document.addEventListener('click', (e) => {
     seenByChain = {};
     rows = [];
     lastFetchedRows = [];
-    resultSort = { key: '', dir: 'asc' };
+    resultSort = { key: 'distance_miles', dir: 'asc' };
     pendingRemoval = null;
     els.location.value = '';
     els.useMyLocation.checked = false;

@@ -12,6 +12,7 @@ const TAXONOMY_JSON = path.join(ROOT_DIR, "data", "taxonomy.json");
 const KNOWN_PLACE_CACHE_JSON = path.join(ROOT_DIR, "data", "known-place-cache.json");
 const REQUEST_TIMEOUT_MS = 20000;
 const MAX_GOOGLE_RADIUS_METERS = 50000;
+const MAX_SEARCH_RADIUS_METERS = 500 * 1609.34;
 const MAX_JOB_CONCURRENCY = 4;
 const MAX_PAGES_PER_JOB = 3;
 const NEXT_PAGE_DELAY_MS = 1100;
@@ -725,12 +726,44 @@ function makeNearbyJob({
   };
 }
 
+function buildTextLocationConstraint(center, radiusMeters) {
+  if (radiusMeters <= MAX_GOOGLE_RADIUS_METERS) {
+    return {
+      locationBias: {
+        circle: {
+          center: { latitude: center.lat, longitude: center.lng },
+          radius: radiusMeters
+        }
+      }
+    };
+  }
+
+  const latitudeDelta = Math.min(90, radiusMeters / 111320);
+  const longitudeScale = Math.max(0.01, Math.cos((center.lat * Math.PI) / 180));
+  const longitudeDelta = Math.min(180, radiusMeters / (111320 * longitudeScale));
+  return {
+    locationRestriction: {
+      rectangle: {
+        low: {
+          latitude: Math.max(-90, center.lat - latitudeDelta),
+          longitude: Math.max(-180, center.lng - longitudeDelta)
+        },
+        high: {
+          latitude: Math.min(90, center.lat + latitudeDelta),
+          longitude: Math.min(180, center.lng + longitudeDelta)
+        }
+      }
+    }
+  };
+}
+
 export function buildQueries(selection, location) {
   const taxonomy = loadTaxonomy();
   const center = location && Number.isFinite(location.lat) && Number.isFinite(location.lng)
     ? location
     : { lat: 0, lng: 0 };
-  const radiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
+  const radiusMeters = Math.min(MAX_SEARCH_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
+  const nearbyRadiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, radiusMeters);
   const jobs = [];
   const nearbyAddedFor = new Set();
 
@@ -762,12 +795,7 @@ export function buildQueries(selection, location) {
       request_body: {
         textQuery,
         maxResultCount: 20,
-        locationBias: {
-          circle: {
-            center: { latitude: center.lat, longitude: center.lng },
-            radius: radiusMeters
-          }
-        },
+        ...buildTextLocationConstraint(center, radiusMeters),
         rankPreference: "RELEVANCE",
         languageCode: "en",
         regionCode: "US"
@@ -810,7 +838,7 @@ export function buildQueries(selection, location) {
               locationRestriction: {
                 circle: {
                   center: { latitude: center.lat, longitude: center.lng },
-                  radius: radiusMeters
+                  radius: nearbyRadiusMeters
                 }
               },
               rankPreference: "DISTANCE"
@@ -839,7 +867,7 @@ export function buildQueries(selection, location) {
           child,
           includeTypes: nearbyTypes,
           center,
-          radiusMeters,
+          radiusMeters: nearbyRadiusMeters,
           childWeight: Number(profile.priority_weight || 1),
           categoryHints: Array.isArray(profile.category_hints) ? profile.category_hints : [],
           qualificationProfile: buildQualificationProfile(profile, child),
@@ -868,7 +896,7 @@ export function buildQueries(selection, location) {
         child,
         includeTypes: nearbyTypes,
         center,
-        radiusMeters,
+        radiusMeters: nearbyRadiusMeters,
         childWeight: 1,
         categoryHints: selection.manualTerms,
         excludeTerms: taxonomy.defaults.global_exclude_terms,
@@ -885,7 +913,8 @@ function buildLegacyQueries({ query, queries = [] }, location) {
   const center = location && Number.isFinite(location.lat) && Number.isFinite(location.lng)
     ? location
     : { lat: 0, lng: 0 };
-  const radiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
+  const radiusMeters = Math.min(MAX_SEARCH_RADIUS_METERS, Math.max(1, Number(location?.radius_meters || 1609)));
+  const nearbyRadiusMeters = Math.min(MAX_GOOGLE_RADIUS_METERS, radiusMeters);
   const rawTerms = Array.isArray(queries) && queries.length
     ? queries
     : [query || "contractor"];
@@ -916,12 +945,7 @@ function buildLegacyQueries({ query, queries = [] }, location) {
       request_body: {
         textQuery,
         maxResultCount: 20,
-        locationBias: {
-          circle: {
-            center: { latitude: center.lat, longitude: center.lng },
-            radius: radiusMeters
-          }
-        },
+        ...buildTextLocationConstraint(center, radiusMeters),
         rankPreference: "RELEVANCE",
         languageCode: "en",
         regionCode: "US"
@@ -947,7 +971,7 @@ function buildLegacyQueries({ query, queries = [] }, location) {
         child: { child_id: "legacy", child_label: t },
         includeTypes: [nt],
         center,
-        radiusMeters,
+        radiusMeters: nearbyRadiusMeters,
         childWeight: 1,
         categoryHints: [t],
         excludeTerms: [],
@@ -1331,7 +1355,7 @@ export async function searchSubcontractors({
     throw new Error(`Could not resolve center for "${location}"`);
   }
 
-  const safeRadiusMiles = Math.max(1, Math.min(45, Number(radiusMiles || 25)));
+  const safeRadiusMiles = Math.max(1, Math.min(500, Number(radiusMiles || 25)));
   const resolvedBusinessSelection = businessSelectionId
     ? resolveBusinessQuerySelection(businessSelectionId)
     : null;

@@ -7,6 +7,7 @@ import {
   getBusinessQuerySuggestions,
   resolveBusinessQuerySelection
 } from "../src/business-query.js";
+import { buildQueries } from "../src/search-engine.js";
 
 test("CSI inventory matches the authoritative workbook export", () => {
   const inventory = businessQueryInventory();
@@ -44,6 +45,14 @@ test("site returns common trade and official CSI entries", () => {
   assert.ok(displays.includes("Site Clearing — 31 10 00"));
 });
 
+test("casework prioritizes Division 06 before Division 12", () => {
+  const displays = getBusinessQuerySuggestions("casework", 12).suggestions.map((item) => item.display);
+  assert.ok(displays.indexOf("Architectural Wood Casework — 06 41 00") > 0);
+  assert.ok(displays.indexOf("Casework — 12 30 00") > 0);
+  assert.ok(displays.indexOf("Architectural Wood Casework — 06 41 00") < displays.indexOf("Casework — 12 30 00"));
+  assert.ok(displays.indexOf("Wood, Plastics, And Composites — Division 06") < displays.indexOf("Furnishings — Division 12"));
+});
+
 test("display labels put words before CSI numbers", () => {
   for (const query of ["09", "paint", "site"]) {
     for (const item of getBusinessQuerySuggestions(query, 20).suggestions) {
@@ -72,4 +81,22 @@ test("trade, division, and CSI selections resolve to search profiles", () => {
 test("Manual Override is not part of the Business Query index", () => {
   const suggestions = getBusinessQuerySuggestions("manual override", 20).suggestions;
   assert.equal(suggestions.some((item) => /manual override/i.test(item.display)), false);
+});
+
+test("large-radius text searches use a rectangular restriction without exceeding Google circle limits", () => {
+  const selection = resolveBusinessQuerySelection("trade:casework");
+  const jobs = buildQueries(selection, {
+    lat: 33.6891,
+    lng: -78.8867,
+    radius_meters: 500 * 1609.34
+  });
+  const textJobs = jobs.filter((job) => job.mode === "TEXT_SEARCH");
+  assert.ok(textJobs.length > 0);
+  for (const job of textJobs) {
+    assert.ok(job.request_body.locationRestriction?.rectangle);
+    assert.equal(job.request_body.locationBias, undefined);
+  }
+  for (const job of jobs.filter((job) => job.mode === "NEARBY_TYPES")) {
+    assert.ok(job.request_body.locationRestriction.circle.radius <= 50000);
+  }
 });
