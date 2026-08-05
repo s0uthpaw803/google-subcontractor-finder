@@ -1,0 +1,704 @@
+{
+  "version": "1.0.0",
+  "source_csi_sha256": "4644b176e85bbf3176b66aeeffd3ffa3089e858ec5e3fc7cce188abff0d2333b",
+  "trades": [
+    {
+      "id": "civil-sitework",
+      "label": "Civil / Sitework",
+      "aliases": [
+        "site work",
+        "civil work",
+        "site development",
+        "land development"
+      ],
+      "csi_refs": [
+        "02 41 00",
+        "03 30 00",
+        "division:31",
+        "division:32",
+        "division:33",
+        "division:34"
+      ],
+      "search_terms": [
+        "civil sitework contractor",
+        "site development contractor",
+        "commercial sitework contractor"
+      ],
+      "qualification_terms": [
+        "sitework",
+        "site work",
+        "site development",
+        "civil",
+        "earthwork",
+        "excavat",
+        "grading",
+        "utilities",
+        "paving"
+      ]
+    },
+    {
+      "id": "demolition",
+      "label": "Demolition",
+      "aliases": [
+        "demo",
+        "selective demolition",
+        "wrecking"
+      ],
+      "csi_refs": [
+        "02 41 00"
+      ],
+      "search_terms": [
+        "commercial demolition contractor",
+        "selective demolition contractor",
+        "building demolition contractor"
+      ]
+    },
+    {
+      "id": "concrete",
+      "label": "Concrete",
+      "aliases": [
+        "concrete contractor",
+        "cast in place",
+        "foundations",
+        "slabs"
+      ],
+      "csi_refs": [
+        "division:03"
+      ],
+      "search_terms": [
+        "commercial concrete contractor",
+        "structural concrete contractor",
+        "concrete foundations contractor"
+      ]
+    },
+    {
+      "id": "masonry",
+      "label": "Masonry",
+      "aliases": [
+        "brick",
+        "block",
+        "cmu",
+        "stone masonry"
+      ],
+      "csi_refs": [
+        "division:04"
+      ],
+      "search_terms": [
+        "commercial masonry contractor",
+        "CMU contractor",
+        "brick and block masonry contractor"
+      ]
+    },
+    {
+      "id": "structural-steel",
+      "label": "Structural Steel",
+      "aliases": [
+        "steel erection",
+        "steel erector",
+        "ironwork"
+      ],
+      "csi_refs": [
+        "05 12 00"
+      ],
+      "search_terms": [
+        "structural steel contractor",
+        "steel erector",
+        "commercial steel erection company"
+      ]
+    },
+    {
+      "id": "metal-fabrication",
+      "label": "Metal Fabrication",
+      "aliases": [
+        "miscellaneous metals",
+        "misc metals",
+        "metal fabricator"
+      ],
+      "csi_refs": [
+        "05 50 00"
+      ],
+      "search_terms": [
+        "commercial metal fabrication",
+        "miscellaneous metals contractor",
+        "steel fabrication company"
+      ]
+    },
+    {
+      "id": "rough-carpentry",
+      "label": "Rough Carpentry",
+      "aliases": [
+        "wood framing",
+        "framing contractor",
+        "sheathing"
+      ],
+      "csi_refs": [
+        "06 10 00"
+      ],
+      "search_terms": [
+        "commercial framing contractor",
+        "rough carpentry contractor",
+        "wood framing contractor"
+      ]
+    },
+    {
+      "id": "finish-carpentry",
+      "label": "Finish Carpentry",
+      "aliases": [
+        "trim carpentry",
+        "commercial trim"
+      ],
+      "csi_refs": [
+        "06 20 00"
+      ],
+      "search_terms": [
+        "commercial finish carpentry",
+        "commercial trim contractor"
+      ]
+    },
+    {
+      "id": "millwork",
+      "label": "Millwork",
+      "aliases": [
+        "architectural woodwork",
+        "custom woodwork"
+      ],
+      "csi_refs": [
+        "06 40 00"
+      ],
+      "search_terms": [
+        "architectural millwork contractor",
+        "commercial millwork company"
+      ]
+    },
+    {
+      "id": "waterproofing",
+      "label": "Waterproofing",
+      "aliases": [
+        "dampproofing",
+        "building waterproofing"
+      ],
+      "csi_refs": [
+        "07 10 00"
+      ],
+      "search_terms": [
+        "commercial waterproofing contractor",
+        "below grade waterproofing contractor"
+      ]
+    },
+    {
+      "id": "insulation",
+      "label": "Insulation",
+      "aliases": [
+        "thermal protection",
+        "building insulation"
+      ],
+      "csi_refs": [
+        "07 20 00"
+      ],
+      "search_terms": [
+        "commercial insulation contractor",
+        "industrial insulation contractor"
+      ]
+    },
+    {
+      "id": "roofing",
+      "label": "Roofing",
+      "aliases": [
+        "commercial roofing",
+        "roofer",
+        "membrane roofing",
+        "flat roofing"
+      ],
+      "csi_refs": [
+        "07 30 00",
+        "07 40 00",
+        "07 50 00"
+      ],
+      "search_terms": [
+        "commercial roofing contractor",
+        "flat roof contractor",
+        "membrane roofing contractor"
+      ]
+    },
+    {
+      "id": "siding",
+      "label": "Siding",
+      "aliases": [
+        "wall panels",
+        "metal panels"
+      ],
+      "csi_refs": [
+        "07 40 00"
+      ],
+      "search_terms": [
+        "commercial siding contractor",
+        "commercial wall panel contractor"
+      ]
+    },
+    {
+      "id": "firestopping",
+      "label": "Firestopping",
+      "aliases": [
+        "fire stop",
+        "fire caulking",
+        "penetration firestop"
+      ],
+      "csi_refs": [
+        "07 84 00"
+      ],
+      "search_terms": [
+        "firestopping contractor",
+        "penetration firestop contractor",
+        "fire caulking contractor"
+      ]
+    },
+    {
+      "id": "doors-hardware",
+      "label": "Doors & Hardware",
+      "aliases": [
+        "commercial doors",
+        "door frames",
+        "door hardware"
+      ],
+      "csi_refs": [
+        "08 10 00",
+        "08 70 00"
+      ],
+      "search_terms": [
+        "commercial door contractor",
+        "commercial door and hardware supplier",
+        "door frames contractor"
+      ]
+    },
+    {
+      "id": "glass-glazing",
+      "label": "Glass / Glazing",
+      "aliases": [
+        "glazing",
+        "glass contractor",
+        "storefront",
+        "curtain wall"
+      ],
+      "csi_refs": [
+        "08 80 00"
+      ],
+      "search_terms": [
+        "commercial glazing contractor",
+        "commercial glass contractor",
+        "storefront glazing contractor"
+      ]
+    },
+    {
+      "id": "metal-framing",
+      "label": "Metal Framing",
+      "aliases": [
+        "metal stud framing",
+        "light gauge framing",
+        "stud framing"
+      ],
+      "csi_refs": [
+        "09 22 00"
+      ],
+      "search_terms": [
+        "commercial metal stud framing contractor",
+        "light gauge metal framing contractor"
+      ]
+    },
+    {
+      "id": "drywall",
+      "label": "Drywall",
+      "aliases": [
+        "gypsum board",
+        "gwb",
+        "sheetrock"
+      ],
+      "csi_refs": [
+        "09 29 00"
+      ],
+      "search_terms": [
+        "commercial drywall contractor",
+        "gypsum board contractor",
+        "tenant improvement drywall contractor"
+      ]
+    },
+    {
+      "id": "tile",
+      "label": "Tile",
+      "aliases": [
+        "commercial tile",
+        "ceramic tile",
+        "porcelain tile"
+      ],
+      "csi_refs": [
+        "09 30 00"
+      ],
+      "search_terms": [
+        "commercial tile contractor",
+        "commercial tile installer"
+      ]
+    },
+    {
+      "id": "ceilings",
+      "label": "Ceilings",
+      "aliases": [
+        "acoustical ceilings",
+        "act ceilings",
+        "suspended ceilings"
+      ],
+      "csi_refs": [
+        "09 50 00"
+      ],
+      "search_terms": [
+        "commercial acoustical ceiling contractor",
+        "suspended ceiling contractor"
+      ]
+    },
+    {
+      "id": "flooring",
+      "label": "Flooring",
+      "aliases": [
+        "commercial flooring",
+        "lvt",
+        "vct",
+        "carpet tile"
+      ],
+      "csi_refs": [
+        "09 60 00"
+      ],
+      "search_terms": [
+        "commercial flooring contractor",
+        "commercial floor installer",
+        "LVT VCT flooring contractor"
+      ]
+    },
+    {
+      "id": "painting",
+      "label": "Painting",
+      "aliases": [
+        "commercial painting",
+        "paint",
+        "coatings",
+        "painter"
+      ],
+      "csi_refs": [
+        "09 90 00"
+      ],
+      "search_terms": [
+        "commercial painting contractor",
+        "industrial painting contractor",
+        "commercial coatings contractor"
+      ]
+    },
+    {
+      "id": "specialties",
+      "label": "Specialties",
+      "aliases": [
+        "commercial specialties",
+        "division 10"
+      ],
+      "csi_refs": [
+        "division:10"
+      ],
+      "search_terms": [
+        "commercial construction specialties contractor",
+        "division 10 specialties supplier"
+      ]
+    },
+    {
+      "id": "signage",
+      "label": "Signage",
+      "aliases": [
+        "commercial signs",
+        "wayfinding",
+        "ada signage"
+      ],
+      "csi_refs": [
+        "10 14 00"
+      ],
+      "search_terms": [
+        "commercial signage contractor",
+        "wayfinding signage company",
+        "ADA signage supplier"
+      ]
+    },
+    {
+      "id": "toilet-partitions",
+      "label": "Toilet Partitions",
+      "aliases": [
+        "restroom partitions",
+        "bathroom partitions"
+      ],
+      "csi_refs": [
+        "10 21 00"
+      ],
+      "search_terms": [
+        "commercial toilet partitions supplier",
+        "restroom partitions contractor"
+      ]
+    },
+    {
+      "id": "foodservice-equipment",
+      "label": "Foodservice Equipment",
+      "aliases": [
+        "commercial kitchen equipment",
+        "restaurant equipment"
+      ],
+      "csi_refs": [
+        "11 40 00"
+      ],
+      "search_terms": [
+        "commercial kitchen equipment supplier",
+        "foodservice equipment dealer"
+      ]
+    },
+    {
+      "id": "casework",
+      "label": "Casework",
+      "aliases": [
+        "commercial casework",
+        "laboratory casework",
+        "cabinets"
+      ],
+      "csi_refs": [
+        "12 30 00"
+      ],
+      "search_terms": [
+        "commercial casework contractor",
+        "laboratory casework supplier"
+      ]
+    },
+    {
+      "id": "elevators",
+      "label": "Elevators",
+      "aliases": [
+        "elevator contractor",
+        "lifts",
+        "elevator installation"
+      ],
+      "csi_refs": [
+        "14 20 00"
+      ],
+      "search_terms": [
+        "commercial elevator contractor",
+        "elevator installation company"
+      ]
+    },
+    {
+      "id": "fire-protection",
+      "label": "Fire Protection",
+      "aliases": [
+        "fire sprinkler",
+        "sprinkler contractor",
+        "fire suppression"
+      ],
+      "csi_refs": [
+        "division:21"
+      ],
+      "search_terms": [
+        "commercial fire sprinkler contractor",
+        "fire suppression contractor",
+        "sprinkler system contractor"
+      ]
+    },
+    {
+      "id": "plumbing",
+      "label": "Plumbing",
+      "aliases": [
+        "commercial plumbing",
+        "plumber",
+        "plumbing contractor"
+      ],
+      "csi_refs": [
+        "division:22"
+      ],
+      "search_terms": [
+        "commercial plumbing contractor",
+        "plumbing contractor new construction",
+        "commercial plumber"
+      ]
+    },
+    {
+      "id": "hvac-mechanical",
+      "label": "HVAC / Mechanical",
+      "aliases": [
+        "hvac",
+        "mechanical contractor",
+        "heating and air",
+        "air conditioning"
+      ],
+      "csi_refs": [
+        "division:23"
+      ],
+      "search_terms": [
+        "commercial HVAC contractor",
+        "commercial mechanical contractor",
+        "industrial HVAC contractor"
+      ]
+    },
+    {
+      "id": "building-automation",
+      "label": "Building Automation",
+      "aliases": [
+        "controls",
+        "bas",
+        "integrated automation"
+      ],
+      "csi_refs": [
+        "division:25"
+      ],
+      "search_terms": [
+        "building automation contractor",
+        "commercial controls contractor",
+        "BAS contractor"
+      ]
+    },
+    {
+      "id": "electrical",
+      "label": "Electrical",
+      "aliases": [
+        "commercial electrical",
+        "electrician",
+        "electrical contractor"
+      ],
+      "csi_refs": [
+        "division:26"
+      ],
+      "search_terms": [
+        "commercial electrical contractor",
+        "electrical contractor new construction",
+        "commercial electrician"
+      ]
+    },
+    {
+      "id": "low-voltage-cabling",
+      "label": "Low Voltage / Cabling",
+      "aliases": [
+        "structured cabling",
+        "data cabling",
+        "fiber optic",
+        "communications"
+      ],
+      "csi_refs": [
+        "division:27"
+      ],
+      "search_terms": [
+        "commercial low voltage contractor",
+        "structured cabling contractor",
+        "commercial data cabling contractor"
+      ]
+    },
+    {
+      "id": "security-access-control",
+      "label": "Security / Access Control",
+      "aliases": [
+        "access control",
+        "cctv",
+        "security systems"
+      ],
+      "csi_refs": [
+        "division:28"
+      ],
+      "search_terms": [
+        "commercial access control contractor",
+        "commercial security systems installer",
+        "commercial CCTV installer"
+      ]
+    },
+    {
+      "id": "earthwork",
+      "label": "Earthwork",
+      "aliases": [
+        "excavation",
+        "grading",
+        "land clearing",
+        "site clearing"
+      ],
+      "csi_refs": [
+        "division:31"
+      ],
+      "search_terms": [
+        "commercial earthwork contractor",
+        "excavation contractor",
+        "grading contractor"
+      ],
+      "qualification_terms": [
+        "earthwork",
+        "earthworks",
+        "excavat",
+        "grading",
+        "sitework",
+        "site work",
+        "site development",
+        "land clearing"
+      ]
+    },
+    {
+      "id": "paving",
+      "label": "Paving",
+      "aliases": [
+        "asphalt paving",
+        "site paving",
+        "parking lot paving"
+      ],
+      "csi_refs": [
+        "32 10 00"
+      ],
+      "search_terms": [
+        "commercial paving contractor",
+        "commercial asphalt paving contractor",
+        "parking lot paving contractor"
+      ]
+    },
+    {
+      "id": "landscaping",
+      "label": "Landscaping",
+      "aliases": [
+        "planting",
+        "landscape contractor",
+        "irrigation"
+      ],
+      "csi_refs": [
+        "32 90 00"
+      ],
+      "search_terms": [
+        "commercial landscaping contractor",
+        "commercial planting contractor",
+        "commercial irrigation contractor"
+      ]
+    },
+    {
+      "id": "utilities",
+      "label": "Utilities",
+      "aliases": [
+        "site utilities",
+        "underground utilities",
+        "utility contractor"
+      ],
+      "csi_refs": [
+        "division:33"
+      ],
+      "search_terms": [
+        "commercial underground utility contractor",
+        "site utilities contractor",
+        "utility piping contractor"
+      ]
+    },
+    {
+      "id": "transportation",
+      "label": "Transportation",
+      "aliases": [
+        "roadway",
+        "railway",
+        "bridge construction"
+      ],
+      "csi_refs": [
+        "division:34"
+      ],
+      "search_terms": [
+        "transportation construction contractor",
+        "roadway contractor",
+        "rail construction contractor"
+      ]
+    }
+  ]
+}

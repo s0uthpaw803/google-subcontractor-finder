@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
+import { resolveBusinessQuerySelection } from "./business-query.js";
 
 const PLACES_TEXT_URL = "https://places.googleapis.com/v1/places:searchText";
 const PLACES_NEARBY_URL = "https://places.googleapis.com/v1/places:searchNearby";
@@ -1313,6 +1314,7 @@ export async function searchSubcontractors({
   location,
   query,
   queries = [],
+  businessSelectionId = "",
   strictTypeFilter = true,
   radiusMiles = 25,
   engineMode = "apib",
@@ -1330,10 +1332,23 @@ export async function searchSubcontractors({
   }
 
   const safeRadiusMiles = Math.max(1, Math.min(45, Number(radiusMiles || 25)));
-  const selection = buildSelection({ query, queries });
+  const resolvedBusinessSelection = businessSelectionId
+    ? resolveBusinessQuerySelection(businessSelectionId)
+    : null;
+  if (businessSelectionId && !resolvedBusinessSelection) {
+    throw new Error("Invalid Business Query selection.");
+  }
+  const selection = resolvedBusinessSelection || buildSelection({ query, queries });
   const rawMode = String(engineMode || "apib").toLowerCase();
   const normalizedEngineMode = rawMode === "ggl" || rawMode === "api" || rawMode === "apib" ? rawMode : "apib";
-  const jobs = (normalizedEngineMode === "ggl" ? buildLegacyQueries({ query, queries }, {
+  const selectionTerms = resolvedBusinessSelection
+    ? [...new Set((selection.selectedChildren || []).flatMap((child) => [
+        ...(child?.query_profile?.primary_terms || []),
+        ...(child?.query_profile?.secondary_terms || [])
+      ]).map((term) => String(term || "").trim()).filter(Boolean))]
+    : queries;
+  const legacyQuery = String(selectionTerms[0] || query || "contractor").trim();
+  const jobs = (normalizedEngineMode === "ggl" ? buildLegacyQueries({ query: legacyQuery, queries: selectionTerms }, {
     lat: center.lat,
     lng: center.lng,
     radius_meters: Math.round(safeRadiusMiles * 1609.34)

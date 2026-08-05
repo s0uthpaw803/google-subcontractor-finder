@@ -140,29 +140,8 @@
     .hint{font:500 .71rem/1.3 Arial;color:#9aa3af;margin-top:6px}
     .location-wrap{position:relative}
     .query-select{position:relative}
-    #queryPreset{display:none}
-    .query-btn{
-      width:100%;
-      text-align:left;
-      padding-right:34px;
-      position:relative;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      font-weight:500;
-      color:#d7dee7;
-    }
-    .query-btn::after{
-      content:"";
-      position:absolute;
-      right:11px;
-      top:50%;
-      width:12px;
-      height:12px;
-      transform:translateY(-50%);
-      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23d9d9d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
-      pointer-events:none;
-    }
+    .business-query-input{padding-right:34px}
+    .business-query-input[aria-expanded="true"]{border-color:#6a7483}
     .query-menu{
       position:absolute;
       left:0;
@@ -174,7 +153,7 @@
       box-shadow:0 12px 26px rgba(0,0,0,.35);
       backdrop-filter:blur(12px) saturate(118%);
       -webkit-backdrop-filter:blur(12px) saturate(118%);
-      max-height:240px;
+      max-height:270px;
       overflow:auto;
       z-index:1300;
     }
@@ -188,30 +167,24 @@
       border-radius:0;
       background:transparent;
       color:#e0e6ef;
-      padding:4px 10px;
+      padding:6px 10px;
       text-align:left;
-      font:600 .76rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
+      font:500 .78rem/1.2 Arial,Helvetica,"Segoe UI",Tahoma,sans-serif;
       text-transform:none;
       letter-spacing:0;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
       cursor:pointer;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      align-items:center;
+      column-gap:10px;
     }
     .query-item:last-child{border-bottom:0}
-    .query-item.parent-cat{color:#be1e2d;font-size:.9rem}
-    .query-item.child-cat{padding-left:34px}
     .query-item:hover,.query-item.active{background:rgba(255,255,255,.06)}
-    .query-item .menu-icon{
-      display:inline-block;
-      width:14px;
-      text-align:center;
-      margin-right:6px;
-      font:700 13px/1 Arial,Helvetica,sans-serif;
-      vertical-align:middle;
-    }
-    .query-item .menu-icon.manual{color:#be1e2d;font-size:15px}
-    .query-item .menu-icon.pref{color:#d4af37;font-size:13px}
+    .query-main{display:block;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .query-main .menu-icon{display:inline-block;margin-right:6px}
+    .query-detail{grid-column:1 / -1;margin-top:2px;color:#9aa5b4;font-size:.67rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .query-kind{margin-left:auto;color:#7f8a99;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.055em}
+    .query-item mark{background:transparent;color:#fff;font-weight:800}
     .location-suggest{
       position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1200;
       border:1px solid rgba(170,170,170,.32);border-radius:12px;background:rgba(19,24,32,.76);
@@ -615,9 +588,6 @@
     body[data-theme="light"] .location-suggest button:hover{
       background:rgba(0,0,0,.05);
     }
-    body[data-theme="light"] .query-btn::after{
-      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25L7 9l4-3.75' fill='none' stroke='%23343a44' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px 12px;
-    }
     body[data-theme="light"] .query-menu{
       border-color:#b7bfc9;background:rgba(241,245,250,.84);
       backdrop-filter:blur(14px) saturate(112%);
@@ -626,7 +596,9 @@
     body[data-theme="light"] .query-item{
       color:#1f2a36;border-bottom-color:#c7ced8;
     }
-    body[data-theme="light"] .query-item.parent-cat{color:#be1e2d}
+    body[data-theme="light"] .query-detail{color:#657180}
+    body[data-theme="light"] .query-kind{color:#697482}
+    body[data-theme="light"] .query-item mark{color:#be1e2d}
     body[data-theme="light"] .query-item:hover,
     body[data-theme="light"] .query-item.active{background:rgba(0,0,0,.05)}
     body[data-theme="light"] #priorSwitch button{color:#4f5661;-webkit-text-fill-color:#4f5661}
@@ -703,14 +675,12 @@
         </div>
 
         <div class="field-block">
-          <label for="queryPreset" class="field-label">Business Query</label>
+          <label for="businessQuery" class="field-label">Business Query</label>
           <div class="query-select">
-            <select id="queryPreset"></select>
-            <button id="queryPresetBtn" type="button" class="query-btn">Select category or trade...</button>
-            <div id="queryPresetMenu" class="query-menu hidden"></div>
+            <input id="businessQuery" class="business-query-input" placeholder="Search trade, CSI division, section, or keyword..." autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="businessQueryMenu">
+            <div id="businessQueryMenu" class="query-menu hidden" role="listbox"></div>
           </div>
-          <input id="manualQuery" class="hidden" placeholder="Manual search override" autocomplete="on" autocorrect="on" autocapitalize="words" spellcheck="true">
-          <div id="queryLegend" class="hint">Selecting a parent runs all child categories in that section.</div>
+          <div id="queryLegend" class="hint">Search by common trade terminology or official CSI MasterFormat nomenclature.</div>
         </div>
 
         <div class="row controls-row field-block">
@@ -760,8 +730,7 @@
                 <div class="faq-title" style="margin-top:8px">Main Options</div>
                 <ul class="faq-list">
                   <li>Use My Location — uses device location</li>
-                  <li>Business Query — category search or Manual Override</li>
-                  <li>Manual Override — custom search term (broader results)</li>
+                  <li>Business Query — search common trades or official CSI divisions and sections</li>
                   <li>Preferred Results — shows starred companies</li>
                   <li>API / APIB / GGL — search mode (API = tighter, APIB = broad, GGL = broadest)</li>
                   <li>Prior ON/OFF — hides previously seen results during expansion</li>
@@ -794,8 +763,7 @@
 const $ = id => document.getElementById(id);
 const UI_STATE_KEY = "kc_v2_state_1";
 const els = {
-  location: $('location'), useMyLocation: $('useMyLocation'), queryPreset: $('queryPreset'), manualQuery: $('manualQuery'),
-  queryPresetBtn: $('queryPresetBtn'), queryPresetMenu: $('queryPresetMenu'),
+  location: $('location'), useMyLocation: $('useMyLocation'), businessQuery: $('businessQuery'), businessQueryMenu: $('businessQueryMenu'),
   radiusMiles: $('radiusMiles'), includeEmails: $('includeEmails'), searchBtn: $('searchBtn'), downloadBtn: $('downloadBtn'),
   resetFieldsBtn: $('resetFieldsBtn'),
   list: $('list'), status: $('status'), clearBtn: $('clearBtn'), queryLegend: $('queryLegend'),
@@ -803,7 +771,11 @@ const els = {
   locationSuggest: $('locationSuggest')
 };
 
-let sections = [];
+let businessQuerySelection = null;
+let businessQuerySuggestions = [];
+let businessQueryActiveIndex = -1;
+let businessQueryTimer = null;
+let businessQueryRequestId = 0;
 let rows = [];
 let lastFetchedRows = [];
 let preferredRowsCache = [];
@@ -821,10 +793,10 @@ let pendingRemoval = null;
 let resultSort = { key: '', dir: 'asc' };
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
-const makeSearchSignature = ({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
-  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|"), String(Number(radiusMiles || 25))].join("::");
-const makeChainKey = ({ location = "", query = "", queries = [], engineMode = "api", includeEmails = false }) =>
-  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(query), [...new Set((queries || []).map(normalize).filter(Boolean))].sort().join("|")].join("::");
+const makeSearchSignature = ({ location = "", query = "", businessSelectionId = "", radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
+  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(businessSelectionId), normalize(query), String(Number(radiusMiles || 25))].join("::");
+const makeChainKey = ({ location = "", query = "", businessSelectionId = "", engineMode = "api", includeEmails = false }) =>
+  [normalize(engineMode), includeEmails ? "emails:on" : "emails:off", normalize(location), normalize(businessSelectionId), normalize(query)].join("::");
 const makeRowKey = (r) => {
   if (r?.result_key) return String(r.result_key);
   if (r?.place_id) return `place:${String(r.place_id).trim()}`;
@@ -869,8 +841,8 @@ function saveUiState(){
       location: String(els.location.value || ''),
       useMyLocation: Boolean(els.useMyLocation.checked),
       currentGeoLocation: String(currentGeoLocation || ''),
-      queryPreset: String(els.queryPreset.value || ''),
-      manualQuery: String(els.manualQuery.value || ''),
+      businessQuerySelection,
+      businessQueryText: String(els.businessQuery.value || ''),
       radiusMiles: String(els.radiusMiles.value || '25'),
       includeEmails: Boolean(els.includeEmails.checked),
       engineMode: searchEngineMode,
@@ -1000,40 +972,106 @@ function renderLocationSuggest(items){
   els.locationSuggest.classList.remove('hidden');
 }
 
-function updateQueryButtonText(){
-  const opt = els.queryPreset.options[els.queryPreset.selectedIndex];
-  const txt = String(opt?.textContent || "Select category or trade...").replace(/\u00a0/g, " ").trim();
-  els.queryPresetBtn.textContent = txt || "Select category or trade...";
-  els.queryPresetBtn.classList.toggle("has-value", String(els.queryPreset.value || "").trim() !== "");
+function highlightQueryMatch(value, query){
+  const text = String(value || '');
+  const q = String(query || '').trim();
+  if (!q) return escapeHtml(text);
+  const index = text.toLowerCase().indexOf(q.toLowerCase());
+  if (index < 0) return escapeHtml(text);
+  return `${escapeHtml(text.slice(0, index))}<mark>${escapeHtml(text.slice(index, index + q.length))}</mark>${escapeHtml(text.slice(index + q.length))}`;
 }
 
-function closeQueryMenu(){
-  els.queryPresetMenu.classList.add('hidden');
+function closeBusinessQueryMenu(){
+  els.businessQueryMenu.classList.add('hidden');
+  els.businessQuery.setAttribute('aria-expanded', 'false');
+  businessQueryActiveIndex = -1;
 }
 
-function openQueryMenu(){
-  const options = [...els.queryPreset.options];
-  if (!options.length) return;
-  const current = String(els.queryPreset.value || "");
-  els.queryPresetMenu.innerHTML = options.map((o) => {
-    const value = String(o.value || "");
-    const label = String(o.textContent || "").replace(/\u00a0/g, " ").trim();
-    const active = value === current ? "active" : "";
-    const isParent = value.startsWith("parent:");
-    const isChild = value.startsWith("child:");
-    const parentClass = isParent ? " parent-cat" : "";
-    const childClass = isChild ? " child-cat" : "";
-    const iconHtml = value === 'manual'
-      ? `<span class="menu-icon manual">●</span>`
-      : (value === 'preferred:all' ? `<span class="menu-icon pref">★</span>` : '');
-    return `<button type="button" class="query-item ${active}${parentClass}${childClass}" data-value="${escapeHtml(value)}" title="${escapeHtml(label)}">${iconHtml}${escapeHtml(label)}</button>`;
-  }).join("");
-  els.queryPresetMenu.classList.remove('hidden');
+function renderBusinessQuerySuggestions(){
+  const query = String(els.businessQuery.value || '').trim();
+  if (!businessQuerySuggestions.length) {
+    els.businessQueryMenu.innerHTML = '<div class="query-empty">No matching trade or CSI entry.</div>';
+  } else {
+    els.businessQueryMenu.innerHTML = businessQuerySuggestions.map((item, index) => {
+      const preferred = item.kind === 'preferred';
+      const active = index === businessQueryActiveIndex ? ' active' : '';
+      const icon = preferred ? '<span class="menu-icon pref">★</span>' : '';
+      return `<button type="button" class="query-item${active}${preferred ? ' preferred' : ''}" data-index="${index}" role="option" aria-selected="${index === businessQueryActiveIndex}">
+        <span class="query-main">${icon}${highlightQueryMatch(item.display, query)}</span>
+        ${item.detail ? `<span class="query-detail">${highlightQueryMatch(item.detail, query)}</span>` : ''}
+        <span class="query-kind">${escapeHtml(item.kind_label || '')}</span>
+      </button>`;
+    }).join('');
+  }
+  els.businessQueryMenu.classList.remove('hidden');
+  els.businessQuery.setAttribute('aria-expanded', 'true');
 }
 
-function toggleQueryMenu(){
-  if (els.queryPresetMenu.classList.contains('hidden')) openQueryMenu();
-  else closeQueryMenu();
+async function fetchBusinessQuerySuggestions(query = ''){
+  const reqId = ++businessQueryRequestId;
+  try{
+    const res = await fetch(`/api/business-query/suggest?q=${encodeURIComponent(String(query || '').trim())}&limit=10`);
+    const data = await res.json().catch(() => ({}));
+    if (reqId !== businessQueryRequestId) return;
+    businessQuerySuggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+    businessQueryActiveIndex = businessQuerySuggestions.length ? 0 : -1;
+    renderBusinessQuerySuggestions();
+  }catch{
+    if (reqId !== businessQueryRequestId) return;
+    businessQuerySuggestions = [];
+    renderBusinessQuerySuggestions();
+  }
+}
+
+function queueBusinessQuerySuggestions(){
+  if (businessQueryTimer) clearTimeout(businessQueryTimer);
+  businessQueryTimer = setTimeout(() => void fetchBusinessQuerySuggestions(els.businessQuery.value), 120);
+}
+
+async function selectBusinessQuerySuggestion(index, run = true){
+  const item = businessQuerySuggestions[index];
+  if (!item) return;
+  businessQuerySelection = { id: item.id, kind: item.kind, display: item.display, legend: item.legend || '' };
+  els.businessQuery.value = item.display;
+  els.queryLegend.textContent = item.legend || 'Search by common trade terminology or official CSI MasterFormat nomenclature.';
+  closeBusinessQueryMenu();
+  saveUiState();
+  if (run) await runSearch();
+}
+
+function handleBusinessQueryKeydown(event){
+  if (event.isComposing) return;
+  if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (els.businessQueryMenu.classList.contains('hidden')) {
+      void fetchBusinessQuerySuggestions(els.businessQuery.value);
+      return;
+    }
+    const count = businessQuerySuggestions.length;
+    if (!count) return;
+    const delta = event.key === 'ArrowDown' ? 1 : -1;
+    businessQueryActiveIndex = (businessQueryActiveIndex + delta + count) % count;
+    renderBusinessQuerySuggestions();
+    els.businessQueryMenu.querySelector('.query-item.active')?.scrollIntoView({ block: 'nearest' });
+    return;
+  }
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeBusinessQueryMenu();
+    return;
+  }
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    if (!els.businessQueryMenu.classList.contains('hidden') && businessQueryActiveIndex >= 0) {
+      void selectBusinessQuerySuggestion(businessQueryActiveIndex, true);
+    } else if (businessQuerySelection) {
+      void runSearch();
+    }
+    return;
+  }
+  if (event.key === 'Tab' && !els.businessQueryMenu.classList.contains('hidden') && businessQueryActiveIndex >= 0) {
+    void selectBusinessQuerySuggestion(businessQueryActiveIndex, true);
+  }
 }
 
 async function fetchLocationSuggest(query){
@@ -1085,16 +1123,16 @@ function resetFields(){
 
   els.location.value = '';
   els.useMyLocation.checked = false;
-  els.manualQuery.value = '';
+  els.businessQuery.value = '';
+  businessQuerySelection = null;
+  businessQuerySuggestions = [];
   els.radiusMiles.value = '25';
   els.includeEmails.checked = false;
-  els.queryPreset.value = '';
-  els.manualQuery.classList.add('hidden');
+  els.queryLegend.textContent = 'Search by common trade terminology or official CSI MasterFormat nomenclature.';
 
   hideLocationSuggest();
-  closeQueryMenu();
+  closeBusinessQueryMenu();
   closeFaq();
-  updateQueryButtonText();
   syncLocationFieldLock();
   render();
   setStatus('Fields reset.');
@@ -1201,61 +1239,29 @@ function render(){
 
 function escapeHtml(v){ return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function parseDivisionNumber(label){
-  const m = String(label || "").match(/^\s*(\d+)\s*[–-]/);
-  return m ? Number(m[1]) : Number.POSITIVE_INFINITY;
-}
-
-async function loadCategories(selectedValue = ""){
+async function restoreBusinessQuerySelection(savedSelection, savedText = ''){
+  const id = String(savedSelection?.id || '').trim();
+  if (!id) {
+    businessQuerySelection = null;
+    els.businessQuery.value = String(savedText || '');
+    return;
+  }
   try{
-    const res = await fetch('/api/query-categories');
-    const data = await res.json();
-    sections = Array.isArray(data.sections) ? data.sections : [];
-    await refreshPreferredRows();
-    if (data.legend) els.queryLegend.textContent = data.legend;
-    const opts = ['<option value="">Select category or trade...</option>','<option value="manual">Manual Override (Optional)</option>','<option value="preferred:all">Preferred Results - All</option>'];
-    const sorted = sections.map((s, i) => ({ s, i })).sort((a, b) => {
-      const aLabel = String(a.s.label || a.s.section || '');
-      const bLabel = String(b.s.label || b.s.section || '');
-      const n = parseDivisionNumber(aLabel) - parseDivisionNumber(bLabel);
-      return n !== 0 ? n : aLabel.localeCompare(bLabel);
-    });
-    sorted.forEach(({ s, i }) => {
-      const label = String(s.label || s.section || `Section ${i+1}`);
-      opts.push(`<option value="parent:${i}">${escapeHtml(label)}</option>`);
-      (Array.isArray(s.children) ? s.children : []).forEach((c, cIdx) => opts.push(`<option value="child:${i}:${cIdx}">\u00A0\u00A0\u2022 ${escapeHtml(String(c||''))}</option>`));
-    });
-    els.queryPreset.innerHTML = opts.join('');
-    if (selectedValue && [...els.queryPreset.options].some((o) => String(o.value) === selectedValue)) {
-      els.queryPreset.value = selectedValue;
-    }
-    updateQueryTone();
-    updateQueryButtonText();
+    const res = await fetch(`/api/business-query/selection?id=${encodeURIComponent(id)}`);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.selection) throw new Error('Unknown selection');
+    businessQuerySelection = {
+      id: data.selection.id,
+      kind: data.selection.kind,
+      display: data.selection.display,
+      legend: data.selection.legend || ''
+    };
+    els.businessQuery.value = businessQuerySelection.display;
+    if (businessQuerySelection.legend) els.queryLegend.textContent = businessQuerySelection.legend;
   }catch{
-    els.queryPreset.innerHTML = '<option value="">Select category or trade...</option><option value="manual">Manual Override (Optional)</option><option value="preferred:all">Preferred Results - All</option>';
-    updateQueryTone();
-    updateQueryButtonText();
+    businessQuerySelection = null;
+    els.businessQuery.value = '';
   }
-}
-
-function updateQueryTone(){ return; }
-
-function parsePreset(){
-  const v = String(els.queryPreset.value || '');
-  if (v === 'manual') return {type:'manual'};
-  if (v === 'preferred:all') return {type:'preferred_all'};
-  if (v.startsWith('parent:')) {
-    const idx = Number(v.split(':')[1]);
-    return Number.isInteger(idx) && sections[idx] ? {type:'parent', section: sections[idx]} : {type:'none'};
-  }
-  if (v.startsWith('child:')) {
-    const p = v.split(':');
-    const i = Number(p[1]); const c = Number(p[2]);
-    const s = sections[i];
-    const child = Array.isArray(s?.children) ? s.children[c] : '';
-    return child ? {type:'child', section:s, child:String(child)} : {type:'none'};
-  }
-  return {type:'none'};
 }
 
 function applyPriorFilter(input){
@@ -1299,12 +1305,11 @@ function toggleSort(key){
 }
 
 async function runSearch(){
-  const p = parsePreset();
   const loc = els.useMyLocation.checked && currentGeoLocation ? currentGeoLocation : String(els.location.value || '').trim();
-  const manual = String(els.manualQuery.value || '').trim();
-  currentSearchCategoryLabel = String(els.queryPreset.options[els.queryPreset.selectedIndex]?.textContent || '').trim();
+  const selection = businessQuerySelection;
+  currentSearchCategoryLabel = String(selection?.display || '').trim();
 
-  if (p.type === 'preferred_all') {
+  if (selection?.id === 'preferred:all') {
     await refreshPreferredRows();
     rows = preferredRowsCache.map((r) => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
     setStatus(`${rows.length} preferred results found.`);
@@ -1314,14 +1319,10 @@ async function runSearch(){
   }
 
   if (!loc){ setStatus('Enter a location first.'); return; }
+  if (!selection?.id){ setStatus('Select a Business Query first.'); return; }
 
-  let query = 'contractor'; let queries = []; let queryContexts = [];
-  if (p.type === 'manual' && manual){ query = manual; }
-  else if (p.type === 'child'){ query = p.child; queries = [p.child]; queryContexts = [{term:p.child, section: p.section.label || p.section.section || 'Category'}]; }
-  else if (p.type === 'parent'){
-    const kids = (Array.isArray(p.section.children) ? p.section.children.filter(Boolean) : []);
-    if (kids.length){ query = kids[0]; queries = kids; queryContexts = kids.map(k => ({term:k, section: p.section.label || p.section.section || 'Category'})); }
-  } else if (manual){ query = manual; }
+  const query = String(selection.display || '').trim();
+  const businessSelectionId = String(selection.id || '').trim();
 
   els.searchBtn.disabled = true;
   setStatus('Searching...');
@@ -1330,14 +1331,14 @@ async function runSearch(){
   try{
     const radiusMiles = Number(els.radiusMiles.value || 25);
     const includeEmails = Boolean(els.includeEmails.checked);
-    currentSearchSignature = makeSearchSignature({ location: loc, query, queries, radiusMiles, engineMode: searchEngineMode, includeEmails });
+    currentSearchSignature = makeSearchSignature({ location: loc, query, businessSelectionId, radiusMiles, engineMode: searchEngineMode, includeEmails });
     currentSearchCity = String(loc.split(',')[0] || '').trim();
-    const payload = { location: loc, query, queries, queryContexts, radiusMiles, engineMode: searchEngineMode, includeEmails, strictTypeFilter: p.type === 'manual' ? false : true };
+    const payload = { location: loc, query, businessSelectionId, radiusMiles, engineMode: searchEngineMode, includeEmails, strictTypeFilter: true };
     const res = await fetch('/api/search', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
     const fetched = (Array.isArray(data.rows) ? data.rows : []).map(r => ({ ...r, result_key: String(r.result_key || makeRowKey(r)) }));
-    const key = makeChainKey({ location: loc, query, queries, engineMode: searchEngineMode, includeEmails });
+    const key = makeChainKey({ location: loc, query, businessSelectionId, engineMode: searchEngineMode, includeEmails });
     const seen = new Set(Array.isArray(seenByChain[key]) ? seenByChain[key] : []);
     fetched.forEach(r => { const rk = rowSeenKey(r); r._seen = seen.has(rk); });
     fetched.forEach(r => seen.add(rowSeenKey(r)));
@@ -1371,7 +1372,7 @@ function downloadXlsx(){
   const blob = buildXlsxBlob(headers, exportRows);
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  const categoryTextRaw = String(els.queryPreset.options[els.queryPreset.selectedIndex]?.textContent || '').replace(/\u00a0/g, ' ').trim();
+  const categoryTextRaw = String(businessQuerySelection?.display || els.businessQuery.value || '').trim();
   const categoryText = categoryTextRaw || 'results';
   const cleanCategory = categoryText
     .replace(/^[•\-\s]+/, '')
@@ -1476,32 +1477,33 @@ async function useMyLocationChanged(){
 function closeFaq(){ els.faqWrap.classList.remove('open'); }
 function toggleFaq(ev){ ev.preventDefault(); ev.stopPropagation(); els.faqWrap.classList.toggle('open'); }
 
-els.queryPreset.addEventListener('change', async () => {
-  const manual = String(els.queryPreset.value || '') === 'manual';
-  els.manualQuery.classList.toggle('hidden', !manual);
-  updateQueryTone();
-  updateQueryButtonText();
-  if (String(els.queryPreset.value || '') === 'preferred:all') {
-    await runSearch();
-  }
+els.businessQuery.addEventListener('focus', () => {
+  if (suggestTimer) { clearTimeout(suggestTimer); suggestTimer = null; }
+  suggestRequestId += 1;
+  hideLocationSuggest();
+  void fetchBusinessQuerySuggestions(els.businessQuery.value);
+});
+els.businessQuery.addEventListener('click', () => {
+  closeFaq();
+  if (suggestTimer) { clearTimeout(suggestTimer); suggestTimer = null; }
+  suggestRequestId += 1;
+  hideLocationSuggest();
+  void fetchBusinessQuerySuggestions(els.businessQuery.value);
+});
+els.businessQuery.addEventListener('input', () => {
+  if (businessQuerySelection && els.businessQuery.value !== businessQuerySelection.display) businessQuerySelection = null;
+  els.queryLegend.textContent = 'Search by common trade terminology or official CSI MasterFormat nomenclature.';
+  queueBusinessQuerySuggestions();
   saveUiState();
 });
-els.queryPresetBtn.addEventListener('click', (event) => {
-  event.preventDefault();
-  toggleQueryMenu();
-});
-els.queryPresetMenu.addEventListener('click', (event) => {
+els.businessQuery.addEventListener('keydown', handleBusinessQueryKeydown);
+els.businessQueryMenu.addEventListener('click', (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
   const item = target.closest('.query-item');
   if (!item) return;
-  const value = String(item.getAttribute('data-value') || '');
-  if ([...els.queryPreset.options].some((o) => String(o.value || '') === value)) {
-    els.queryPreset.value = value;
-  }
-  closeQueryMenu();
-  updateQueryButtonText();
-  els.queryPreset.dispatchEvent(new Event('change', { bubbles: true }));
+  const index = Number(item.getAttribute('data-index'));
+  if (Number.isInteger(index)) void selectBusinessQuerySuggestion(index, true);
 });
 els.location.addEventListener('focus', () => { if (!els.useMyLocation.checked) void fetchLocationSuggest(els.location.value); });
 els.location.addEventListener('click', () => closeFaq());
@@ -1643,7 +1645,7 @@ document.addEventListener('click', (e) => {
   const t = e.target;
   if (!(t instanceof HTMLElement)) return;
   if (!t.closest('.location-wrap')) hideLocationSuggest();
-  if (!t.closest('.query-select')) closeQueryMenu();
+  if (!t.closest('.query-select')) closeBusinessQueryMenu();
   if (els.faqWrap.classList.contains('open')) closeFaq();
 });
 [document, window].forEach((target) => target.addEventListener('keydown', (event) => {
@@ -1651,7 +1653,7 @@ document.addEventListener('click', (e) => {
     event.preventDefault();
   }
 }));
-[els.location, els.manualQuery, els.radiusMiles, els.queryPreset, els.queryPresetBtn].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
+[els.location, els.radiusMiles].forEach((el) => el.addEventListener('keydown', handleEnterToSearch));
 
 (async function init(){
   try {
@@ -1676,7 +1678,6 @@ document.addEventListener('click', (e) => {
     els.useMyLocation.checked = Boolean(state.useMyLocation);
     if (els.useMyLocation.checked && currentGeoLocation) els.location.value = currentGeoLocation;
     else els.location.value = String(state.location || '');
-    els.manualQuery.value = String(state.manualQuery || '');
     els.radiusMiles.value = String(state.radiusMiles || '25');
     els.includeEmails.checked = Boolean(state.includeEmails);
     rows = Array.isArray(state.rows) ? state.rows : [];
@@ -1699,10 +1700,10 @@ document.addEventListener('click', (e) => {
     pendingRemoval = null;
     els.location.value = '';
     els.useMyLocation.checked = false;
-    els.manualQuery.value = '';
+    els.businessQuery.value = '';
+    businessQuerySelection = null;
     els.radiusMiles.value = '25';
     els.includeEmails.checked = false;
-    els.queryPreset.value = '';
     document.body.setAttribute('data-theme', 'dark');
     searchEngineMode = 'apib';
     hidePrior = true;
@@ -1710,9 +1711,7 @@ document.addEventListener('click', (e) => {
   updateEngineUI();
   updatePriorUI();
   syncLocationFieldLock();
-  const selected = state ? String(state.queryPreset || '') : '';
-  await loadCategories(selected);
-  els.manualQuery.classList.toggle('hidden', String(els.queryPreset.value || '') !== 'manual');
+  await restoreBusinessQuerySelection(state?.businessQuerySelection, state?.businessQueryText);
   render();
 })();
 </script>

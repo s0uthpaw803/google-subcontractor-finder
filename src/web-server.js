@@ -5,6 +5,11 @@ import path from "node:path";
 import http from "node:http";
 import { pathToFileURL } from "node:url";
 import { searchSubcontractors, toCsv, taxonomyForUi } from "./search-engine.js";
+import {
+  businessQueryInventory,
+  getBusinessQuerySelection,
+  getBusinessQuerySuggestions
+} from "./business-query.js";
 
 const DEFAULT_PORT = Number(process.env.PORT || 8787);
 const DEFAULT_HOST = process.env.HOST || "0.0.0.0";
@@ -45,11 +50,12 @@ function normalizeValue(v) {
   return String(v || "").trim().toLowerCase();
 }
 
-function buildSearchSignature({ location = "", query = "", queries = [], radiusMiles = 25, engineMode = "api" }) {
+function buildSearchSignature({ location = "", query = "", queries = [], businessSelectionId = "", radiusMiles = 25, engineMode = "api" }) {
   const q = Array.isArray(queries) ? queries.map(normalizeValue).filter(Boolean).sort() : [];
   return [
     normalizeValue(engineMode),
     normalizeValue(location),
+    normalizeValue(businessSelectionId),
     normalizeValue(query),
     q.join("|"),
     String(Number(radiusMiles || 25))
@@ -498,6 +504,7 @@ const server = http.createServer(async (req, res) => {
         location: input.location,
         query: input.query || "general contractor",
         queries: Array.isArray(input.queries) ? input.queries : [],
+        businessSelectionId: input.businessSelectionId,
         radiusMiles: input.radiusMiles,
         engineMode: input.engineMode
       });
@@ -505,6 +512,7 @@ const server = http.createServer(async (req, res) => {
         location: input.location,
         query: input.query || "general contractor",
         queries: Array.isArray(input.queries) ? input.queries : [],
+        businessSelectionId: String(input.businessSelectionId || "").trim(),
         queryContexts: Array.isArray(input.queryContexts) ? input.queryContexts : [],
         strictTypeFilter: input.strictTypeFilter !== false,
         radiusMiles: input.radiusMiles,
@@ -595,6 +603,29 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET" && url.pathname === "/api/query-categories") {
       sendJson(res, 200, taxonomyForUi());
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/business-query/suggest") {
+      const q = String(url.searchParams.get("q") || "");
+      const limit = Number(url.searchParams.get("limit") || 10);
+      sendJson(res, 200, getBusinessQuerySuggestions(q, limit));
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/business-query/selection") {
+      const id = String(url.searchParams.get("id") || "").trim();
+      const selection = getBusinessQuerySelection(id);
+      if (!selection) {
+        sendJson(res, 404, { error: "Business Query selection not found" });
+        return;
+      }
+      sendJson(res, 200, { selection });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/business-query/inventory") {
+      sendJson(res, 200, businessQueryInventory());
       return;
     }
 
