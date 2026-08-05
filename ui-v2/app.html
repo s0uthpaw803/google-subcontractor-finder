@@ -231,8 +231,25 @@
     .btn:hover{filter:brightness(1.04)}
     .status-row{display:flex;align-items:center;justify-content:flex-start}
     .status{font:700 .86rem Arial;color:#e7edf6}
-    .inline-actions{display:flex;align-items:center;justify-content:flex-start;gap:10px}
-    .reset-row{display:flex;align-items:center;justify-content:center;min-height:18px}
+    .inline-actions{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:10px;margin-top:2px;min-height:20px}
+    .clear-all-btn{
+      width:auto !important;
+      height:auto !important;
+      min-height:0 !important;
+      padding:0 6px !important;
+      border:0 !important;
+      border-radius:0 !important;
+      background:transparent !important;
+      box-shadow:none !important;
+      color:#c9d0db;
+      font:500 1rem/1 Arial,Helvetica,sans-serif;
+      cursor:pointer;
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+    }
+    .clear-all-btn:hover{color:#fff}
     .panel,
     .shell,
     .app,
@@ -242,7 +259,6 @@
     .label-row label,
     .status-row,
     .status,
-    .results-head,
     .list,
     .card,
     .result-row1,
@@ -255,24 +271,6 @@
     .app-footer *:not(a):not(button){
       cursor:default;
     }
-    .text-action{
-      width:auto;
-      height:auto;
-      min-height:0;
-      border:0 !important;
-      border-radius:0 !important;
-      background:transparent !important;
-      box-shadow:none !important;
-      color:#c9d0db;
-      font:700 .78rem Arial,Helvetica,sans-serif;
-      letter-spacing:.01em;
-      text-transform:none;
-      text-decoration:none;
-      padding:0;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    .text-action:hover{text-decoration:underline}
     .list{
       display:flex;
       flex-direction:column;
@@ -281,49 +279,6 @@
       overflow:auto;
       padding-right:6px;
       flex:1;
-    }
-    .results-head{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) auto;
-      align-items:center;
-      gap:10px;
-      width:100%;
-      padding:0 14px 2px 28px;
-      color:#c8d2e1;
-      font:700 .79rem/1 Arial;
-      letter-spacing:.02em;
-      text-transform:uppercase;
-      user-select:none;
-    }
-    .results-head .sort-right{justify-self:end}
-    .sort-toggle{
-      width:auto;
-      height:auto;
-      min-height:0;
-      border:0;
-      border-radius:0;
-      background:transparent;
-      color:inherit;
-      font:inherit;
-      letter-spacing:inherit;
-      text-transform:inherit;
-      cursor:pointer;
-      padding:0;
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      opacity:.92;
-      box-shadow:none;
-    }
-    .results-head .sort-toggle:first-child{justify-self:start}
-    .sort-toggle:hover{opacity:1;text-decoration:underline}
-    .sort-toggle.active{color:#be1e2d;opacity:1}
-    .sort-arrow{
-      display:inline-block;
-      width:10px;
-      text-align:center;
-      font-size:.7rem;
-      line-height:1;
     }
     .card{
       border:1px solid rgba(170,170,170,.28);
@@ -560,18 +515,6 @@
         inset 0 1px 0 rgba(255,255,255,.18);
     }
     body[data-theme="light"] .status{color:#2c3440}
-    body[data-theme="light"] .text-action{color:#3c4654}
-    body[data-theme="light"] .results-head{color:#2f3947}
-    body[data-theme="light"] .results-head .sort-toggle{
-      width:auto;
-      height:auto;
-      min-height:0;
-      border:0;
-      border-radius:0;
-      background:transparent;
-      color:inherit;
-      box-shadow:none;
-    }
     body[data-theme="light"] .card{
       background:
         linear-gradient(180deg, rgba(255,255,255,.68), rgba(255,255,255,.45)),
@@ -617,6 +560,8 @@
     body[data-theme="light"] #engineSwitch button.active{color:#be1e2d;-webkit-text-fill-color:#be1e2d}
     body[data-theme="light"] .faq-btn,
     body[data-theme="light"] .footer-theme-btn{background:transparent !important;border:0 !important;box-shadow:none !important;color:#111111}
+    body[data-theme="light"] .brand-reset{background:transparent !important;border:0 !important;box-shadow:none !important}
+    body[data-theme="light"] .clear-all-btn{background:transparent !important;border:0 !important;box-shadow:none !important;color:#343b45}
     body[data-theme="light"] #radiusMiles{color-scheme:light}
 
     @media (max-width: 1024px), (hover: none) and (pointer: coarse){
@@ -653,7 +598,6 @@
       .result-company{height:auto;min-height:22px}
       .result-side{width:100%;justify-content:space-between;height:auto;min-height:22px}
       .result-links{white-space:normal;flex-wrap:wrap;font-size:.79rem;gap:6px}
-      .results-head{padding:0 8px 1px 8px}
     }
 
     /* Shared Keystone workspace: flat, compact, and results-first. */
@@ -674,18 +618,19 @@
       box-shadow:none;
     }
     .top{
-      min-height:72px;
-      flex-basis:72px;
-      padding:8px 18px;
-      gap:10px;
-      border-bottom:4px solid var(--accent);
+      min-height:76px;
+      flex-basis:76px;
+      padding:10px clamp(16px,3vw,34px);
+      gap:13px;
+      border-bottom:3px solid var(--accent);
     }
-    .top-logo{width:46px;height:46px;flex-basis:46px}
-    .top-title{font-size:24px;letter-spacing:-.02em}
-    .top-slogan{margin-top:3px;font-size:11px;letter-spacing:.01em}
+    .top-logo{width:54px;height:54px;flex-basis:54px}
+    .brand-reset{width:54px;height:54px;flex-basis:54px}
+    .top-title{font-size:clamp(20px,2vw,28px);letter-spacing:-.02em}
+    .top-slogan{margin-top:4px;font-size:clamp(11px,1.1vw,13px);letter-spacing:.01em}
     .body{
       padding:12px 16px 8px;
-      gap:8px;
+      gap:12px;
       background:#08090b;
     }
     .search-grid{
@@ -694,8 +639,8 @@
       grid-template-areas:
         "location radius"
         "query download";
-      column-gap:18px;
-      row-gap:13px;
+      column-gap:22px;
+      row-gap:28px;
       align-items:start;
     }
     .location-block{grid-area:location}
@@ -712,8 +657,8 @@
       margin-bottom:5px;
     }
     .label-row,
-    .radius-label-row{margin-bottom:5px;min-height:17px}
-    .field-label{margin-bottom:5px}
+    .radius-label-row{margin-bottom:9px;min-height:17px}
+    .field-label{margin-bottom:9px}
     label{font-size:.7rem;letter-spacing:.055em}
     input,
     select,
@@ -741,7 +686,7 @@
       box-shadow:none;
     }
     .btn:hover{filter:brightness(1.08)}
-    .hint{margin-top:5px;color:#8f98a4}
+    .hint{margin-top:8px;color:#8f98a4}
     .query-menu{
       top:calc(100% + 4px);
       border:1px solid #3a4049;
@@ -811,7 +756,19 @@
     .card-confirm-box{border-radius:4px;background:#11151b}
     .card-confirm-actions button{border-radius:4px}
     .card.preferred-card{background:#211116}
-    .footer{padding-top:7px;gap:6px}
+    .footer{
+      flex:0 0 44px;
+      min-height:44px;
+      height:44px;
+      padding:0 clamp(16px,3vw,34px);
+      gap:0;
+      background:#08090b;
+      border-top:3px solid var(--accent);
+      justify-content:center;
+    }
+    .footer-divider{display:none}
+    .footer-brand{gap:5px;font-size:11.5px;font-weight:600}
+    .footer-logo{height:16px}
 
     body[data-theme="light"] .app,
     body[data-theme="light"] .body{
@@ -862,20 +819,21 @@
     body[data-theme="light"] .card.preferred-card{background:#f3e7e9}
 
     @media (max-width: 1024px), (hover: none) and (pointer: coarse){
-      .top{min-height:64px;flex-basis:64px;padding:7px 12px}
+      .top{min-height:62px;flex-basis:62px;padding:8px 12px;gap:10px;justify-content:flex-start}
       .top-logo{width:42px;height:42px;flex-basis:42px}
       .brand-reset{width:42px;height:42px;flex-basis:42px}
-      .top-title{font-size:21px}
-      .body{padding:10px 12px 0;gap:7px}
+      .top-title{font-size:19px}
+      .top-slogan{font-size:10.5px}
+      .body{padding:10px 12px 0;gap:10px}
       .query-menu{left:0;right:0;border-radius:4px}
       .card{min-height:52px;height:auto;flex-basis:auto;border-radius:4px}
-      .footer{padding-top:6px}
+      .footer{flex-basis:42px;min-height:42px;height:42px;padding:0 12px}
     }
     @media (max-width: 700px){
       .search-grid{
         grid-template-columns:1fr;
         grid-template-areas:"location" "query" "radius" "download";
-        gap:10px;
+        gap:20px;
       }
       .download-block::before{display:none}
     }
@@ -934,8 +892,8 @@
 
         <div class="inline-actions">
           <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
+          <button id="clearAllFieldsBtn" class="clear-all-btn" type="button" title="Clear ALL Fields" aria-label="Clear ALL Fields">↻</button>
         </div>
-        <div class="reset-row"><button id="resetFieldsBtn" class="text-action" type="button">Reset ↻</button></div>
         <button id="searchBtn" class="btn">Search</button>
 
         <div class="status-row"><div id="status" class="status">Ready.</div></div>
@@ -983,7 +941,7 @@
                 <ul class="faq-list">
                   <li>Distance shown is straight-line</li>
                   <li>Results are not sponsored ads</li>
-                  <li>Results default to closest first; Name and Miles From can be reversed</li>
+                  <li>Results are always ordered nearest to farthest</li>
                   <li>Results depend on listing quality</li>
                   <li>Some listings may lack website or email</li>
                 </ul>
@@ -1001,7 +959,7 @@ const UI_STATE_KEY = "kc_v2_state_1";
 const els = {
   location: $('location'), useMyLocation: $('useMyLocation'), businessQuery: $('businessQuery'), businessQueryMenu: $('businessQueryMenu'),
   radiusMiles: $('radiusMiles'), includeEmails: $('includeEmails'), searchBtn: $('searchBtn'), downloadBtn: $('downloadBtn'),
-  resetFieldsBtn: $('resetFieldsBtn'), brandResetBtn: $('brandResetBtn'),
+  brandResetBtn: $('brandResetBtn'), clearAllFieldsBtn: $('clearAllFieldsBtn'),
   list: $('list'), status: $('status'), queryLegend: $('queryLegend'),
   engineSwitch: $('engineSwitch'), priorSwitch: $('priorSwitch'), faqWrap: $('faqWrap'), faqBtn: $('faqBtn'), themeBtn: $('themeBtn'),
   locationSuggest: $('locationSuggest')
@@ -1026,7 +984,6 @@ let suggestTimer = null;
 let suggestRequestId = 0;
 let statusTimer = null;
 let pendingRemoval = null;
-let resultSort = { key: 'distance_miles', dir: 'asc' };
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
 const makeSearchSignature = ({ location = "", query = "", businessSelectionId = "", radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
@@ -1086,7 +1043,6 @@ function saveUiState(){
       seenByChain,
       rows,
       lastFetchedRows,
-      resultSort,
       theme: String(document.body.getAttribute('data-theme') || 'dark')
     }));
   }catch{}
@@ -1368,7 +1324,6 @@ function resetFields(){
   els.includeEmails.checked = false;
   searchEngineMode = 'apib';
   hidePrior = true;
-  resultSort = { key: 'distance_miles', dir: 'asc' };
   document.body.setAttribute('data-theme', 'dark');
   els.queryLegend.textContent = 'Search by common trade terminology or official CSI MasterFormat nomenclature.';
 
@@ -1435,18 +1390,7 @@ function render(){
   const prefSet = preferredKeySet();
   if (!rows.length){ els.list.innerHTML = ''; return; }
   const sortedRows = getSortedRows(rows);
-  const nameSortArrow = resultSort.key === 'name' ? (resultSort.dir === 'asc' ? '▲' : '▼') : '';
-  const mileSortArrow = resultSort.key === 'distance_miles' ? (resultSort.dir === 'asc' ? '▲' : '▼') : '';
-  const headerHtml = `
-    <div class="results-head">
-      <button class="sort-toggle ${resultSort.key === 'name' ? 'active' : ''}" type="button" data-sort="name">
-        <span>Name</span><span class="sort-arrow">${nameSortArrow}</span>
-      </button>
-      <button class="sort-toggle sort-right ${resultSort.key === 'distance_miles' ? 'active' : ''}" type="button" data-sort="distance_miles">
-        <span>Miles from</span><span class="sort-arrow">${mileSortArrow}</span>
-      </button>
-    </div>`;
-  els.list.innerHTML = headerHtml + sortedRows.map(r => {
+  els.list.innerHTML = sortedRows.map(r => {
     const k = makeRowKey(r);
     const isPending = String(pendingRemoval?.result_key || '') === String(k);
     const isPreferred = prefSet.has(k);
@@ -1514,37 +1458,15 @@ function applyPriorFilter(input){
 
 function getSortedRows(input){
   const arr = Array.isArray(input) ? [...input] : [];
-  if (!resultSort.key) return arr;
-  const dir = resultSort.dir === 'desc' ? -1 : 1;
   arr.sort((a, b) => {
-    if (resultSort.key === 'name') {
-      const av = String(a?.name || '').toLowerCase();
-      const bv = String(b?.name || '').toLowerCase();
-      const cmp = av.localeCompare(bv);
-      return cmp * dir;
-    }
-    if (resultSort.key === 'distance_miles') {
-      const av = Number(a?.distance_miles);
-      const bv = Number(b?.distance_miles);
-      const an = Number.isFinite(av) ? av : Number.POSITIVE_INFINITY;
-      const bn = Number.isFinite(bv) ? bv : Number.POSITIVE_INFINITY;
-      if (an === bn) return String(a?.name || '').localeCompare(String(b?.name || '')) * dir;
-      return (an - bn) * dir;
-    }
-    return 0;
+    const av = Number(a?.distance_miles);
+    const bv = Number(b?.distance_miles);
+    const an = Number.isFinite(av) ? av : Number.POSITIVE_INFINITY;
+    const bn = Number.isFinite(bv) ? bv : Number.POSITIVE_INFINITY;
+    if (an === bn) return String(a?.name || '').localeCompare(String(b?.name || ''));
+    return an - bn;
   });
   return arr;
-}
-
-function toggleSort(key){
-  if (!key) return;
-  if (resultSort.key === key) {
-    resultSort.dir = resultSort.dir === 'asc' ? 'desc' : 'asc';
-  } else {
-    resultSort = { key, dir: 'asc' };
-  }
-  render();
-  saveUiState();
 }
 
 async function runSearch(){
@@ -1767,8 +1689,8 @@ els.locationSuggest.addEventListener('click', (event) => {
 });
 els.searchBtn.addEventListener('click', runSearch);
 els.downloadBtn.addEventListener('click', downloadXlsx);
-els.resetFieldsBtn.addEventListener('click', resetFields);
 els.brandResetBtn.addEventListener('click', resetFields);
+els.clearAllFieldsBtn.addEventListener('click', resetFields);
 els.useMyLocation.addEventListener('change', useMyLocationChanged);
 els.includeEmails.addEventListener('change', saveUiState);
 els.faqBtn.addEventListener('click', toggleFaq);
@@ -1801,11 +1723,6 @@ els.radiusMiles.addEventListener('input', saveUiState);
 els.list.addEventListener('click', async (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
-  const sortBtn = target.closest('[data-sort]');
-  if (sortBtn instanceof HTMLElement) {
-    toggleSort(String(sortBtn.getAttribute('data-sort') || ''));
-    return;
-  }
   const card = target.closest('.card');
   const k = card?.getAttribute('data-key') || '';
   if (!k) return;
@@ -1925,14 +1842,6 @@ document.addEventListener('click', (e) => {
     els.includeEmails.checked = Boolean(state.includeEmails);
     rows = Array.isArray(state.rows) ? state.rows : [];
     lastFetchedRows = Array.isArray(state.lastFetchedRows) ? state.lastFetchedRows : [];
-    resultSort = state.resultSort && typeof state.resultSort === 'object'
-      ? {
-          key: ['name', 'distance_miles'].includes(String(state.resultSort.key || ''))
-            ? String(state.resultSort.key)
-            : 'distance_miles',
-          dir: String(state.resultSort.dir || 'asc') === 'desc' ? 'desc' : 'asc'
-        }
-      : { key: 'distance_miles', dir: 'asc' };
   } else {
     currentGeoLocation = '';
     currentSearchSignature = '';
@@ -1941,7 +1850,6 @@ document.addEventListener('click', (e) => {
     seenByChain = {};
     rows = [];
     lastFetchedRows = [];
-    resultSort = { key: 'distance_miles', dir: 'asc' };
     pendingRemoval = null;
     els.location.value = '';
     els.useMyLocation.checked = false;
