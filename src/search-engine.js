@@ -52,8 +52,25 @@ const SEARCH_TOKEN_EQUIVALENTS = {
 const SAFE_NEARBY_TYPES = new Set([
   "plumber",
   "electrician",
-  "roofing_contractor",
-  "general_contractor"
+  "roofing_contractor"
+]);
+const GENERIC_CONTRACTOR_TYPES = new Set([
+  "contractor",
+  "general_contractor",
+  "construction_company"
+]);
+const QUALIFICATION_STOP_WORDS = new Set([
+  "and", "the", "for", "with", "commercial", "industrial", "new", "construction",
+  "contractor", "contractors", "company", "companies", "service", "services", "general",
+  "installation", "installer", "supplier", "dealer", "specialty", "work"
+]);
+const QUALIFICATION_PHRASE_STOP_WORDS = new Set([
+  "and", "the", "for", "with", "commercial", "industrial", "new", "construction",
+  "contractor", "contractors", "company", "companies", "general", "installation", "installer"
+]);
+const BROAD_TRADE_TOKENS = new Set([
+  "system", "systems", "equipment", "material", "materials", "structural", "building",
+  "buildings", "special", "site"
 ]);
 
 function getGoogleApiKey() {
@@ -277,7 +294,6 @@ function buildSearchTokens({ query, queries = [], selection }) {
   if (selection?.kind === "taxonomy" && Array.isArray(selection.selectedChildren)) {
     for (const child of selection.selectedChildren) {
       values.push(String(child?.child_label || ""));
-      values.push(String(child?.parent_label || ""));
     }
   }
 
@@ -427,6 +443,7 @@ function loadTaxonomy() {
           included_types: Array.isArray(child?.query_profile?.included_types) ? child.query_profile.included_types : [],
           excluded_types: Array.isArray(child?.query_profile?.excluded_types) ? child.query_profile.excluded_types : [],
           category_hints: Array.isArray(child?.query_profile?.category_hints) ? child.query_profile.category_hints : [],
+          required_name_terms: Array.isArray(child?.query_profile?.required_name_terms) ? child.query_profile.required_name_terms : [],
           priority_weight: Number(child?.query_profile?.priority_weight || 1)
         }
       };
@@ -598,6 +615,69 @@ function inferNearbyTypesFromProfile(profile = {}, child = {}) {
   return [...out];
 }
 
+function normalizeQualificationPhrase(value) {
+  return normalizeLabel(value)
+    .split(/\s+/)
+    .filter((token) => token && !QUALIFICATION_PHRASE_STOP_WORDS.has(token))
+    .join(" ")
+    .trim();
+}
+
+function buildQualificationProfile(profile = {}, child = {}) {
+  const explicitTerms = Array.isArray(profile.required_name_terms) ? profile.required_name_terms : [];
+  const sources = [
+    ...explicitTerms,
+    String(child?.child_label || ""),
+    ...(Array.isArray(profile.category_hints) ? profile.category_hints : []),
+    ...(Array.isArray(profile.primary_terms) ? profile.primary_terms : []),
+    ...(Array.isArray(profile.secondary_terms) ? profile.secondary_terms : [])
+  ];
+  const terms = new Set();
+
+  for (const source of sources) {
+    const phrase = normalizeQualificationPhrase(source);
+    if (!phrase) continue;
+    terms.add(phrase);
+
+    const tokens = phrase.split(/\s+/).filter(Boolean);
+    if (tokens.length === 1) continue;
+    for (const token of tokens) {
+      if (token.length < 5 || QUALIFICATION_STOP_WORDS.has(token) || BROAD_TRADE_TOKENS.has(token)) continue;
+      terms.add(token);
+    }
+  }
+
+  const specificTypes = inferNearbyTypesFromProfile(profile, child)
+    .filter((type) => !GENERIC_CONTRACTOR_TYPES.has(type));
+
+  return {
+    child_id: String(child?.child_id || ""),
+    child_label: String(child?.child_label || ""),
+    identity_terms: [...terms],
+    specific_types: [...new Set(specificTypes)]
+  };
+}
+
+function qualifiesForTaxonomy(row, mode = "balanced") {
+  if (mode === "off") return true;
+  const profiles = Array.isArray(row?.qualification_profiles) ? row.qualification_profiles : [];
+  if (!profiles.length) return true;
+
+  const normalizedName = normalizeQualificationPhrase(row?.name);
+  const placeTypes = new Set([
+    String(row?.primaryType || "").toLowerCase(),
+    ...(Array.isArray(row?.types) ? row.types.map((type) => String(type || "").toLowerCase()) : [])
+  ].filter(Boolean));
+
+  return profiles.some((profile) => {
+    const terms = Array.isArray(profile?.identity_terms) ? profile.identity_terms : [];
+    if (terms.some((term) => term && normalizedName.includes(normalizeQualificationPhrase(term)))) return true;
+
+    const specificTypes = Array.isArray(profile?.specific_types) ? profile.specific_types : [];
+    return specificTypes.some((type) => placeTypes.has(String(type || "").toLowerCase()));
+  });
+}
+
 function makeNearbyJob({
   parent,
   child,
@@ -606,6 +686,7 @@ function makeNearbyJob({
   radiusMeters,
   childWeight = 1,
   categoryHints = [],
+  qualificationProfile = null,
   excludeTerms = [],
   termUsed = ""
 }) {
@@ -620,6 +701,7 @@ function makeNearbyJob({
     term_used: termUsed || `nearby:${includedTypes.join("|")}`,
     child_weight: Number(childWeight || 1),
     category_hints: Array.isArray(categoryHints) ? categoryHints : [],
+    qualification_profile: qualificationProfile,
     exclude_terms: Array.isArray(excludeTerms) ? excludeTerms : [],
     headers: {
       "Content-Type": "application/json",
@@ -669,6 +751,7 @@ export function buildQueries(selection, location) {
       term_used: String(term || "").trim(),
       child_weight: Number(profile.priority_weight || 1),
       category_hints: Array.isArray(profile.category_hints) ? profile.category_hints : [],
+      qualification_profile: child?.child_id === "manual" ? null : buildQualificationProfile(profile, child),
       exclude_terms: Array.isArray(profile.exclude_terms) ? profile.exclude_terms : [],
       headers: {
         "Content-Type": "application/json",
@@ -712,6 +795,7 @@ export function buildQueries(selection, location) {
             term_used: includeTypes.join("|"),
             child_weight: Number(profile.priority_weight || 1),
             category_hints: Array.isArray(profile.category_hints) ? profile.category_hints : [],
+            qualification_profile: buildQualificationProfile(profile, child),
             exclude_terms: Array.isArray(profile.exclude_terms) ? profile.exclude_terms : [],
             headers: {
               "Content-Type": "application/json",
@@ -757,6 +841,7 @@ export function buildQueries(selection, location) {
           radiusMeters,
           childWeight: Number(profile.priority_weight || 1),
           categoryHints: Array.isArray(profile.category_hints) ? profile.category_hints : [],
+          qualificationProfile: buildQualificationProfile(profile, child),
           excludeTerms: Array.isArray(profile.exclude_terms) ? profile.exclude_terms : [],
           termUsed: `${String(child.child_label || "").trim()} nearby`
         });
@@ -946,6 +1031,7 @@ function mapPlaceToCandidate(place, job, center) {
     matched_terms: [job.term_used].filter(Boolean),
     matched_sections: [job.parent_label].filter(Boolean),
     category_hints: Array.isArray(job.category_hints) ? job.category_hints : [],
+    qualification_profiles: job.qualification_profile ? [job.qualification_profile] : [],
     child_weight: Number(job.child_weight || 1),
     profile_exclude_terms: Array.isArray(job.exclude_terms) ? job.exclude_terms : []
   };
@@ -1081,7 +1167,13 @@ function textBlobOf(row) {
   ].join(" ").toLowerCase();
 }
 
-export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTypeFilter = true, minScore = 10 } = {}) {
+export function mergeDedupRank(allResults, {
+  center,
+  radiusMiles = 25,
+  strictTypeFilter = true,
+  minScore = 10,
+  qualificationMode = "balanced"
+} = {}) {
   const taxonomy = loadTaxonomy();
   const hardExcludes = (taxonomy.defaults.hard_exclude_terms || []).map((s) => normalizeLabel(s));
   const globalSoftExcludes = (taxonomy.defaults.global_exclude_terms || []).map((s) => normalizeLabel(s));
@@ -1120,6 +1212,12 @@ export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTyp
       matched_terms: [...new Set([...(prev.matched_terms || []), ...(row.matched_terms || [])])],
       matched_sections: [...new Set([...(prev.matched_sections || []), ...(row.matched_sections || [])])],
       category_hints: [...new Set([...(prev.category_hints || []), ...(row.category_hints || [])])],
+      qualification_profiles: [
+        ...(Array.isArray(prev.qualification_profiles) ? prev.qualification_profiles : []),
+        ...(Array.isArray(row.qualification_profiles) ? row.qualification_profiles : [])
+      ].filter((profile, index, profiles) =>
+        profiles.findIndex((candidate) => String(candidate?.child_id || "") === String(profile?.child_id || "")) === index
+      ),
       profile_exclude_terms: [...new Set([...(prev.profile_exclude_terms || []), ...(row.profile_exclude_terms || [])])],
       child_weight: Math.max(Number(prev.child_weight || 1), Number(row.child_weight || 1))
     };
@@ -1132,6 +1230,8 @@ export function mergeDedupRank(allResults, { center, radiusMiles = 25, strictTyp
 
     const hardHit = hardExcludes.some((term) => term && blob.includes(term));
     if (hardHit) continue;
+
+    if (!qualifiesForTaxonomy(row, qualificationMode)) continue;
 
     if (!Number.isFinite(Number(row.distance_miles)) || Number(row.distance_miles) > Number(radiusMiles || 25)) {
       continue;
@@ -1283,6 +1383,13 @@ export async function searchSubcontractors({
     activeSectionLabel,
     activeTerm: String(query || "").trim()
   });
+  if (selection.kind === "taxonomy") {
+    const qualificationProfiles = selection.selectedChildren
+      .map((child) => buildQualificationProfile(child.query_profile || {}, child));
+    for (const candidate of rescueCandidates) {
+      candidate.qualification_profiles = qualificationProfiles;
+    }
+  }
   if (rescueCandidates.length) {
     candidates.push(...rescueCandidates);
     onProgress(`Known-place rescue added ${rescueCandidates.length} row(s).`);
@@ -1299,7 +1406,8 @@ export async function searchSubcontractors({
     center,
     radiusMiles: safeRadiusMiles,
     strictTypeFilter: rankingOptions.strictTypeFilter,
-    minScore: rankingOptions.minScore
+    minScore: rankingOptions.minScore,
+    qualificationMode: normalizedEngineMode === "ggl" ? "off" : normalizedEngineMode === "api" ? "strict" : "balanced"
   });
 
   if (!rows.length && errors.length) {

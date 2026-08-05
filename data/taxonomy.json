@@ -133,6 +133,16 @@
             "category_hints": [
               "Earthwork"
             ],
+            "required_name_terms": [
+              "earthwork",
+              "earthworks",
+              "excavat",
+              "grading",
+              "sitework",
+              "site work",
+              "site development",
+              "land clearing"
+            ],
             "priority_weight": 1.0
           }
         },
