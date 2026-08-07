@@ -248,8 +248,14 @@
       left:50%;
       top:50%;
       transform:translate(-50%,-50%);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
     }
     .clear-all-btn:hover{color:#fff}
+    .clear-all-copy{font-size:.56rem;opacity:.5;letter-spacing:.03em;text-transform:uppercase}
+    .clear-all-icon{font-size:1rem;line-height:1;opacity:1}
     .panel,
     .shell,
     .app,
@@ -892,7 +898,7 @@
 
         <div class="inline-actions">
           <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
-          <button id="clearAllFieldsBtn" class="clear-all-btn" type="button" title="Clear ALL Fields" aria-label="Clear ALL Fields">↻</button>
+          <button id="clearAllFieldsBtn" class="clear-all-btn" type="button" title="Clear ALL Fields" aria-label="Clear ALL Fields"><span class="clear-all-copy">Clear</span><span class="clear-all-icon" aria-hidden="true">↻</span><span class="clear-all-copy">Results</span></button>
         </div>
         <button id="searchBtn" class="btn">Search</button>
 
