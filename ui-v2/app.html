@@ -986,6 +986,7 @@ let searchEngineMode = 'apib';
 let hidePrior = true;
 let seenByChain = {};
 let currentGeoLocation = '';
+let approximateLocationPromise = null;
 let currentSearchSignature = '';
 let currentSearchCity = '';
 let currentSearchCategoryLabel = '';
@@ -1479,7 +1480,6 @@ function getSortedRows(input){
 }
 
 async function runSearch(){
-  const loc = els.useMyLocation.checked && currentGeoLocation ? currentGeoLocation : String(els.location.value || '').trim();
   const selection = businessQuerySelection;
   currentSearchCategoryLabel = String(selection?.display || '').trim();
 
@@ -1492,6 +1492,10 @@ async function runSearch(){
     return;
   }
 
+  const loc = els.useMyLocation.checked
+    ? await ensureApproximateLocation()
+    : String(els.location.value || '').trim();
+  if (els.useMyLocation.checked && !loc) return;
   if (!loc){ setStatus('Enter a location first.'); return; }
   if (!selection?.id){ setStatus('Select a Business Query first.'); return; }
 
@@ -1565,14 +1569,7 @@ function downloadXlsx(){
   URL.revokeObjectURL(a.href);
 }
 
-async function useMyLocationChanged(){
-  syncLocationFieldLock();
-  if (!els.useMyLocation.checked){
-    currentGeoLocation = '';
-    els.location.value = '';
-    saveUiState();
-    return;
-  }
+async function acquireApproximateLocation(){
   const useApproxFallback = async (reason) => {
     try {
       const res = await fetch('/api/ip-location');
@@ -1581,6 +1578,7 @@ async function useMyLocationChanged(){
       const lat = Number(data.lat);
       const lng = Number(data.lng);
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) throw new Error('Invalid IP location response');
+      if (!els.useMyLocation.checked) return false;
       currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
       els.location.value = currentGeoLocation;
       const fallbackLabel = data.label || 'network location';
@@ -1626,6 +1624,7 @@ async function useMyLocationChanged(){
   const lat = Number(pos?.coords?.latitude);
   const lng = Number(pos?.coords?.longitude);
   if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    if (!els.useMyLocation.checked) return;
     currentGeoLocation = `${lat.toFixed(6)},${lng.toFixed(6)}`;
     els.location.value = currentGeoLocation;
     setStatus('Using current location.');
@@ -1634,9 +1633,12 @@ async function useMyLocationChanged(){
   }
 
   if (lastCode === 1) {
-    setStatus('Location access blocked. Enable location permission or enter city/ZIP.');
-    els.useMyLocation.checked = false;
-    syncLocationFieldLock();
+    const ok = await useApproxFallback('browser location permission blocked');
+    if (!ok) {
+      setStatus('Location access blocked. Enable location permission or enter city/ZIP.');
+      els.useMyLocation.checked = false;
+      syncLocationFieldLock();
+    }
     return;
   }
 
@@ -1646,6 +1648,28 @@ async function useMyLocationChanged(){
     els.useMyLocation.checked = false;
     syncLocationFieldLock();
   }
+}
+
+async function ensureApproximateLocation(){
+  if (!els.useMyLocation.checked) return '';
+  if (currentGeoLocation) return currentGeoLocation;
+  if (!approximateLocationPromise) {
+    approximateLocationPromise = acquireApproximateLocation()
+      .finally(() => { approximateLocationPromise = null; });
+  }
+  await approximateLocationPromise;
+  return els.useMyLocation.checked ? currentGeoLocation : '';
+}
+
+async function useMyLocationChanged(){
+  syncLocationFieldLock();
+  if (!els.useMyLocation.checked){
+    currentGeoLocation = '';
+    els.location.value = '';
+    saveUiState();
+    return;
+  }
+  await ensureApproximateLocation();
 }
 
 function closeFaq(){ els.faqWrap.classList.remove('open'); }
