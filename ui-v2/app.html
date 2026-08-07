@@ -233,7 +233,7 @@
     .status{font:700 .86rem Arial;color:#e7edf6}
     .inline-actions{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:10px;margin-top:2px;min-height:20px}
     .clear-all-btn{
-      width:auto !important;
+      width:6.3rem !important;
       height:auto !important;
       min-height:0 !important;
       padding:0 6px !important;
@@ -248,13 +248,16 @@
       left:50%;
       top:50%;
       transform:translate(-50%,-50%);
-      display:inline-flex;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
       align-items:center;
       justify-content:center;
       gap:4px;
     }
     .clear-all-btn:hover{color:#fff}
     .clear-all-copy{display:inline-flex;align-items:center;font-size:.65rem;line-height:1.2;opacity:.15;letter-spacing:.03em;text-transform:none}
+    .clear-all-copy:first-child{justify-self:end}
+    .clear-all-copy:last-child{justify-self:start}
     .clear-all-icon{font-size:1rem;line-height:1;opacity:1}
     .panel,
     .shell,
