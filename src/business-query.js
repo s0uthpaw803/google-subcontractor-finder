@@ -9,6 +9,10 @@ const TRADES_PATH = path.join(ROOT_DIR, "data", "trades.json");
 let cache = null;
 let cacheKey = "";
 
+const LEGACY_DIVISION_ALIASES = new Map([
+  ["16", { currentDivision: "26", legacyLabel: "Legacy Division 16" }]
+]);
+
 function normalize(value) {
   return String(value || "")
     .normalize("NFKD")
@@ -127,6 +131,8 @@ function scoreTrade(trade, query) {
 function scoreDivision(division, query, relatedDivisionCodes, relatedDivisionRanks = new Map()) {
   if (!query) return 0;
   const queryCode = normalizedCode(query);
+  const legacyAlias = LEGACY_DIVISION_ALIASES.get(queryCode);
+  if (legacyAlias?.currentDivision === String(division.division_code || "")) return 795;
   if (division.normalizedTitle === query) return 800;
   if (queryCode && division.normalizedCode === queryCode) return 790;
   if (division.normalizedTitle.startsWith(query)) return 670;
@@ -224,12 +230,14 @@ export function getBusinessQuerySuggestions(rawQuery, requestedLimit = 10) {
     for (const division of data.indexedDivisions) {
       const score = scoreDivision(division, query, relatedDivisionCodes, relatedDivisionRanks);
       if (!score) continue;
+      const legacyAlias = LEGACY_DIVISION_ALIASES.get(normalizedCode(query));
+      const isLegacyAlias = legacyAlias?.currentDivision === String(division.division_code || "");
       ranked.push({
         id: division.id,
         kind: "division",
         label: division.division_title,
         display: division.display,
-        detail: "CSI Division",
+        detail: isLegacyAlias ? `${legacyAlias.legacyLabel} → current Division ${division.division_code}` : "CSI Division",
         kind_label: kindLabel("division"),
         legend: `CSI: ${division.display}`,
         priority: score

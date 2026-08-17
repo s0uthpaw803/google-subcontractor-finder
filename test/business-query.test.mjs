@@ -39,6 +39,14 @@ test("09 returns Finishes and representative official sections", () => {
   assert.ok(displays.includes("Flooring — 09 60 00"));
 });
 
+test("legacy Division 16 resolves to current Electrical Division 26", () => {
+  for (const query of ["16", "Division 16"]) {
+    const electrical = getBusinessQuerySuggestions(query, 10).suggestions.find((item) => item.id === "division:26");
+    assert.equal(electrical?.display, "Electrical — Division 26");
+    assert.match(electrical?.detail || "", /Legacy Division 16 → current Division 26/);
+  }
+});
+
 test("site returns common trade and official CSI entries", () => {
   const displays = getBusinessQuerySuggestions("site", 12).suggestions.map((item) => item.display);
   assert.ok(displays.includes("Civil / Sitework"));
