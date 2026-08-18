@@ -78,6 +78,20 @@ const BROAD_TRADE_TOKENS = new Set([
   "system", "systems", "equipment", "material", "materials", "structural", "building",
   "buildings", "special", "site"
 ]);
+const AMBIGUOUS_QUALIFICATION_TERMS = new Set([
+  "assessment", "existing conditions", "general requirements", "equipment", "furnishings",
+  "special construction", "specialties", "construction", "contractor", "building", "service",
+  "services", "systems", "utilities", "transportation"
+]);
+const GENERIC_GC_NAME_TERMS = [
+  /\bbuilders?\b/,
+  /\bgeneral contractors?\b/,
+  /\bconstruction\b/,
+  /\bdesign[ -]?build\b/,
+  /\bcustom homes?\b/,
+  /\bhome improvements?\b/,
+  /\bremodel(?:ing|er|ers)?\b/
+];
 
 function getGoogleApiKey() {
   const direct =
@@ -218,6 +232,11 @@ function persistKnownPlaces(candidates = []) {
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || (lat === 0 && lng === 0)) continue;
 
     const prev = byKey.get(key) || {};
+    const qualification = assessTaxonomyQualification(row);
+    const qualificationRank = { rejected: 0, uncertain: 1, supported: 2, strong: 3, not_applicable: 4 };
+    const previousStatus = String(prev?.qualification_status || "").trim();
+    const nextStatus = String(qualification?.status || "not_applicable");
+    const keepPreviousQualification = Number(qualificationRank[previousStatus] ?? -1) > Number(qualificationRank[nextStatus] ?? -1);
     byKey.set(key, {
       id: String(row?.id || row?.place_id || prev.id || "").trim(),
       cid: String(row?.cid || parseCidFromMapsUrl(row?.maps_url || row?.map_url || prev.maps_url || "") || prev.cid || "").trim(),
@@ -232,6 +251,10 @@ function persistKnownPlaces(candidates = []) {
       rating: Number(row?.rating ?? prev.rating ?? 0),
       userRatingCount: Number(row?.userRatingCount ?? row?.user_rating_count ?? prev.userRatingCount ?? prev.user_rating_count ?? 0),
       business_status: String(row?.business_status || prev.business_status || "").trim(),
+      qualification_status: keepPreviousQualification ? previousStatus : nextStatus,
+      qualification_evidence: keepPreviousQualification
+        ? (Array.isArray(prev?.qualification_evidence) ? prev.qualification_evidence : [])
+        : (Array.isArray(qualification?.evidence) ? qualification.evidence : []),
       last_seen_at: new Date().toISOString()
     });
   }
@@ -594,12 +617,17 @@ function buildQualificationProfile(profile = {}, child = {}) {
   for (const source of sources) {
     const phrase = normalizeQualificationPhrase(source);
     if (!phrase) continue;
-    terms.add(phrase);
+    if (!AMBIGUOUS_QUALIFICATION_TERMS.has(phrase)) terms.add(phrase);
 
     const tokens = phrase.split(/\s+/).filter(Boolean);
     if (tokens.length === 1) continue;
     for (const token of tokens) {
-      if (token.length < 5 || QUALIFICATION_STOP_WORDS.has(token) || BROAD_TRADE_TOKENS.has(token)) continue;
+      if (
+        token.length < 5 ||
+        QUALIFICATION_STOP_WORDS.has(token) ||
+        BROAD_TRADE_TOKENS.has(token) ||
+        AMBIGUOUS_QUALIFICATION_TERMS.has(token)
+      ) continue;
       terms.add(token);
     }
   }
@@ -615,18 +643,34 @@ function buildQualificationProfile(profile = {}, child = {}) {
   };
 }
 
-function qualifiesForTaxonomy(row, mode = "balanced") {
-  if (mode === "off") return true;
+function normalizedWebsiteIdentity(value) {
+  try {
+    const url = new URL(/^https?:\/\//i.test(String(value || "")) ? String(value) : `https://${String(value || "")}`);
+    return normalizeQualificationPhrase(`${url.hostname.replace(/^www\./i, "")} ${url.pathname}`);
+  } catch {
+    return normalizeQualificationPhrase(value);
+  }
+}
+
+function hasGenericGcName(value) {
+  const name = normalizeQualificationPhrase(value);
+  return GENERIC_GC_NAME_TERMS.some((pattern) => pattern.test(name));
+}
+
+export function assessTaxonomyQualification(row) {
   const profiles = Array.isArray(row?.qualification_profiles) ? row.qualification_profiles : [];
-  if (!profiles.length) return true;
+  if (!profiles.length) return { status: "not_applicable", evidence: ["no_taxonomy_profile"] };
 
   const normalizedName = normalizeQualificationPhrase(row?.name);
+  const normalizedWebsite = normalizedWebsiteIdentity(row?.website);
   const placeTypes = new Set([
     String(row?.primaryType || "").toLowerCase(),
     ...(Array.isArray(row?.types) ? row.types.map((type) => String(type || "").toLowerCase()) : [])
   ].filter(Boolean));
 
-  if ([...placeTypes].some((type) => NON_CONSTRUCTION_PLACE_TYPES.has(type))) return false;
+  if ([...placeTypes].some((type) => NON_CONSTRUCTION_PLACE_TYPES.has(type))) {
+    return { status: "rejected", evidence: ["non_construction_place_type"] };
+  }
 
   const hasBusinessEvidence = Boolean(
     String(row?.phone || "").trim() ||
@@ -635,18 +679,63 @@ function qualifiesForTaxonomy(row, mode = "balanced") {
   );
   const hasOnlyGenericContractorType = [...placeTypes].some((type) => GENERIC_CONTRACTOR_TYPES.has(type)) &&
     ![...placeTypes].some((type) => !GENERIC_CONTRACTOR_TYPES.has(type) && type !== "point_of_interest" && type !== "service" && type !== "establishment");
+  const matchedTerms = new Set((Array.isArray(row?.matched_terms) ? row.matched_terms : [])
+    .map((term) => normalizeQualificationPhrase(String(term || "").split(" -> ")[0]))
+    .filter(Boolean));
+  const evidence = [];
 
-  return profiles.some((profile) => {
+  for (const profile of profiles) {
     const terms = Array.isArray(profile?.identity_terms) ? profile.identity_terms : [];
     const specificTypes = Array.isArray(profile?.specific_types) ? profile.specific_types : [];
-    if (specificTypes.some((type) => placeTypes.has(String(type || "").toLowerCase()))) return true;
+    if (specificTypes.some((type) => placeTypes.has(String(type || "").toLowerCase()))) {
+      evidence.push("specific_google_type");
+      return { status: "strong", evidence };
+    }
 
     const nameMatches = terms.some((term) => term && normalizedName.includes(normalizeQualificationPhrase(term)));
-    if (!nameMatches) return false;
+    if (nameMatches) {
+      if (hasOnlyGenericContractorType && !hasBusinessEvidence) {
+        return { status: "uncertain", evidence: ["trade_identity_in_name", "unsupported_generic_contractor"] };
+      }
+      evidence.push("trade_identity_in_name");
+      return { status: "strong", evidence };
+    }
 
-    // A bare, unrated generic-contractor record is not enough evidence for a specialized CSI match.
-    return !hasOnlyGenericContractorType || hasBusinessEvidence;
-  });
+    const websiteMatches = terms.some((term) => term && normalizedWebsite.includes(normalizeQualificationPhrase(term)));
+    if (websiteMatches && hasBusinessEvidence && !hasGenericGcName(row?.name)) {
+      evidence.push("trade_identity_in_website", "business_listing_evidence");
+      return { status: "supported", evidence };
+    }
+
+    const matchingQueries = [...matchedTerms].filter((matched) =>
+      terms.some((term) => {
+        const normalizedTerm = normalizeQualificationPhrase(term);
+        return normalizedTerm && (matched.includes(normalizedTerm) || normalizedTerm.includes(matched));
+      })
+    );
+    if (
+      matchingQueries.length >= 2 &&
+      hasBusinessEvidence &&
+      !hasOnlyGenericContractorType &&
+      !hasGenericGcName(row?.name)
+    ) {
+      evidence.push("multiple_trade_query_matches", "business_listing_evidence");
+      return { status: "supported", evidence };
+    }
+  }
+
+  if (hasOnlyGenericContractorType || hasGenericGcName(row?.name)) {
+    return { status: "uncertain", evidence: ["generic_contractor_without_trade_evidence"] };
+  }
+  return { status: "uncertain", evidence: ["insufficient_trade_evidence"] };
+}
+
+function qualifiesForTaxonomy(row, mode = "balanced") {
+  const assessment = assessTaxonomyQualification(row);
+  if (assessment.status === "not_applicable") return true;
+  if (assessment.status === "rejected" || assessment.status === "uncertain") return false;
+  if (mode === "strict") return assessment.status === "strong";
+  return assessment.status === "strong" || assessment.status === "supported";
 }
 
 function makeNearbyJob({
@@ -1225,6 +1314,7 @@ export function mergeDedupRank(allResults, {
     const hardHit = hardExcludes.some((term) => term && blob.includes(term));
     if (hardHit) continue;
 
+    const qualification = assessTaxonomyQualification(row);
     if (!qualifiesForTaxonomy(row, qualificationMode)) continue;
 
     if (!Number.isFinite(Number(row.distance_miles)) || Number(row.distance_miles) > Number(radiusMiles || 25)) {
@@ -1283,6 +1373,8 @@ export function mergeDedupRank(allResults, {
       relevance_score: score,
       company_size: inferCompanySize(row.userRatingCount),
       company_age: "",
+      qualification_status: qualification.status,
+      qualification_evidence: qualification.evidence,
       emails: "",
       email_records: []
     });
@@ -1351,6 +1443,17 @@ export async function searchSubcontractors({
     lng: center.lng,
     radius_meters: Math.round(safeRadiusMiles * 1609.34)
   }));
+  if (normalizedEngineMode === "ggl" && selection.kind === "taxonomy") {
+    const profiles = selection.selectedChildren
+      .map((child) => buildQualificationProfile(child.query_profile || {}, child));
+    const combinedProfile = {
+      child_id: String(selection.id || "taxonomy"),
+      child_label: String(selection.display || "Taxonomy selection"),
+      identity_terms: [...new Set(profiles.flatMap((profile) => profile.identity_terms || []))],
+      specific_types: [...new Set(profiles.flatMap((profile) => profile.specific_types || []))]
+    };
+    for (const job of jobs) job.qualification_profile = combinedProfile;
+  }
 
   if (!jobs.length) {
     return {
@@ -1416,7 +1519,7 @@ export async function searchSubcontractors({
     radiusMiles: safeRadiusMiles,
     strictTypeFilter: rankingOptions.strictTypeFilter,
     minScore: rankingOptions.minScore,
-    qualificationMode: normalizedEngineMode === "ggl" ? "off" : normalizedEngineMode === "api" ? "strict" : "balanced"
+    qualificationMode: normalizedEngineMode === "api" ? "strict" : normalizedEngineMode === "ggl" ? "broad" : "balanced"
   });
 
   if (!rows.length && errors.length) {

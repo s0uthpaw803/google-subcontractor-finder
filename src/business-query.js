@@ -293,6 +293,32 @@ function divisionMajorEntries(divisionCode, data) {
   return entries.slice(0, 16);
 }
 
+function csiFamilyPrefix(sectionCode) {
+  const parts = String(sectionCode || "").trim().split(/\s+/);
+  if (parts.length < 2 || !/^\d{2}$/.test(parts[0]) || !/^\d{2}$/.test(parts[1])) return "";
+  return `${parts[0]} ${parts[1].slice(0, 1)}`;
+}
+
+function csiQualificationTerms(entry, data) {
+  const code = String(entry?.section_code || "");
+  const prefix = csiFamilyPrefix(code);
+  const descendantTitles = prefix
+    ? data.entries
+      .filter((candidate) =>
+        String(candidate?.section_code || "") !== code &&
+        String(candidate?.section_code || "").startsWith(prefix) &&
+        !/maintenance|common work results|schedules|commissioning/i.test(String(candidate?.section_title || ""))
+      )
+      .sort((a, b) => {
+        const kindRank = (value) => value === "category" ? 0 : 1;
+        return kindRank(a.kind) - kindRank(b.kind) || String(a.section_code).localeCompare(String(b.section_code), undefined, { numeric: true });
+      })
+      .map((candidate) => candidate.section_title)
+    : [];
+
+  return unique([entry?.section_title, ...descendantTitles]).slice(0, 32);
+}
+
 function dynamicChild({ id, label, parentId, parentLabel, terms, hints, qualificationTerms = [] }) {
   const cleanedTerms = unique(terms);
   return {
@@ -357,14 +383,18 @@ export function resolveBusinessQuerySelection(selectionId) {
     if (!division) return null;
     const majorEntries = divisionMajorEntries(divisionCode, data);
     const sourceEntries = majorEntries.length ? majorEntries : data.entries.filter((entry) => String(entry.division_code) === divisionCode && entry.kind === "category").slice(0, 12);
-    const selectedChildren = sourceEntries.map((entry) => dynamicChild({
-      id: entry.id,
-      label: entry.section_title,
-      parentId: id,
-      parentLabel: division.display,
-      terms: [entry.section_title, `${entry.section_title} contractor`],
-      hints: [entry.section_title, division.division_title]
-    }));
+    const selectedChildren = sourceEntries.map((entry) => {
+      const qualificationTerms = csiQualificationTerms(entry, data);
+      return dynamicChild({
+        id: entry.id,
+        label: entry.section_title,
+        parentId: id,
+        parentLabel: division.display,
+        terms: [entry.section_title, `${entry.section_title} contractor`],
+        hints: [entry.section_title, division.division_title],
+        qualificationTerms
+      });
+    });
     if (!selectedChildren.length) {
       selectedChildren.push(dynamicChild({
         id,
@@ -393,6 +423,7 @@ export function resolveBusinessQuerySelection(selectionId) {
     const division = data.divisionByCode.get(entry.division_code);
     const display = `${entry.section_title} — ${entry.section_code}`;
     const parentLabel = `${division?.display || entry.division_title} | ${display}`;
+    const qualificationTerms = csiQualificationTerms(entry, data);
     return {
       id,
       kind: "taxonomy",
@@ -405,7 +436,8 @@ export function resolveBusinessQuerySelection(selectionId) {
         parentId: `division:${entry.division_code}`,
         parentLabel,
         terms: [entry.section_title, `${entry.section_title} contractor`],
-        hints: [entry.section_title, entry.division_title]
+        hints: [entry.section_title, entry.division_title],
+        qualificationTerms
       })],
       manualTerms: []
     };

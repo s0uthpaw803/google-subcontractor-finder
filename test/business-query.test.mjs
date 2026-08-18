@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
 
 import {
@@ -7,7 +8,7 @@ import {
   getBusinessQuerySuggestions,
   resolveBusinessQuerySelection
 } from "../src/business-query.js";
-import { buildQueries, mergeDedupRank } from "../src/search-engine.js";
+import { assessTaxonomyQualification, buildQueries, mergeDedupRank } from "../src/search-engine.js";
 
 test("CSI inventory matches the authoritative workbook export", () => {
   const inventory = businessQueryInventory();
@@ -167,6 +168,72 @@ test("taxonomy filtering rejects unsupported generic-contractor records", () => 
 
   assert.equal(unsupported.length, 0);
   assert.equal(supported.length, 1);
+});
+
+test("taxonomy qualification tiers keep specialty evidence and quarantine generic GCs", () => {
+  const earthworkProfile = {
+    child_id: "trade:earthwork",
+    identity_terms: ["earthwork", "earthworks", "excavat", "grading", "sitework", "land clearing"],
+    specific_types: []
+  };
+  const genericGc = {
+    id: "generic-gc",
+    name: "Baldwin Builders",
+    phone: "(843) 555-0100",
+    website: "https://baldwinbuilders.example",
+    primaryType: "general_contractor",
+    types: ["general_contractor"],
+    matched_terms: ["earthwork contractor", "grading contractor"],
+    qualification_profiles: [earthworkProfile]
+  };
+  const specialty = {
+    ...genericGc,
+    id: "specialty-earthwork",
+    name: "Lowcountry Earthworks",
+    website: "https://lowcountryearthworks.example"
+  };
+
+  assert.deepEqual(assessTaxonomyQualification(genericGc), {
+    status: "uncertain",
+    evidence: ["generic_contractor_without_trade_evidence"]
+  });
+  assert.equal(assessTaxonomyQualification(specialty).status, "strong");
+
+  const rows = mergeDedupRank([
+    { ...genericGc, distance_miles: 5, location: { lat: 33.7, lng: -78.9 } },
+    { ...specialty, distance_miles: 7, location: { lat: 33.7, lng: -78.9 } }
+  ], {
+    center: { lat: 33.7, lng: -78.9 },
+    radiusMiles: 25,
+    qualificationMode: "broad",
+    minScore: 0,
+    strictTypeFilter: false
+  });
+
+  assert.deepEqual(rows.map((row) => row.id), ["specialty-earthwork"]);
+  assert.equal(rows[0].qualification_status, "strong");
+});
+
+test("every CSI MasterFormat division builds taxonomy qualification profiles", () => {
+  const csi = JSON.parse(fs.readFileSync(new URL("../data/csi-query-index.json", import.meta.url), "utf8"));
+  for (const division of csi.divisions) {
+    const selection = resolveBusinessQuerySelection(`division:${division.division_code}`);
+    assert.ok(selection, `missing Division ${division.division_code}`);
+    assert.ok(selection.selectedChildren.length > 0, `empty Division ${division.division_code}`);
+    for (const child of selection.selectedChildren) {
+      const jobs = buildQueries({ kind: "taxonomy", selectedChildren: [child], manualTerms: [] }, {
+        lat: 33.7,
+        lng: -78.9,
+        radius_meters: 25 * 1609.34
+      });
+      assert.ok(jobs.length > 0, `no jobs for ${child.child_label}`);
+      assert.ok(jobs.some((job) => job.qualification_profile?.identity_terms?.length > 0), `no evidence terms for ${child.child_label}`);
+    }
+  }
+
+  const legacy = getBusinessQuerySuggestions("Division 16", 10).suggestions.find((item) => item.id === "division:26");
+  const legacySelection = resolveBusinessQuerySelection(legacy.id);
+  assert.equal(legacySelection.display, "Electrical — Division 26");
 });
 
 test("Manual Override is not part of the Business Query index", () => {
