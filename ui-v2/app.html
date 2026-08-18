@@ -241,8 +241,9 @@
       0%,100%{opacity:.45;transform:translateY(0)}
       50%{opacity:1;transform:translateY(-1px)}
     }
-    .inline-actions{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;min-height:20px}
-    #priorSwitch{flex:0 0 auto;text-transform:none}
+    .inline-actions{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin-top:2px;min-height:20px}
+    .inline-actions > .tiny-check{justify-self:start}
+    #priorSwitch{justify-self:end;flex:0 0 auto;text-transform:none}
     .clear-all-btn{
       width:auto !important;
       height:auto !important;
@@ -260,6 +261,7 @@
       align-items:center;
       justify-content:center;
       gap:8px;
+      justify-self:center;
     }
     .clear-all-btn:hover{color:#fff}
     .clear-all-copy{display:inline-flex;align-items:center;height:1.125rem;font-size:.775rem;line-height:1;opacity:.15;letter-spacing:.03em;text-transform:none}
@@ -669,12 +671,12 @@
     .download-block::before{
       content:"";
       display:block;
-      height:.7rem;
-      margin-bottom:5px;
+      height:18px;
+      margin-bottom:9px;
     }
     .label-row,
-    .radius-label-row{margin-bottom:9px;min-height:17px}
-    .field-label{margin-bottom:9px}
+    .radius-label-row{height:18px;min-height:18px;margin-bottom:9px}
+    .field-label{display:flex;align-items:center;height:18px;min-height:18px;margin-bottom:9px}
     label{font-size:.7rem;letter-spacing:.055em}
     input,
     select,
