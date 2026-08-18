@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Keystone Connect V2</title>
+  <link rel="icon" type="image/png" href="/v2/assets/connect-logo.png" />
+  <link rel="apple-touch-icon" href="/v2/assets/connect-logo.png" />
   <style>
     :root{
       --bg:#0b0d11;
@@ -835,6 +837,19 @@
       border-color:#b9bec5;
     }
     body[data-theme="light"] .card.preferred-card{background:#f3e7e9}
+
+    #downloadBtn.btn.secondary,
+    body[data-theme="light"] #downloadBtn.btn.secondary{
+      background:#d9dcdf;
+      border-color:#adb2b7;
+      color:#4cbb17;
+      box-shadow:none;
+    }
+    #downloadBtn.btn.secondary:hover,
+    body[data-theme="light"] #downloadBtn.btn.secondary:hover{
+      background:#e1e3e5;
+      filter:none;
+    }
 
     @media (max-width: 1024px), (hover: none) and (pointer: coarse){
       .top{min-height:62px;flex-basis:62px;padding:8px 12px;gap:10px;justify-content:center}
