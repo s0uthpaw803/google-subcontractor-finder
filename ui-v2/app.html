@@ -231,6 +231,16 @@
     .btn:hover{filter:brightness(1.04)}
     .status-row{display:flex;align-items:center;justify-content:flex-start}
     .status{font:700 .86rem Arial;color:#e7edf6}
+    .status.email-progress{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:#c9d0db}
+    .status.email-progress::before{
+      content:"";width:6px;height:6px;border-radius:50%;background:#be1e2d;
+      box-shadow:10px 0 0 rgba(190,30,45,.55),20px 0 0 rgba(190,30,45,.25);
+      margin-right:20px;animation:email-status-pulse 1.15s ease-in-out infinite;
+    }
+    @keyframes email-status-pulse{
+      0%,100%{opacity:.45;transform:translateY(0)}
+      50%{opacity:1;transform:translateY(-1px)}
+    }
     .inline-actions{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;min-height:20px}
     #priorSwitch{flex:0 0 auto;text-transform:none}
     .clear-all-btn{
@@ -1043,6 +1053,26 @@ function setStatus(msg, options = {}){
   }
 }
 
+function setEmailProgress(completed, total){
+  setStatus(`Finding company emails… ${Number(completed || 0)} of ${Number(total || 0)} checked`);
+  els.status.classList.add('email-progress');
+  els.downloadBtn.textContent = 'PREPARING .XLSX…';
+}
+
+function clearEmailProgress(){
+  els.status.classList.remove('email-progress');
+  els.downloadBtn.textContent = 'DOWNLOAD .XLSX';
+}
+
+function emailSummary(enrichedRows){
+  const source = Array.isArray(enrichedRows) ? enrichedRows : [];
+  const companies = source.filter((row) => Array.isArray(row?.email_records) && row.email_records.some((record) => String(record?.email_status || '') !== 'Invalid')).length;
+  const emails = source.reduce((total, row) => total + (Array.isArray(row?.email_records)
+    ? row.email_records.filter((record) => String(record?.email_status || '') !== 'Invalid').length
+    : 0), 0);
+  return { companies, emails };
+}
+
 function saveUiState(){
   try{
     sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({
@@ -1324,6 +1354,7 @@ function resetFields(){
   emailEnrichmentRunToken += 1;
   emailEnrichmentActive = false;
   els.downloadBtn.disabled = false;
+  clearEmailProgress();
   currentGeoLocation = '';
   currentSearchSignature = '';
   currentSearchCity = '';
@@ -1385,21 +1416,27 @@ async function pollEmailEnrichment(job, runToken){
       if (data.status === 'complete') {
         emailEnrichmentActive = false;
         els.downloadBtn.disabled = false;
-        setStatus(`${rows.length} results found. Email enrichment complete.`);
+        clearEmailProgress();
+        const summary = emailSummary(lastFetchedRows);
+        setStatus(summary.emails
+          ? `Email search complete · ${summary.companies} companies · ${summary.emails} emails · Included in .xlsx`
+          : 'Email search complete · No public emails found');
         return;
       }
       if (data.status === 'failed') {
         emailEnrichmentActive = false;
         els.downloadBtn.disabled = false;
+        clearEmailProgress();
         setStatus(`${rows.length} results found. Email enrichment failed: ${data.error || 'unknown error'}`);
         return;
       }
-      setStatus(`${rows.length} results found. Enriching emails ${completed}/${total}.`);
+      setEmailProgress(completed, total);
       await new Promise((resolve) => setTimeout(resolve, 900));
     } catch (error) {
       if (runToken === emailEnrichmentRunToken) {
         emailEnrichmentActive = false;
         els.downloadBtn.disabled = false;
+        clearEmailProgress();
         setStatus(`${rows.length} results found. Email enrichment stopped: ${error.message}`);
       }
       return;
@@ -1542,6 +1579,7 @@ async function runSearch(){
   const emailRunToken = ++emailEnrichmentRunToken;
   emailEnrichmentActive = false;
   els.downloadBtn.disabled = false;
+  clearEmailProgress();
   const selection = businessQuerySelection;
   currentSearchCategoryLabel = String(selection?.display || '').trim();
 
@@ -1594,7 +1632,7 @@ async function runSearch(){
     if (data.email_enrichment?.id) {
       emailEnrichmentActive = true;
       els.downloadBtn.disabled = true;
-      setStatus(`${rows.length} results found. Enriching emails 0/${Number(data.email_enrichment.total || fetched.length)}.`);
+      setEmailProgress(0, Number(data.email_enrichment.total || fetched.length));
       void pollEmailEnrichment(data.email_enrichment, emailRunToken);
     }
   }catch(err){
