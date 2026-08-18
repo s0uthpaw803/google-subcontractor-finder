@@ -231,9 +231,10 @@
     .btn:hover{filter:brightness(1.04)}
     .status-row{display:flex;align-items:center;justify-content:flex-start}
     .status{font:700 .86rem Arial;color:#e7edf6}
-    .inline-actions{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:10px;margin-top:2px;min-height:20px}
+    .inline-actions{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;min-height:20px}
+    #priorSwitch{flex:0 0 auto;text-transform:none}
     .clear-all-btn{
-      width:8rem !important;
+      width:auto !important;
       height:auto !important;
       min-height:0 !important;
       padding:0 6px !important;
@@ -244,10 +245,6 @@
       color:#c9d0db;
       font:500 1rem/1 Arial,Helvetica,sans-serif;
       cursor:pointer;
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
       display:grid;
       grid-template-columns:1fr auto 1fr;
       align-items:center;
@@ -837,6 +834,12 @@
       .query-menu{left:0;right:0;border-radius:4px}
       .card{min-height:52px;height:auto;flex-basis:auto;border-radius:4px}
       .footer{flex-basis:42px;min-height:42px;height:42px;padding:0 12px}
+      .inline-actions{gap:6px}
+      .inline-actions .tiny-check{font-size:.64rem}
+      #priorSwitch{font-size:.64rem}
+      .clear-all-btn{padding:0 !important;gap:4px}
+      .clear-all-copy{font-size:.64rem}
+      .clear-all-icon{font-size:.9rem}
     }
     @media (max-width: 700px){
       .search-grid{
@@ -890,7 +893,6 @@
             <div class="field-block radius-block">
               <div class="radius-label-row">
                 <label for="radiusMiles">Radius <span class="unit-lower">(mi)</span></label>
-                <div class="switch" id="priorSwitch"><span>PRIOR&nbsp;</span><button data-prior="on" class="active">ON</button><span class="sep">&nbsp;/&nbsp;</span><button data-prior="off">OFF</button></div>
               </div>
               <input id="radiusMiles" type="number" min="1" max="500" value="25">
             </div>
@@ -901,6 +903,7 @@
 
         <div class="inline-actions">
           <label class="tiny-check"><input id="includeEmails" type="checkbox">Get emails if available. (Slower)</label>
+          <div class="switch" id="priorSwitch"><span>Prior Results&nbsp;</span><button data-prior="on" class="active">ON</button><span class="sep">&nbsp;/&nbsp;</span><button data-prior="off">OFF</button></div>
           <button id="clearAllFieldsBtn" class="clear-all-btn" type="button" title="Clear all fields" aria-label="Clear all fields"><span class="clear-all-copy">clear</span><span class="clear-all-icon" aria-hidden="true">↻</span><span class="clear-all-copy">results</span></button>
         </div>
         <button id="searchBtn" class="btn">Search</button>
@@ -936,7 +939,7 @@
                   <li>Business Query — search common trades or official CSI divisions and sections</li>
                   <li>Preferred Results — shows starred companies</li>
                   <li>API / APIB / GGL — search mode (API = tighter, APIB = broad, GGL = broadest)</li>
-                  <li>Prior ON/OFF — hides previously seen results during expansion</li>
+                  <li>Prior Results ON/OFF — hides previously seen results during expansion</li>
                   <li>Get Emails — finds public company-related emails, validates domains, and records source evidence (slower)</li>
                 </ul>
                 <div class="faq-title" style="margin-top:8px">Quick Icons</div>
@@ -1584,7 +1587,7 @@ async function runSearch(){
     lastFetchedRows = fetched;
     rows = applyPriorFilter(lastFetchedRows);
     const hiddenByPrior = fetched.length - rows.length;
-    if (hidePrior && hiddenByPrior > 0) setStatus(`${rows.length} results found. (${hiddenByPrior} hidden by PRIOR ON)`);
+    if (hidePrior && hiddenByPrior > 0) setStatus(`${rows.length} results found. (${hiddenByPrior} hidden by Prior Results ON)`);
     else setStatus(`${rows.length} results found.`);
     render();
     saveUiState();
