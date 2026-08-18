@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { enrichCompanyEmails, extractEmailCandidates } from "../src/email-enrichment.js";
+import {
+  enrichCompanyEmails,
+  extractEmailCandidates,
+  isBlockedEmailAddress,
+  normalizeAndFilterEmails
+} from "../src/email-enrichment.js";
 import { toCsv } from "../src/search-engine.js";
 
 function response(url, body, contentType = "text/html") {
@@ -27,6 +32,38 @@ test("extracts normal and HTML-obfuscated public email addresses", () => {
   assert.deepEqual(
     extractEmailCandidates("Info&#64;Acme.com and bids@acme.com and image@logo.png"),
     ["info@acme.com", "bids@acme.com"]
+  );
+});
+
+test("rejects placeholder and malformed addresses while preserving legitimate company contacts", () => {
+  for (const email of [
+    "user@domain.com",
+    "test@gmail.com",
+    "firstname@company.com",
+    "noemail@company.com",
+    "example@example.com",
+    "missing-at.example.com",
+    "bad value@company.com"
+  ]) assert.equal(isBlockedEmailAddress(email), true, email);
+
+  for (const email of [
+    "info@realcontractor.com",
+    "sales@realcontractor.com",
+    "contact@realcontractor.com",
+    "john.smith@realcontractor.com",
+    "estimating@realcontractor.com"
+  ]) assert.equal(isBlockedEmailAddress(email), false, email);
+});
+
+test("normalizes, filters, and deduplicates aggregated email values", () => {
+  assert.deepEqual(
+    normalizeAndFilterEmails([
+      " INFO@RealContractor.com ",
+      "info@realcontractor.com",
+      "user@domain.com",
+      "estimating@realcontractor.com"
+    ]),
+    ["info@realcontractor.com", "estimating@realcontractor.com"]
   );
 });
 

@@ -61,6 +61,10 @@ const GENERIC_CONTRACTOR_TYPES = new Set([
   "general_contractor",
   "construction_company"
 ]);
+const NON_CONSTRUCTION_PLACE_TYPES = new Set([
+  "counselor", "doctor", "hospital", "medical_center", "medical_clinic", "mental_health_clinic",
+  "psychologist", "psychotherapist"
+]);
 const QUALIFICATION_STOP_WORDS = new Set([
   "and", "the", "for", "with", "commercial", "industrial", "new", "construction",
   "contractor", "contractors", "company", "companies", "service", "services", "general",
@@ -622,12 +626,26 @@ function qualifiesForTaxonomy(row, mode = "balanced") {
     ...(Array.isArray(row?.types) ? row.types.map((type) => String(type || "").toLowerCase()) : [])
   ].filter(Boolean));
 
+  if ([...placeTypes].some((type) => NON_CONSTRUCTION_PLACE_TYPES.has(type))) return false;
+
+  const hasBusinessEvidence = Boolean(
+    String(row?.phone || "").trim() ||
+    String(row?.website || "").trim() ||
+    Number(row?.userRatingCount || 0) > 0
+  );
+  const hasOnlyGenericContractorType = [...placeTypes].some((type) => GENERIC_CONTRACTOR_TYPES.has(type)) &&
+    ![...placeTypes].some((type) => !GENERIC_CONTRACTOR_TYPES.has(type) && type !== "point_of_interest" && type !== "service" && type !== "establishment");
+
   return profiles.some((profile) => {
     const terms = Array.isArray(profile?.identity_terms) ? profile.identity_terms : [];
-    if (terms.some((term) => term && normalizedName.includes(normalizeQualificationPhrase(term)))) return true;
-
     const specificTypes = Array.isArray(profile?.specific_types) ? profile.specific_types : [];
-    return specificTypes.some((type) => placeTypes.has(String(type || "").toLowerCase()));
+    if (specificTypes.some((type) => placeTypes.has(String(type || "").toLowerCase()))) return true;
+
+    const nameMatches = terms.some((term) => term && normalizedName.includes(normalizeQualificationPhrase(term)));
+    if (!nameMatches) return false;
+
+    // A bare, unrated generic-contractor record is not enough evidence for a specialized CSI match.
+    return !hasOnlyGenericContractorType || hasBusinessEvidence;
   });
 }
 

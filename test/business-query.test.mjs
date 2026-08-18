@@ -7,7 +7,7 @@ import {
   getBusinessQuerySuggestions,
   resolveBusinessQuerySelection
 } from "../src/business-query.js";
-import { buildQueries } from "../src/search-engine.js";
+import { buildQueries, mergeDedupRank } from "../src/search-engine.js";
 
 test("CSI inventory matches the authoritative workbook export", () => {
   const inventory = businessQueryInventory();
@@ -84,6 +84,89 @@ test("trade, division, and CSI selections resolve to search profiles", () => {
   assert.equal(category.selection_kind, "category");
   assert.equal(category.display, "Painting and Coating — 09 90 00");
   assert.equal(getBusinessQuerySelection("csi:09 90 00").kind, "category");
+});
+
+test("Division 02 parent search excludes generic Assessment but keeps explicit CSI access", () => {
+  const division = resolveBusinessQuerySelection("division:02");
+  assert.equal(division.selectedChildren.some((child) => child.child_id === "csi:02 20 00"), false);
+  assert.equal(division.selectedChildren.some((child) => child.child_id === "csi:02 40 00"), true);
+
+  const assessment = resolveBusinessQuerySelection("csi:02 20 00");
+  assert.equal(assessment.display, "Assessment — 02 20 00");
+});
+
+test("taxonomy filtering rejects medical assessment businesses but keeps demolition contractors", () => {
+  const rows = mergeDedupRank([
+    {
+      id: "medical-assessment",
+      name: "Psychological Assessment Solutions",
+      primaryType: "psychologist",
+      types: ["psychologist", "health"],
+      location: { lat: 32.1, lng: -81.1 },
+      distance_miles: 10,
+      qualification_profiles: [{ child_id: "csi:02 20 00", identity_terms: ["assessment"], specific_types: [] }]
+    },
+    {
+      id: "demolition-contractor",
+      name: "Checkpoint Demolition",
+      phone: "(912) 555-0110",
+      primaryType: "general_contractor",
+      types: ["general_contractor"],
+      location: { lat: 32.1, lng: -81.1 },
+      distance_miles: 12,
+      qualification_profiles: [{ child_id: "csi:02 40 00", identity_terms: ["demolition"], specific_types: [] }],
+      matched_children: ["csi:02 40 00"],
+      matched_terms: ["Demolition contractor"],
+      matched_sections: ["Existing Conditions — Division 02"],
+      category_hints: ["Demolition"]
+    }
+  ], {
+    center: { lat: 32.1, lng: -81.1 },
+    radiusMiles: 60,
+    qualificationMode: "strict"
+  });
+
+  assert.deepEqual(rows.map((row) => row.id), ["demolition-contractor"]);
+});
+
+test("taxonomy filtering rejects unsupported generic-contractor records", () => {
+  const profile = {
+    child_id: "csi:02 50 00",
+    identity_terms: ["site remediation", "remediation"],
+    specific_types: []
+  };
+  const base = {
+    id: "unsupported-remediation",
+    name: "Remediation Resources",
+    formattedAddress: "Pembroke, GA 31321",
+    phone: "",
+    website: "",
+    primaryType: "general_contractor",
+    types: ["general_contractor", "point_of_interest", "service", "establishment"],
+    userRatingCount: 0,
+    distance_miles: 20,
+    matched_children: ["csi:02 50 00"],
+    matched_terms: ["Site Remediation"],
+    matched_sections: ["Existing Conditions — Division 02"],
+    category_hints: ["remediation"],
+    qualification_profiles: [profile],
+    profile_exclude_terms: [],
+    child_weight: 1
+  };
+
+  const unsupported = mergeDedupRank([base], {
+    center: { lat: 32.28, lng: -81.08 },
+    radiusMiles: 60,
+    qualificationMode: "strict"
+  });
+  const supported = mergeDedupRank([{ ...base, id: "supported-remediation", phone: "(912) 555-0100" }], {
+    center: { lat: 32.28, lng: -81.08 },
+    radiusMiles: 60,
+    qualificationMode: "strict"
+  });
+
+  assert.equal(unsupported.length, 0);
+  assert.equal(supported.length, 1);
 });
 
 test("Manual Override is not part of the Business Query index", () => {

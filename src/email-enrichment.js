@@ -1,9 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { resolveMx } from "node:dns/promises";
+import {
+  BLOCKED_EMAIL_ADDRESSES,
+  BLOCKED_EMAIL_DOMAINS,
+  BLOCKED_EMAIL_LOCAL_PARTS,
+  CONDITIONAL_PLACEHOLDER_DOMAINS
+} from "./email-filter-config.js";
 
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}/g;
-const EMAIL_FORMAT_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+const EMAIL_FORMAT_RE = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i;
 const MAX_RESPONSE_BYTES = 5 * 1024 * 1024;
 const DEFAULT_TIMEOUT_MS = 10000;
 const CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -33,7 +39,49 @@ const GENERAL_LOCALS = new Set([
   "support", "team"
 ]);
 const RELEVANT_PATH_RE = /(about|bid|brochure|capabilit|company|contact|directory|estim|license|precon|procure|profile|staff|team|vendor)/i;
-const INVALID_EMAIL_PART_RE = /(example\.com|email@|noreply|no-reply|privacy@|sentry@|wixpress|wordpress)/i;
+const INVALID_EMAIL_PART_RE = /(privacy@|sentry@|wixpress|wordpress)/i;
+
+function compactLocalPart(value) {
+  return String(value || "").toLowerCase().replace(/[._-]+/g, "");
+}
+
+const BLOCKED_LOCAL_COMPACT = new Set([...BLOCKED_EMAIL_LOCAL_PARTS].map(compactLocalPart));
+
+export function normalizeEmailAddress(value) {
+  return String(value || "").trim().toLowerCase().replace(/[),.;:]+$/g, "");
+}
+
+export function isBlockedEmailAddress(value) {
+  const email = normalizeEmailAddress(value);
+  if (!email || /\s/.test(email) || !EMAIL_FORMAT_RE.test(email)) return true;
+  if (email.includes("..")) return true;
+
+  const separator = email.lastIndexOf("@");
+  const local = email.slice(0, separator);
+  const domain = email.slice(separator + 1);
+  if (!local || !domain || local.startsWith(".") || local.endsWith(".")) return true;
+  if (BLOCKED_EMAIL_ADDRESSES.has(email)) return true;
+
+  const compactLocal = compactLocalPart(local);
+  const blockedLocal = BLOCKED_EMAIL_LOCAL_PARTS.has(local) || BLOCKED_LOCAL_COMPACT.has(compactLocal);
+  if (blockedLocal) return true;
+  if (/^\d+$/.test(local) || /^x+$/i.test(local)) return true;
+  if (BLOCKED_EMAIL_DOMAINS.has(domain)) return true;
+  if (CONDITIONAL_PLACEHOLDER_DOMAINS.has(domain) && blockedLocal) return true;
+  return INVALID_EMAIL_PART_RE.test(email);
+}
+
+export function normalizeAndFilterEmails(values) {
+  const output = [];
+  const seen = new Set();
+  for (const value of Array.isArray(values) ? values : [values]) {
+    const email = normalizeEmailAddress(value);
+    if (isBlockedEmailAddress(email) || seen.has(email)) continue;
+    seen.add(email);
+    output.push(email);
+  }
+  return output;
+}
 
 function normalizeWebsite(value) {
   const raw = String(value || "").trim();
@@ -59,14 +107,40 @@ function decodeHtml(value) {
 
 export function extractEmailCandidates(text) {
   const source = decodeHtml(text);
-  const found = new Set();
+  const found = [];
   for (const match of source.matchAll(EMAIL_RE)) {
-    const email = String(match[0] || "").toLowerCase().replace(/[),.;:]+$/g, "");
-    if (!EMAIL_FORMAT_RE.test(email) || INVALID_EMAIL_PART_RE.test(email)) continue;
+    const email = normalizeEmailAddress(match[0]);
+    if (isBlockedEmailAddress(email)) continue;
     if (/\.(css|gif|ico|jpeg|jpg|js|png|svg|webp)$/i.test(email)) continue;
-    found.add(email);
+    found.push(email);
   }
-  return [...found];
+  return normalizeAndFilterEmails(found);
+}
+
+function sanitizeEnrichment(enrichment) {
+  const recordsByEmail = new Map();
+  let sourceRecords = Array.isArray(enrichment?.email_records) ? enrichment.email_records : [];
+  if (!sourceRecords.length && String(enrichment?.emails || "").trim()) {
+    sourceRecords = String(enrichment.emails).split(";").map((email) => ({
+      email,
+      email_status: "Unverified",
+      email_source: "Legacy Website Crawl",
+      source_url: "",
+      email_type: "Other",
+      company_relationship_confidence: ""
+    }));
+  }
+  for (const record of sourceRecords) {
+    const email = normalizeEmailAddress(record?.email);
+    if (isBlockedEmailAddress(email) || String(record?.email_status || "") === "Invalid") continue;
+    if (!recordsByEmail.has(email)) recordsByEmail.set(email, { ...record, email });
+  }
+  const records = [...recordsByEmail.values()];
+  return {
+    ...enrichment,
+    email_records: records,
+    emails: records.map((record) => record.email).join("; ")
+  };
 }
 
 function extractLinks(html, baseUrl) {
@@ -304,12 +378,12 @@ export async function enrichCompanyEmails(company, options = {}) {
       a.email.localeCompare(b.email);
   });
 
-  return {
+  return sanitizeEnrichment({
     email_records: records,
     emails: records.map((record) => record.email).join("; "),
     invalid_email_count: invalidEmailCount,
     sources_checked: 1 + resources.filter(Boolean).length
-  };
+  });
 }
 
 export async function enrichCompaniesEmails(rows, options = {}) {
@@ -330,9 +404,10 @@ export async function enrichCompaniesEmails(rows, options = {}) {
       const cached = cache[key];
       let enrichment;
       if (cached && Date.now() - Number(cached.cached_at || 0) < CACHE_TTL_MS) {
-        enrichment = cached.enrichment;
+        enrichment = sanitizeEnrichment(cached.enrichment);
+        cache[key] = { cached_at: Number(cached.cached_at || Date.now()), enrichment };
       } else {
-        enrichment = await enrichCompanyEmails(row, options);
+        enrichment = sanitizeEnrichment(await enrichCompanyEmails(row, options));
         if (key) cache[key] = { cached_at: Date.now(), enrichment };
       }
       output[index] = { ...row, ...enrichment };

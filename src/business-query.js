@@ -13,6 +13,12 @@ const LEGACY_DIVISION_ALIASES = new Map([
   ["16", { currentDivision: "26", legacyLabel: "Legacy Division 16" }]
 ]);
 
+// Broad informational categories do not represent a reliable contractor trade when a parent
+// division is selected. They remain available as explicit CSI selections.
+const PARENT_EXPANSION_EXCLUDED_CSI_SECTIONS = new Set([
+  "02 20 00"
+]);
+
 function normalize(value) {
   return String(value || "")
     .normalize("NFKD")
@@ -277,6 +283,7 @@ export function getBusinessQuerySuggestions(rawQuery, requestedLimit = 10) {
 function divisionMajorEntries(divisionCode, data) {
   const entries = data.entries.filter((entry) => {
     if (String(entry.division_code) !== String(divisionCode) || entry.kind !== "category") return false;
+    if (PARENT_EXPANSION_EXCLUDED_CSI_SECTIONS.has(String(entry.section_code || ""))) return false;
     const parts = String(entry.section_code || "").split(" ");
     const family = Number(parts[1]);
     if (!Number.isInteger(family) || family === 0) return false;
