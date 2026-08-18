@@ -937,7 +937,7 @@
                   <li>Preferred Results — shows starred companies</li>
                   <li>API / APIB / GGL — search mode (API = tighter, APIB = broad, GGL = broadest)</li>
                   <li>Prior ON/OFF — hides previously seen results during expansion</li>
-                  <li>Get Emails — attempts company email retrieval (slower)</li>
+                  <li>Get Emails — finds public company-related emails, validates domains, and records source evidence (slower)</li>
                 </ul>
                 <div class="faq-title" style="margin-top:8px">Quick Icons</div>
                 <ul class="faq-list">
@@ -994,6 +994,8 @@ let suggestTimer = null;
 let suggestRequestId = 0;
 let statusTimer = null;
 let pendingRemoval = null;
+let emailEnrichmentRunToken = 0;
+let emailEnrichmentActive = false;
 
 const normalize = (v) => String(v || "").trim().toLowerCase();
 const makeSearchSignature = ({ location = "", query = "", businessSelectionId = "", radiusMiles = 25, engineMode = "api", includeEmails = false }) =>
@@ -1316,6 +1318,9 @@ function updatePriorUI(){
 }
 
 function resetFields(){
+  emailEnrichmentRunToken += 1;
+  emailEnrichmentActive = false;
+  els.downloadBtn.disabled = false;
   currentGeoLocation = '';
   currentSearchSignature = '';
   currentSearchCity = '';
@@ -1346,6 +1351,57 @@ function resetFields(){
   render();
   setStatus('Ready.');
   saveUiState();
+}
+
+function mergeEnrichedRows(baseRows, enrichedRows){
+  const updates = new Map((Array.isArray(enrichedRows) ? enrichedRows : []).map((row) => [makeRowKey(row), row]));
+  return (Array.isArray(baseRows) ? baseRows : []).map((row) => {
+    const update = updates.get(makeRowKey(row));
+    return update ? { ...row, ...update, _seen: row._seen } : row;
+  });
+}
+
+async function pollEmailEnrichment(job, runToken){
+  const id = String(job?.id || '').trim();
+  if (!id) return;
+
+  while (runToken === emailEnrichmentRunToken) {
+    try {
+      const res = await fetch(`/api/email-enrichment/${encodeURIComponent(id)}`);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      if (runToken !== emailEnrichmentRunToken) return;
+
+      lastFetchedRows = mergeEnrichedRows(lastFetchedRows, data.rows);
+      rows = applyPriorFilter(lastFetchedRows);
+      render();
+      saveUiState();
+
+      const completed = Number(data.completed || 0);
+      const total = Number(data.total || lastFetchedRows.length || 0);
+      if (data.status === 'complete') {
+        emailEnrichmentActive = false;
+        els.downloadBtn.disabled = false;
+        setStatus(`${rows.length} results found. Email enrichment complete.`);
+        return;
+      }
+      if (data.status === 'failed') {
+        emailEnrichmentActive = false;
+        els.downloadBtn.disabled = false;
+        setStatus(`${rows.length} results found. Email enrichment failed: ${data.error || 'unknown error'}`);
+        return;
+      }
+      setStatus(`${rows.length} results found. Enriching emails ${completed}/${total}.`);
+      await new Promise((resolve) => setTimeout(resolve, 900));
+    } catch (error) {
+      if (runToken === emailEnrichmentRunToken) {
+        emailEnrichmentActive = false;
+        els.downloadBtn.disabled = false;
+        setStatus(`${rows.length} results found. Email enrichment stopped: ${error.message}`);
+      }
+      return;
+    }
+  }
 }
 
 function preferredKeySet(){
@@ -1480,6 +1536,9 @@ function getSortedRows(input){
 }
 
 async function runSearch(){
+  const emailRunToken = ++emailEnrichmentRunToken;
+  emailEnrichmentActive = false;
+  els.downloadBtn.disabled = false;
   const selection = businessQuerySelection;
   currentSearchCategoryLabel = String(selection?.display || '').trim();
 
@@ -1529,6 +1588,12 @@ async function runSearch(){
     else setStatus(`${rows.length} results found.`);
     render();
     saveUiState();
+    if (data.email_enrichment?.id) {
+      emailEnrichmentActive = true;
+      els.downloadBtn.disabled = true;
+      setStatus(`${rows.length} results found. Enriching emails 0/${Number(data.email_enrichment.total || fetched.length)}.`);
+      void pollEmailEnrichment(data.email_enrichment, emailRunToken);
+    }
   }catch(err){
     setStatus(`Search failed: ${err.message}`);
   }finally{
@@ -1537,15 +1602,39 @@ async function runSearch(){
 }
 
 function downloadXlsx(){
+  if (emailEnrichmentActive) { setStatus('Email enrichment is still running. Download will be available when it completes.'); return; }
   if (!rows.length) { setStatus('No rows to download.'); return; }
-  const headers = ['name','address','phone','website','distance_miles','category_section','reliability_score','confidence','emails'];
+  const headers = [
+    'name','address','phone','website','distance_miles','category_section','reliability_score','confidence','emails',
+    'email','email_status','email_source','source_url','email_type','company_relationship_confidence'
+  ];
   const exportSourceRows = hidePrior ? applyPriorFilter(rows) : rows;
   if (!exportSourceRows.length){ setStatus('No rows to download.'); return; }
   const cleanCategorySection = (value) => String(value ?? "").replace(/[\u2012\u2013\u2014\u2015]/g, "-").replace(/[^\x20-\x7E]/g, "").replace(/\s+/g, " ").trim();
-  const exportRows = exportSourceRows.map((r) => {
-    const out = {};
-    headers.forEach((k) => { out[k] = k === 'category_section' ? cleanCategorySection(r[k]) : (r[k] ?? ''); });
-    return out;
+  const exportRows = exportSourceRows.flatMap((r) => {
+    let records = (Array.isArray(r.email_records) ? r.email_records : [])
+      .filter((record) => String(record?.email_status || '') !== 'Invalid');
+    if (!records.length && String(r.emails || '').trim()) {
+      records = String(r.emails).split(';').map((email) => email.trim()).filter(Boolean).map((email) => ({
+        email,
+        email_status: 'Unverified',
+        email_source: 'Legacy Website Crawl',
+        source_url: r.website || '',
+        email_type: 'Other',
+        company_relationship_confidence: ''
+      }));
+    }
+    const emailRows = records.length ? records : [{}];
+    return emailRows.map((record) => {
+      const out = {};
+      headers.forEach((k) => {
+        if (k === 'category_section') out[k] = cleanCategorySection(r[k]);
+        else if (k === 'emails' && records.length) out[k] = records.map((item) => item.email).filter(Boolean).join('; ');
+        else if (Object.prototype.hasOwnProperty.call(record, k)) out[k] = record[k] ?? '';
+        else out[k] = r[k] ?? '';
+      });
+      return out;
+    });
   });
   const blob = buildXlsxBlob(headers, exportRows);
   const a = document.createElement('a');

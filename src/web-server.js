@@ -3,8 +3,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
+import { randomUUID } from "node:crypto";
 import { pathToFileURL } from "node:url";
 import { searchSubcontractors, toCsv, taxonomyForUi } from "./search-engine.js";
+import { enrichCompaniesEmails } from "./email-enrichment.js";
 import {
   businessQueryInventory,
   getBusinessQuerySelection,
@@ -25,6 +27,7 @@ const DATA_DIR = path.resolve(
 );
 const IRRELEVANT_JSON = path.join(DATA_DIR, "irrelevant-filters.json");
 const PREFERRED_JSON = path.join(DATA_DIR, "preferred-results.json");
+const EMAIL_CACHE_JSON = path.join(DATA_DIR, "email-enrichment-cache.json");
 const GOOGLE_AUTOCOMPLETE_URL = "https://places.googleapis.com/v1/places:autocomplete";
 const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
@@ -45,6 +48,51 @@ function initializeRuntimeDataFile(fileName) {
 
 initializeRuntimeDataFile("irrelevant-filters.json");
 initializeRuntimeDataFile("preferred-results.json");
+
+const emailEnrichmentJobs = new Map();
+
+function removeExpiredEmailJobs() {
+  const cutoff = Date.now() - 60 * 60 * 1000;
+  for (const [id, job] of emailEnrichmentJobs.entries()) {
+    if (Number(job.created_at || 0) < cutoff) emailEnrichmentJobs.delete(id);
+  }
+}
+
+function startEmailEnrichmentJob(rows) {
+  removeExpiredEmailJobs();
+  const id = randomUUID();
+  const job = {
+    id,
+    status: "running",
+    created_at: Date.now(),
+    completed: 0,
+    total: rows.length,
+    partial_rows: [],
+    rows: [],
+    error: ""
+  };
+  emailEnrichmentJobs.set(id, job);
+
+  void enrichCompaniesEmails(rows, {
+    cachePath: EMAIL_CACHE_JSON,
+    concurrency: 3,
+    onProgress: ({ completed, total, row }) => {
+      job.completed = completed;
+      job.total = total;
+      job.partial_rows.push(row);
+    }
+  }).then((enrichedRows) => {
+    job.rows = enrichedRows;
+    job.partial_rows = enrichedRows;
+    job.completed = enrichedRows.length;
+    job.status = "complete";
+  }).catch((error) => {
+    job.status = "failed";
+    job.error = String(error?.message || error || "Email enrichment failed");
+  });
+
+  return job;
+}
 
 function normalizeValue(v) {
   return String(v || "").trim().toLowerCase();
@@ -130,6 +178,18 @@ function sanitizePreferredRow(input) {
     company_size: String(row.company_size || ""),
     company_age: String(row.company_age || ""),
     emails: String(row.emails || ""),
+    email_records: Array.isArray(row.email_records)
+      ? row.email_records.map((record) => ({
+          email: String(record?.email || ""),
+          email_status: String(record?.email_status || ""),
+          email_source: String(record?.email_source || ""),
+          source_url: String(record?.source_url || ""),
+          email_type: String(record?.email_type || ""),
+          company_relationship_confidence: Number.isFinite(Number(record?.company_relationship_confidence))
+            ? Number(record.company_relationship_confidence)
+            : ""
+        }))
+      : [],
     category_section: String(row.category_section || ""),
     preferred_city: String(row.preferred_city || ""),
     preferred_category: String(row.preferred_category || ""),
@@ -490,6 +550,25 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === "GET" && url.pathname.startsWith("/api/email-enrichment/")) {
+      removeExpiredEmailJobs();
+      const id = decodeURIComponent(url.pathname.replace(/^\/api\/email-enrichment\//, "")).trim();
+      const job = emailEnrichmentJobs.get(id);
+      if (!job) {
+        sendJson(res, 404, { error: "Email enrichment job not found" });
+        return;
+      }
+      sendJson(res, 200, {
+        id: job.id,
+        status: job.status,
+        completed: job.completed,
+        total: job.total,
+        rows: job.status === "complete" ? job.rows : job.partial_rows,
+        error: job.error
+      });
+      return;
+    }
+
     if (req.method === "POST" && url.pathname === "/api/search") {
       const raw = await readBody(req);
       const input = raw ? JSON.parse(raw) : {};
@@ -523,7 +602,7 @@ const server = http.createServer(async (req, res) => {
         })(),
         mode: input.mode === "statewide" ? "statewide" : "single",
         gridStepMiles: input.gridMiles,
-        includeEmails: Boolean(input.includeEmails),
+        includeEmails: false,
         onProgress: (msg) => logs.push(`${new Date().toISOString()} ${msg}`)
       });
 
@@ -532,11 +611,18 @@ const server = http.createServer(async (req, res) => {
         .map((row) => ({ ...row, result_key: buildRowKey(row) }))
         .filter((row) => !blocked.has(row.result_key));
 
+      const emailJob = Boolean(input.includeEmails) && rows.length
+        ? startEmailEnrichmentJob(rows)
+        : null;
+
       sendJson(res, 200, {
         ...result,
         rows,
         logs,
-        search_signature: searchSignature
+        search_signature: searchSignature,
+        email_enrichment: emailJob
+          ? { id: emailJob.id, status: emailJob.status, completed: 0, total: emailJob.total }
+          : null
       });
       return;
     }

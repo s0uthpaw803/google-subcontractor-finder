@@ -142,55 +142,6 @@ function parseCidFromMapsUrl(url) {
   }
 }
 
-function looksLikeEmail(value) {
-  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
-}
-
-function extractEmails(text) {
-  const found = new Set();
-  const re = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}/g;
-  let match;
-  while ((match = re.exec(text)) !== null) {
-    const email = String(match[0]).toLowerCase();
-    if (!looksLikeEmail(email)) continue;
-    if (email.includes("noreply") || email.includes("no-reply")) continue;
-    if (/\.(png|jpg|jpeg|svg|webp|gif|css|js|ico)$/.test(email)) continue;
-    found.add(email);
-  }
-  return [...found];
-}
-
-async function fetchText(url, headers = {}) {
-  const res = await fetch(url, {
-    headers,
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-  });
-  const text = await res.text();
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return text;
-}
-
-async function scrapeDomainEmails(websiteUrl) {
-  const website = normalizeWebsite(websiteUrl);
-  if (!website) return [];
-
-  const paths = ["/", "/contact", "/contact-us", "/about", "/team"];
-  const emails = new Set();
-
-  for (const p of paths) {
-    try {
-      const url = new URL(p, website).toString();
-      const html = await fetchText(url, { "User-Agent": "keystone-connect/4.0" });
-      extractEmails(html).forEach((e) => emails.add(e));
-      await sleep(120);
-    } catch {
-      // Best effort.
-    }
-  }
-
-  return [...emails].slice(0, 8);
-}
-
 function parseLatLngLocation(value) {
   const m = String(value || "").trim().match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
   if (!m) return null;
@@ -1314,7 +1265,8 @@ export function mergeDedupRank(allResults, {
       relevance_score: score,
       company_size: inferCompanySize(row.userRatingCount),
       company_age: "",
-      emails: ""
+      emails: "",
+      email_records: []
     });
   }
 
@@ -1453,17 +1405,6 @@ export async function searchSubcontractors({
     throw new Error(`Google Places failed: ${errors[0]}`);
   }
 
-  if (includeEmails) {
-    onProgress("Email enrichment...");
-    for (let i = 0; i < rows.length; i += 1) {
-      const emails = await scrapeDomainEmails(rows[i].website);
-      rows[i].emails = emails.join("; ");
-      if ((i + 1) % 10 === 0 || i === rows.length - 1) {
-        onProgress(`Email enrichment ${i + 1}/${rows.length}`);
-      }
-    }
-  }
-
   onProgress(`Done. ${rows.length} rows.`);
 
   return {
@@ -1520,7 +1461,13 @@ export function toCsv(rows) {
     "company_age",
     "matched_children",
     "matched_terms",
-    "emails"
+    "emails",
+    "email",
+    "email_status",
+    "email_source",
+    "source_url",
+    "email_type",
+    "company_relationship_confidence"
   ];
   const cleanCategorySection = (value) =>
     String(value ?? "")
@@ -1538,7 +1485,27 @@ export function toCsv(rows) {
 
   const lines = [headers.join(",")];
   for (const row of rows) {
-    lines.push(headers.map((h) => escape(row[h], h)).join(","));
+    let records = (Array.isArray(row?.email_records) ? row.email_records : [])
+      .filter((record) => String(record?.email_status || "") !== "Invalid");
+    if (!records.length && String(row?.emails || "").trim()) {
+      records = String(row.emails).split(";").map((email) => email.trim()).filter(Boolean).map((email) => ({
+        email,
+        email_status: "Unverified",
+        email_source: "Legacy Website Crawl",
+        source_url: row.website || "",
+        email_type: "Other",
+        company_relationship_confidence: ""
+      }));
+    }
+    const emailRows = records.length ? records : [{}];
+    for (const record of emailRows) {
+      lines.push(headers.map((header) => {
+        const value = header === "emails" && records.length
+          ? records.map((item) => item.email).filter(Boolean).join("; ")
+          : (Object.prototype.hasOwnProperty.call(record, header) ? record[header] : row[header]);
+        return escape(value, header);
+      }).join(","));
+    }
   }
   return `${lines.join("\n")}\n`;
 }
