@@ -83,6 +83,54 @@ export function normalizeAndFilterEmails(values) {
   return output;
 }
 
+const EMAIL_TYPE_PRIORITY = { Estimating: 4, General: 3, Employee: 2, Other: 1 };
+const EMAIL_STATUS_PRIORITY = { Valid: 3, Likely: 2, Unverified: 1 };
+
+function compareEmailRecords(a, b) {
+  return (EMAIL_TYPE_PRIORITY[b.email_type] || 0) - (EMAIL_TYPE_PRIORITY[a.email_type] || 0) ||
+    (EMAIL_STATUS_PRIORITY[b.email_status] || 0) - (EMAIL_STATUS_PRIORITY[a.email_status] || 0) ||
+    Number(b.company_relationship_confidence || 0) - Number(a.company_relationship_confidence || 0) ||
+    a.email.localeCompare(b.email);
+}
+
+export function prepareEmailColumns(input = {}) {
+  const recordsByEmail = new Map();
+  const sourceRecords = Array.isArray(input?.email_records) ? input.email_records : [];
+  const fallbackValues = (sourceRecords.length ? [] : [input?.emails, input?.email, input?.email_1, input?.email_2])
+    .flatMap((value) => String(value || "").split(/[;,]/))
+    .map((email) => email.trim())
+    .filter(Boolean)
+    .map((email) => ({
+      email,
+      email_status: "Unverified",
+      email_source: "Legacy Website Crawl",
+      source_url: String(input?.website || ""),
+      email_type: "Other",
+      company_relationship_confidence: ""
+    }));
+
+  for (const sourceRecord of [...sourceRecords, ...fallbackValues]) {
+    const email = normalizeEmailAddress(sourceRecord?.email);
+    if (isBlockedEmailAddress(email) || String(sourceRecord?.email_status || "") === "Invalid") continue;
+    const record = {
+      ...sourceRecord,
+      email,
+      email_status: String(sourceRecord?.email_status || "Unverified"),
+      email_type: String(sourceRecord?.email_type || "Other")
+    };
+    const existing = recordsByEmail.get(email);
+    if (!existing || compareEmailRecords(record, existing) < 0) recordsByEmail.set(email, record);
+  }
+
+  const records = [...recordsByEmail.values()].sort(compareEmailRecords);
+  return {
+    records,
+    primary_record: records[0] || {},
+    email_1: records[0]?.email || "",
+    email_2: records.slice(1).map((record) => record.email).join(", ")
+  };
+}
+
 function normalizeWebsite(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
@@ -118,7 +166,6 @@ export function extractEmailCandidates(text) {
 }
 
 function sanitizeEnrichment(enrichment) {
-  const recordsByEmail = new Map();
   let sourceRecords = Array.isArray(enrichment?.email_records) ? enrichment.email_records : [];
   if (!sourceRecords.length && String(enrichment?.emails || "").trim()) {
     sourceRecords = String(enrichment.emails).split(";").map((email) => ({
@@ -130,16 +177,13 @@ function sanitizeEnrichment(enrichment) {
       company_relationship_confidence: ""
     }));
   }
-  for (const record of sourceRecords) {
-    const email = normalizeEmailAddress(record?.email);
-    if (isBlockedEmailAddress(email) || String(record?.email_status || "") === "Invalid") continue;
-    if (!recordsByEmail.has(email)) recordsByEmail.set(email, { ...record, email });
-  }
-  const records = [...recordsByEmail.values()];
+  const prepared = prepareEmailColumns({ ...enrichment, email_records: sourceRecords });
   return {
     ...enrichment,
-    email_records: records,
-    emails: records.map((record) => record.email).join("; ")
+    email_records: prepared.records,
+    emails: prepared.records.map((record) => record.email).join("; "),
+    email_1: prepared.email_1,
+    email_2: prepared.email_2
   };
 }
 

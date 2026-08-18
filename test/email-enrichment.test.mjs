@@ -5,9 +5,10 @@ import {
   enrichCompanyEmails,
   extractEmailCandidates,
   isBlockedEmailAddress,
-  normalizeAndFilterEmails
+  normalizeAndFilterEmails,
+  prepareEmailColumns
 } from "../src/email-enrichment.js";
-import { toCsv } from "../src/search-engine.js";
+import { prepareExportRows, toCsv } from "../src/search-engine.js";
 
 function response(url, body, contentType = "text/html") {
   const bytes = Buffer.from(body, "utf8");
@@ -111,7 +112,21 @@ test("enrichment keeps every non-invalid company-related email with evidence", a
   }
 });
 
-test("CSV expands one company into one row per included email and excludes Invalid", () => {
+test("email columns select one main contact and comma-separate remaining unique emails", () => {
+  const prepared = prepareEmailColumns({
+    email_records: [
+      { email: "office@acme.example", email_status: "Valid", email_type: "General", company_relationship_confidence: 99 },
+      { email: "bids@acme.example", email_status: "Likely", email_type: "Estimating", company_relationship_confidence: 90 },
+      { email: "OFFICE@ACME.EXAMPLE", email_status: "Likely", email_type: "General", company_relationship_confidence: 80 },
+      { email: "old@invalid.example", email_status: "Invalid", email_type: "Other" }
+    ]
+  });
+  assert.equal(prepared.email_1, "bids@acme.example");
+  assert.equal(prepared.email_2, "office@acme.example");
+  assert.equal(prepared.records.length, 2);
+});
+
+test("CSV writes one listing row with email 1 and email 2 and excludes Invalid", () => {
   const csv = toCsv([{
     name: "Acme Contracting",
     category_section: "Division 26",
@@ -126,6 +141,14 @@ test("CSV expands one company into one row per included email and excludes Inval
         company_relationship_confidence: 96
       },
       {
+        email: "office@acme.example",
+        email_status: "Valid",
+        email_source: "Company Website",
+        source_url: "https://acme.example/contact",
+        email_type: "General",
+        company_relationship_confidence: 99
+      },
+      {
         email: "old@invalid.example",
         email_status: "Invalid",
         email_source: "Business Directory",
@@ -136,7 +159,20 @@ test("CSV expands one company into one row per included email and excludes Inval
     ]
   }]);
 
-  assert.match(csv, /email_status,email_source,source_url,email_type,company_relationship_confidence/);
-  assert.match(csv, /bids@acme\.example,Likely,Company Website/);
+  assert.match(csv, /email 1,email 2,email_status,email_source,source_url,email_type,company_relationship_confidence/);
+  assert.match(csv, /bids@acme\.example,office@acme\.example,Likely,Company Website/);
+  assert.match(csv, /office@acme\.example/);
   assert.doesNotMatch(csv, /old@invalid\.example/);
+  assert.equal(csv.trim().split("\n").length, 2);
+});
+
+test("export deduplicates exact listings but preserves distinct branches", () => {
+  const prepared = prepareExportRows([
+    { place_id: "same", name: "Acme", address: "1 Main St", email_records: [{ email: "info@acme.example", email_type: "General" }] },
+    { place_id: "same", name: "Acme", address: "1 Main St", email_records: [{ email: "bids@acme.example", email_type: "Estimating" }] },
+    { place_id: "branch-2", name: "Acme", address: "2 Main St", email_records: [] }
+  ]);
+  assert.equal(prepared.length, 2);
+  assert.equal(prepared[0].email_1, "bids@acme.example");
+  assert.equal(prepared[0].email_2, "info@acme.example");
 });

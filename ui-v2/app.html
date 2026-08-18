@@ -1642,40 +1642,75 @@ async function runSearch(){
   }
 }
 
+function normalizeExportEmail(value){
+  return String(value || '').trim().toLowerCase().replace(/[),.;:]+$/g, '');
+}
+
+function prepareExportEmailColumns(row){
+  const typeRank = { Estimating: 4, General: 3, Employee: 2, Other: 1 };
+  const statusRank = { Valid: 3, Likely: 2, Unverified: 1 };
+  const compare = (a, b) => (typeRank[b.email_type] || 0) - (typeRank[a.email_type] || 0) ||
+    (statusRank[b.email_status] || 0) - (statusRank[a.email_status] || 0) ||
+    Number(b.company_relationship_confidence || 0) - Number(a.company_relationship_confidence || 0) ||
+    a.email.localeCompare(b.email);
+  const byEmail = new Map();
+  const records = Array.isArray(row?.email_records) ? row.email_records : [];
+  const fallbacks = (records.length ? [] : [row?.emails, row?.email, row?.email_1, row?.email_2])
+    .flatMap((value) => String(value || '').split(/[;,]/))
+    .map((email) => email.trim())
+    .filter(Boolean)
+    .map((email) => ({ email, email_status: 'Unverified', email_source: 'Legacy Website Crawl', source_url: row?.website || '', email_type: 'Other', company_relationship_confidence: '' }));
+  for (const source of [...records, ...fallbacks]) {
+    const email = normalizeExportEmail(source?.email);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || String(source?.email_status || '') === 'Invalid') continue;
+    const record = { ...source, email, email_status: String(source?.email_status || 'Unverified'), email_type: String(source?.email_type || 'Other') };
+    const existing = byEmail.get(email);
+    if (!existing || compare(record, existing) < 0) byEmail.set(email, record);
+  }
+  const sorted = [...byEmail.values()].sort(compare);
+  return { primary: sorted[0] || {}, email1: sorted[0]?.email || '', email2: sorted.slice(1).map((record) => record.email).join(', '), records: sorted };
+}
+
+function dedupeRowsForExport(sourceRows){
+  const byListing = new Map();
+  (Array.isArray(sourceRows) ? sourceRows : []).forEach((row, index) => {
+    const norm = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    const placeId = norm(row?.place_id || row?.id);
+    const identity = [row?.name, row?.address, row?.phone, row?.website].map(norm);
+    const key = placeId ? `place:${placeId}` : (identity[0] && identity.slice(1).some(Boolean) ? `listing:${identity.join('|')}` : `row:${index}`);
+    const existing = byListing.get(key);
+    if (!existing) {
+      byListing.set(key, { ...row, email_records: [...(Array.isArray(row?.email_records) ? row.email_records : [])] });
+      return;
+    }
+    const merged = { ...existing, email_records: [...(existing.email_records || []), ...(Array.isArray(row?.email_records) ? row.email_records : [])] };
+    merged.emails = [existing.emails, row?.emails].filter(Boolean).join('; ');
+    byListing.set(key, merged);
+  });
+  return [...byListing.values()];
+}
+
 function downloadXlsx(){
   if (emailEnrichmentActive) { setStatus('Email enrichment is still running. Download will be available when it completes.'); return; }
   if (!rows.length) { setStatus('No rows to download.'); return; }
   const headers = [
-    'name','address','phone','website','distance_miles','category_section','reliability_score','confidence','emails',
-    'email','email_status','email_source','source_url','email_type','company_relationship_confidence'
+    'name','address','phone','website','distance_miles','category_section','reliability_score','confidence','email 1','email 2',
+    'email_status','email_source','source_url','email_type','company_relationship_confidence'
   ];
   const exportSourceRows = hidePrior ? applyPriorFilter(rows) : rows;
   if (!exportSourceRows.length){ setStatus('No rows to download.'); return; }
   const cleanCategorySection = (value) => String(value ?? "").replace(/[\u2012\u2013\u2014\u2015]/g, "-").replace(/[^\x20-\x7E]/g, "").replace(/\s+/g, " ").trim();
-  const exportRows = exportSourceRows.flatMap((r) => {
-    let records = (Array.isArray(r.email_records) ? r.email_records : [])
-      .filter((record) => String(record?.email_status || '') !== 'Invalid');
-    if (!records.length && String(r.emails || '').trim()) {
-      records = String(r.emails).split(';').map((email) => email.trim()).filter(Boolean).map((email) => ({
-        email,
-        email_status: 'Unverified',
-        email_source: 'Legacy Website Crawl',
-        source_url: r.website || '',
-        email_type: 'Other',
-        company_relationship_confidence: ''
-      }));
-    }
-    const emailRows = records.length ? records : [{}];
-    return emailRows.map((record) => {
-      const out = {};
-      headers.forEach((k) => {
-        if (k === 'category_section') out[k] = cleanCategorySection(r[k]);
-        else if (k === 'emails' && records.length) out[k] = records.map((item) => item.email).filter(Boolean).join('; ');
-        else if (Object.prototype.hasOwnProperty.call(record, k)) out[k] = record[k] ?? '';
-        else out[k] = r[k] ?? '';
-      });
-      return out;
+  const exportRows = dedupeRowsForExport(exportSourceRows).map((r) => {
+    const prepared = prepareExportEmailColumns(r);
+    const out = {};
+    headers.forEach((k) => {
+      if (k === 'category_section') out[k] = cleanCategorySection(r[k]);
+      else if (k === 'email 1') out[k] = prepared.email1;
+      else if (k === 'email 2') out[k] = prepared.email2;
+      else if (Object.prototype.hasOwnProperty.call(prepared.primary, k)) out[k] = prepared.primary[k] ?? '';
+      else out[k] = r[k] ?? '';
     });
+    return out;
   });
   const blob = buildXlsxBlob(headers, exportRows);
   const a = document.createElement('a');

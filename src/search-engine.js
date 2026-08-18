@@ -3,6 +3,7 @@ import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
 import { resolveBusinessQuerySelection } from "./business-query.js";
+import { prepareEmailColumns } from "./email-enrichment.js";
 
 const PLACES_TEXT_URL = "https://places.googleapis.com/v1/places:searchText";
 const PLACES_NEARBY_URL = "https://places.googleapis.com/v1/places:searchNearby";
@@ -1563,6 +1564,57 @@ export function taxonomyForUi() {
   };
 }
 
+function normalizeExportIdentity(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function exportListingKey(row, index) {
+  const placeId = normalizeExportIdentity(row?.place_id || row?.id);
+  if (placeId) return `place:${placeId}`;
+  const parts = [row?.name, row?.address, row?.phone, row?.website].map(normalizeExportIdentity);
+  return parts[0] && parts.slice(1).some(Boolean) ? `listing:${parts.join("|")}` : `row:${index}`;
+}
+
+export function prepareExportRows(rows) {
+  const byListing = new Map();
+  for (const [index, sourceRow] of (Array.isArray(rows) ? rows : []).entries()) {
+    const row = sourceRow && typeof sourceRow === "object" ? sourceRow : {};
+    const key = exportListingKey(row, index);
+    const existing = byListing.get(key);
+    if (!existing) {
+      byListing.set(key, { ...row, email_records: [...(Array.isArray(row.email_records) ? row.email_records : [])] });
+      continue;
+    }
+    const merged = { ...existing };
+    for (const [field, value] of Object.entries(row)) {
+      if ((merged[field] === "" || merged[field] == null) && value !== "" && value != null) merged[field] = value;
+    }
+    merged.email_records = [
+      ...(Array.isArray(existing.email_records) ? existing.email_records : []),
+      ...(Array.isArray(row.email_records) ? row.email_records : [])
+    ];
+    merged.emails = [existing.emails, row.emails].filter(Boolean).join("; ");
+    const existingDistance = Number(existing.distance_miles);
+    const rowDistance = Number(row.distance_miles);
+    if (Number.isFinite(rowDistance) && (!Number.isFinite(existingDistance) || rowDistance < existingDistance)) {
+      merged.distance_miles = rowDistance;
+    }
+    byListing.set(key, merged);
+  }
+
+  return [...byListing.values()].map((row) => {
+    const prepared = prepareEmailColumns(row);
+    return {
+      ...row,
+      email_records: prepared.records,
+      emails: prepared.records.map((record) => record.email).join("; "),
+      email_1: prepared.email_1,
+      email_2: prepared.email_2,
+      primary_email_record: prepared.primary_record
+    };
+  });
+}
+
 export function toCsv(rows) {
   const headers = [
     "category_section",
@@ -1582,8 +1634,8 @@ export function toCsv(rows) {
     "company_age",
     "matched_children",
     "matched_terms",
-    "emails",
-    "email",
+    "email 1",
+    "email 2",
     "email_status",
     "email_source",
     "source_url",
@@ -1605,28 +1657,16 @@ export function toCsv(rows) {
   };
 
   const lines = [headers.join(",")];
-  for (const row of rows) {
-    let records = (Array.isArray(row?.email_records) ? row.email_records : [])
-      .filter((record) => String(record?.email_status || "") !== "Invalid");
-    if (!records.length && String(row?.emails || "").trim()) {
-      records = String(row.emails).split(";").map((email) => email.trim()).filter(Boolean).map((email) => ({
-        email,
-        email_status: "Unverified",
-        email_source: "Legacy Website Crawl",
-        source_url: row.website || "",
-        email_type: "Other",
-        company_relationship_confidence: ""
-      }));
-    }
-    const emailRows = records.length ? records : [{}];
-    for (const record of emailRows) {
-      lines.push(headers.map((header) => {
-        const value = header === "emails" && records.length
-          ? records.map((item) => item.email).filter(Boolean).join("; ")
-          : (Object.prototype.hasOwnProperty.call(record, header) ? record[header] : row[header]);
-        return escape(value, header);
-      }).join(","));
-    }
+  for (const row of prepareExportRows(rows)) {
+    const primary = row.primary_email_record || {};
+    lines.push(headers.map((header) => {
+      const value = header === "email 1"
+        ? row.email_1
+        : header === "email 2"
+          ? row.email_2
+          : (Object.prototype.hasOwnProperty.call(primary, header) ? primary[header] : row[header]);
+      return escape(value, header);
+    }).join(","));
   }
   return `${lines.join("\n")}\n`;
 }
